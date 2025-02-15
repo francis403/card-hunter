@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://deqlmpr5vbu60"]
+
+[ext_resource type="Texture2D" uid="uid://y720kc3pkme0" path="res://scenes/monsters/CrabMonster/tile_0110.png" id="1_x8062"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_jo88s"]
+
+[node name="CrabMonster" type="CharacterBody2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_x8062")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_jo88s")

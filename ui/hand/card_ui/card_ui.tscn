@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://d3vhms6yk456c"]
+
+[node name="CardUI" type="PanelContainer"]
+
+[node name="Container" type="MarginContainer" parent="."]
+custom_minimum_size = Vector2(150, 200)
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Container"]
+layout_mode = 2
+
+[node name="CardTitle" type="Label" parent="Container/VBoxContainer"]
+layout_mode = 2
+text = "Card title"
+
+[node name="CardDescription" type="Label" parent="Container/VBoxContainer"]
+layout_mode = 2
+text = "Card Description"
