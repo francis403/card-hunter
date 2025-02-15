@@ -37,9 +37,11 @@ func _populate_grid():
 	for i in _number_of_columns:
 		grid_array.append([])
 		for j in _number_of_rows:
-			var tile: ColorRect = ColorRect.new()
+			var tile: ReferenceRect = ReferenceRect.new()
+			tile.border_color = Color.BLACK
 			tile.position.x = j * self._x_tile_size
 			tile.position.y = i * self._y_tile_size
+			tile.editor_only = not _debug_mode
 			tile.custom_minimum_size.x = _x_tile_size
 			tile.custom_minimum_size.y = _y_tile_size
 			grid_array[i].append(tile)

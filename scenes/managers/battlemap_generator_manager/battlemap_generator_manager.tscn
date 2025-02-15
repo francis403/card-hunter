@@ -26,82 +26,56 @@ grow_horizontal = 2
 grow_vertical = 2
 columns = 3
 
-[node name="ColorRect" type="ColorRect" parent="grid_array_holder_control/GridContainer"]
+[node name="ReferenceRect" type="ReferenceRect" parent="grid_array_holder_control/GridContainer"]
 visible = false
-custom_minimum_size = Vector2(40, 40)
+custom_minimum_size = Vector2(80, 80)
 layout_mode = 2
+border_color = Color(0, 0, 0, 1)
 
-[node name="ColorRect2" type="ColorRect" parent="grid_array_holder_control/GridContainer"]
+[node name="ReferenceRect2" type="ReferenceRect" parent="grid_array_holder_control/GridContainer"]
 visible = false
-custom_minimum_size = Vector2(40, 40)
+custom_minimum_size = Vector2(80, 80)
 layout_mode = 2
+border_color = Color(0, 0, 0, 1)
 
-[node name="ColorRect3" type="ColorRect" parent="grid_array_holder_control/GridContainer"]
+[node name="ReferenceRect3" type="ReferenceRect" parent="grid_array_holder_control/GridContainer"]
 visible = false
-custom_minimum_size = Vector2(40, 40)
+custom_minimum_size = Vector2(80, 80)
 layout_mode = 2
+border_color = Color(0, 0, 0, 1)
 
-[node name="ColorRect4" type="ColorRect" parent="grid_array_holder_control/GridContainer"]
+[node name="ReferenceRect4" type="ReferenceRect" parent="grid_array_holder_control/GridContainer"]
 visible = false
-custom_minimum_size = Vector2(40, 40)
+custom_minimum_size = Vector2(80, 80)
 layout_mode = 2
+border_color = Color(0, 0, 0, 1)
 
-[node name="ColorRect5" type="ColorRect" parent="grid_array_holder_control/GridContainer"]
+[node name="ReferenceRect5" type="ReferenceRect" parent="grid_array_holder_control/GridContainer"]
 visible = false
-custom_minimum_size = Vector2(40, 40)
+custom_minimum_size = Vector2(80, 80)
 layout_mode = 2
+border_color = Color(0, 0, 0, 1)
 
-[node name="ColorRect6" type="ColorRect" parent="grid_array_holder_control/GridContainer"]
+[node name="ReferenceRect6" type="ReferenceRect" parent="grid_array_holder_control/GridContainer"]
 visible = false
-custom_minimum_size = Vector2(40, 40)
+custom_minimum_size = Vector2(80, 80)
 layout_mode = 2
+border_color = Color(0, 0, 0, 1)
 
-[node name="ColorRect7" type="ColorRect" parent="grid_array_holder_control/GridContainer"]
+[node name="ReferenceRect7" type="ReferenceRect" parent="grid_array_holder_control/GridContainer"]
 visible = false
-custom_minimum_size = Vector2(40, 40)
+custom_minimum_size = Vector2(80, 80)
 layout_mode = 2
+border_color = Color(0, 0, 0, 1)
 
-[node name="ColorRect8" type="ColorRect" parent="grid_array_holder_control/GridContainer"]
+[node name="ReferenceRect8" type="ReferenceRect" parent="grid_array_holder_control/GridContainer"]
 visible = false
-custom_minimum_size = Vector2(40, 40)
+custom_minimum_size = Vector2(80, 80)
 layout_mode = 2
+border_color = Color(0, 0, 0, 1)
 
-[node name="ColorRect9" type="ColorRect" parent="grid_array_holder_control/GridContainer"]
+[node name="ReferenceRect9" type="ReferenceRect" parent="grid_array_holder_control/GridContainer"]
 visible = false
-custom_minimum_size = Vector2(40, 40)
+custom_minimum_size = Vector2(80, 80)
 layout_mode = 2
-
-[node name="ColorRect10" type="ColorRect" parent="grid_array_holder_control/GridContainer"]
-visible = false
-custom_minimum_size = Vector2(40, 40)
-layout_mode = 2
-
-[node name="ColorRect11" type="ColorRect" parent="grid_array_holder_control/GridContainer"]
-visible = false
-custom_minimum_size = Vector2(40, 40)
-layout_mode = 2
-
-[node name="ColorRect12" type="ColorRect" parent="grid_array_holder_control/GridContainer"]
-visible = false
-custom_minimum_size = Vector2(40, 40)
-layout_mode = 2
-
-[node name="ColorRect13" type="ColorRect" parent="grid_array_holder_control/GridContainer"]
-visible = false
-custom_minimum_size = Vector2(40, 40)
-layout_mode = 2
-
-[node name="ColorRect14" type="ColorRect" parent="grid_array_holder_control/GridContainer"]
-visible = false
-custom_minimum_size = Vector2(40, 40)
-layout_mode = 2
-
-[node name="ColorRect15" type="ColorRect" parent="grid_array_holder_control/GridContainer"]
-visible = false
-custom_minimum_size = Vector2(40, 40)
-layout_mode = 2
-
-[node name="ColorRect16" type="ColorRect" parent="grid_array_holder_control/GridContainer"]
-visible = false
-custom_minimum_size = Vector2(40, 40)
-layout_mode = 2
+border_color = Color(0, 0, 0, 1)
