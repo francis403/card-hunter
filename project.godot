@@ -14,3 +14,8 @@ config/name="CardMonsterHunterBattler"
 run/main_scene="res://scenes/_main/Main.tscn"
 config/features=PackedStringArray("4.3", "Forward Plus")
 config/icon="res://icon.svg"
+
+[autoload]
+
+BattlemapSignals="*res://singletons/signals/battlemap_signals.gd"
+BattleController="*res://singletons/controllers/battle_controller.gd"

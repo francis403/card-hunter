@@ -1,7 +1,8 @@
 extends Node
-class_name GenericBattlemap
+class_name Battlemap
 
-@export var _center_position_grid: Marker2D
+@export var player: Piece
+@export var monster: Piece
 
 @export var _number_of_columns: int = 6
 @export var _number_of_rows: int = 6
@@ -13,24 +14,23 @@ class_name GenericBattlemap
 
 @onready var grid_array_holder_control: Control = $grid_array_holder_control
 @onready var grid_container: GridContainer = $grid_array_holder_control/GridContainer
+@onready var piece_position_manager: PiecePositionManager = $PiecePositionManager
 
 var grid_array = []
 
 func _ready() -> void:
 	_generate_battlemap()
+	_populate_battlemap()
 	
 func _generate_battlemap():
 	print(_generate_battlemap)
-	if not _center_position_grid:
-		return
 	_initialize_grid()
 	_populate_grid()
+	BattlemapSignals.battlemap_generated.emit(self)
 
 			
 func _initialize_grid():
 	grid_container.columns = _number_of_columns
-	grid_array_holder_control.global_position.x = _center_position_grid.global_position.x - ((_x_tile_size * _number_of_columns) / 2)
-	grid_array_holder_control.global_position.y = _center_position_grid.global_position.y - ((_y_tile_size * _number_of_rows) / 2)
 	
 	
 func _populate_grid():
@@ -46,3 +46,13 @@ func _populate_grid():
 			tile.custom_minimum_size.y = _y_tile_size
 			grid_array[i].append(tile)
 			grid_container.add_child(tile)
+
+
+func _populate_battlemap():
+	piece_position_manager._player = player
+	player.position = grid_array[0][1].position
+	piece_position_manager.place_piece(player, grid_array[2][1].position)
+	
+	
+	piece_position_manager._monster = monster
+	piece_position_manager.place_piece(monster, grid_array[0][1].position)

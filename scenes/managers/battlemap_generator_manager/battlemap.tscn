@@ -1,11 +1,13 @@
-[gd_scene load_steps=2 format=3 uid="uid://bubmhtlvq0xpd"]
+[gd_scene load_steps=3 format=3 uid="uid://bubmhtlvq0xpd"]
 
-[ext_resource type="Script" path="res://scenes/managers/battlemap_generator_manager/battlemap_generator_manager.gd" id="1_7c3uq"]
+[ext_resource type="Script" path="res://scenes/managers/battlemap_generator_manager/battlemap.gd" id="1_7c3uq"]
+[ext_resource type="Script" path="res://scenes/managers/battlemap_generator_manager/piece_position_manager.gd" id="2_xchib"]
 
-[node name="GenericBattlemapManager" type="Node"]
+[node name="Battlemap" type="Node2D"]
 script = ExtResource("1_7c3uq")
 
-[node name="grid_array_holder" type="Node" parent="."]
+[node name="PiecePositionManager" type="Node" parent="."]
+script = ExtResource("2_xchib")
 
 [node name="grid_array_holder_control" type="Control" parent="."]
 layout_mode = 3
