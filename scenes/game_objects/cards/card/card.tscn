@@ -1,0 +1,25 @@
+[gd_scene load_steps=3 format=3 uid="uid://d3vhms6yk456c"]
+
+[ext_resource type="Script" path="res://scenes/game_objects/cards/card/card.gd" id="1_eebhr"]
+[ext_resource type="Resource" uid="uid://dild4y4i7lvo5" path="res://resources/card/card_resources/move_card.tres" id="2_iaqf0"]
+
+[node name="Card" type="PanelContainer"]
+script = ExtResource("1_eebhr")
+card_resource = ExtResource("2_iaqf0")
+
+[node name="Container" type="MarginContainer" parent="."]
+custom_minimum_size = Vector2(150, 200)
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Container"]
+layout_mode = 2
+
+[node name="CardTitle" type="Label" parent="Container/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Card title"
+
+[node name="CardDescription" type="Label" parent="Container/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Card Description"

@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="CardResource" load_steps=3 format=3 uid="uid://dild4y4i7lvo5"]
+
+[ext_resource type="PackedScene" uid="uid://c21ryecj66njr" path="res://scenes/resource_controllers/card_controller/move_card_controller/move_card_controller.tscn" id="1_1ypiw"]
+[ext_resource type="Script" path="res://resources/card/card.gd" id="1_jd1ri"]
+
+[resource]
+script = ExtResource("1_jd1ri")
+id = "move"
+name = "Move"
+description = "Simple one direction move."
+card_ability_controller_scene = ExtResource("1_1ypiw")
