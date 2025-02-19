@@ -1,0 +1,75 @@
+[gd_scene load_steps=4 format=3 uid="uid://bubmhtlvq0xpd"]
+
+[ext_resource type="Script" path="res://scenes/managers/battlemap_generator_manager/battlemap.gd" id="1_7c3uq"]
+[ext_resource type="Script" path="res://scenes/managers/battlemap_generator_manager/piece_position_manager.gd" id="2_xchib"]
+[ext_resource type="PackedScene" uid="uid://onw2yx218q6" path="res://scenes/game_objects/battlemap/tile/tile.tscn" id="3_a6rd3"]
+
+[node name="Battlemap" type="Node2D"]
+script = ExtResource("1_7c3uq")
+
+[node name="PiecePositionManager" type="Node" parent="."]
+script = ExtResource("2_xchib")
+
+[node name="grid_array_holder_control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+
+[node name="GridContainer" type="GridContainer" parent="grid_array_holder_control"]
+layout_direction = 2
+layout_mode = 0
+offset_right = 128.0
+offset_bottom = 84.0
+theme_override_constants/h_separation = 0
+theme_override_constants/v_separation = 0
+columns = 3
+
+[node name="Tile" parent="grid_array_holder_control/GridContainer" instance=ExtResource("3_a6rd3")]
+visible = false
+layout_mode = 2
+show_status = true
+
+[node name="Tile2" parent="grid_array_holder_control/GridContainer" instance=ExtResource("3_a6rd3")]
+visible = false
+layout_mode = 2
+show_status = true
+
+[node name="Tile3" parent="grid_array_holder_control/GridContainer" instance=ExtResource("3_a6rd3")]
+visible = false
+layout_mode = 2
+show_status = true
+
+[node name="Tile4" parent="grid_array_holder_control/GridContainer" instance=ExtResource("3_a6rd3")]
+visible = false
+layout_mode = 2
+show_status = true
+
+[node name="Tile5" parent="grid_array_holder_control/GridContainer" instance=ExtResource("3_a6rd3")]
+visible = false
+layout_mode = 2
+show_status = true
+
+[node name="Tile6" parent="grid_array_holder_control/GridContainer" instance=ExtResource("3_a6rd3")]
+visible = false
+layout_mode = 2
+show_status = true
+
+[node name="Tile7" parent="grid_array_holder_control/GridContainer" instance=ExtResource("3_a6rd3")]
+visible = false
+layout_mode = 2
+show_status = true
+
+[node name="Tile8" parent="grid_array_holder_control/GridContainer" instance=ExtResource("3_a6rd3")]
+visible = false
+layout_mode = 2
+show_status = true
+
+[node name="Tile9" parent="grid_array_holder_control/GridContainer" instance=ExtResource("3_a6rd3")]
+visible = false
+layout_mode = 2
+show_status = true

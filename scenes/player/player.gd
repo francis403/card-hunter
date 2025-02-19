@@ -1,0 +1,2 @@
+extends PlayerPiece
+class_name PlayerCharacter
