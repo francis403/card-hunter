@@ -36,35 +36,31 @@ func _initialize_grid():
 	
 	
 func _populate_grid():
-	for i in _number_of_columns:
+	for grid_y in _number_of_rows:
 		grid_array.append([])
-		for j in _number_of_rows:
+		for grid_x in _number_of_columns:
 			var tile: Tile = tile_scene.instantiate()
-			#tile.border_color = Color.BLACK
-			#tile.position.x = j * self._x_tile_size
-			#tile.position.y = i * self._y_tile_size
-			#tile.editor_only = not _debug_mode
-			#tile.custom_minimum_size.x = _x_tile_size
-			#tile.custom_minimum_size.y = _y_tile_size
 			tile.show_status = true
 			grid_container.add_child(tile)
 			tile.initialize_tile(
 				Color.BLACK,
-				j, 
-				i,
+				grid_x, 
+				grid_y,
 				_x_tile_size,
 				_y_tile_size,
 				not _debug_mode
 			)
-			grid_array[i].append(tile)
-
+			grid_array[grid_y].append(tile)
 
 func _populate_battlemap():
 	piece_position_manager._player = player
 	#var player_position: Vector2 = grid_array[0][0].global_position
 	#player_position.x += _x_tile_size / 2
 	#player_position.y += _y_tile_size / 2
-	piece_position_manager.place_piece_in_tile(player, grid_array[0][0])
+	piece_position_manager.place_piece_in_tile(player, get_tile(0, 0))
 	
 	piece_position_manager._monster = monster
-	piece_position_manager.place_piece_in_tile(monster, grid_array[0][3])
+	piece_position_manager.place_piece_in_tile(monster, get_tile(9, 2))
+
+func get_tile(grix_x, grix_y) -> Tile:
+	return grid_array[grix_y][grix_x]
