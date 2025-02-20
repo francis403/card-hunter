@@ -13,5 +13,12 @@ func _on_battlemap_generated_signal(map: Battlemap):
 	print(_on_battlemap_generated_signal)
 	self.battlemap = map
 
+
+func _get_piece(card_resource: CardResource):
+	if card_resource.affects == card_resource.AFFECTS_ENUM.SELF:
+		return battlemap.player
+	return battlemap.monster
+
+
 func play_card_action(card_resource: CardResource):
 	pass

@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="CardResource" load_steps=3 format=3 uid="uid://2it5k6b3esfs"]
+
+[ext_resource type="PackedScene" uid="uid://c832ddgmb2jlj" path="res://scenes/resource_controllers/card_controller/attack_card_controller/attack_card_controller.tscn" id="1_xd8fq"]
+[ext_resource type="Script" path="res://resources/card/card.gd" id="2_fc6jf"]
+
+[resource]
+script = ExtResource("2_fc6jf")
+id = "slice_1"
+title = "Slice"
+description = "Slice at the monster at close range"
+affects = 1
+area_type = 1
+max_distance = 1
+damage_done = 0
+card_ability_controller_scene = ExtResource("1_xd8fq")

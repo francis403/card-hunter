@@ -10,18 +10,12 @@ func play_card_action(card_resource: CardResource):
 	BattlemapSignals.awaiting_player_input.emit()
 		
 	# show possible squares and await input	
-	# TODO: This should be based on the AREA_TYPE
 	_highlight_tiles(piece, card_resource)
 	
 	# await signal
 	var tile = await BattlemapSignals.tile_picked_in_battlemap
 	BattlemapSignals.player_input_received.emit()
 	battlemap.place_piece_in_tile(piece, tile)
-
-func _get_piece(card_resource: CardResource):
-	if card_resource.affects == card_resource.AFFECTS_ENUM.SELF:
-		return battlemap.player
-	return battlemap.monster
 
 func _highlight_tiles(piece: Piece, card_resource: CardResource):
 	if card_resource.area_type == CardResource.AREA_TYPE.RADIUS:
@@ -34,3 +28,5 @@ func _highlight_tiles(piece: Piece, card_resource: CardResource):
 			piece,
 			card_resource.max_distance
 		)
+	elif card_resource.area_type == CardResource.AREA_TYPE.SPECIFIC:
+		print("TODO: specific movement")

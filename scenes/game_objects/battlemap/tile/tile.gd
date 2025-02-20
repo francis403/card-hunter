@@ -14,6 +14,7 @@ var _y_size: int = 40
 
 func _ready() -> void:
 	BattlemapSignals.player_input_received.connect(_on_player_input_signal)
+	BattlemapSignals.canceled_player_input.connect(_on_player_input_signal)
 	status_label.visible = show_status
 
 

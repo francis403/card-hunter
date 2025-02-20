@@ -1,13 +1,15 @@
-[gd_scene load_steps=7 format=3 uid="uid://bbrsr1pbawd0x"]
+[gd_scene load_steps=8 format=3 uid="uid://bbrsr1pbawd0x"]
 
 [ext_resource type="PackedScene" uid="uid://bubmhtlvq0xpd" path="res://scenes/managers/battlemap_generator_manager/battlemap.tscn" id="1_43yy4"]
 [ext_resource type="Texture2D" uid="uid://d0sjr0hkie86e" path="res://assets/images/background/background_forest.png" id="1_ccchc"]
 [ext_resource type="AudioStream" uid="uid://dwcjod037iqrj" path="res://assets/sound/background_music/One Man Symphony - Collateral Damage (Free) - 15 CyberRace Theme 02.mp3" id="1_d8cl6"]
+[ext_resource type="Script" path="res://scenes/_main/game_controller.gd" id="1_j5md8"]
 [ext_resource type="PackedScene" uid="uid://bmwr7a1er0gjl" path="res://scenes/player/player.tscn" id="2_7wo8b"]
 [ext_resource type="PackedScene" uid="uid://deqlmpr5vbu60" path="res://scenes/monsters/CrabMonster/crab_monster.tscn" id="3_2fah4"]
 [ext_resource type="PackedScene" uid="uid://sun7m5vx06ud" path="res://scenes/game_objects/cards/hand/hand.tscn" id="5_7qmwk"]
 
 [node name="Main" type="Node"]
+script = ExtResource("1_j5md8")
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("1_d8cl6")

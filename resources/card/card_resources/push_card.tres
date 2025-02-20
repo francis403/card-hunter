@@ -9,6 +9,6 @@ id = "push_1"
 title = "Push"
 description = "Push the monster 1 tile away"
 affects = 1
-area_type = 1
+area_type = 5
 max_distance = 1
 card_ability_controller_scene = ExtResource("1_racat")
