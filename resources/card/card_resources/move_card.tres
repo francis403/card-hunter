@@ -9,5 +9,6 @@ id = "move"
 title = "Move"
 description = "Simple one direction move."
 affects = 0
+area_type = 3
 max_distance = 1
 card_ability_controller_scene = ExtResource("1_1ypiw")

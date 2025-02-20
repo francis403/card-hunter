@@ -24,7 +24,7 @@ func place_piece_in_tile(piece: Piece, tile: Tile):
 func move_player_x_right(x: int):
 	move_piece_x_right(_player, x)
 
-# TODO: I should maintain some logic of where each piece is
+
 func move_piece_x_right(piece: Piece, x: int) -> void:
 	piece.position = Vector2(piece.position.x + 90 * x, piece.position.y)
 	piece.set_piece_tile(

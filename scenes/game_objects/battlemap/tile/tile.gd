@@ -40,12 +40,10 @@ func initialize_tile(
 
 
 func show_background():
-	print(show_background)
 	background_button.visible = true
 
 
 func hide_background():
-	print(hide_background)
 	background_button.visible = false
 
 

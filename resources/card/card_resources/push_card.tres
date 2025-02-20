@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="CardResource" load_steps=3 format=3 uid="uid://bgxa6u42qqqax"]
+
+[ext_resource type="PackedScene" uid="uid://c21ryecj66njr" path="res://scenes/resource_controllers/card_controller/move_card_controller/move_card_controller.tscn" id="1_racat"]
+[ext_resource type="Script" path="res://resources/card/card.gd" id="2_jrgud"]
+
+[resource]
+script = ExtResource("2_jrgud")
+id = "push_1"
+title = "Push"
+description = "Push the monster 1 tile away"
+affects = 1
+area_type = 1
+max_distance = 1
+card_ability_controller_scene = ExtResource("1_racat")

@@ -62,7 +62,10 @@ func place_piece_in_tile(piece: Piece, tile: Tile):
 	_piece_position_manager.place_piece_in_tile(piece, tile)
 
 func move_piece_x_right(piece: Piece, x: int) -> void:
-	_piece_position_manager.move_player_x_right(x)
+	if piece is PlayerCharacter:
+		_piece_position_manager.move_player_x_right(x)
+	else:
+		_piece_position_manager.move_piece_x_right(piece, x)
 
 func get_tile(grix_x, grix_y) -> Tile:
 	if grix_x >= 0 && grix_x < _number_of_columns && grix_y >= 0 && grix_y < _number_of_rows:
@@ -70,19 +73,28 @@ func get_tile(grix_x, grix_y) -> Tile:
 	return null
 
 # TODO: how can I do this well?
-func highligh_tiles_around_piece(piece: Piece, radius: int):
+func highligh_tiles_radius(piece: Piece, radius: int):
 	var x = piece._tile._x_position
 	var y = piece._tile._y_position
-	make_tile_clickable(x + 1, y)
-	make_tile_clickable(x - 1, y)
-	make_tile_clickable(x, y + 1)
-	make_tile_clickable(x, y - 1)
-	make_tile_clickable(x - 1, y - 1)	
-	make_tile_clickable(x + 1, y + 1)
-	make_tile_clickable(x - 1, y + 1)
-	make_tile_clickable(x + 1, y - 1)
+	_make_tile_clickable(x + 1, y)
+	_make_tile_clickable(x - 1, y)
+	_make_tile_clickable(x, y + 1)
+	_make_tile_clickable(x, y - 1)
+	_make_tile_clickable(x - 1, y - 1)	
+	_make_tile_clickable(x + 1, y + 1)
+	_make_tile_clickable(x - 1, y + 1)
+	_make_tile_clickable(x + 1, y - 1)
 	
-func make_tile_clickable(x: int, y: int):
+func highligh_tiles_cross(piece: Piece, line_length: int):
+	var x = piece._tile._x_position
+	var y = piece._tile._y_position
+	for i in range(1, line_length + 1):
+		_make_tile_clickable(x + i, y)
+		_make_tile_clickable(x - i, y)
+		_make_tile_clickable(x, y + i)
+		_make_tile_clickable(x, y - i)
+	
+func _make_tile_clickable(x: int, y: int):
 	var tile: Tile = BattleController.get_tile(x, y)
 	if tile:
 		tile.show_background()
