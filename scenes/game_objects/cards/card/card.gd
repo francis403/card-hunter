@@ -25,7 +25,7 @@ func _input(event: InputEvent) -> void:
 
 func _play_card():
 	var card_controller_instance: CardController = card_resource.card_ability_controller_scene.instantiate()
-	card_controller_instance.play_card_action()
+	card_controller_instance.play_card_action(card_resource)
 
 func _on_mouse_entered() -> void:
 	_mouse_hovering = true
