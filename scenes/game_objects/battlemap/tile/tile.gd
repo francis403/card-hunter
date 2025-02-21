@@ -12,6 +12,8 @@ var _y_size: int = 40
 @onready var background_button: Button = $BackgroundButton
 @onready var status_label: Label = $StatusLabel
 
+var piece_in_tile: Piece = null
+
 func _ready() -> void:
 	BattlemapSignals.player_input_received.connect(_on_player_input_signal)
 	BattlemapSignals.canceled_player_input.connect(_on_player_input_signal)

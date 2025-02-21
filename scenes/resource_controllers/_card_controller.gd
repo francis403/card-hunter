@@ -22,3 +22,17 @@ func _get_piece(card_resource: CardResource):
 
 func play_card_action(card_resource: CardResource):
 	pass
+	
+func highlight_tiles(piece: Piece, card_resource: CardResource):
+	if card_resource.area_type == CardResource.AREA_TYPE.RADIUS:
+		battlemap.highligh_tiles_radius(
+			piece,
+			card_resource.max_distance
+		)
+	elif card_resource.area_type == CardResource.AREA_TYPE.CROSS:
+		battlemap.highligh_tiles_cross(
+			piece,
+			card_resource.max_distance
+		)
+	elif card_resource.area_type == CardResource.AREA_TYPE.SPECIFIC:
+		print("TODO: specific movement")

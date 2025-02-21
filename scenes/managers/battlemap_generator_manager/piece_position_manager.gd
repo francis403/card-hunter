@@ -20,6 +20,7 @@ func place_piece_in_tile(piece: Piece, tile: Tile):
 	piece_position.y += tile._y_size / 2
 	piece.position = piece_position
 	piece.set_piece_tile(tile)
+	tile.piece_in_tile = piece
 
 func move_player_x_right(x: int):
 	move_piece_x_right(_player, x)
