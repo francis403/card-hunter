@@ -2,6 +2,9 @@ extends Node
 
 var battlemap: Battlemap
 
+# TODO: is an array with the piece turn better? 
+var is_player_turn: bool = true
+
 func _ready() -> void:
 	BattlemapSignals.battlemap_generated.connect(_on_battlemap_generated_signal)
 

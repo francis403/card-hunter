@@ -24,16 +24,3 @@ func play_card_action(card_resource: CardResource):
 	
 	if tile.piece_in_tile:
 		tile.piece_in_tile.apply_damage(card_resource.damage_done)
-
-
-func distance_between_tiles(tile1: Tile, tile2: Tile) -> int:
-	var x1 = tile1._x_position
-	var x2 = tile2._x_position
-	var y1 = tile1._y_position
-	var y2 = tile2._y_position
-	return round(
-		pow(
-			pow((x2 - x1), 2) + pow((y2 - y1), 2),
-			0.5
-		)
-	)

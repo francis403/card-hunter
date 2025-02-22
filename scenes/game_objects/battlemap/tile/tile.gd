@@ -17,6 +17,7 @@ var piece_in_tile: Piece = null
 func _ready() -> void:
 	BattlemapSignals.player_input_received.connect(_on_player_input_signal)
 	BattlemapSignals.canceled_player_input.connect(_on_player_input_signal)
+	BattlemapSignals.clear_highlighted_tiles.connect(_on_player_input_signal)
 	status_label.visible = show_status
 
 
