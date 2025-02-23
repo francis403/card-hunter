@@ -13,7 +13,7 @@ func _on_battlemap_generated_signal(map: Battlemap):
 
 
 func _get_piece(card_resource: CardResource):
-	if card_resource.target == card_resource.AFFECTS_ENUM.SELF:
+	if card_resource.target == Constants.TargetType.SELF:
 		return battlemap.player
 	return battlemap.monster
 
@@ -22,19 +22,19 @@ func play_card_action(card_resource: CardResource):
 	pass
 	
 func highlight_tiles(piece: Piece, card_resource: CardResource):
-	if card_resource.area_type == CardResource.AREA_TYPE.RADIUS:
+	if card_resource.area_type == Constants.AreaType.RADIUS:
 		battlemap.highligh_tiles_radius(
 			piece,
 			card_resource.max_distance
 		)
-	elif card_resource.area_type == CardResource.AREA_TYPE.CROSS:
+	elif card_resource.area_type == Constants.AreaType.CROSS:
 		battlemap.highligh_tiles_cross(
 			piece,
 			card_resource.max_distance
 		)
-	elif card_resource.area_type == CardResource.AREA_TYPE.SPECIFIC:
+	elif card_resource.area_type == Constants.AreaType.SPECIFIC:
 		print("TODO: specific movement")
-	elif card_resource.area_type == CardResource.AREA_TYPE.SHOTGUN:
+	elif card_resource.area_type == Constants.AreaType.SHOTGUN:
 		print("TODO: shotgun movement")
 		
 		
