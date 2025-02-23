@@ -11,6 +11,7 @@ enum TargetType {
 }
 
 enum AreaType {
+	INHERIT,
 	NONE,
 	SPECIFIC,
 	LINE, 

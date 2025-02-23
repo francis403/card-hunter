@@ -12,29 +12,55 @@ func _on_battlemap_generated_signal(map: Battlemap):
 	self.battlemap = map
 
 
-func _get_piece(card_resource: CardResource):
-	if card_resource.target == Constants.TargetType.SELF:
+func get_piece(
+	card_resource: CardResource,
+	card_category: CardCategory
+):
+	if card_category.target == Constants.TargetType.INHERIT:
+		return _get_piece(card_resource.default_target)
+	return _get_piece(card_category.target)
+
+func _get_piece(
+	target_type: Constants.TargetType
+):
+	if target_type == Constants.TargetType.SELF || target_type == Constants.TargetType.INHERIT:
 		return battlemap.player
 	return battlemap.monster
 
 
-func play_card_action(card_resource: CardResource):
+func get_area_type(
+	card_resource: CardResource,
+	card_category: CardCategory
+) -> Constants.AreaType:
+	if card_category.area_type == Constants.AreaType.INHERIT:
+		return card_resource.default_area_type
+	return card_category.area_type
+
+
+func play_card_action(
+	card_resource: CardResource,
+	card_categories: CardCategoryDictionary = null
+):
 	pass
 	
-func highlight_tiles(piece: Piece, card_resource: CardResource):
-	if card_resource.area_type == Constants.AreaType.RADIUS:
+func highlight_tiles(
+	piece: Piece,
+	area_type: Constants.AreaType,
+	range: int
+):
+	if area_type == Constants.AreaType.RADIUS:
 		battlemap.highligh_tiles_radius(
 			piece,
-			card_resource.max_distance
+			range
 		)
-	elif card_resource.area_type == Constants.AreaType.CROSS:
+	elif area_type == Constants.AreaType.CROSS:
 		battlemap.highligh_tiles_cross(
 			piece,
-			card_resource.max_distance
+			range
 		)
-	elif card_resource.area_type == Constants.AreaType.SPECIFIC:
+	elif area_type == Constants.AreaType.SPECIFIC:
 		print("TODO: specific movement")
-	elif card_resource.area_type == Constants.AreaType.SHOTGUN:
+	elif area_type == Constants.AreaType.SHOTGUN:
 		print("TODO: shotgun movement")
 		
 		

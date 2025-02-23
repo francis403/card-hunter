@@ -2,17 +2,26 @@ extends CardController
 class_name MoveCardController
 
 
-func play_card_action(card_resource: CardResource):
+func play_card_action(
+	card_resource: CardResource, 
+	card_categories: CardCategoryDictionary = null
+):
+	print(play_card_action)
 	if not battlemap:
 		battlemap = BattleController.battlemap
 	
-	var piece_to_move: Piece = _get_piece(card_resource)
+	if not card_categories.has_category("move"):
+		print("no move info in card")
+	var move_card_category: MoveCategoryCard = card_categories.get_category("move")
+	
+	var piece_to_move: Piece = get_piece(card_resource, move_card_category)
+	var area_type: Constants.AreaType = get_area_type(card_resource, move_card_category)
 		
 	# freeze hand
 	BattlemapSignals.awaiting_player_input.emit()
 		
 	# show possible squares and await input	
-	highlight_tiles(piece_to_move, card_resource)
+	highlight_tiles(piece_to_move, area_type, move_card_category.move_distance)
 	
 	# await signal
 	var tile = await BattlemapSignals.tile_picked_in_battlemap
