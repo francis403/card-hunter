@@ -42,20 +42,31 @@ func play_card_action(
 	card_categories: CardCategoryDictionary = null
 ):
 	print(play_card_action)
+	
+	if not card_can_be_played(card_resource, card_categories):
+		return
+	
 	if not battlemap:
 		battlemap = BattleController.battlemap
 	
 	var stamina_cost = card_resource.stamina_cost
 	var player: PlayerPiece = BattleController.get_player()
-	player._stamina -= stamina_cost
-	if player._stamina < 0:
+
+	if player._stamina < stamina_cost:
 		# cancel player card
 		BattlemapSignals.canceled_player_input.emit()
-	else:
-		BattlemapSignals.player_stamina_changed.emit(player._stamina)
-		
-	# TODO: at any point if the card is canceled I need to return the stamina
 	
+func after_card_is_played(
+	card_resource: CardResource,
+	card_categories: CardCategoryDictionary = null
+):
+	_apply_stamina_cost(card_resource.stamina_cost)
+
+func _apply_stamina_cost(stamina_cost: int):
+	var player: PlayerPiece = BattleController.get_player()
+	player._stamina -= stamina_cost
+	BattlemapSignals.player_stamina_changed.emit(player._stamina)
+
 func highlight_tiles(
 	piece: Piece,
 	area_type: Constants.AreaType,
@@ -88,3 +99,12 @@ func distance_between_tiles(tile1: Tile, tile2: Tile) -> int:
 			0.5
 		)
 	)
+	
+func card_can_be_played(
+	card_resource: CardResource,
+	card_categories: CardCategoryDictionary = null
+):
+	var stamina_cost = card_resource.stamina_cost
+	var player: PlayerPiece = BattleController.get_player()
+
+	return player._stamina >= stamina_cost

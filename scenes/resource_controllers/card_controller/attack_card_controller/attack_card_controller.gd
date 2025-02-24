@@ -7,6 +7,9 @@ func play_card_action(
 ):
 	super.play_card_action(card_resource, card_categories)
 	
+	if not card_can_be_played(card_resource, card_categories):
+		return
+	
 	if not card_categories.has_category("damage"):
 		print("no damage info in card")
 	var damage_info_card: DamageCategoryCard = card_categories.get_category("damage")
@@ -31,3 +34,5 @@ func play_card_action(
 	
 	if tile.piece_in_tile:
 		tile.piece_in_tile.apply_damage(damage_info_card.damage)
+		
+	after_card_is_played(card_resource, card_categories)

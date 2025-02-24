@@ -19,3 +19,12 @@ enum AreaType {
 	CROSS, 
 	SHOTGUN
 }
+
+enum StatType {
+	MAX_STAMINA,
+	STAMINA,
+	MAX_HEALTH,
+	HEALTH,
+	SPEED,
+	DAMAGE
+}

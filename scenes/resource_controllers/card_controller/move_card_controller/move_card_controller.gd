@@ -7,6 +7,9 @@ func play_card_action(
 	card_categories: CardCategoryDictionary = null
 ):
 	super.play_card_action(card_resource, card_categories)
+
+	if not card_can_be_played(card_resource, card_categories):
+		return
 	
 	if not card_categories.has_category("move"):
 		print("no move info in card")
@@ -25,3 +28,5 @@ func play_card_action(
 	var tile = await BattlemapSignals.tile_picked_in_battlemap
 	BattlemapSignals.player_input_received.emit()
 	battlemap.place_piece_in_tile(piece_to_move, tile)
+	
+	after_card_is_played(card_resource, card_categories)

@@ -10,4 +10,5 @@ func apply_damage(damage: int):
 		
 		
 func _die():
+	self._tile.piece_in_tile = null
 	queue_free()
