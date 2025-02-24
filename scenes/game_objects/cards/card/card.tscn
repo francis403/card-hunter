@@ -28,5 +28,14 @@ layout_mode = 2
 text = "Card Description"
 autowrap_mode = 2
 
+[node name="StaminaCostLabel" type="Label" parent="Container"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+size_flags_vertical = 8
+text = "Stamina: 0"
+vertical_alignment = 2
+autowrap_mode = 2
+
 [connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]

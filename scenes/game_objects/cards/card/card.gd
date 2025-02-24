@@ -5,6 +5,7 @@ class_name Card
 
 @onready var card_title: Label = %CardTitle
 @onready var card_description: Label = %CardDescription
+@onready var stamina_cost_label: Label = %StaminaCostLabel
 
 var card_category_dictionary: CardCategoryDictionary
 
@@ -18,6 +19,7 @@ func _ready() -> void:
 func _initialize_card():
 	card_title.text = card_resource.title
 	card_description.text = card_resource.description
+	stamina_cost_label.text = "Stamina: " + str(card_resource.stamina_cost)
 	card_category_dictionary = CardCategoryDictionary.new()
 	if card_resource.card_categories:
 		card_category_dictionary.populate_dictionary(card_resource.card_categories)

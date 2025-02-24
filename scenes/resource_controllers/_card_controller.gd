@@ -41,7 +41,20 @@ func play_card_action(
 	card_resource: CardResource,
 	card_categories: CardCategoryDictionary = null
 ):
-	pass
+	print(play_card_action)
+	if not battlemap:
+		battlemap = BattleController.battlemap
+	
+	var stamina_cost = card_resource.stamina_cost
+	var player: PlayerPiece = BattleController.get_player()
+	player._stamina -= stamina_cost
+	if player._stamina < 0:
+		# cancel player card
+		BattlemapSignals.canceled_player_input.emit()
+	else:
+		BattlemapSignals.player_stamina_changed.emit(player._stamina)
+		
+	# TODO: at any point if the card is canceled I need to return the stamina
 	
 func highlight_tiles(
 	piece: Piece,

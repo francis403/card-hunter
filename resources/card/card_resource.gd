@@ -9,7 +9,8 @@ class_name CardResource
 @export var default_target: Constants.TargetType = Constants.TargetType.SELF
 @export var default_area_type: Constants.AreaType = Constants.AreaType.NONE
 
+@export var stamina_cost: int = 0
+
 @export var card_categories: Array[CardCategory] = []
 
-# TODO: maybe I don't need a packed scene here
 @export var card_ability_controller_scene: PackedScene

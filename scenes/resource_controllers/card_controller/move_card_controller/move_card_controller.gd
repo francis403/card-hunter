@@ -6,9 +6,7 @@ func play_card_action(
 	card_resource: CardResource, 
 	card_categories: CardCategoryDictionary = null
 ):
-	print(play_card_action)
-	if not battlemap:
-		battlemap = BattleController.battlemap
+	super.play_card_action(card_resource, card_categories)
 	
 	if not card_categories.has_category("move"):
 		print("no move info in card")

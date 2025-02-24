@@ -12,5 +12,6 @@ title = "Push"
 description = "Push the monster 1 tile away"
 default_target = 2
 default_area_type = 4
+stamina_cost = 10
 card_categories = Array[ExtResource("2_ps7lh")]([ExtResource("3_xk653")])
 card_ability_controller_scene = ExtResource("1_yecme")

@@ -4,8 +4,8 @@
 
 [resource]
 script = ExtResource("1_063qt")
-move_target = 0
-tile_selection_type = 0
 range = 1
 move_distance = 1
 category_id = "move"
+target = 0
+area_type = 0

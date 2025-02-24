@@ -1,4 +1,6 @@
-[gd_scene format=3 uid="uid://ckqvejbgtxuhp"]
+[gd_scene load_steps=2 format=3 uid="uid://ckqvejbgtxuhp"]
+
+[ext_resource type="Script" path="res://ui/player_stats/player_stats_ui.gd" id="1_h542a"]
 
 [node name="PlayerStatsUI" type="Control"]
 custom_minimum_size = Vector2(0, 50)
@@ -6,6 +8,7 @@ layout_mode = 3
 anchors_preset = 10
 anchor_right = 1.0
 grow_horizontal = 2
+script = ExtResource("1_h542a")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 layout_mode = 1
