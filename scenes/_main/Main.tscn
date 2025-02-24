@@ -1,38 +1,51 @@
-[gd_scene load_steps=5 format=3 uid="uid://bbrsr1pbawd0x"]
+[gd_scene load_steps=9 format=3 uid="uid://bbrsr1pbawd0x"]
 
 [ext_resource type="PackedScene" uid="uid://bubmhtlvq0xpd" path="res://scenes/managers/battlemap_generator_manager/battlemap.tscn" id="1_43yy4"]
 [ext_resource type="Texture2D" uid="uid://d0sjr0hkie86e" path="res://assets/images/background/background_forest.png" id="1_ccchc"]
+[ext_resource type="AudioStream" uid="uid://dwcjod037iqrj" path="res://assets/sound/background_music/One Man Symphony - Collateral Damage (Free) - 15 CyberRace Theme 02.mp3" id="1_d8cl6"]
+[ext_resource type="Script" path="res://scenes/_main/game_controller.gd" id="1_j5md8"]
 [ext_resource type="PackedScene" uid="uid://bmwr7a1er0gjl" path="res://scenes/player/player.tscn" id="2_7wo8b"]
 [ext_resource type="PackedScene" uid="uid://deqlmpr5vbu60" path="res://scenes/monsters/CrabMonster/crab_monster.tscn" id="3_2fah4"]
+[ext_resource type="PackedScene" uid="uid://sun7m5vx06ud" path="res://scenes/game_objects/cards/hand/hand.tscn" id="5_7qmwk"]
+[ext_resource type="PackedScene" uid="uid://ckqvejbgtxuhp" path="res://ui/player_stats/player_stats_ui.tscn" id="8_l3fou"]
 
 [node name="Main" type="Node"]
+script = ExtResource("1_j5md8")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("1_d8cl6")
+volume_db = -20.0
 
 [node name="Background" type="TextureRect" parent="."]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -573.0
-offset_top = -328.0
-offset_right = -573.0
-offset_bottom = -328.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("1_ccchc")
 
 [node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2(0, -1)
+position = Vector2(576, 323)
 
 [node name="Battlemap" parent="." node_paths=PackedStringArray("player", "monster") instance=ExtResource("1_43yy4")]
-position = Vector2(-500, -271)
+position = Vector2(79, 62)
 player = NodePath("../Player")
 monster = NodePath("../CrabMonster")
 _number_of_columns = 11
 _number_of_rows = 5
 
 [node name="Player" parent="." instance=ExtResource("2_7wo8b")]
-position = Vector2(-222, 74)
+position = Vector2(357, 407)
 scale = Vector2(3, 3)
 
 [node name="CrabMonster" parent="." instance=ExtResource("3_2fah4")]
-position = Vector2(249, 73)
+position = Vector2(828, 406)
 scale = Vector2(5, 5)
+_stamina = 500
+_strength = 10
+
+[node name="Hand" parent="." instance=ExtResource("5_7qmwk")]
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="PlayerStatsUI" parent="." instance=ExtResource("8_l3fou")]
