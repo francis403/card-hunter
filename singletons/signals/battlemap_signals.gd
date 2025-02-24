@@ -9,3 +9,6 @@ signal canceled_player_input
 signal tile_picked_in_battlemap(tile: Tile)
 
 signal player_stamina_changed(current_stamina: int)
+
+signal lock_player_input
+signal unlock_player_input
