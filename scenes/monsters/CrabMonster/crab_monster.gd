@@ -15,10 +15,7 @@ func play_monster_turn():
 
 # TODO: crab monster can just move in the general direction of the player until it attacks
 func _prepare_move():
-	var tile: Tile = BattleController.get_tile(
-		self._tile._x_position - 1,
-		self._tile._y_position
-	)
+	var tile: Tile = get_movement_tile()
 	if not tile:
 		print("No tile found for monster movement")
 		return
