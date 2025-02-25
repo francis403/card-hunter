@@ -6,6 +6,7 @@ class_name Card
 @onready var card_title: Label = %CardTitle
 @onready var card_description: Label = %CardDescription
 @onready var stamina_cost_label: Label = %StaminaCostLabel
+@onready var discard_button: Button = %DiscardButton
 
 var card_category_dictionary: CardCategoryDictionary
 
@@ -42,8 +43,6 @@ func _on_card_finished_playing():
 
 func _discard_card():
 	BattlemapSignals.card_discarded_from_hand.emit(self.get_index())
-	#self.get_index()
-	
 	self.queue_free()
 
 func _on_mouse_entered() -> void:
@@ -53,3 +52,6 @@ func _on_mouse_entered() -> void:
 func _on_mouse_exited() -> void:
 	_mouse_hovering = false
 	
+
+func _on_discard_button_pressed() -> void:
+	_discard_card()
