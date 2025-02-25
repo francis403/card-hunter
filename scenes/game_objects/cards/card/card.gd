@@ -14,9 +14,9 @@ var _mouse_hovering: bool = false
 
 func _ready() -> void:
 	if card_resource:
-		_initialize_card()
+		initialize_card()
 
-func _initialize_card():
+func initialize_card():
 	card_title.text = card_resource.title
 	card_description.text = card_resource.description
 	stamina_cost_label.text = "Stamina: " + str(card_resource.stamina_cost)

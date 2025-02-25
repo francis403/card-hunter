@@ -1,4 +1,5 @@
 extends Control
+class_name Hand
 
 @onready var h_box_container: HBoxContainer = $HBoxContainer
 
@@ -25,8 +26,12 @@ func _clean_preview():
 func populate_hand(cards_in_hand: Array[CardResource]):
 	for card_resource in cards_in_hand:
 		_instantiate_card(card_resource)
-		
+
 func _instantiate_card(card_resource: CardResource):
+	if not card_resource:
+		print("card resource is null")
+		return
 	var card_instance: Card = card_scene.instantiate()
-	card_instance.card_resource = card_resource
 	h_box_container.add_child(card_instance)
+	card_instance.card_resource = card_resource
+	card_instance.initialize_card()

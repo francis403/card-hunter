@@ -12,7 +12,7 @@ func _ready() -> void:
 	_prepare_deck()
 	
 func _prepare_deck():
-	draw_pile = _deck
+	draw_pile = _deck.duplicate()
 	discard_pile = []
 	shuffle_deck(draw_pile)
 	
@@ -29,7 +29,11 @@ func draw_card() -> void:
 	print(draw_card)
 	if draw_pile.size() <= 0:
 		# put all the cards in the discard pile in the draw pile
-		draw_pile = discard_pile
+		draw_pile = discard_pile.duplicate()
+		discard_pile = []
 		shuffle_deck(draw_pile)
-		
-	cards_in_hand.append(draw_pile.pop_front())
+	var card_resource: CardResource = draw_pile.pop_front()
+	cards_in_hand.append(card_resource)
+
+func recover_stamina(stamina = _stamina_recover):
+	self._stamina = min(self._stamina + stamina, _max_stamina)
