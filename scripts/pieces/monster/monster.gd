@@ -1,7 +1,13 @@
 extends Piece
-class_name Monster
+class_name MonsterPiece
 
 #TODO: need to do some sort of array of possible attacks
+
+func play_monster_turn():
+	pass
+
+func end_monster_turn():
+	BattlemapSignals.player_turn_started.emit()
 
 func apply_damage(damage: int):
 	self._health -= damage

@@ -12,3 +12,6 @@ signal player_stamina_changed(current_stamina: int)
 
 signal lock_player_input
 signal unlock_player_input
+
+signal monster_turn_started
+signal player_turn_started
