@@ -12,6 +12,7 @@ func _ready() -> void:
 	BattlemapSignals.player_input_received.connect(_on_input_received_signal)
 	BattlemapSignals.lock_player_input.connect(_on_input_awaiting_signal)
 	BattlemapSignals.unlock_player_input.connect(_on_input_received_signal)
+	BattlemapSignals.card_discarded_from_hand.connect(_on_card_discared_from_hand_signal)
 
 func _on_input_awaiting_signal():
 	self.process_mode = Node.PROCESS_MODE_DISABLED
@@ -23,8 +24,8 @@ func _clean_preview():
 	for node in h_box_container.get_children():
 		node.queue_free()
 
-func populate_hand(cards_in_hand: Array[CardResource]):
-	for card_resource in cards_in_hand:
+func populate_hand(new_cards: Array[CardResource]):
+	for card_resource in new_cards:
 		_instantiate_card(card_resource)
 
 func _instantiate_card(card_resource: CardResource):
@@ -35,3 +36,6 @@ func _instantiate_card(card_resource: CardResource):
 	h_box_container.add_child(card_instance)
 	card_instance.card_resource = card_resource
 	card_instance.initialize_card()
+	
+func _on_card_discared_from_hand_signal(index: int):
+	pass

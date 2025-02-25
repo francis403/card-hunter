@@ -15,3 +15,6 @@ signal unlock_player_input
 
 signal monster_turn_started
 signal player_turn_started
+
+# Card signals
+signal card_discarded_from_hand(index: int)

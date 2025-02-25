@@ -31,10 +31,20 @@ func _input(event: InputEvent) -> void:
 
 func _play_card():
 	var card_controller_instance: CardController = card_resource.card_ability_controller_scene.instantiate()
+	card_controller_instance.card_finished_playing.connect(_on_card_finished_playing)
 	card_controller_instance.play_card_action(
 		card_resource, 
 		card_category_dictionary
 	)
+
+func _on_card_finished_playing():
+	_discard_card()
+
+func _discard_card():
+	BattlemapSignals.card_discarded_from_hand.emit(self.get_index())
+	#self.get_index()
+	
+	self.queue_free()
 
 func _on_mouse_entered() -> void:
 	_mouse_hovering = true

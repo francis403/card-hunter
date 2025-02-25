@@ -18,3 +18,5 @@ func play_card_action(
 	target._stamina += stats_card_category.change_value
 	if target is PlayerPiece:
 		BattlemapSignals.player_stamina_changed.emit(target._stamina)
+		
+	super.after_card_is_played(card_resource, card_categories)

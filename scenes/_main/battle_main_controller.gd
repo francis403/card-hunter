@@ -21,7 +21,6 @@ func _on_player_turn_started_signal():
 	
 	var player: PlayerPiece = BattleController.get_player()
 	# draw up to handsize
-	player.draw_til_hand_size()
 	
 	# populate hand
 	_draw_cards_start_of_turn(player)
@@ -31,8 +30,8 @@ func _on_player_turn_started_signal():
 	BattlemapSignals.unlock_player_input.emit()
 
 func _draw_cards_start_of_turn(player: PlayerPiece):
-	player.draw_til_hand_size()
-	hand.populate_hand(player.cards_in_hand)
+	var new_cards = player.draw_til_hand_size()
+	hand.populate_hand(new_cards)
 
 func _on_monster_turn_started_signal():
 	is_player_turn = false

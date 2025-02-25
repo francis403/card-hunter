@@ -1,6 +1,8 @@
 extends Node
 class_name CardController
 
+signal card_finished_playing
+
 var battlemap: Battlemap
 
 func _ready() -> void:
@@ -61,11 +63,15 @@ func after_card_is_played(
 	card_categories: CardCategoryDictionary = null
 ):
 	_apply_stamina_cost(card_resource.stamina_cost)
+	card_finished_playing.emit()
 
 func _apply_stamina_cost(stamina_cost: int):
 	var player: PlayerPiece = BattleController.get_player()
 	player._stamina -= stamina_cost
 	BattlemapSignals.player_stamina_changed.emit(player._stamina)
+
+func _discard_card():
+	pass
 
 func highlight_tiles(
 	piece: Piece,
