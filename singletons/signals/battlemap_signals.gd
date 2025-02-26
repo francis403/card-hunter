@@ -18,3 +18,6 @@ signal player_turn_started
 
 # Card signals
 signal card_discarded_from_hand(index: int)
+
+# Monster signals
+signal monster_prepared_move(monster_sprite: Sprite2D, tile: Tile)

@@ -27,7 +27,6 @@ func draw_til_hand_size():
 	var new_cards_added: Array[CardResource] = []
 	print(draw_til_hand_size)
 	var start_size: int = cards_in_hand.size()
-	print("start siez: " + str(start_size))
 	for n in range(start_size, hand_size):
 		var drawn_card = draw_card()
 		cards_in_hand.append(drawn_card)
@@ -37,7 +36,6 @@ func draw_til_hand_size():
 		
 func draw_card() -> CardResource:
 	print(draw_card)
-	print("draw pile size: " + str(draw_pile.size()))
 	if draw_pile.size() <= 0:
 		# put all the cards in the discard pile in the draw pile
 		draw_pile = discard_pile.duplicate()
