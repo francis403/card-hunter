@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://c21ryecj66njr" path="res://scenes/resource_controllers/card_controller/move_card_controller/move_card_controller.tscn" id="1_5jo30"]
 [ext_resource type="Script" path="res://resources/card/card_resource.gd" id="2_3v5n3"]
-[ext_resource type="Script" path="res://resources/card/card_category.gd" id="2_4dht3"]
+[ext_resource type="Script" path="res://scripts/event_category/event_category.gd" id="2_4dht3"]
 [ext_resource type="Resource" uid="uid://dtcaoex7vl38o" path="res://resources/card/category_cards/category_card_resources/dash_1.tres" id="3_y52iv"]
 
 [resource]
@@ -13,5 +13,5 @@ description = "Dash to one direction in a cross"
 default_target = 1
 default_area_type = 5
 stamina_cost = 10
-card_categories = Array[ExtResource("2_4dht3")]([ExtResource("3_y52iv")])
+event_categories = Array[ExtResource("2_4dht3")]([ExtResource("3_y52iv")])
 card_ability_controller_scene = ExtResource("1_5jo30")

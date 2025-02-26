@@ -2,16 +2,16 @@ extends CardController
 
 func play_card_action(
 	card_resource: CardResource, 
-	card_categories: CardCategoryDictionary = null
+	event_categories: EventCategoryDictionary = null
 ):
-	super.play_card_action(card_resource, card_categories)
+	super.play_card_action(card_resource, event_categories)
 	
-	if not card_can_be_played(card_resource, card_categories):
+	if not card_can_be_played(card_resource, event_categories):
 		return
 	
-	if not card_categories.has_category("stat_change"):
+	if not event_categories.has_category("stat_change"):
 		print("No stat_change info in card")
-	var stats_card_category: StatsCategoryCard = card_categories.get_category("stat_change")
+	var stats_card_category: StatsCategoryCard = event_categories.get_category("stat_change")
 	
 	var target: Piece = get_piece(card_resource, stats_card_category)
 	
@@ -19,4 +19,4 @@ func play_card_action(
 	if target is PlayerPiece:
 		BattlemapSignals.player_stamina_changed.emit(target._stamina)
 		
-	super.after_card_is_played(card_resource, card_categories)
+	super.after_card_is_played(card_resource, event_categories)

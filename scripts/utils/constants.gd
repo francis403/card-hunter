@@ -7,7 +7,8 @@ class_name Constants
 enum TargetType {
 	INHERIT,
 	SELF,
-	MONSTER
+	MONSTER,
+	PLAYER
 }
 
 enum AreaType {

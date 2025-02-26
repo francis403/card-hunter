@@ -4,6 +4,7 @@ class_name CrabMonster
 @onready var sprite_2d: Sprite2D = $Sprite2D
 @onready var collision_shape_2d: CollisionShape2D = $CollisionShape2D
 
+#TODO: do a basic state machine for the behaviour
 
 func play_monster_turn():
 	# move closer to the player by one

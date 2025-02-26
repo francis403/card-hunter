@@ -1,4 +1,4 @@
-extends CardCategory
+extends EventCategory
 
 # This card type has the info to move something
 class_name MoveCategoryCard

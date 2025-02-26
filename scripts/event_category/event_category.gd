@@ -1,5 +1,5 @@
 extends Resource
-class_name CardCategory
+class_name EventCategory
 
 @export var category_id: String
 

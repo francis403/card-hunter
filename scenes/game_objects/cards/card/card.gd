@@ -8,7 +8,7 @@ class_name Card
 @onready var stamina_cost_label: Label = %StaminaCostLabel
 @onready var discard_button: Button = %DiscardButton
 
-var card_category_dictionary: CardCategoryDictionary
+var card_category_dictionary: EventCategoryDictionary
 
 # TODO: this should probably go to the hand_manager
 var _mouse_hovering: bool = false
@@ -21,9 +21,9 @@ func initialize_card():
 	card_title.text = card_resource.title
 	card_description.text = card_resource.description
 	stamina_cost_label.text = "Stamina: " + str(card_resource.stamina_cost)
-	card_category_dictionary = CardCategoryDictionary.new()
-	if card_resource.card_categories:
-		card_category_dictionary.populate_dictionary(card_resource.card_categories)
+	card_category_dictionary = EventCategoryDictionary.new()
+	if card_resource.event_categories:
+		card_category_dictionary.populate_dictionary(card_resource.event_categories)
 	
 # TODO: this should probably go to the hand_manager
 func _input(event: InputEvent) -> void:

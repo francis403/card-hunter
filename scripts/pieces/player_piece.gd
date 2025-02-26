@@ -46,6 +46,7 @@ func draw_card() -> CardResource:
 
 func recover_stamina(stamina = _stamina_recover):
 	self._stamina = min(self._stamina + stamina, _max_stamina)
+	BattlemapSignals.player_stamina_changed.emit(self._stamina)
 	
 func _on_card_discared_from_hand_signal(index: int):
 	var card: CardResource = cards_in_hand.pop_at(index)

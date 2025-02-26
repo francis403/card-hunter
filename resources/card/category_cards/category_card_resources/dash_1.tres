@@ -7,5 +7,5 @@ script = ExtResource("1_2cmdc")
 range = 1
 move_distance = 2
 category_id = "move"
-target = 0
-area_type = 0
+target = 1
+area_type = 5

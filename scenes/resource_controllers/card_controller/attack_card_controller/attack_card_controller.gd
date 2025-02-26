@@ -3,7 +3,7 @@ class_name AttackCardController
 
 func play_card_action(
 	card_resource: CardResource,
-	card_categories: CardCategoryDictionary = null
+	card_categories: EventCategoryDictionary = null
 ):
 	super.play_card_action(card_resource, card_categories)
 	
