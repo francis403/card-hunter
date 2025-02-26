@@ -19,6 +19,8 @@ var tile_scene: PackedScene = preload("res://scenes/game_objects/battlemap/tile/
 
 var grid_array = []
 
+# TODO: It's starting to get too big, need to start thinking about diving this
+
 func _ready() -> void:
 	_generate_battlemap()
 	_populate_battlemap()
@@ -60,6 +62,9 @@ func _populate_battlemap():
 
 func place_piece_in_tile(piece: Piece, tile: Tile):
 	_piece_position_manager.place_piece_in_tile(piece, tile)
+
+func place_node_in_tile(node: Node2D, tile: Tile):
+	_piece_position_manager.place_node_in_tile(node, tile)
 
 func move_piece_x_right(piece: Piece, x: int) -> void:
 	if piece is PlayerCharacter:

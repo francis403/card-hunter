@@ -5,6 +5,8 @@ signal card_finished_playing
 
 var battlemap: Battlemap
 
+#TODO: this is getting a bit too big. Might think about dividing
+
 func _ready() -> void:
 	BattlemapSignals.battlemap_generated.connect(_on_battlemap_generated_signal)
 	battlemap = BattleController.battlemap

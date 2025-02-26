@@ -15,12 +15,25 @@ func place_piece(piece: Piece, position: Vector2):
 
 
 func place_piece_in_tile(piece: Piece, tile: Tile):
-	var piece_position: Vector2 = tile.global_position
-	piece_position.x += tile._x_size / 2
-	piece_position.y += tile._y_size / 2
-	piece.position = piece_position
-	piece.set_piece_tile(tile)
-	tile.piece_in_tile = piece
+	place_node_in_tile(piece, tile)
+
+func place_node_in_tile(node: Node2D, tile: Tile):
+	var center_tile_position: Vector2 = tile.global_position
+	var offset: Vector2 = Vector2.ZERO
+	center_tile_position.x += tile._x_size / 2
+	center_tile_position.y += tile._y_size / 2
+	if node is Piece:
+		node.set_piece_tile(tile)
+		tile.piece_in_tile = node
+	if node is Sprite2D:
+		# TODO: I need to actually fix the scale issue
+		var parent: Node2D = get_parent()
+		var scale: Vector2 = parent.scale
+		offset = Vector2(
+			-1 * node.texture.get_width() * 5,
+			-1 * node.texture.get_height() * 4
+		) * scale
+	node.position = center_tile_position + offset
 
 func move_player_x_right(x: int):
 	move_piece_x_right(_player, x)

@@ -29,7 +29,6 @@ func _die():
 	queue_free()
 
 func preview_action():
-	print("preview action")
 	move_tile = get_movement_tile()
 	if monster_sprite:
 		monster_sprite.queue_free()
@@ -69,3 +68,9 @@ func get_movement_tile() -> Tile:
 
 func get_sprite() -> Sprite2D:
 	return null
+#
+#func get_witdh() -> int:
+	#return 0
+	#
+#func get_height() -> int:
+	#return 0

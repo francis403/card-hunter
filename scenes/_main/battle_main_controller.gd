@@ -35,8 +35,8 @@ func _on_player_turn_started_signal():
 func _on_monster_prepared_move_signal(monster_sprite: Sprite2D, move_tile: Tile):	
 	print(_on_monster_prepared_move_signal)
 	battlemap.add_child(monster_sprite)
-	monster_sprite.position.x = move_tile.position.x
-	monster_sprite.position.y = move_tile.position.y
+	print("move tile: " + str(move_tile._x_position) + ", " + str(move_tile._y_position))
+	battlemap.place_node_in_tile(monster_sprite, move_tile)
 	monster_sprite.scale = BattleController.get_monster().scale
 	monster_sprite.modulate = Color.WEB_GRAY
 
