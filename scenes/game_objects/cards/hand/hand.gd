@@ -30,7 +30,6 @@ func populate_hand(new_cards: Array[CardResource]):
 
 func _instantiate_card(card_resource: CardResource):
 	if not card_resource:
-		print("card resource is null")
 		return
 	var card_instance: Card = card_scene.instantiate()
 	h_box_container.add_child(card_instance)

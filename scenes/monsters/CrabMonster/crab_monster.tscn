@@ -1,12 +1,29 @@
-[gd_scene load_steps=4 format=3 uid="uid://deqlmpr5vbu60"]
+[gd_scene load_steps=8 format=3 uid="uid://deqlmpr5vbu60"]
 
 [ext_resource type="Script" path="res://scenes/monsters/CrabMonster/crab_monster.gd" id="1_f67w6"]
 [ext_resource type="Texture2D" uid="uid://y720kc3pkme0" path="res://scenes/monsters/CrabMonster/tile_0110.png" id="1_x8062"]
+[ext_resource type="Script" path="res://scenes/game_objects/state_machine/state_machine.gd" id="3_uvlbr"]
+[ext_resource type="PackedScene" uid="uid://dmrgvn8lav1xo" path="res://scenes/game_objects/states/basic_close_range_attack_state.tscn" id="4_r160r"]
+[ext_resource type="Resource" uid="uid://brvbfobwxhruf" path="res://resources/monster_behaviour/monster_behaviour_resources/all_around_attack.tres" id="5_pr0g6"]
+[ext_resource type="PackedScene" uid="uid://cwerknvh476ew" path="res://scenes/game_objects/movement_behaviour/move_next_to_player_movement_controller/move_next_to_player_movement_controller.tscn" id="6_n0p8j"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_jo88s"]
 
 [node name="CrabMonster" type="CharacterBody2D"]
 script = ExtResource("1_f67w6")
+
+[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("initial_state")]
+script = ExtResource("3_uvlbr")
+initial_state = NodePath("BasicCloseRangeAttackState")
+
+[node name="BasicCloseRangeAttackState" parent="StateMachine" node_paths=PackedStringArray("movement_behaviour_node") instance=ExtResource("4_r160r")]
+movement_behaviour_node = NodePath("../../MovementBehaviours/MoveNextToPlayerMovementController")
+monster_behaviour = ExtResource("5_pr0g6")
+
+[node name="MovementBehaviours" type="Node" parent="."]
+
+[node name="MoveNextToPlayerMovementController" parent="MovementBehaviours" node_paths=PackedStringArray("piece_to_move") instance=ExtResource("6_n0p8j")]
+piece_to_move = NodePath("../..")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("1_x8062")

@@ -5,7 +5,6 @@ var battlemap: Battlemap
 func _ready() -> void:
 	BattlemapSignals.battlemap_generated.connect(_on_battlemap_generated_signal)
 
-
 func _on_battlemap_generated_signal(map: Battlemap):
 	print(_on_battlemap_generated_signal)
 	self.battlemap = map

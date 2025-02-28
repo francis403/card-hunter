@@ -10,32 +10,24 @@ func _ready() -> void:
 	BattlemapSignals.monster_turn_started.connect(_on_monster_turn_started_signal)
 	BattlemapSignals.player_turn_started.connect(_on_player_turn_started_signal)
 	BattlemapSignals.monster_prepared_move.connect(_on_monster_prepared_move_signal)
-	
-	# prep player and monster
-	_draw_cards_start_of_turn(BattleController.get_player())
-	BattleController.get_monster().preview_action()
-	
+
+	_draw_cards_start_of_turn(BattleController.get_player())	
+	BattleSignals.battle_start.emit()
 	
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("cancel_button_pressed"):
 		BattlemapSignals.canceled_player_input.emit()
 
 func _on_player_turn_started_signal():
-	print(_on_player_turn_started_signal)
 	is_player_turn = true
-	
 	var player: PlayerPiece = BattleController.get_player()
-	# draw up to handsize
 	_draw_cards_start_of_turn(player)
-	#recover stamina
 	player.recover_stamina()
-	
 	BattlemapSignals.unlock_player_input.emit()
-
+#
 func _on_monster_prepared_move_signal(monster_sprite: Sprite2D, move_tile: Tile):	
 	print(_on_monster_prepared_move_signal)
 	battlemap.add_child(monster_sprite)
-	print("move tile: " + str(move_tile._x_position) + ", " + str(move_tile._y_position))
 	battlemap.place_node_in_tile(monster_sprite, move_tile)
 	monster_sprite.scale = BattleController.get_monster().scale
 	monster_sprite.modulate = Color.WEB_GRAY

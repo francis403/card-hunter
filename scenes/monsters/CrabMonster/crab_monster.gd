@@ -1,32 +1,21 @@
 extends MonsterPiece
 class_name CrabMonster
 
+#TODO: will need to create a basic enemy scene
+
 @onready var sprite_2d: Sprite2D = $Sprite2D
 @onready var collision_shape_2d: CollisionShape2D = $CollisionShape2D
+@onready var state_machine: StateMachine = $StateMachine
 
-#TODO: do a basic state machine for the behaviour
 
 func play_monster_turn():
-	# move closer to the player by one
-	
-	_prepare_move()
-	_prepare_attack()
-	
-	# send signal monster turn is over
+	super.play_monster_turn()
+	state_machine.do_state_action()
 	self.end_monster_turn()
-
-func _prepare_move():
-	var tile: Tile = self.move_tile
-	if not tile:
-		tile = get_movement_tile()
-	if not tile:
-		print("No tile found for monster movement")
-		return
-		
-	BattleController.battlemap.place_piece_in_tile(self, tile)
 	
-func _prepare_attack():
-	pass
+	
+func on_battle_start_signal():
+	state_machine.do_state_action()
 	
 func get_sprite() -> Sprite2D:
 	return sprite_2d

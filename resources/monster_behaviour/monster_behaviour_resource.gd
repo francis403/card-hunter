@@ -8,5 +8,8 @@ class_name MonsterBehaviourResource
 @export var default_target: Constants.TargetType = Constants.TargetType.SELF
 @export var default_area_type: Constants.AreaType = Constants.AreaType.NONE
 
+## Define any extra data that might be needed by the movement & attack controller
 @export var monster_behaviour_category_array: Array[EventCategory] = []
-@export var monster_behaviour_controller_scene: PackedScene
+
+## Define monster attack for the specific behaviour
+@export var attack_behaviour: PackedScene
