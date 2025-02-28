@@ -17,3 +17,10 @@ func do_state_action():
 		return
 	if movement_behaviour_node:
 		movement_behaviour_node.do_movement()
+	if monster_behaviour.attack_behaviour:
+		# TODO: should this be just like the movement behaviour??
+		var attack_behaviour: MonsterBehaviourController =\
+			monster_behaviour.attack_behaviour.instantiate()
+		attack_behaviour.play_monster_behaviour(
+			monster_behaviour
+		)

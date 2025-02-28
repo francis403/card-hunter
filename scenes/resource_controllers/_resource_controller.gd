@@ -29,19 +29,7 @@ func get_area_type(
 func highlight_tiles(
 	piece: Piece,
 	area_type: Constants.AreaType,
-	range: int
+	range: int,
+	show_attack_tile: bool = false
 ):
-	if area_type == Constants.AreaType.RADIUS:
-		battlemap.highligh_tiles_radius(
-			piece,
-			range
-		)
-	elif area_type == Constants.AreaType.CROSS:
-		battlemap.highligh_tiles_cross(
-			piece,
-			range
-		)
-	elif area_type == Constants.AreaType.SPECIFIC:
-		print("TODO: specific movement")
-	elif area_type == Constants.AreaType.SHOTGUN:
-		print("TODO: shotgun movement")
+	BattlemapSignals.highlight_tiles.emit(piece._tile, range, area_type)

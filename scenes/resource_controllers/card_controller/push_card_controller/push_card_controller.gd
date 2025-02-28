@@ -30,7 +30,7 @@ func play_card_action(
 		BattlemapSignals.canceled_player_input.emit()
 		return
 	
-	BattlemapSignals.clear_highlighted_tiles.emit()
+	BattlemapSignals.clear_player_highlighted_tiles.emit()
 	
 	highlight_tiles(piece_to_move, area_type, move_card_category.move_distance)
 

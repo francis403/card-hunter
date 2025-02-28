@@ -15,4 +15,10 @@ func set_piece_tile(tile: Tile):
 
 
 func apply_damage(damage: int):
-	pass
+	self._health -= damage
+	BattlemapSignals.player_health_changed.emit(self._health)
+	if _health <= 0:
+		_die()
+
+func _die():
+	self.queue_free()

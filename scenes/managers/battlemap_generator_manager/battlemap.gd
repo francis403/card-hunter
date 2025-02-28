@@ -76,30 +76,3 @@ func get_tile(grix_x, grix_y) -> Tile:
 	if grix_x >= 0 && grix_x < _number_of_columns && grix_y >= 0 && grix_y < _number_of_rows:
 		return grid_array[grix_y][grix_x]
 	return null
-
-# TODO: how can I do this well?
-func highligh_tiles_radius(piece: Piece, radius: int):
-	var x = piece._tile._x_position
-	var y = piece._tile._y_position
-	_make_tile_clickable(x + 1, y)
-	_make_tile_clickable(x - 1, y)
-	_make_tile_clickable(x, y + 1)
-	_make_tile_clickable(x, y - 1)
-	_make_tile_clickable(x - 1, y - 1)	
-	_make_tile_clickable(x + 1, y + 1)
-	_make_tile_clickable(x - 1, y + 1)
-	_make_tile_clickable(x + 1, y - 1)
-	
-func highligh_tiles_cross(piece: Piece, line_length: int):
-	var x = piece._tile._x_position
-	var y = piece._tile._y_position
-	for i in range(1, line_length + 1):
-		_make_tile_clickable(x + i, y)
-		_make_tile_clickable(x - i, y)
-		_make_tile_clickable(x, y + i)
-		_make_tile_clickable(x, y - i)
-	
-func _make_tile_clickable(x: int, y: int):
-	var tile: Tile = BattleController.get_tile(x, y)
-	if tile:
-		tile.show_background()
