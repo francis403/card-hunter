@@ -32,6 +32,9 @@ func play_card_action(
 	var tile: Tile = await BattlemapSignals.tile_picked_in_battlemap
 	BattlemapSignals.player_input_received.emit()
 	
+	if not tile:
+		return
+		
 	if tile.piece_in_tile:
 		tile.piece_in_tile.apply_damage(damage_info_card.damage)
 		
