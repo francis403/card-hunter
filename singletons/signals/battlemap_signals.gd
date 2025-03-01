@@ -29,3 +29,4 @@ signal deal_damage_to_attacked_squares(damage: int)
 signal monster_prepared_move(monster_sprite: Sprite2D, tile: Tile)
 signal monster_prepared_attack(attacked_tiles: Array[Tile])
 signal monster_died
+signal update_attacked_tiles(new_tile: Tile)

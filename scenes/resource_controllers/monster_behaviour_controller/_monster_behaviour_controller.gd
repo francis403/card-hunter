@@ -11,6 +11,10 @@ func _on_battlemap_generated_signal(map: Battlemap):
 	print(_on_battlemap_generated_signal)
 	self.battlemap = map
 
+func preview_monster_behaviour() -> void:
+	pass
+
+
 func play_monster_behaviour(
 	behaviour_resource: MonsterBehaviourResource,
 	card_categories: EventCategoryDictionary = null

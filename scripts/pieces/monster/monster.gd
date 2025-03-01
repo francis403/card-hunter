@@ -6,6 +6,7 @@ var next_move: Tile = null
 func _ready() -> void:
 	BattleSignals.battle_start.connect(on_battle_start_signal)
 	BattlemapSignals.monster_prepared_move.connect(_on_monster_prepared_move_signal)
+
 ## Main function for the monster
 func play_monster_turn():
 	pass
@@ -32,3 +33,6 @@ func _die():
 
 func get_sprite() -> Sprite2D:
 	return null
+
+func highlight_attack_action() -> void:
+	pass

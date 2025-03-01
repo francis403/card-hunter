@@ -35,6 +35,9 @@ func get_movement_tile() -> Tile:
 		player_tile, monster_tile
 	)
 	
+	if distance_to_player <= 1:
+		return null
+	
 	while (moved_tiles < monster._speed && distance_to_player > 1):
 		if player_tile._x_position > x:
 			x += 1

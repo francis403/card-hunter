@@ -18,6 +18,8 @@ func place_piece_in_tile(piece: Piece, tile: Tile):
 	place_node_in_tile(piece, tile)
 
 func place_node_in_tile(node: Node2D, tile: Tile):
+	if not tile:
+		return
 	var center_tile_position: Vector2 = tile.global_position
 	var offset: Vector2 = Vector2.ZERO
 	center_tile_position.x += tile._x_size / 2

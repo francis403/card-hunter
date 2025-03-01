@@ -41,8 +41,10 @@ scale = Vector2(3, 3)
 [node name="CrabMonster" parent="." instance=ExtResource("3_2fah4")]
 position = Vector2(828, 406)
 scale = Vector2(5, 5)
+_health = 500
 _stamina = 500
-_strength = 10
+_max_stamina = 500
+_strength = 30
 
 [node name="Hand" parent="." instance=ExtResource("5_7qmwk")]
 size_flags_horizontal = 4

@@ -55,10 +55,10 @@ func _populate_grid():
 
 func _populate_battlemap():
 	_piece_position_manager._player = player
-	_piece_position_manager.place_piece_in_tile(player, get_tile(0, 0))
+	_piece_position_manager.place_piece_in_tile(player, get_tile(2, 2))
 	
 	_piece_position_manager._monster = monster
-	_piece_position_manager.place_piece_in_tile(monster, get_tile(9, 2))
+	_piece_position_manager.place_piece_in_tile(monster, get_tile(8, 2))
 
 func place_piece_in_tile(piece: Piece, tile: Tile):
 	_piece_position_manager.place_piece_in_tile(piece, tile)

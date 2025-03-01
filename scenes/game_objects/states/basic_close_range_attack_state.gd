@@ -24,3 +24,10 @@ func do_state_action():
 		attack_behaviour.play_monster_behaviour(
 			monster_behaviour
 		)
+		
+# TODO: this seems ugly
+func highlight_attack_action():
+	print(highlight_attack_action)
+	var attack_behaviour: MonsterBehaviourController =\
+		monster_behaviour.attack_behaviour.instantiate()
+	attack_behaviour.preview_monster_behaviour()

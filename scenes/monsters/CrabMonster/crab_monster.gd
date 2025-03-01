@@ -19,3 +19,6 @@ func on_battle_start_signal():
 	
 func get_sprite() -> Sprite2D:
 	return sprite_2d
+
+func highlight_attack_action() -> void:
+	state_machine.current_state.highlight_attack_action()

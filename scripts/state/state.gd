@@ -16,3 +16,6 @@ func exit_state():
 	
 func do_state_action():
 	pass
+
+func highlight_attack_action():
+	pass
