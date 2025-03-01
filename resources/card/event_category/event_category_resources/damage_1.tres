@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="DamageCategoryCard" load_steps=2 format=3 uid="uid://4ycmg3fr67o3"]
 
-[ext_resource type="Script" path="res://resources/card/category_cards/damage_category_card.gd" id="1_wsb5a"]
+[ext_resource type="Script" path="res://resources/card/event_category/damage_category_card.gd" id="1_wsb5a"]
 
 [resource]
 script = ExtResource("1_wsb5a")

@@ -11,7 +11,7 @@ func play_card_action(
 		return
 	
 	if not card_categories.has_category("damage"):
-		print("no damage info in card")
+		print("ERROR: no damage info in card")
 	var damage_info_card: DamageCategoryCard = card_categories.get_category("damage")
 	
 	# The attack is always played by the player

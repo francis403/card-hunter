@@ -16,7 +16,6 @@ func play_card_action(
 	card_resource: CardResource,
 	card_categories: EventCategoryDictionary = null
 ):
-	print(play_card_action)
 	
 	if not card_can_be_played(card_resource, card_categories):
 		return

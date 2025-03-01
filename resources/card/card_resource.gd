@@ -11,6 +11,8 @@ class_name CardResource
 
 @export var stamina_cost: int = 0
 
+@export var tag_array: Array[String] = []
+
 @export var event_categories: Array[EventCategory] = []
 
 @export var card_ability_controller_scene: PackedScene

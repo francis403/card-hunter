@@ -6,7 +6,6 @@ var monster: MonsterPiece
 var monster_sprite: Sprite2D
 
 func do_movement():
-	print(do_movement)
 	if not monster:
 		monster = BattleController.get_monster()
 	if next_turn_move_tile:

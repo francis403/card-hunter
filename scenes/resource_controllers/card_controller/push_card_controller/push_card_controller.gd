@@ -11,7 +11,7 @@ func play_card_action(
 		return
 		
 	if not card_categories.has_category("move"):
-		print("no move info in card")
+		print("ERROR: no move info in card")
 	var move_card_category: MoveCategoryCard = card_categories.get_category("move")
 	
 	var piece_to_move: Piece = get_piece(card_resource, move_card_category)

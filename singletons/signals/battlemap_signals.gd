@@ -11,6 +11,7 @@ signal tile_picked_in_battlemap(tile: Tile)
 
 ## Card signals
 signal card_discarded_from_hand(index: int)
+signal card_removed_from_deck(index: int)
 
 ## Player signals
 signal player_turn_started

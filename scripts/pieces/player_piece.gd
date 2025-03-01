@@ -12,6 +12,7 @@ var cards_in_hand: Array[CardResource] = []
 
 func _ready() -> void:
 	BattlemapSignals.card_discarded_from_hand.connect(_on_card_discared_from_hand_signal)
+	BattlemapSignals.card_removed_from_deck.connect(on_card_removed_from_deck)
 	BattlemapSignals.deal_damage_to_attacked_squares.connect(_on_squares_attacked_signal)
 	_prepare_deck()
 	
@@ -26,7 +27,6 @@ func shuffle_deck(deck: Array[CardResource]):
 	
 func draw_til_hand_size():
 	var new_cards_added: Array[CardResource] = []
-	print(draw_til_hand_size)
 	var start_size: int = cards_in_hand.size()
 	for n in range(start_size, hand_size):
 		var drawn_card = draw_card()
@@ -36,7 +36,6 @@ func draw_til_hand_size():
 	return new_cards_added
 		
 func draw_card() -> CardResource:
-	print(draw_card)
 	if draw_pile.size() <= 0:
 		# put all the cards in the discard pile in the draw pile
 		draw_pile = discard_pile.duplicate()
@@ -54,8 +53,12 @@ func _on_card_discared_from_hand_signal(index: int):
 	current_card_in_hand_size -= 1
 	discard_pile.append(card)
 
+func on_card_removed_from_deck(index: int):
+	var card: CardResource = cards_in_hand.pop_at(index)
+	current_card_in_hand_size -= 1
+
 func _on_squares_attacked_signal(damage: int):
-	print(_on_squares_attacked_signal)
+	#print(_on_squares_attacked_signal)
 	if self._tile.is_tile_attacked:
 		self.apply_damage(damage)
 		

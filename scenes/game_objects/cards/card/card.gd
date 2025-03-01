@@ -39,7 +39,11 @@ func _play_card():
 	)
 
 func _on_card_finished_playing():
-	_discard_card()
+	if card_resource.tag_array.has("one_use"):
+		BattlemapSignals.card_removed_from_deck.emit(self.get_index())
+		self.queue_free()
+	else:
+		_discard_card()
 
 func _discard_card():
 	BattlemapSignals.card_discarded_from_hand.emit(self.get_index())

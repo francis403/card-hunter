@@ -17,7 +17,6 @@ func exit_state():
 	pass
 	
 func do_state_action():
-	print(do_state_action)
 	if not monster_behaviour:
 		return
 	if movement_behaviour_node:

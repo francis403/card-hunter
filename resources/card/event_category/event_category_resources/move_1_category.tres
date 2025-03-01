@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="MoveCategoryCard" load_steps=2 format=3 uid="uid://dby4lmny0fo5q"]
 
-[ext_resource type="Script" path="res://resources/card/category_cards/move_category_card.gd" id="1_063qt"]
+[ext_resource type="Script" path="res://resources/card/event_category/move_category_card.gd" id="1_063qt"]
 
 [resource]
 script = ExtResource("1_063qt")

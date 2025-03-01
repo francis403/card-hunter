@@ -8,7 +8,7 @@ var card_scene: PackedScene = preload("res://scenes/game_objects/cards/card/card
 func _ready() -> void:
 	_clean_preview()
 	BattlemapSignals.awaiting_player_input.connect(_on_input_awaiting_signal)
-	BattlemapSignals.canceled_player_input.connect(_on_input_received_signal)
+	BattlemapSignals.canceled_player_input.connect(_on_player_canceled_input_signal)
 	BattlemapSignals.player_input_received.connect(_on_input_received_signal)
 	BattlemapSignals.lock_player_input.connect(_on_input_awaiting_signal)
 	BattlemapSignals.unlock_player_input.connect(_on_input_received_signal)
@@ -19,6 +19,10 @@ func _on_input_awaiting_signal():
 
 func _on_input_received_signal():
 	self.process_mode = Node.PROCESS_MODE_INHERIT
+
+func _on_player_canceled_input_signal():
+	self.process_mode = Node.PROCESS_MODE_INHERIT
+	BattlemapSignals.tile_picked_in_battlemap.emit(null)
 
 func _clean_preview():
 	for node in h_box_container.get_children():

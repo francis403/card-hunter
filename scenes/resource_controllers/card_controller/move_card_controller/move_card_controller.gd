@@ -1,6 +1,7 @@
 extends CardController
 class_name MoveCardController
 
+#TODO: if the player cancels the pick I need to stop awaiting
 
 func play_card_action(
 	card_resource: CardResource, 
@@ -12,7 +13,7 @@ func play_card_action(
 		return
 	
 	if not card_categories.has_category("move"):
-		print("no move info in card")
+		print("ERROR: no move info in card")
 	var move_card_category: MoveCategoryCard = card_categories.get_category("move")
 	
 	var piece_to_move: Piece = get_piece(card_resource, move_card_category)
@@ -27,6 +28,10 @@ func play_card_action(
 	# await signal
 	var tile = await BattlemapSignals.tile_picked_in_battlemap
 	BattlemapSignals.player_input_received.emit()
-	battlemap.place_piece_in_tile(piece_to_move, tile)
 	
+	if tile == null:
+		# cancel card
+		return
+	
+	battlemap.place_piece_in_tile(piece_to_move, tile)
 	after_card_is_played(card_resource, card_categories)

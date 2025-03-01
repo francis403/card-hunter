@@ -26,7 +26,6 @@ func _on_player_turn_started_signal():
 	BattlemapSignals.unlock_player_input.emit()
 #
 func _on_monster_prepared_move_signal(monster_sprite: Sprite2D, move_tile: Tile):	
-	print(_on_monster_prepared_move_signal)
 	if not move_tile:
 		return
 	battlemap.add_child(monster_sprite)
