@@ -10,7 +10,7 @@ script = ExtResource("3_1gh1a")
 id = "health_potion_1"
 title = "Health Potion"
 description = "Drink a health potion and recover 50 hp.
-Removed from the deck after use."
+One use."
 default_target = 1
 default_area_type = 1
 stamina_cost = 0
