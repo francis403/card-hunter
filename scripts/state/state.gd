@@ -19,3 +19,6 @@ func do_state_action():
 
 func highlight_attack_action():
 	pass
+
+func do_preview_action() -> void:
+	pass

@@ -5,8 +5,6 @@ extends Node
 ## and which tiles the monster is going to attack
 class_name StateMachine
 
-# TODO: The state should be responsible for sendind the squares that are being attacked
-
 @export var initial_state: State
 
 var states: Dictionary = {}
@@ -25,6 +23,9 @@ func do_state_action():
 	if current_state:
 		current_state.do_state_action()
 
+func do_preview_action():
+	if current_state:
+		current_state.do_preview_action()
 
 func _on_state_change(state: State, new_state_name: String):
 	if state != current_state:

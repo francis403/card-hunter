@@ -38,7 +38,7 @@ func play_card_action(
 	BattlemapSignals.player_input_received.emit()
 	battlemap.place_piece_in_tile(piece_to_move, tile)
 	if piece_to_move is MonsterPiece:
-		piece_to_move.highlight_attack_action()
+		BattlemapSignals.monster_moved_by_player.emit(tile)
 		
 	
 	after_card_is_played(card_resource, card_categories)

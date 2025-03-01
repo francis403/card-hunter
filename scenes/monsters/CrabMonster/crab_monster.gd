@@ -7,13 +7,15 @@ class_name CrabMonster
 @onready var collision_shape_2d: CollisionShape2D = $CollisionShape2D
 @onready var state_machine: StateMachine = $StateMachine
 
-
 func play_monster_turn():
 	super.play_monster_turn()
 	state_machine.do_state_action()
 	self.end_monster_turn()
 	
-	
+func on_monster_moved_by_player(new_tile: Tile) -> void:
+	self._tile = new_tile
+	state_machine.do_preview_action()
+
 func on_battle_start_signal():
 	state_machine.do_state_action()
 	
