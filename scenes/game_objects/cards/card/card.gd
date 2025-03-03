@@ -54,7 +54,7 @@ func _on_mouse_entered() -> void:
 	_mouse_hovering = true
 	original_position = self.position
 	var tween = create_tween()
-	tween.tween_property(self, "position", self.position + Vector2(0, -50), .4)\
+	tween.tween_property(self, "position", Vector2(self.position.x, -50), .4)\
 		.set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_BACK)
 
 
