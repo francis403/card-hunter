@@ -7,6 +7,7 @@ var _y_position: int
 var _x_size: int = 40
 var _y_size: int = 40
 var is_tile_attacked: bool = false
+var piece_in_tile: Piece = null
 
 @export var show_status: bool = false
 
@@ -14,7 +15,6 @@ var is_tile_attacked: bool = false
 @onready var status_label: Label = $StatusLabel
 @onready var attack_rect: ColorRect = $AttackRect
 
-var piece_in_tile: Piece = null
 
 func _ready() -> void:
 	BattlemapSignals.player_input_received.connect(_on_player_input_signal)

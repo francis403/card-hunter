@@ -23,7 +23,12 @@ func play_card_action(
 	BattlemapSignals.awaiting_player_input.emit()
 		
 	# show possible squares and await input	
-	highlight_tiles(piece_to_move, area_type, move_card_category.move_distance)
+	BattlemapSignals.highlight_move_tiles.emit(
+		piece_to_move._tile,
+		move_card_category.move_distance,
+		area_type
+	)
+	#highlight_tiles(piece_to_move, area_type, move_card_category.move_distance)
 	
 	# await signal
 	var tile = await BattlemapSignals.tile_picked_in_battlemap
