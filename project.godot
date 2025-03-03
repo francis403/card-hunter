@@ -20,6 +20,7 @@ config/icon="res://icon.svg"
 BattlemapSignals="*res://singletons/signals/battlemap_signals.gd"
 BattleController="*res://singletons/controllers/battle_controller.gd"
 BattleSignals="*res://singletons/signals/battle_signals.gd"
+MovementUtils="*res://scripts/utils/battlemap_utils/movement_utils.gd"
 
 [input]
 
