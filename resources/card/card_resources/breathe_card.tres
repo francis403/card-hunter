@@ -13,5 +13,6 @@ description = "Take a moment to breathe. (Recover some stamina)"
 default_target = null
 default_area_type = null
 stamina_cost = null
+tag_array = Array[String]([])
 event_categories = Array[ExtResource("2_dvnjp")]([ExtResource("3_p5ugn")])
 card_ability_controller_scene = ExtResource("1_bamfa")

@@ -13,5 +13,6 @@ description = "Dash to one direction in a cross"
 default_target = 1
 default_area_type = 5
 stamina_cost = 10
+tag_array = Array[String]([])
 event_categories = Array[ExtResource("2_4dht3")]([ExtResource("3_y52iv")])
 card_ability_controller_scene = ExtResource("1_5jo30")

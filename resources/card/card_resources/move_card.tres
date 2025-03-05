@@ -13,5 +13,6 @@ description = "Simple one direction move."
 default_target = 1
 default_area_type = 4
 stamina_cost = 5
+tag_array = Array[String]([])
 event_categories = Array[ExtResource("2_ka0i3")]([ExtResource("3_2ggu4")])
 card_ability_controller_scene = ExtResource("1_1ypiw")

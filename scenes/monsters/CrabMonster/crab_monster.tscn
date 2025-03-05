@@ -9,6 +9,8 @@
 
 [node name="CrabMonster" type="CharacterBody2D"]
 script = ExtResource("1_f67w6")
+_max_hp = 100
+_max_stamina = 500
 
 [node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("initial_state")]
 script = ExtResource("3_uvlbr")

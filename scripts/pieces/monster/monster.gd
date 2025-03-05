@@ -27,6 +27,7 @@ func end_monster_turn():
 
 func apply_damage(damage: int):
 	self._health -= damage
+	BattlemapSignals.monster_hp_changed.emit(self._health, self._max_hp)
 	if _health <= 0:
 		_die()
 		
