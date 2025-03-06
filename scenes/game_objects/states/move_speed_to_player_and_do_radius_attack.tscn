@@ -1,6 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://dmrgvn8lav1xo"]
-
-[ext_resource type="Script" path="res://scenes/game_objects/states/move_speed_to_player_and_do_radius_attack.gd" id="1_4byuy"]
-
-[node name="BasicCloseRangeAttackState" type="Node"]
-script = ExtResource("1_4byuy")
