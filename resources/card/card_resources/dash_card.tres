@@ -1,5 +1,6 @@
-[gd_resource type="Resource" script_class="CardResource" load_steps=5 format=3 uid="uid://gf0hhocv78vs"]
+[gd_resource type="Resource" script_class="CardResource" load_steps=6 format=3 uid="uid://gf0hhocv78vs"]
 
+[ext_resource type="AudioStream" uid="uid://d1mjkdbshat6f" path="res://assets/sound/sound_effects/footstep09.ogg" id="1_0ov4q"]
 [ext_resource type="PackedScene" uid="uid://c21ryecj66njr" path="res://scenes/resource_controllers/card_controller/move_card_controller/move_card_controller.tscn" id="1_5jo30"]
 [ext_resource type="Script" path="res://resources/card/card_resource.gd" id="2_3v5n3"]
 [ext_resource type="Script" path="res://scripts/event_category/event_category.gd" id="2_4dht3"]
@@ -16,3 +17,4 @@ stamina_cost = 10
 tag_array = Array[String]([])
 event_categories = Array[ExtResource("2_4dht3")]([ExtResource("3_y52iv")])
 card_ability_controller_scene = ExtResource("1_5jo30")
+audio_stream = ExtResource("1_0ov4q")
