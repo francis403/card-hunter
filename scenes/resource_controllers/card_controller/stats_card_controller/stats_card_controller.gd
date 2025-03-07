@@ -18,10 +18,12 @@ func play_card_action(
 	if stats_card_category.stat_type == Constants.StatType.STAMINA:
 		target._stamina += stats_card_category.change_value
 		if target is PlayerPiece:
+			target._stamina = min(target._max_stamina, target._stamina)
 			BattlemapSignals.player_stamina_changed.emit(target._stamina)
 	elif stats_card_category.stat_type == Constants.StatType.HEALTH:
 		target._health += stats_card_category.change_value
 		if target is PlayerPiece:
+			target._health = min(target._max_hp, target._health)
 			BattlemapSignals.player_health_changed.emit(target._health)
 	elif stats_card_category.stat_type == Constants.StatType.SPEED:
 		target._speed += stats_card_category.change_value
