@@ -49,8 +49,8 @@ _deck = Array[ExtResource("6_ohk87")]([ExtResource("7_trx1m"), ExtResource("7_tr
 [node name="CrabMonster" parent="." instance=ExtResource("3_2fah4")]
 position = Vector2(828, 406)
 scale = Vector2(5, 5)
-_health = 250
-_max_hp = 250
+_health = 300
+_max_hp = 300
 _stamina = 500
 _strength = 30
 

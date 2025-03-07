@@ -9,14 +9,12 @@ class_name Card
 @onready var discard_button: Button = %DiscardButton
 
 var card_category_dictionary: EventCategoryDictionary
-var original_position: Vector2
 # TODO: this should probably go to the hand_manager
 var _mouse_hovering: bool = false
 
 func _ready() -> void:
 	if card_resource:
 		initialize_card()
-	original_position = self.position
 
 func initialize_card():
 	card_title.text = card_resource.title
@@ -52,16 +50,15 @@ func _discard_card():
 
 func _on_mouse_entered() -> void:
 	_mouse_hovering = true
-	original_position = self.position
 	var tween = create_tween()
-	tween.tween_property(self, "position", Vector2(self.position.x, -50), .4)\
+	tween.tween_property(self, "position:y", -50, .4)\
 		.set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_BACK)
 
 
 func _on_mouse_exited() -> void:
 	_mouse_hovering = false
 	var tween = create_tween()
-	tween.tween_property(self, "position", original_position, .4)\
+	tween.tween_property(self, "position:y", 0, .4)\
 		.set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_BACK)
 	
 
