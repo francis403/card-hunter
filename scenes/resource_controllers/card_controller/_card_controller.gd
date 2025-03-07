@@ -34,6 +34,8 @@ func after_card_is_played(
 	card_resource: CardResource,
 	card_categories: EventCategoryDictionary = null
 ):
+	if card_resource.audio_stream:
+		BattlemapSignals.play_card_stream.emit(card_resource.audio_stream)
 	_apply_stamina_cost(card_resource.stamina_cost)
 	card_finished_playing.emit()
 

@@ -16,3 +16,5 @@ class_name CardResource
 @export var event_categories: Array[EventCategory] = []
 
 @export var card_ability_controller_scene: PackedScene
+
+@export var audio_stream: AudioStream

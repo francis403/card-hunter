@@ -24,6 +24,7 @@ signal awaiting_player_input
 signal player_input_received
 signal canceled_player_input
 signal player_died
+signal play_card_stream(audio_stream: AudioStream)
 
 ## Monster signals
 signal monster_turn_started

@@ -15,6 +15,8 @@
 script = ExtResource("1_77jw2")
 _deck = Array[ExtResource("2_antcg")]([ExtResource("3_dw0et"), ExtResource("3_dw0et"), ExtResource("3_dw0et"), ExtResource("4_cw1eq"), ExtResource("4_cw1eq"), ExtResource("4_cw1eq"), ExtResource("5_jy7aj"), ExtResource("6_6ubwe"), ExtResource("7_5c04w"), ExtResource("5_jy7aj")])
 
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("1_x2m06")
 
