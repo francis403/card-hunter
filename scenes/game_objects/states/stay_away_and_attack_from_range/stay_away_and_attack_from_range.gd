@@ -50,7 +50,13 @@ func do_attack():
 	)
 	do_preview_action()
 	
-func do_preview_action() -> void:
+## TODO: add this default fumction to the parent
+func do_preview_action(recalculate_move: bool = false) -> void:
+	if not monster:
+		monster = BattleController.get_monster()
+	if monster.next_move and recalculate_move:
+		monster.next_move = null
+		self.do_movement()
 	var source_tile: Tile = monster.next_move
 	if not source_tile:
 		source_tile = monster._tile

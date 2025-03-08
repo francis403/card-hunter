@@ -39,8 +39,8 @@ func do_state_action():
 	if half_hp_monster > monster._health:
 		self.changed_state.emit(self, "StayAwayAndAttackFromRange")
 
-func do_preview_action():
-	self.preview_monster_attack_behaviour()
+func do_preview_action(recalculate_move: bool = false):
+	self.preview_monster_attack_behaviour(recalculate_move)
 
 func do_movement():
 	if not monster:
@@ -68,8 +68,12 @@ func do_attack():
 	)
 	preview_monster_attack_behaviour()
 
-func preview_monster_attack_behaviour() -> void:
-	var monster: MonsterPiece = BattleController.get_monster()
+func preview_monster_attack_behaviour(recalculate_move: bool = false) -> void:
+	if not monster:
+		monster = BattleController.get_monster()
+	if monster.next_move and recalculate_move:
+		monster.next_move = null
+		self.do_movement()
 	var source_tile: Tile = monster.next_move
 	if not source_tile:
 		source_tile = monster._tile

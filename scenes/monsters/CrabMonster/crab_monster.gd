@@ -14,7 +14,7 @@ func play_monster_turn():
 	
 func on_monster_moved_by_player(new_tile: Tile) -> void:
 	self._tile = new_tile
-	state_machine.do_preview_action()
+	state_machine.do_preview_action(true)
 
 func on_battle_start_signal():
 	state_machine.do_state_action()

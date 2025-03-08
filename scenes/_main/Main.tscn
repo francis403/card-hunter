@@ -45,6 +45,7 @@ _number_of_rows = 5
 position = Vector2(357, 407)
 scale = Vector2(3, 3)
 _deck = Array[ExtResource("6_ohk87")]([ExtResource("7_trx1m"), ExtResource("7_trx1m"), ExtResource("7_trx1m"), ExtResource("8_bpfq8"), ExtResource("8_bpfq8"), ExtResource("8_bpfq8"), ExtResource("9_s7u71"), ExtResource("10_fqpu3"), ExtResource("11_q3kv6"), ExtResource("12_kth1x")])
+_stamina_recover = 5
 
 [node name="CrabMonster" parent="." instance=ExtResource("3_2fah4")]
 position = Vector2(828, 406)

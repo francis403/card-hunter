@@ -23,9 +23,9 @@ func do_state_action():
 	if current_state:
 		current_state.do_state_action()
 
-func do_preview_action():
+func do_preview_action(recalculate_move: bool = false):
 	if current_state:
-		current_state.do_preview_action()
+		current_state.do_preview_action(recalculate_move)
 
 func _on_state_change(state: State, new_state_name: String):
 	if state != current_state:
