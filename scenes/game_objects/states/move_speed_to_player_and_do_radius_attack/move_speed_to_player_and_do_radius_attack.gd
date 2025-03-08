@@ -1,4 +1,4 @@
-extends State
+extends StateWithMovement
 class_name MoveSpeedToPlayerAndDoRadiusAttack
 
 # TODO: I have to make this state scenes more module
@@ -6,22 +6,14 @@ class_name MoveSpeedToPlayerAndDoRadiusAttack
 #	- condition to trigger to next state
 #	- next state
 
-var target: PlayerPiece
-var monster: MonsterPiece
-var monster_sprite: Sprite2D
 
 @export var range: int = 1
-
-func enter_state():
-	target = BattleController.get_player()
-	monster = get_parent().get_parent()
 	
 func exit_state():
 	pass
 	
 func do_state_action():
-		
-	self.do_movement()
+	super.do_state_action()
 	
 	var distance_to_player = BattleController.distance_between_tiles(
 		monster.next_move if monster.next_move else monster._tile,
@@ -43,8 +35,6 @@ func do_preview_action(recalculate_move: bool = false):
 	self.preview_monster_attack_behaviour(recalculate_move)
 
 func do_movement():
-	if not monster:
-		monster = BattleController.get_monster()
 	var next_turn_move_tile: Tile = monster.next_move
 	
 	if next_turn_move_tile:
@@ -63,9 +53,6 @@ func do_movement():
 	)
 	
 func do_attack():
-	BattlemapSignals.deal_damage_to_attacked_squares.emit(
-		monster._strength
-	)
 	preview_monster_attack_behaviour()
 
 func preview_monster_attack_behaviour(recalculate_move: bool = false) -> void:

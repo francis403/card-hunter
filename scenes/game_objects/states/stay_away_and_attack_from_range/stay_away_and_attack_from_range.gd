@@ -2,12 +2,14 @@ extends StateWithMovement
 class_name StayAwayAndAttackFromRangeState
 
 @export var range: int = 2
-	
+
+
 func exit_state():
 	pass
 	
 func do_state_action():
-	self.do_movement()
+	super.do_state_action()
+	
 	var distance_to_player = BattleController.distance_between_tiles(
 		monster.next_move if monster.next_move else monster._tile,
 		target._tile
@@ -20,8 +22,6 @@ func do_state_action():
 	self.do_attack()
 	
 func do_movement():
-	if not monster:
-		monster = BattleController.get_monster()
 	var next_turn_move_tile: Tile = monster.next_move
 	
 	if next_turn_move_tile:
@@ -45,9 +45,6 @@ func do_movement():
 	self.changed_state.emit(self, "MoveSpeedToPlayerAndDoRadiusAttack")
 	
 func do_attack():
-	BattlemapSignals.deal_damage_to_attacked_squares.emit(
-		monster._strength
-	)
 	do_preview_action()
 	
 ## TODO: add this default fumction to the parent
