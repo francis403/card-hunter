@@ -8,17 +8,18 @@ class_name Battlemap
 @export var _number_of_rows: int = 6
 @export var _x_tile_size: int = 90
 @export var _y_tile_size: int = 90
-@export var _spacing_between_grid_elems: float = 10
 
 @export var _debug_mode: bool = true
 
 @onready var grid_array_holder_control: Control = $grid_array_holder_control
 @onready var grid_container: GridContainer = $grid_array_holder_control/GridContainer
-@onready var piece_position_manager: PiecePositionManager = $PiecePositionManager
+@onready var _piece_position_manager: PiecePositionManager = $PiecePositionManager
 
 var tile_scene: PackedScene = preload("res://scenes/game_objects/battlemap/tile/tile.tscn")
 
 var grid_array = []
+
+# TODO: It's starting to get too big, need to start thinking about diving this
 
 func _ready() -> void:
 	_generate_battlemap()
@@ -53,14 +54,25 @@ func _populate_grid():
 			grid_array[grid_y].append(tile)
 
 func _populate_battlemap():
-	piece_position_manager._player = player
-	#var player_position: Vector2 = grid_array[0][0].global_position
-	#player_position.x += _x_tile_size / 2
-	#player_position.y += _y_tile_size / 2
-	piece_position_manager.place_piece_in_tile(player, get_tile(0, 0))
+	_piece_position_manager._player = player
+	_piece_position_manager.place_piece_in_tile(player, get_tile(2, 2))
 	
-	piece_position_manager._monster = monster
-	piece_position_manager.place_piece_in_tile(monster, get_tile(9, 2))
+	_piece_position_manager._monster = monster
+	_piece_position_manager.place_piece_in_tile(monster, get_tile(8, 2))
+
+func place_piece_in_tile(piece: Piece, tile: Tile):
+	_piece_position_manager.place_piece_in_tile(piece, tile)
+
+func place_node_in_tile(node: Node2D, tile: Tile):
+	_piece_position_manager.place_node_in_tile(node, tile)
+
+func move_piece_x_right(piece: Piece, x: int) -> void:
+	if piece is PlayerCharacter:
+		_piece_position_manager.move_player_x_right(x)
+	else:
+		_piece_position_manager.move_piece_x_right(piece, x)
 
 func get_tile(grix_x, grix_y) -> Tile:
-	return grid_array[grix_y][grix_x]
+	if grix_x >= 0 && grix_x < _number_of_columns && grix_y >= 0 && grix_y < _number_of_rows:
+		return grid_array[grix_y][grix_x]
+	return null

@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://btfe7fmg1kj6s"]
+
+[ext_resource type="Script" path="res://scenes/resource_controllers/card_controller/stats_card_controller/stats_card_controller.gd" id="1_xv6ci"]
+
+[node name="StatsCardController" type="Node"]
+script = ExtResource("1_xv6ci")

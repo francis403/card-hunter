@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://cwerknvh476ew"]
+
+[ext_resource type="Script" path="res://scenes/game_objects/movement_behaviour/move_next_to_player_movement_controller/move_next_to_player_movement_controller.gd" id="1_rtc5p"]
+
+[node name="MoveNextToPlayerMovementController" type="Node"]
+script = ExtResource("1_rtc5p")

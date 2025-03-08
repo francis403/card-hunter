@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://djdc1xpnbre11"]
+
+[ext_resource type="Script" path="res://scenes/resource_controllers/card_controller/push_card_controller/push_card_controller.gd" id="1_437e6"]
+
+[node name="PushCardController" type="Node"]
+script = ExtResource("1_437e6")

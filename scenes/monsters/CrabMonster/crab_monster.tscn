@@ -1,12 +1,25 @@
-[gd_scene load_steps=4 format=3 uid="uid://deqlmpr5vbu60"]
+[gd_scene load_steps=7 format=3 uid="uid://deqlmpr5vbu60"]
 
 [ext_resource type="Script" path="res://scenes/monsters/CrabMonster/crab_monster.gd" id="1_f67w6"]
 [ext_resource type="Texture2D" uid="uid://y720kc3pkme0" path="res://scenes/monsters/CrabMonster/tile_0110.png" id="1_x8062"]
+[ext_resource type="Script" path="res://scenes/game_objects/state_machine/state_machine.gd" id="3_uvlbr"]
+[ext_resource type="PackedScene" uid="uid://oalssska7u76" path="res://scenes/game_objects/states/stay_away_and_attack_from_range/stay_away_and_attack_from_range.tscn" id="4_e5dvf"]
+[ext_resource type="PackedScene" uid="uid://dmrgvn8lav1xo" path="res://scenes/game_objects/states/move_speed_to_player_and_do_radius_attack/move_speed_to_player_and_do_radius_attack.tscn" id="4_r160r"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_jo88s"]
 
 [node name="CrabMonster" type="CharacterBody2D"]
 script = ExtResource("1_f67w6")
+_max_hp = 100
+_max_stamina = 500
+
+[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("initial_state")]
+script = ExtResource("3_uvlbr")
+initial_state = NodePath("MoveSpeedToPlayerAndDoRadiusAttack")
+
+[node name="MoveSpeedToPlayerAndDoRadiusAttack" parent="StateMachine" instance=ExtResource("4_r160r")]
+
+[node name="StayAwayAndAttackFromRange" parent="StateMachine" instance=ExtResource("4_e5dvf")]
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("1_x8062")

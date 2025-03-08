@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="StatsCategoryCard" load_steps=2 format=3 uid="uid://b4jnn5ywcbmkc"]
+
+[ext_resource type="Script" path="res://resources/card/event_category/stats_category_card.gd" id="1_o6k2h"]
+
+[resource]
+script = ExtResource("1_o6k2h")
+stat_type = 3
+change_value = 50
+category_id = "stat_change"
+target = 0
+area_type = 0

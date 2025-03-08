@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="CardResource" load_steps=5 format=3 uid="uid://bh6wol8b68puf"]
+
+[ext_resource type="PackedScene" uid="uid://btfe7fmg1kj6s" path="res://scenes/resource_controllers/card_controller/stats_card_controller/stats_card_controller.tscn" id="1_ap0cs"]
+[ext_resource type="Script" path="res://scripts/event_category/event_category.gd" id="1_r82cm"]
+[ext_resource type="Resource" uid="uid://b4jnn5ywcbmkc" path="res://resources/card/event_category/event_category_resources/health_1.tres" id="2_c22x1"]
+[ext_resource type="Script" path="res://resources/card/card_resource.gd" id="3_1gh1a"]
+
+[resource]
+script = ExtResource("3_1gh1a")
+id = "health_potion_1"
+title = "Health Potion"
+description = "Drink a health potion and recover 50 hp.
+One use."
+default_target = 1
+default_area_type = 1
+stamina_cost = 0
+tag_array = Array[String](["one_use"])
+event_categories = Array[ExtResource("1_r82cm")]([ExtResource("2_c22x1")])
+card_ability_controller_scene = ExtResource("1_ap0cs")

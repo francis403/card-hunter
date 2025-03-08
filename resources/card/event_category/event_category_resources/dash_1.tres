@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="MoveCategoryCard" load_steps=2 format=3 uid="uid://dtcaoex7vl38o"]
+
+[ext_resource type="Script" path="res://resources/card/event_category/move_category_card.gd" id="1_2cmdc"]
+
+[resource]
+script = ExtResource("1_2cmdc")
+range = 1
+move_distance = 2
+category_id = "move"
+target = 1
+area_type = 5
