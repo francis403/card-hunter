@@ -18,7 +18,8 @@ enum AreaType {
 	LINE, 
 	RADIUS, 
 	CROSS, 
-	SHOTGUN
+	SHOTGUN,
+	UP_TO_RANGE_SKIPPING_FIRST
 }
 
 enum StatType {
@@ -26,6 +27,7 @@ enum StatType {
 	STAMINA,
 	MAX_HEALTH,
 	HEALTH,
+	MAX_SPEED,
 	SPEED,
 	DAMAGE
 }
