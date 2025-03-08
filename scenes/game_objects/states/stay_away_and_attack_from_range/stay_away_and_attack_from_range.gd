@@ -48,13 +48,14 @@ func do_attack():
 	BattlemapSignals.deal_damage_to_attacked_squares.emit(
 		monster._strength
 	)
-	preview_monster_attack_behaviour()
-
-func preview_monster_attack_behaviour() -> void:
+	do_preview_action()
+	
+func do_preview_action() -> void:
 	var source_tile: Tile = monster.next_move
 	if not source_tile:
 		source_tile = monster._tile
 	highlight_attack_tiles(source_tile)
+
 
 func highlight_attack_tiles(source_tile: Tile):
 	# clean old attacked tiles
