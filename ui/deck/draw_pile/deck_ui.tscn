@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://b3x2sadw27m6s"]
 
-[ext_resource type="Script" path="res://ui/decks/draw_pile/deck_ui.gd" id="1_ou8rf"]
+[ext_resource type="Script" path="res://ui/deck/draw_pile/deck_ui.gd" id="1_ou8rf"]
 
 [node name="DeckUI" type="Control"]
 layout_mode = 3
@@ -47,3 +47,5 @@ unique_name_in_owner = true
 layout_mode = 2
 text = "0"
 horizontal_alignment = 1
+
+[connection signal="gui_input" from="MarginContainer/PanelContainer" to="." method="_on_gui_input"]

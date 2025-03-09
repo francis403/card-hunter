@@ -1,8 +1,13 @@
 extends Node
 class_name BattleMainController
 
+const deck_visualizer_scene = preload("res://ui/deck/deck_visualizer/deck_visualizer.tscn")
+
 @onready var hand: Hand = $Hand
 @onready var battlemap: Battlemap = $Battlemap
+@onready var player: PlayerCharacter = $Player
+
+@onready var ui_nodes: Control = $UINodes
 
 var is_player_turn: bool = true
 
@@ -10,6 +15,10 @@ func _ready() -> void:
 	BattlemapSignals.monster_turn_started.connect(_on_monster_turn_started_signal)
 	BattlemapSignals.player_turn_started.connect(_on_player_turn_started_signal)
 	BattlemapSignals.monster_prepared_move.connect(_on_monster_prepared_move_signal)
+	
+	# deck signals
+	BattlemapSignals.show_draw_pile_deck.connect(_on_show_draw_pile_deck_signal)
+	BattlemapSignals.show_discard_pile_deck.connect(_on_show_discard_pile_deck_signal)
 
 	_draw_cards_start_of_turn(BattleController.get_player())	
 	BattleSignals.battle_start.emit()
@@ -46,3 +55,14 @@ func _on_monster_turn_started_signal():
 	var monster: MonsterPiece = BattleController.get_monster()
 	monster.play_monster_turn()
 	
+func _on_show_draw_pile_deck_signal():
+	var deck_visualizer_instance: DeckVisualizer = deck_visualizer_scene.instantiate()
+	player.draw_pile.shuffle()
+	deck_visualizer_instance.deck = player.draw_pile
+	ui_nodes.add_child(deck_visualizer_instance)
+	
+	
+func _on_show_discard_pile_deck_signal():
+	var deck_visualizer_instance: DeckVisualizer = deck_visualizer_scene.instantiate()
+	deck_visualizer_instance.deck = player.discard_pile
+	ui_nodes.add_child(deck_visualizer_instance)

@@ -2,6 +2,8 @@ extends PanelContainer
 class_name Card
 
 @export var card_resource: CardResource
+@export var card_can_hover: bool = true
+@export var card_can_be_discarded: bool = true
 
 @onready var card_title: Label = %CardTitle
 @onready var card_description: Label = %CardDescription
@@ -45,10 +47,14 @@ func _on_card_finished_playing():
 		_discard_card()
 
 func _discard_card():
+	if not card_can_be_discarded:
+		return
 	BattlemapSignals.card_discarded_from_hand.emit(self.get_index())
 	self.queue_free()
 
 func _on_mouse_entered() -> void:
+	if not card_can_hover:
+		return
 	_mouse_hovering = true
 	var tween = create_tween()
 	tween.tween_property(self, "position:y", -50, .4)\
@@ -56,6 +62,8 @@ func _on_mouse_entered() -> void:
 
 
 func _on_mouse_exited() -> void:
+	if not card_can_hover:
+		return
 	_mouse_hovering = false
 	var tween = create_tween()
 	tween.tween_property(self, "position:y", 0, .4)\

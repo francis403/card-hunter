@@ -1,6 +1,8 @@
 extends Control
 class_name DeckUI
 
+const deck_visualizer_scene = preload("res://ui/deck/deck_visualizer/deck_visualizer.tscn")
+
 enum Deck_Type_Enum {
 	DRAW_DECK,
 	DISCARD_DECK
@@ -28,3 +30,17 @@ func _on_deck_finished_prepping_signal(
 	deck: Array[CardResource]
 ):
 	number_of_cards_label.text = str(deck.size())
+
+
+func _on_gui_input(event: InputEvent) -> void:
+	if event.is_pressed():
+		print("Show deck")
+		# TODO: send signal with deck to show
+		if deck_type == Deck_Type_Enum.DRAW_DECK:
+			BattlemapSignals.show_draw_pile_deck.emit()
+		elif deck_type == Deck_Type_Enum.DISCARD_DECK:
+			BattlemapSignals.show_discard_pile_deck.emit()
+			
+		#var deck_visualizer_instance: DeckVisualizer = deck_visualizer_scene.instantiate()
+		##deck_visualizer_instance.deck =
+		#self.get_parent().get_parent().add_child(deck_visualizer_instance)
