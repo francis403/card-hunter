@@ -10,6 +10,10 @@ signal clear_attack_highlight_tiles
 signal clear_highlighted_tiles
 signal tile_picked_in_battlemap(tile: Tile)
 
+## deck signals
+signal draw_pile_updated(draw_pile_cards: Array[CardResource])
+signal discard_pile_updated(discard_pile_cards: Array[CardResource])
+
 ## Card signals
 signal card_discarded_from_hand(index: int)
 signal card_removed_from_deck(index: int)

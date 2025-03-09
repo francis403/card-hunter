@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://bbrsr1pbawd0x"]
+[gd_scene load_steps=17 format=3 uid="uid://bbrsr1pbawd0x"]
 
 [ext_resource type="PackedScene" uid="uid://bubmhtlvq0xpd" path="res://scenes/managers/battlemap_generator_manager/battlemap.tscn" id="1_43yy4"]
 [ext_resource type="Texture2D" uid="uid://d0sjr0hkie86e" path="res://assets/images/background/background_forest.png" id="1_ccchc"]
@@ -15,13 +15,14 @@
 [ext_resource type="Resource" uid="uid://gf0hhocv78vs" path="res://resources/card/card_resources/dash_card.tres" id="10_fqpu3"]
 [ext_resource type="Resource" uid="uid://diasqdd0iallv" path="res://resources/card/card_resources/breathe_card.tres" id="11_q3kv6"]
 [ext_resource type="Resource" uid="uid://bh6wol8b68puf" path="res://resources/card/card_resources/health_potion.tres" id="12_kth1x"]
+[ext_resource type="PackedScene" uid="uid://b3x2sadw27m6s" path="res://ui/decks/draw_pile/deck_ui.tscn" id="16_jahgi"]
 
 [node name="BattleMainController" type="Node"]
 script = ExtResource("1_j5md8")
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("1_d8cl6")
-volume_db = -20.0
+volume_db = -40.0
 
 [node name="Background" type="TextureRect" parent="."]
 anchors_preset = 15
@@ -60,3 +61,20 @@ size_flags_horizontal = 4
 size_flags_vertical = 4
 
 [node name="PlayerStatsUI" parent="." instance=ExtResource("8_l3fou")]
+
+[node name="DrawPile" parent="." instance=ExtResource("16_jahgi")]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_right = 0.0
+grow_horizontal = 1
+grow_vertical = 0
+
+[node name="DiscardPile" parent="." instance=ExtResource("16_jahgi")]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+offset_left = -85.0
+grow_horizontal = 0
+grow_vertical = 0
+title = "Discard"
+deck_type = 1

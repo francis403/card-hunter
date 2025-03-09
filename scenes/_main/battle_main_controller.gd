@@ -34,8 +34,11 @@ func _on_monster_prepared_move_signal(monster_sprite: Sprite2D, move_tile: Tile)
 	monster_sprite.modulate = Color.WEB_GRAY
 
 func _draw_cards_start_of_turn(player: PlayerPiece):
-	var new_cards = player.draw_til_hand_size()
+	var new_cards: Array[CardResource] = player.draw_til_hand_size()
 	hand.populate_hand(new_cards)
+	if new_cards.size() > 0:
+		BattlemapSignals.draw_pile_updated.emit(player.draw_pile)
+	
 
 func _on_monster_turn_started_signal():
 	is_player_turn = false
