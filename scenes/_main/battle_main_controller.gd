@@ -20,7 +20,7 @@ func _ready() -> void:
 	BattlemapSignals.show_draw_pile_deck.connect(_on_show_draw_pile_deck_signal)
 	BattlemapSignals.show_discard_pile_deck.connect(_on_show_discard_pile_deck_signal)
 
-	_draw_cards_start_of_turn(BattleController.get_player())	
+	_draw_cards_start_of_turn(battlemap.player)
 	BattleSignals.battle_start.emit()
 	
 func _input(event: InputEvent) -> void:
@@ -34,6 +34,7 @@ func _on_player_turn_started_signal():
 	player.recover_stamina()
 	BattlemapSignals.unlock_player_input.emit()
 #
+## TODO: do I want to fix this? I will more than likely change it
 func _on_monster_prepared_move_signal(monster_sprite: Sprite2D, move_tile: Tile):	
 	if not move_tile:
 		return
@@ -48,12 +49,11 @@ func _draw_cards_start_of_turn(player: PlayerPiece):
 	if new_cards.size() > 0:
 		BattlemapSignals.draw_pile_updated.emit(player.draw_pile)
 	
-
 func _on_monster_turn_started_signal():
 	is_player_turn = false
 	BattlemapSignals.lock_player_input.emit()
-	var monster: MonsterPiece = BattleController.get_monster()
-	monster.play_monster_turn()
+	for monster in battlemap.monsters:
+		monster.play_monster_turn()
 	
 func _on_show_draw_pile_deck_signal():
 	var deck_visualizer_instance: DeckVisualizer = deck_visualizer_scene.instantiate()

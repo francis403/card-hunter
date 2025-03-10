@@ -2,7 +2,7 @@ extends Node
 class_name Battlemap
 
 @export var player: Piece
-@export var monster: Piece
+@export var monsters: Array[Piece]
 
 @export var _number_of_columns: int = 6
 @export var _number_of_rows: int = 6
@@ -18,8 +18,6 @@ class_name Battlemap
 var tile_scene: PackedScene = preload("res://scenes/game_objects/battlemap/tile/tile.tscn")
 
 var grid_array = []
-
-# TODO: It's starting to get too big, need to start thinking about diving this
 
 func _ready() -> void:
 	_generate_battlemap()
@@ -53,12 +51,12 @@ func _populate_grid():
 			)
 			grid_array[grid_y].append(tile)
 
+## TODO: we need to export the initial position for player and each monster
 func _populate_battlemap():
 	_piece_position_manager._player = player
 	_piece_position_manager.place_piece_in_tile(player, get_tile(2, 2))
 	
-	_piece_position_manager._monster = monster
-	_piece_position_manager.place_piece_in_tile(monster, get_tile(8, 2))
+	_piece_position_manager.place_piece_in_tile(monsters[0], get_tile(8, 2))
 
 func place_piece_in_tile(piece: Piece, tile: Tile):
 	_piece_position_manager.place_piece_in_tile(piece, tile)

@@ -55,9 +55,8 @@ func do_movement():
 func do_attack():
 	preview_monster_attack_behaviour()
 
+## TODO: this is a state that will always be in a monster. Just get the monster from there
 func preview_monster_attack_behaviour(recalculate_move: bool = false) -> void:
-	if not monster:
-		monster = BattleController.get_monster()
 	if monster.next_move and recalculate_move:
 		monster.next_move = null
 		self.do_movement()

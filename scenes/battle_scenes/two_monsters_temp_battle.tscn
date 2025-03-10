@@ -1,0 +1,102 @@
+[gd_scene load_steps=17 format=3 uid="uid://ccq54csejnel1"]
+
+[ext_resource type="Script" path="res://scenes/_main/battle_main_controller.gd" id="1_f3v23"]
+[ext_resource type="AudioStream" uid="uid://dwcjod037iqrj" path="res://assets/sound/background_music/One Man Symphony - Collateral Damage (Free) - 15 CyberRace Theme 02.mp3" id="2_6sa14"]
+[ext_resource type="Texture2D" uid="uid://d0sjr0hkie86e" path="res://assets/images/background/background_forest.png" id="3_xxbjq"]
+[ext_resource type="PackedScene" uid="uid://bubmhtlvq0xpd" path="res://scenes/managers/battlemap_generator_manager/battlemap.tscn" id="4_ax0p5"]
+[ext_resource type="PackedScene" uid="uid://bmwr7a1er0gjl" path="res://scenes/player/player.tscn" id="5_f8jeb"]
+[ext_resource type="Script" path="res://resources/card/card_resource.gd" id="6_ui8w4"]
+[ext_resource type="Resource" uid="uid://dild4y4i7lvo5" path="res://resources/card/card_resources/move_card.tres" id="7_gnj7w"]
+[ext_resource type="Resource" uid="uid://2it5k6b3esfs" path="res://resources/card/card_resources/slice_card.tres" id="8_o3qsk"]
+[ext_resource type="Resource" uid="uid://bgxa6u42qqqax" path="res://resources/card/card_resources/push_card.tres" id="9_npqkt"]
+[ext_resource type="Resource" uid="uid://gf0hhocv78vs" path="res://resources/card/card_resources/dash_card.tres" id="10_la4qo"]
+[ext_resource type="Resource" uid="uid://diasqdd0iallv" path="res://resources/card/card_resources/breathe_card.tres" id="11_0nlms"]
+[ext_resource type="Resource" uid="uid://bh6wol8b68puf" path="res://resources/card/card_resources/health_potion.tres" id="12_ljv6r"]
+[ext_resource type="PackedScene" uid="uid://deqlmpr5vbu60" path="res://scenes/monsters/CrabMonster/crab_monster.tscn" id="13_tv820"]
+[ext_resource type="PackedScene" uid="uid://sun7m5vx06ud" path="res://scenes/game_objects/cards/hand/hand.tscn" id="14_qkldv"]
+[ext_resource type="PackedScene" uid="uid://ckqvejbgtxuhp" path="res://ui/player_stats/player_stats_ui.tscn" id="15_85vo0"]
+[ext_resource type="PackedScene" uid="uid://b3x2sadw27m6s" path="res://ui/deck/draw_pile/deck_ui.tscn" id="16_v6yn0"]
+
+[node name="BattleMainController" type="Node"]
+script = ExtResource("1_f3v23")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_6sa14")
+volume_db = -40.0
+
+[node name="Background" type="TextureRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_xxbjq")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(576, 323)
+
+[node name="Battlemap" parent="." node_paths=PackedStringArray("player", "monsters") instance=ExtResource("4_ax0p5")]
+position = Vector2(79, 62)
+player = NodePath("../Player")
+monsters = [NodePath("../CrabMonster"), NodePath("../CrabMonster2")]
+_number_of_columns = 11
+_number_of_rows = 5
+
+[node name="Player" parent="." instance=ExtResource("5_f8jeb")]
+position = Vector2(357, 407)
+scale = Vector2(3, 3)
+_deck = Array[ExtResource("6_ui8w4")]([ExtResource("7_gnj7w"), ExtResource("7_gnj7w"), ExtResource("7_gnj7w"), ExtResource("8_o3qsk"), ExtResource("8_o3qsk"), ExtResource("8_o3qsk"), ExtResource("9_npqkt"), ExtResource("10_la4qo"), ExtResource("11_0nlms"), ExtResource("12_ljv6r")])
+_stamina_recover = 5
+
+[node name="CrabMonster" parent="." instance=ExtResource("13_tv820")]
+position = Vector2(828, 406)
+scale = Vector2(5, 5)
+_health = 300
+_max_hp = 300
+_stamina = 500
+_strength = 30
+
+[node name="CrabMonster2" parent="." instance=ExtResource("13_tv820")]
+position = Vector2(828, 406)
+scale = Vector2(5, 5)
+_health = 300
+_max_hp = 300
+_stamina = 500
+_strength = 30
+
+[node name="Hand" parent="." instance=ExtResource("14_qkldv")]
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="UINodes" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+mouse_force_pass_scroll_events = false
+
+[node name="PlayerStatsUI" parent="UINodes" instance=ExtResource("15_85vo0")]
+layout_mode = 1
+offset_bottom = 50.0
+
+[node name="DrawPile" parent="UINodes" instance=ExtResource("16_v6yn0")]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_right = 0.0
+grow_horizontal = 1
+grow_vertical = 0
+
+[node name="DiscardPile" parent="UINodes" instance=ExtResource("16_v6yn0")]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+offset_left = -85.0
+grow_horizontal = 0
+grow_vertical = 0
+title = "Discard"
+deck_type = 1

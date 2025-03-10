@@ -49,8 +49,6 @@ func do_attack():
 	
 ## TODO: add this default fumction to the parent
 func do_preview_action(recalculate_move: bool = false) -> void:
-	if not monster:
-		monster = BattleController.get_monster()
 	if monster.next_move and recalculate_move:
 		monster.next_move = null
 		self.do_movement()

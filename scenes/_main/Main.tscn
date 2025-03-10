@@ -35,10 +35,10 @@ texture = ExtResource("1_ccchc")
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(576, 323)
 
-[node name="Battlemap" parent="." node_paths=PackedStringArray("player", "monster") instance=ExtResource("1_43yy4")]
+[node name="Battlemap" parent="." node_paths=PackedStringArray("player", "monsters") instance=ExtResource("1_43yy4")]
 position = Vector2(79, 62)
 player = NodePath("../Player")
-monster = NodePath("../CrabMonster")
+monsters = [NodePath("../CrabMonster")]
 _number_of_columns = 11
 _number_of_rows = 5
 

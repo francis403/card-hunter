@@ -7,16 +7,23 @@ func get_piece(
 	card_resource: CardResource,
 	card_category: EventCategory
 ):
+	var target_type = get_target_type(card_resource, card_category)
+	return _get_piece(target_type)
+
+func get_target_type(
+	card_resource: CardResource,
+	card_category: EventCategory
+) -> Constants.TargetType:
 	if card_category.target == Constants.TargetType.INHERIT:
-		return _get_piece(card_resource.default_target)
-	return _get_piece(card_category.target)
+		return card_resource.default_target
+	return card_category.target
 
 func _get_piece(
 	target_type: Constants.TargetType
 ):
 	if target_type == Constants.TargetType.SELF || target_type == Constants.TargetType.INHERIT:
 		return battlemap.player
-	return battlemap.monster
+	return battlemap.monster[0]
 
 func get_area_type(
 	card_resource: CardResource,
