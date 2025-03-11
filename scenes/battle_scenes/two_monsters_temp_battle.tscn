@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://ccq54csejnel1"]
+[gd_scene load_steps=18 format=3 uid="uid://ccq54csejnel1"]
 
 [ext_resource type="Script" path="res://scenes/_main/battle_main_controller.gd" id="1_f3v23"]
 [ext_resource type="AudioStream" uid="uid://dwcjod037iqrj" path="res://assets/sound/background_music/One Man Symphony - Collateral Damage (Free) - 15 CyberRace Theme 02.mp3" id="2_6sa14"]
@@ -12,6 +12,7 @@
 [ext_resource type="Resource" uid="uid://gf0hhocv78vs" path="res://resources/card/card_resources/dash_card.tres" id="10_la4qo"]
 [ext_resource type="Resource" uid="uid://diasqdd0iallv" path="res://resources/card/card_resources/breathe_card.tres" id="11_0nlms"]
 [ext_resource type="Resource" uid="uid://bh6wol8b68puf" path="res://resources/card/card_resources/health_potion.tres" id="12_ljv6r"]
+[ext_resource type="Resource" uid="uid://c23fejsjots6f" path="res://resources/card/card_resources/long_slice_card.tres" id="13_l3u7l"]
 [ext_resource type="PackedScene" uid="uid://deqlmpr5vbu60" path="res://scenes/monsters/CrabMonster/crab_monster.tscn" id="13_tv820"]
 [ext_resource type="PackedScene" uid="uid://sun7m5vx06ud" path="res://scenes/game_objects/cards/hand/hand.tscn" id="14_qkldv"]
 [ext_resource type="PackedScene" uid="uid://ckqvejbgtxuhp" path="res://ui/player_stats/player_stats_ui.tscn" id="15_85vo0"]
@@ -45,7 +46,7 @@ _number_of_rows = 5
 [node name="Player" parent="." instance=ExtResource("5_f8jeb")]
 position = Vector2(357, 407)
 scale = Vector2(3, 3)
-_deck = Array[ExtResource("6_ui8w4")]([ExtResource("7_gnj7w"), ExtResource("7_gnj7w"), ExtResource("7_gnj7w"), ExtResource("8_o3qsk"), ExtResource("8_o3qsk"), ExtResource("8_o3qsk"), ExtResource("9_npqkt"), ExtResource("10_la4qo"), ExtResource("11_0nlms"), ExtResource("12_ljv6r")])
+_deck = Array[ExtResource("6_ui8w4")]([ExtResource("7_gnj7w"), ExtResource("7_gnj7w"), ExtResource("7_gnj7w"), ExtResource("8_o3qsk"), ExtResource("8_o3qsk"), ExtResource("8_o3qsk"), ExtResource("9_npqkt"), ExtResource("10_la4qo"), ExtResource("11_0nlms"), ExtResource("12_ljv6r"), ExtResource("13_l3u7l")])
 _stamina_recover = 5
 
 [node name="CrabMonster" parent="." instance=ExtResource("13_tv820")]

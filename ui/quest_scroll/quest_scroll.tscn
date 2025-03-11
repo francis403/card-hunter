@@ -1,0 +1,48 @@
+[gd_scene load_steps=4 format=3 uid="uid://i5erj77f8kxb"]
+
+[ext_resource type="Script" path="res://ui/quest_scroll/quest_scroll.gd" id="1_86gxv"]
+[ext_resource type="Texture2D" uid="uid://dc6uucq8rk76w" path="res://assets/game_objects/quest_scroll.png" id="1_jn5j7"]
+[ext_resource type="Theme" uid="uid://dmot8ul1c5l3n" path="res://assets/themes/theme_1.tres" id="2_ompwo"]
+
+[node name="QuestScroll" type="MarginContainer"]
+offset_left = 36.0
+offset_top = 28.0
+offset_right = 164.0
+offset_bottom = 222.0
+script = ExtResource("1_86gxv")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+custom_minimum_size = Vector2(200, 200)
+layout_mode = 2
+texture = ExtResource("1_jn5j7")
+expand_mode = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="TextureRect"]
+custom_minimum_size = Vector2(100, 150)
+layout_mode = 2
+offset_left = 33.0
+offset_top = 23.0
+offset_right = 162.0
+offset_bottom = 179.0
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="Title" type="Label" parent="TextureRect/MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+theme = ExtResource("2_ompwo")
+text = "Hunt a crab"
+
+[node name="Description" type="Label" parent="TextureRect/MarginContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+theme = ExtResource("2_ompwo")
+text = "There is a crab loose, I need someone to hunt it"
+autowrap_mode = 2
+
+[connection signal="gui_input" from="TextureRect/MarginContainer" to="." method="_on_margin_container_gui_input"]
