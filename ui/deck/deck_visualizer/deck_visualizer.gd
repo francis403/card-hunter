@@ -8,7 +8,6 @@ const card_scene: PackedScene = preload("res://scenes/game_objects/cards/card/ca
 @onready var grid_container: GridContainer = %GridContainer
 
 func _ready() -> void:
-	print(_ready)
 	_add_cards_to_grid()
 	
 

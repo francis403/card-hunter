@@ -4,6 +4,7 @@ class_name DeckUI
 const deck_visualizer_scene = preload("res://ui/deck/deck_visualizer/deck_visualizer.tscn")
 
 enum Deck_Type_Enum {
+	FULL_DECK,
 	DRAW_DECK,
 	DISCARD_DECK
 }
@@ -22,6 +23,8 @@ func _ready() -> void:
 		#margin_container.add_theme_constant_override("margin_left", self.size.y)
 	elif deck_type == Deck_Type_Enum.DISCARD_DECK:
 		BattlemapSignals.discard_pile_updated.connect(_on_deck_finished_prepping_signal)
+	elif deck_type == Deck_Type_Enum.FULL_DECK:
+		BattlemapSignals.full_deck_updated.connect(_on_deck_finished_prepping_signal)
 		#margin_container.add_theme_constant_override("margin_right", 1000)
 	title_label.text = title
 	#number_of_cards_label.text = str(_deck.size())
@@ -39,6 +42,8 @@ func _on_gui_input(event: InputEvent) -> void:
 			BattlemapSignals.show_draw_pile_deck.emit()
 		elif deck_type == Deck_Type_Enum.DISCARD_DECK:
 			BattlemapSignals.show_discard_pile_deck.emit()
+		elif deck_type == Deck_Type_Enum.FULL_DECK:
+			BattlemapSignals.show_full_deck.emit()
 			
 		#var deck_visualizer_instance: DeckVisualizer = deck_visualizer_scene.instantiate()
 		##deck_visualizer_instance.deck =

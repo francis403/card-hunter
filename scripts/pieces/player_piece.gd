@@ -1,14 +1,15 @@
 extends Piece
 class_name PlayerPiece
 
-@export var _deck: Array[CardResource] = []
 @export var hand_size: int = 4
 
 var current_card_in_hand_size: int = 0
 
+## TODO: Need to convert all of this into PlayerDeck
 var draw_pile: Array[CardResource] = []
 var discard_pile: Array[CardResource] = []
 var cards_in_hand: Array[CardResource] = []
+var _deck: Array[CardResource] = []
 
 func _ready() -> void:
 	BattleSignals.battle_start.connect(_on_battle_start_signal)
@@ -18,6 +19,7 @@ func _ready() -> void:
 	_prepare_deck()
 	
 func _prepare_deck():
+	_deck = PlayerController.get_deck()._deck
 	draw_pile = _deck.duplicate()
 	discard_pile = []
 	shuffle_deck(draw_pile)

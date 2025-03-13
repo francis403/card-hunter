@@ -5,10 +5,8 @@
 [ext_resource type="Theme" uid="uid://dmot8ul1c5l3n" path="res://assets/themes/theme_1.tres" id="2_ompwo"]
 
 [node name="QuestScroll" type="MarginContainer"]
-offset_left = 36.0
-offset_top = 28.0
-offset_right = 164.0
-offset_bottom = 222.0
+offset_right = 200.0
+offset_bottom = 200.0
 script = ExtResource("1_86gxv")
 
 [node name="TextureRect" type="TextureRect" parent="."]

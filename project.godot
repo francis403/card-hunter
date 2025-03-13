@@ -18,6 +18,7 @@ config/icon="res://icon.svg"
 [autoload]
 
 BattlemapSignals="*res://singletons/signals/battlemap_signals.gd"
+PlayerController="*res://singletons/controllers/player_controller.gd"
 BattleController="*res://singletons/controllers/battle_controller.gd"
 BattleSignals="*res://singletons/signals/battle_signals.gd"
 MovementUtils="*res://scripts/utils/battlemap_utils/movement_utils.gd"

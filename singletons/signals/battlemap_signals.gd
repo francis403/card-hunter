@@ -13,6 +13,8 @@ signal tile_picked_in_battlemap(tile: Tile)
 ## deck signals
 signal draw_pile_updated(draw_pile_cards: Array[CardResource])
 signal discard_pile_updated(discard_pile_cards: Array[CardResource])
+signal full_deck_updated(discard_pile_cards: Array[CardResource])
+signal show_full_deck
 signal show_draw_pile_deck
 signal show_discard_pile_deck
 

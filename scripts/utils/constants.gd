@@ -31,3 +31,7 @@ enum StatType {
 	SPEED,
 	DAMAGE
 }
+
+
+# Constanst
+const deck_visualizer_scene = preload("res://ui/deck/deck_visualizer/deck_visualizer.tscn")
