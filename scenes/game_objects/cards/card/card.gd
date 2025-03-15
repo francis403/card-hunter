@@ -1,4 +1,4 @@
-extends PanelContainer
+extends MarginContainer
 class_name Card
 
 @export var card_resource: CardResource
@@ -21,7 +21,7 @@ func _ready() -> void:
 func initialize_card():
 	card_title.text = card_resource.title
 	card_description.text = card_resource.description
-	stamina_cost_label.text = "Stamina: " + str(card_resource.stamina_cost)
+	stamina_cost_label.text = str(card_resource.stamina_cost)
 	card_category_dictionary = EventCategoryDictionary.new()
 	if card_resource.event_categories:
 		card_category_dictionary.populate_dictionary(card_resource.event_categories)
