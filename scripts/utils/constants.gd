@@ -18,7 +18,8 @@ enum AreaType {
 	LINE, 
 	RADIUS, 
 	CROSS, 
-	SHOTGUN
+	SHOTGUN,
+	UP_TO_RANGE_SKIPPING_FIRST
 }
 
 enum StatType {
@@ -26,6 +27,11 @@ enum StatType {
 	STAMINA,
 	MAX_HEALTH,
 	HEALTH,
+	MAX_SPEED,
 	SPEED,
 	DAMAGE
 }
+
+
+# Constanst
+const deck_visualizer_scene = preload("res://ui/deck/deck_visualizer/deck_visualizer.tscn")

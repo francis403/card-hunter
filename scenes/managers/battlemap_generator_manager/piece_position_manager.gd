@@ -5,9 +5,6 @@ var _player: PlayerPiece:
 	set(player):
 		_player = player
 		
-var _monster: Piece:
-	set(monster):
-		_monster = monster
 
 
 func place_piece(piece: Piece, position: Vector2):
@@ -33,14 +30,6 @@ func place_node_in_tile(node: Node2D, tile: Tile):
 			node._tile.piece_in_tile = null
 		node.set_piece_tile(tile)
 		tile.piece_in_tile = node
-	if node is Sprite2D:
-		# TODO: I need to actually fix the scale issue
-		var parent: Node2D = get_parent()
-		var scale: Vector2 = parent.scale
-		offset = Vector2(
-			-1 * node.texture.get_width() * 5,
-			-1 * node.texture.get_height() * 4
-		) * scale
 	node.position = center_tile_position + offset
 
 func move_player_x_right(x: int):
