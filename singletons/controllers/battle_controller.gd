@@ -13,7 +13,7 @@ func get_player() -> PlayerPiece:
 	return battlemap.player
 	
 func get_monster() -> MonsterPiece:
-	return battlemap.monster
+	return battlemap.monsters[0]
 
 func get_tile(x: int, y: int) -> Tile:
 	return battlemap.get_tile(x, y)

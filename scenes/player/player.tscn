@@ -17,6 +17,8 @@ _deck = Array[ExtResource("2_antcg")]([ExtResource("3_dw0et"), ExtResource("3_dw
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("1_x2m06")
 

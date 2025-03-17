@@ -12,11 +12,12 @@ func play_card_action(
 		
 	if not card_categories.has_category("move"):
 		print("ERROR: no move info in card")
+		
 	var move_card_category: MoveCategoryCard = card_categories.get_category("move")
-	
-	var piece_to_move: Piece = get_piece(card_resource, move_card_category)
+	var target_type: Constants.TargetType\
+		= get_target_type(card_resource, move_card_category)
 	var area_type = get_area_type(card_resource, move_card_category)
-	var player = battlemap.player
+	var player: PlayerPiece = battlemap.player
 	
 	# show possible squares and await input	
 	highlight_tiles(player, area_type, move_card_category.range)
@@ -31,6 +32,7 @@ func play_card_action(
 	if not tile.piece_in_tile:
 		BattlemapSignals.canceled_player_input.emit()
 		return
+	var piece_to_move: Piece = tile.piece_in_tile
 	
 	BattlemapSignals.clear_player_highlighted_tiles.emit()
 	
@@ -39,8 +41,10 @@ func play_card_action(
 	tile = await BattlemapSignals.tile_picked_in_battlemap
 	BattlemapSignals.player_input_received.emit()
 	battlemap.place_piece_in_tile(piece_to_move, tile)
+
 	if piece_to_move is MonsterPiece:
-		BattlemapSignals.monster_moved_by_player.emit(tile)
+		#BattlemapSignals.monster_moved_by_player.emit(tile)
+		piece_to_move.on_monster_moved_by_player(tile)
 		
 	
 	after_card_is_played(card_resource, card_categories)

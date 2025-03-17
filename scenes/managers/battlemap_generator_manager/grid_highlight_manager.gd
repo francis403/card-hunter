@@ -64,6 +64,13 @@ func highlight_tiles(
 		print("TODO: specific movement")
 	elif area_type == Constants.AreaType.SHOTGUN:
 		print("TODO: shotgun movement")
+	elif area_type == Constants.AreaType.LINE:
+		highligh_tiles_line(
+			source_tile,
+			range,
+			is_tile_attacked,
+			ignore_occupied_tiles
+		)
 
 # TODO: how can I do this well?
 func highligh_tiles_radius(
@@ -97,6 +104,19 @@ func highligh_tiles_cross(
 		_make_tile_clickable(x, y + i, is_tile_attacked, ignore_occupied_tiles)
 		_make_tile_clickable(x, y - i, is_tile_attacked, ignore_occupied_tiles)
 	
+## TODO: this will need the player to hover over where he wants the attack to go
+func highligh_tiles_line(
+	source_tile: Tile,
+	line_length: int, 
+	is_tile_attacked: bool = false,
+	ignore_occupied_tiles: bool = false
+):
+	var x = source_tile._x_position
+	var y = source_tile._y_position
+	for i in range(1, line_length + 1):
+		_make_tile_clickable(x + i, y, is_tile_attacked, ignore_occupied_tiles)
+	
+
 func _make_tile_clickable(
 	x: int,
 	y: int,

@@ -1,0 +1,45 @@
+[gd_scene load_steps=3 format=3 uid="uid://b3x2sadw27m6s"]
+
+[ext_resource type="Script" path="res://ui/deck/draw_pile/deck_ui.gd" id="1_ou8rf"]
+[ext_resource type="PackedScene" uid="uid://cjure0eqqc6lc" path="res://scenes/game_objects/cards/card_back/card_back.tscn" id="2_x7kgs"]
+
+[node name="DeckUI" type="MarginContainer"]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -128.0
+offset_right = 104.0
+grow_vertical = 0
+size_flags_horizontal = 2
+size_flags_vertical = 2
+script = ExtResource("1_ou8rf")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+
+[node name="CardBack" parent="MarginContainer" instance=ExtResource("2_x7kgs")]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 8
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="MarginContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Draw Pile"
+
+[node name="NumberOfCards" type="Label" parent="MarginContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "0"
+horizontal_alignment = 1
+
+[connection signal="gui_input" from="." to="." method="_on_gui_input"]

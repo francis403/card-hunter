@@ -4,6 +4,8 @@ class_name PlayerStatsUi
 @onready var player_health_label: Label = %PlayerHealthLabel
 @onready var player_stamina_label: Label = %PlayerStaminaLabel
 @onready var end_turn_button: Button = %EndTurnButton
+
+## TODO: I probably have to put this above the monster (maybe only when it's hovered above)
 @onready var monster_hp_progress_bar: ProgressBar = %MonsterHP
 
 func _ready() -> void:
@@ -30,6 +32,5 @@ func _on_end_turn_button_pressed() -> void:
 	BattlemapSignals.monster_turn_started.emit()
 
 func _on_monster_health_changed(new_hp: int, max_hp: int):
-	print(_on_monster_health_changed)
 	var progess_bar_value: float = float (new_hp) / float(max_hp)
 	monster_hp_progress_bar.value = progess_bar_value

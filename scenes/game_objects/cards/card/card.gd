@@ -1,7 +1,9 @@
-extends PanelContainer
+extends MarginContainer
 class_name Card
 
 @export var card_resource: CardResource
+@export var card_can_hover: bool = true
+@export var card_can_be_discarded: bool = true
 
 @onready var card_title: Label = %CardTitle
 @onready var card_description: Label = %CardDescription
@@ -19,7 +21,7 @@ func _ready() -> void:
 func initialize_card():
 	card_title.text = card_resource.title
 	card_description.text = card_resource.description
-	stamina_cost_label.text = "Stamina: " + str(card_resource.stamina_cost)
+	stamina_cost_label.text = str(card_resource.stamina_cost)
 	card_category_dictionary = EventCategoryDictionary.new()
 	if card_resource.event_categories:
 		card_category_dictionary.populate_dictionary(card_resource.event_categories)
@@ -45,10 +47,14 @@ func _on_card_finished_playing():
 		_discard_card()
 
 func _discard_card():
+	if not card_can_be_discarded:
+		return
 	BattlemapSignals.card_discarded_from_hand.emit(self.get_index())
 	self.queue_free()
 
 func _on_mouse_entered() -> void:
+	if not card_can_hover:
+		return
 	_mouse_hovering = true
 	var tween = create_tween()
 	tween.tween_property(self, "position:y", -50, .4)\
@@ -56,6 +62,8 @@ func _on_mouse_entered() -> void:
 
 
 func _on_mouse_exited() -> void:
+	if not card_can_hover:
+		return
 	_mouse_hovering = false
 	var tween = create_tween()
 	tween.tween_property(self, "position:y", 0, .4)\

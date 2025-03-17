@@ -2,7 +2,7 @@ extends Node
 class_name Battlemap
 
 @export var player: Piece
-@export var monster: Piece
+@export var monsters: Array[Piece]
 
 @export var _number_of_columns: int = 6
 @export var _number_of_rows: int = 6
@@ -53,12 +53,14 @@ func _populate_grid():
 			)
 			grid_array[grid_y].append(tile)
 
+## TODO: we need to export the initial position for player and each monster
 func _populate_battlemap():
 	_piece_position_manager._player = player
 	_piece_position_manager.place_piece_in_tile(player, get_tile(2, 2))
 	
-	_piece_position_manager._monster = monster
-	_piece_position_manager.place_piece_in_tile(monster, get_tile(8, 2))
+	_piece_position_manager.place_piece_in_tile(monsters[0], get_tile(8, 2))
+	if monsters.size() > 1:
+		_piece_position_manager.place_piece_in_tile(monsters[1], get_tile(7, 2))
 
 func place_piece_in_tile(piece: Piece, tile: Tile):
 	_piece_position_manager.place_piece_in_tile(piece, tile)
