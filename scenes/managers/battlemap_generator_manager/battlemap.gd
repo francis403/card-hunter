@@ -57,6 +57,7 @@ func _populate_battlemap():
 	_piece_position_manager.place_piece_in_tile(player, get_tile(2, 2))
 	
 	_piece_position_manager.place_piece_in_tile(monsters[0], get_tile(8, 2))
+	_piece_position_manager.place_piece_in_tile(monsters[1], get_tile(7, 2))
 
 func place_piece_in_tile(piece: Piece, tile: Tile):
 	_piece_position_manager.place_piece_in_tile(piece, tile)
