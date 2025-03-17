@@ -14,7 +14,6 @@ var is_player_turn: bool = true
 func _ready() -> void:
 	BattlemapSignals.monster_turn_started.connect(_on_monster_turn_started_signal)
 	BattlemapSignals.player_turn_started.connect(_on_player_turn_started_signal)
-	BattlemapSignals.monster_prepared_move.connect(_on_monster_prepared_move_signal)
 	
 	# deck signals
 	BattlemapSignals.show_draw_pile_deck.connect(_on_show_draw_pile_deck_signal)
@@ -33,15 +32,14 @@ func _on_player_turn_started_signal():
 	_draw_cards_start_of_turn(player)
 	player.recover_stamina()
 	BattlemapSignals.unlock_player_input.emit()
-#
-## TODO: do I want to fix this? I will more than likely change it
-func _on_monster_prepared_move_signal(monster_sprite: Sprite2D, move_tile: Tile):	
-	if not move_tile:
-		return
-	battlemap.add_child(monster_sprite)
-	battlemap.place_node_in_tile(monster_sprite, move_tile)
-	monster_sprite.scale = BattleController.get_monster().scale
-	monster_sprite.modulate = Color.WEB_GRAY
+
+#func _on_monster_prepared_move_signal(move_tile: Tile):	
+	#if not move_tile:
+		#return
+	#battlemap.add_child(monster_sprite)
+	#battlemap.place_node_in_tile(monster_sprite, move_tile)
+	#monster_sprite.scale = BattleController.get_monster().scale
+	#monster_sprite.modulate = Color.WEB_GRAY
 
 func _draw_cards_start_of_turn(player: PlayerPiece):
 	var new_cards: Array[CardResource] = player.draw_til_hand_size()

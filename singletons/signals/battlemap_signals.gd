@@ -38,7 +38,7 @@ signal play_card_stream(audio_stream: AudioStream)
 signal monster_turn_started
 signal deal_damage_to_attacked_squares(damage: int)
 signal monster_hp_changed(new_hp: int, max_hp: int)
-signal monster_prepared_move(monster_sprite: Sprite2D, tile: Tile)
+signal monster_prepared_move(tile: Tile)
 signal monster_prepared_attack(attacked_tiles: Array[Tile])
 signal monster_died
 signal monster_moved_by_player(new_tile: Tile)

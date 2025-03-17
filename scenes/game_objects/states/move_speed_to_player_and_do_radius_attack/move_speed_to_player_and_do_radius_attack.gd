@@ -48,7 +48,6 @@ func do_movement():
 		monster._speed
 	)
 	BattlemapSignals.monster_prepared_move.emit(
-		monster_sprite,
 		next_turn_move_tile
 	)
 	

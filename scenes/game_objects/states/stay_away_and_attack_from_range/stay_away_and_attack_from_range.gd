@@ -38,7 +38,6 @@ func do_movement():
 	)
 	
 	BattlemapSignals.monster_prepared_move.emit(
-		monster_sprite,
 		next_turn_move_tile
 	)
 	
