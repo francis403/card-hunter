@@ -1,17 +1,19 @@
-[gd_scene load_steps=3 format=3 uid="uid://cjure0eqqc6lc"]
+[gd_scene load_steps=4 format=3 uid="uid://cjure0eqqc6lc"]
 
+[ext_resource type="Script" path="res://scenes/game_objects/cards/card_back/card_back.gd" id="1_bgq7d"]
 [ext_resource type="Texture2D" uid="uid://drnrw7pcoujpb" path="res://assets/game_objects/card_parts/background/card_background_stone.tres" id="3_7efeg"]
-[ext_resource type="Texture2D" uid="uid://5jbjkmerrlrg" path="res://assets/game_objects/card_parts/card_icons/shiled.tres" id="4_7sdw8"]
+[ext_resource type="Texture2D" uid="uid://5jbjkmerrlrg" path="res://assets/game_objects/card_parts/card_icons/shield.tres" id="4_7sdw8"]
 
 [node name="CardBack" type="MarginContainer"]
 offset_right = 150.0
 offset_bottom = 200.0
+script = ExtResource("1_bgq7d")
 
 [node name="BackGroundTextureRect" type="TextureRect" parent="."]
 layout_mode = 2
 texture = ExtResource("3_7efeg")
 
-[node name="TextureRect" type="TextureRect" parent="."]
+[node name="CardBackTextureRect" type="TextureRect" parent="."]
 layout_mode = 2
 texture = ExtResource("4_7sdw8")
 stretch_mode = 5

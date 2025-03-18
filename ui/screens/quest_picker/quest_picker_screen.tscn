@@ -80,7 +80,6 @@ battle_scene = ExtResource("6_pibi5")
 
 [node name="DeckUI" parent="MarginContainer/VBoxContainer" instance=ExtResource("7_0lvpa")]
 layout_mode = 2
-size_flags_horizontal = 2
 size_flags_vertical = 10
 title = "Deck"
 deck_type = 0

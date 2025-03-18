@@ -35,3 +35,4 @@ enum StatType {
 
 # Constanst
 const deck_visualizer_scene = preload("res://ui/deck/deck_visualizer/deck_visualizer.tscn")
+const quest_picker_screen_scroll_scene = preload("res://ui/screens/quest_picker/quest_picker_screen.tscn")
