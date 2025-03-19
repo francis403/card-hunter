@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="CardMonsterHunterBattler"
-run/main_scene="res://ui/screens/pick_class_scren/pick_class_screen.tscn"
+run/main_scene="res://ui/screens/title_menu_screen/title_scene.tscn"
 config/features=PackedStringArray("4.3", "Forward Plus")
 config/icon="res://icon.svg"
 
@@ -22,6 +22,7 @@ PlayerController="*res://singletons/controllers/player_controller.gd"
 BattleController="*res://singletons/controllers/battle_controller.gd"
 BattleSignals="*res://singletons/signals/battle_signals.gd"
 MovementUtils="*res://scripts/utils/battlemap_utils/movement_utils.gd"
+File="*res://singletons/game_settings/file/file.gd"
 
 [display]
 

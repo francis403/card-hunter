@@ -1,6 +1,7 @@
 ## Tracks player progression during the campaign
 extends Node
 
+
 const STARTING_DECK: PlayerDeck =\
 	preload("res://resources/player_deck/decks/generic_deck/starting_deck.tres")
 	
@@ -11,7 +12,7 @@ const STARTING_DECK: PlayerDeck =\
 var _deck: PlayerDeck = STARTING_DECK
 
 ## TODO: need to figure out how to represent this
-var _player_class: String
+var _player_class: PlayerClass
 
 ## At some point we are going to initiate deck based on class
 func replace_deck(other_deck: PlayerDeck):

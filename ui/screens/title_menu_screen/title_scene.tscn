@@ -1,0 +1,95 @@
+[gd_scene load_steps=6 format=3 uid="uid://csbkict33rdjb"]
+
+[ext_resource type="Script" path="res://scripts/ui/menu/menu.gd" id="1_6syln"]
+[ext_resource type="Script" path="res://ui/screens/title_menu_screen/title_scene.gd" id="1_53urg"]
+[ext_resource type="Texture2D" uid="uid://cmoh263d11oxa" path="res://assets/images/background/ai-generated-background.webp" id="1_n70oj"]
+[ext_resource type="Theme" uid="uid://dmot8ul1c5l3n" path="res://assets/themes/theme_1.tres" id="2_a7ane"]
+[ext_resource type="PackedScene" uid="uid://calade5jh8fy3" path="res://ui/screens/settings_menu_screen/settings_screen.tscn" id="5_rcdra"]
+
+[node name="TitleScreenScene" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_53urg")
+
+[node name="BackgroundImage" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_n70oj")
+expand_mode = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -73.0
+offset_right = 73.0
+offset_bottom = 55.0
+grow_horizontal = 2
+theme_override_constants/margin_top = 28
+
+[node name="Title" type="Label" parent="MarginContainer"]
+layout_mode = 2
+theme = ExtResource("2_a7ane")
+theme_override_colors/font_color = Color(0.947199, 0.947199, 0.947199, 1)
+theme_override_font_sizes/font_size = 64
+text = "Card Hunter"
+horizontal_alignment = 1
+
+[node name="MenuContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -46.5
+offset_top = -85.5
+offset_right = 46.5
+offset_bottom = 85.5
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_6syln")
+
+[node name="NewGame" type="Button" parent="MenuContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme = ExtResource("2_a7ane")
+text = "New Game"
+
+[node name="Continue" type="Button" parent="MenuContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Continue"
+
+[node name="Settings" type="Button" parent="MenuContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Settings"
+
+[node name="Credits" type="Button" parent="MenuContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Credits"
+
+[node name="Exit" type="Button" parent="MenuContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Exit"
+
+[node name="SettingsScreen" parent="." instance=ExtResource("5_rcdra")]
+visible = false
+layout_mode = 0
+anchors_preset = 0
+
+[connection signal="pressed" from="MenuContainer/NewGame" to="." method="_on_new_game_pressed"]
+[connection signal="pressed" from="MenuContainer/Settings" to="." method="_on_settings_pressed"]
+[connection signal="pressed" from="MenuContainer/Exit" to="." method="_on_exit_pressed"]
