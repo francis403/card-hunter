@@ -1,13 +1,13 @@
 extends Node
-class_name BattleMainController
+class_name BattleGenericScene
 
 const deck_visualizer_scene = preload("res://ui/deck/deck_visualizer/deck_visualizer.tscn")
 
 @onready var hand: Hand = $Hand
 @onready var battlemap: Battlemap = $Battlemap
-@onready var player: PlayerCharacter = $Player
-
 @onready var ui_nodes: Control = $UINodes
+
+@export var player: PlayerCharacter
 
 var is_player_turn: bool = true
 

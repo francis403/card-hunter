@@ -1,0 +1,72 @@
+[gd_scene load_steps=9 format=3 uid="uid://dn1s6gbout3xc"]
+
+[ext_resource type="Script" path="res://scenes/battle_scenes/battle_generic_scene/battle_generic_scene.gd" id="1_6gf8r"]
+[ext_resource type="AudioStream" uid="uid://dwcjod037iqrj" path="res://assets/sound/background_music/One Man Symphony - Collateral Damage (Free) - 15 CyberRace Theme 02.mp3" id="2_ugrlm"]
+[ext_resource type="Texture2D" uid="uid://d0sjr0hkie86e" path="res://assets/images/background/background_forest.png" id="3_1pw4i"]
+[ext_resource type="PackedScene" uid="uid://bubmhtlvq0xpd" path="res://scenes/managers/battlemap_generator_manager/battlemap.tscn" id="4_xndhl"]
+[ext_resource type="PackedScene" uid="uid://sun7m5vx06ud" path="res://scenes/game_objects/cards/hand/hand.tscn" id="7_q21cd"]
+[ext_resource type="PackedScene" uid="uid://ckqvejbgtxuhp" path="res://ui/player_stats/player_stats_ui.tscn" id="8_2ovol"]
+[ext_resource type="PackedScene" uid="uid://bmwr7a1er0gjl" path="res://scenes/player/player.tscn" id="8_ye4fl"]
+[ext_resource type="PackedScene" uid="uid://b3x2sadw27m6s" path="res://ui/deck/draw_pile/deck_ui.tscn" id="9_a3gj4"]
+
+[node name="BattleGenericScene" type="Node" node_paths=PackedStringArray("player")]
+script = ExtResource("1_6gf8r")
+player = NodePath("Player")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_ugrlm")
+volume_db = -40.0
+
+[node name="Background" type="TextureRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_1pw4i")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(576, 323)
+
+[node name="Battlemap" parent="." node_paths=PackedStringArray("player", "monsters") instance=ExtResource("4_xndhl")]
+position = Vector2(79, 62)
+player = NodePath("../Player")
+monsters = [null]
+_number_of_columns = 11
+_number_of_rows = 5
+
+[node name="Player" parent="." instance=ExtResource("8_ye4fl")]
+position = Vector2(323, 351)
+scale = Vector2(3, 3)
+
+[node name="Hand" parent="." instance=ExtResource("7_q21cd")]
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="UINodes" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+mouse_force_pass_scroll_events = false
+
+[node name="PlayerStatsUI" parent="UINodes" instance=ExtResource("8_2ovol")]
+layout_mode = 1
+offset_bottom = 50.0
+
+[node name="DrawPile" parent="UINodes" instance=ExtResource("9_a3gj4")]
+layout_mode = 1
+
+[node name="DiscardPile" parent="UINodes" instance=ExtResource("9_a3gj4")]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -85.0
+offset_right = 0.0
+grow_horizontal = 0
+title = "Discard"
+deck_type = 2
