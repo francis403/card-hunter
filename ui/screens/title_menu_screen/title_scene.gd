@@ -1,6 +1,8 @@
-extends Control
+extends SceneManager
 class_name TitleScreenScene
 
+@onready var settings_screen: PanelContainer = $SettingsScreen
+@onready var menu_container: Menu = $MenuContainer
 
 
 func _on_new_game_pressed() -> void:
@@ -9,7 +11,9 @@ func _on_new_game_pressed() -> void:
 
 ## TODO
 func _on_settings_pressed() -> void:
-	pass # Replace with function body.
+	get_tree().paused = true
+	settings_screen.process_mode = Node.PROCESS_MODE_ALWAYS
+	settings_screen.visible = true
 
 func _on_exit_pressed() -> void:
 	get_tree().quit()

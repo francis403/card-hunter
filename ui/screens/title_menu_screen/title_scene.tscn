@@ -1,9 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://csbkict33rdjb"]
+[gd_scene load_steps=7 format=3 uid="uid://csbkict33rdjb"]
 
 [ext_resource type="Script" path="res://scripts/ui/menu/menu.gd" id="1_6syln"]
 [ext_resource type="Script" path="res://ui/screens/title_menu_screen/title_scene.gd" id="1_53urg"]
 [ext_resource type="Texture2D" uid="uid://cmoh263d11oxa" path="res://assets/images/background/ai-generated-background.webp" id="1_n70oj"]
 [ext_resource type="Theme" uid="uid://dmot8ul1c5l3n" path="res://assets/themes/theme_1.tres" id="2_a7ane"]
+[ext_resource type="AudioStream" uid="uid://dwcjod037iqrj" path="res://assets/sound/background_music/One Man Symphony - Collateral Damage (Free) - 15 CyberRace Theme 02.mp3" id="2_uom3r"]
 [ext_resource type="PackedScene" uid="uid://calade5jh8fy3" path="res://ui/screens/settings_menu_screen/settings_screen.tscn" id="5_rcdra"]
 
 [node name="TitleScreenScene" type="Control"]
@@ -14,6 +15,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_53urg")
+_background_music = ExtResource("2_uom3r")
 
 [node name="BackgroundImage" type="TextureRect" parent="."]
 layout_mode = 1
@@ -92,18 +94,11 @@ text = "Exit"
 
 [node name="SettingsScreen" parent="." instance=ExtResource("5_rcdra")]
 visible = false
-layout_mode = 0
-anchors_preset = 0
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-offset_left = 0.0
-offset_top = 0.0
-offset_right = 62.0
-offset_bottom = 27.0
-grow_horizontal = 1
-grow_vertical = 1
+layout_mode = 1
+offset_left = -81.5
+offset_top = -25.0
+offset_right = 81.5
+offset_bottom = 25.0
 
 [connection signal="pressed" from="MenuContainer/NewGame" to="." method="_on_new_game_pressed"]
 [connection signal="pressed" from="MenuContainer/Settings" to="." method="_on_settings_pressed"]

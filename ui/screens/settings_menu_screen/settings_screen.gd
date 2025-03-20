@@ -9,5 +9,11 @@ func _ready() -> void:
 	
 func _on_volume_slider_value_changed(value: float) -> void:
 	File.settings.volume = value
-	#Music.set_linear_volume(value)
+	Music.set_linear_volume(value)
 	volume_change.emit(value)
+
+
+func _on_back_button_pressed() -> void:
+	self.visible = false
+	get_tree().paused = false
+	self.process_mode = Node.PROCESS_MODE_DISABLED
