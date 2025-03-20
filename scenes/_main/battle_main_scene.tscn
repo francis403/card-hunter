@@ -68,19 +68,14 @@ offset_bottom = 50.0
 
 [node name="DrawPile" parent="UINodes" instance=ExtResource("16_jahgi")]
 layout_mode = 1
-anchors_preset = 2
-anchor_top = 1.0
-anchor_right = 0.0
-grow_horizontal = 1
-grow_vertical = 0
 
 [node name="DiscardPile" parent="UINodes" instance=ExtResource("16_jahgi")]
 layout_mode = 1
 anchors_preset = 3
 anchor_left = 1.0
-anchor_top = 1.0
+anchor_right = 1.0
 offset_left = -85.0
+offset_right = 0.0
 grow_horizontal = 0
-grow_vertical = 0
 title = "Discard"
 deck_type = 2

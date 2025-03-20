@@ -57,38 +57,53 @@ offset_right = 46.5
 offset_bottom = 85.5
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_constants/separation = 15
 script = ExtResource("1_6syln")
 
 [node name="NewGame" type="Button" parent="MenuContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 theme = ExtResource("2_a7ane")
-text = "New Game"
+text = " New Game"
 
 [node name="Continue" type="Button" parent="MenuContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+theme = ExtResource("2_a7ane")
 text = "Continue"
 
 [node name="Settings" type="Button" parent="MenuContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+theme = ExtResource("2_a7ane")
 text = "Settings"
 
 [node name="Credits" type="Button" parent="MenuContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+theme = ExtResource("2_a7ane")
 text = "Credits"
 
 [node name="Exit" type="Button" parent="MenuContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+theme = ExtResource("2_a7ane")
 text = "Exit"
 
 [node name="SettingsScreen" parent="." instance=ExtResource("5_rcdra")]
 visible = false
 layout_mode = 0
 anchors_preset = 0
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 62.0
+offset_bottom = 27.0
+grow_horizontal = 1
+grow_vertical = 1
 
 [connection signal="pressed" from="MenuContainer/NewGame" to="." method="_on_new_game_pressed"]
 [connection signal="pressed" from="MenuContainer/Settings" to="." method="_on_settings_pressed"]

@@ -15,7 +15,7 @@ func _ready() -> void:
 
 func _hide_preview_content():
 	for item in grid_container.get_children():
-		item.visible = false
+		item.queue_free()
 
 func _populate_actual_content():
 	for player_class in class_choices:
