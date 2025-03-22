@@ -22,9 +22,17 @@ func _ready() -> void:
 	_draw_cards_start_of_turn(battlemap.player)
 	BattleSignals.battle_start.emit()
 	
+
+## TODO: if left button is pressed and we are awaiting user input
+##		 but we didn't click a tile cancel
 func _input(event: InputEvent) -> void:
-	if event.is_action_pressed("cancel_button_pressed"):
+	if event.is_action_pressed("right_click"):
 		BattlemapSignals.canceled_player_input.emit()
+	elif event.is_action_pressed("left_click"):
+		## TODO: check if we are currently awaiting player input
+		## TODO: check what ws clicked
+		pass
+	
 
 func _on_player_turn_started_signal():
 	is_player_turn = true
@@ -32,14 +40,6 @@ func _on_player_turn_started_signal():
 	_draw_cards_start_of_turn(player)
 	player.recover_stamina()
 	BattlemapSignals.unlock_player_input.emit()
-
-#func _on_monster_prepared_move_signal(move_tile: Tile):	
-	#if not move_tile:
-		#return
-	#battlemap.add_child(monster_sprite)
-	#battlemap.place_node_in_tile(monster_sprite, move_tile)
-	#monster_sprite.scale = BattleController.get_monster().scale
-	#monster_sprite.modulate = Color.WEB_GRAY
 
 func _draw_cards_start_of_turn(player: PlayerPiece):
 	var new_cards: Array[CardResource] = player.draw_til_hand_size()

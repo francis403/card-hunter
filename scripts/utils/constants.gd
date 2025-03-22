@@ -32,8 +32,10 @@ enum StatType {
 	DAMAGE
 }
 
-
 # Constanst
-const deck_visualizer_scene = preload("res://ui/deck/deck_visualizer/deck_visualizer.tscn")
-const pick_class_screen_scene = preload("res://ui/screens/pick_class_scren/pick_class_screen.tscn")
+
 const quest_picker_screen_scroll_scene = preload("res://ui/screens/quest_picker/quest_picker_screen.tscn")
+const pick_class_screen_scene = preload("res://ui/screens/pick_class_scren/pick_class_screen.tscn")
+
+const deck_visualizer_scene = preload("res://ui/deck/deck_visualizer/deck_visualizer.tscn")
+const card_scene = preload("res://scenes/game_objects/cards/card/card.tscn")

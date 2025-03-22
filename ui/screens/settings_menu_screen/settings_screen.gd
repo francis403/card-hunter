@@ -1,4 +1,5 @@
-extends Menu
+extends Screen
+class_name SettingsScreen
 
 signal volume_change(new_volume: float)
 
@@ -12,8 +13,9 @@ func _on_volume_slider_value_changed(value: float) -> void:
 	Music.set_linear_volume(value)
 	volume_change.emit(value)
 
-
 func _on_back_button_pressed() -> void:
-	self.visible = false
-	get_tree().paused = false
-	self.process_mode = Node.PROCESS_MODE_DISABLED
+	ScreenUtils.close_settings_screen()
+
+func open_screen(parent_node: Node):
+	super.open_screen(parent_node)
+	self._volume_slider.value = File.settings.volume

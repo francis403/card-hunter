@@ -24,6 +24,7 @@ BattleSignals="*res://singletons/signals/battle_signals.gd"
 MovementUtils="*res://scripts/utils/battlemap_utils/movement_utils.gd"
 File="*res://singletons/game_settings/file/file.gd"
 Music="*res://singletons/game_settings/music/music.gd"
+ScreenUtils="*res://scripts/utils/screen_utils/screen_utils.gd"
 
 [display]
 
@@ -36,8 +37,13 @@ left_click={
 "events": [Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"button_mask":1,"position":Vector2(368, 43),"global_position":Vector2(387, 134),"factor":1.0,"button_index":1,"canceled":false,"pressed":true,"double_click":false,"script":null)
 ]
 }
-cancel_button_pressed={
+escape_button_pressed={
 "deadzone": 0.5,
 "events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":4194305,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
+]
+}
+right_click={
+"deadzone": 0.5,
+"events": [Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"button_mask":2,"position":Vector2(351, 25),"global_position":Vector2(370, 116),"factor":1.0,"button_index":2,"canceled":false,"pressed":true,"double_click":false,"script":null)
 ]
 }
