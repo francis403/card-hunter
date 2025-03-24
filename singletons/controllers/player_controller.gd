@@ -11,7 +11,6 @@ const STARTING_DECK: PlayerDeck =\
 ## when a battle starts, we set the draw deck equal to this deck
 var _deck: PlayerDeck = STARTING_DECK
 
-## TODO: need to figure out how to represent this
 var _player_class: PlayerClass
 
 ## At some point we are going to initiate deck based on class

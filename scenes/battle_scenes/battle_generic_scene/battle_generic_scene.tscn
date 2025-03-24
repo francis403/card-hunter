@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://dn1s6gbout3xc"]
+[gd_scene load_steps=10 format=3 uid="uid://dn1s6gbout3xc"]
 
 [ext_resource type="Script" path="res://scenes/battle_scenes/battle_generic_scene/battle_generic_scene.gd" id="1_6gf8r"]
 [ext_resource type="AudioStream" uid="uid://dwcjod037iqrj" path="res://assets/sound/background_music/One Man Symphony - Collateral Damage (Free) - 15 CyberRace Theme 02.mp3" id="2_ugrlm"]
@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://ckqvejbgtxuhp" path="res://ui/player_stats/player_stats_ui.tscn" id="8_2ovol"]
 [ext_resource type="PackedScene" uid="uid://bmwr7a1er0gjl" path="res://scenes/player/player.tscn" id="8_ye4fl"]
 [ext_resource type="PackedScene" uid="uid://b3x2sadw27m6s" path="res://ui/deck/draw_pile/deck_ui.tscn" id="9_a3gj4"]
+[ext_resource type="PackedScene" uid="uid://qcu3ip6nb1i3" path="res://ui/screens/game_over_screen/game_over_screen.tscn" id="9_bw6p8"]
 
 [node name="BattleGenericScene" type="Node" node_paths=PackedStringArray("player")]
 script = ExtResource("1_6gf8r")
@@ -70,3 +71,6 @@ offset_right = 0.0
 grow_horizontal = 0
 title = "Discard"
 deck_type = 2
+
+[node name="GameOverScreen" parent="." instance=ExtResource("9_bw6p8")]
+visible = false
