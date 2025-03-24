@@ -26,6 +26,7 @@ func _on_input_received_signal():
 	self.process_mode = Node.PROCESS_MODE_INHERIT
 
 func _on_player_canceled_input_signal():
+	h_box_container.modulate.a = 1
 	self.process_mode = Node.PROCESS_MODE_INHERIT
 	BattlemapSignals.tile_picked_in_battlemap.emit(null)
 
