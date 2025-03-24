@@ -12,6 +12,7 @@ func _on_volume_slider_value_changed(value: float) -> void:
 	File.settings.volume = value
 	Music.set_linear_volume(value)
 	volume_change.emit(value)
+	File.change_settings()
 
 func _on_back_button_pressed() -> void:
 	ScreenUtils.close_settings_screen()

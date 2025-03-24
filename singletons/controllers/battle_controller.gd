@@ -6,6 +6,7 @@ var battlemap: Battlemap
 
 func _ready() -> void:
 	BattlemapSignals.battlemap_generated.connect(_on_battlemap_generated_signal)
+	File.load_save_file()
 
 func _on_battlemap_generated_signal(map: Battlemap):
 	print(_on_battlemap_generated_signal)
