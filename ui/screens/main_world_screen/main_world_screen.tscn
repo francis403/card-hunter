@@ -1,0 +1,59 @@
+[gd_scene load_steps=5 format=3 uid="uid://b0kqapqpcyv1q"]
+
+[ext_resource type="PackedScene" uid="uid://4hdqldcrtvn0" path="res://scenes/managers/world_generator_manager/world_generator_manager.tscn" id="1_f2eca"]
+[ext_resource type="Texture2D" uid="uid://1lwus3xnrrcy" path="res://ui/screens/quest_picker/scroll_background.jpg" id="1_q3wbr"]
+[ext_resource type="Theme" uid="uid://dmot8ul1c5l3n" path="res://assets/themes/theme_1.tres" id="2_3q8m2"]
+[ext_resource type="PackedScene" uid="uid://bjwyqp8bw74nx" path="res://scenes/game_objects/world/world_node/world_node.tscn" id="4_mvul0"]
+
+[node name="MainWorldScreen" type="Node"]
+
+[node name="WorldGeneratorManager" parent="." node_paths=PackedStringArray("world_node_container", "village_node_marker") instance=ExtResource("1_f2eca")]
+world_node_container = NodePath("../WorldNodes")
+village_node_marker = NodePath("../VillageNodeMarker")
+
+[node name="Background" type="TextureRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_q3wbr")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_top = 20
+
+[node name="Title" type="Label" parent="MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+theme = ExtResource("2_3q8m2")
+theme_override_font_sizes/font_size = 64
+text = "World Map"
+
+[node name="WorldNodes" type="MarginContainer" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="WorldNode" parent="WorldNodes" instance=ExtResource("4_mvul0")]
+position = Vector2(-94, -88)
+
+[node name="WorldNode2" parent="WorldNodes" instance=ExtResource("4_mvul0")]
+position = Vector2(106, -88)
+
+[node name="HomeNode" parent="WorldNodes" node_paths=PackedStringArray("connections") instance=ExtResource("4_mvul0")]
+position = Vector2(5, -15)
+_world_node_type = 0
+connections = [NodePath("../WorldNode"), NodePath("../WorldNode2")]
+
+[node name="VillageNodeMarker" type="Marker2D" parent="."]
+position = Vector2(581, 310)
