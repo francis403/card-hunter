@@ -88,7 +88,8 @@ func _on_monster_died_signal():
 		BattleSignals.battle_won.emit()
 
 func _on_battle_lost_signal():
-	game_over_screen.title_text = "You Lost"
+	print(_on_battle_lost_signal)
+	game_over_screen.title_label.text = "You Lost"
 	game_over_screen.visible = true
 	get_tree().paused = true
 	game_over_screen.process_mode = Node.PROCESS_MODE_ALWAYS
