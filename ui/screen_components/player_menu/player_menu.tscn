@@ -1,0 +1,31 @@
+[gd_scene load_steps=3 format=3 uid="uid://clw6ot57jagn8"]
+
+[ext_resource type="Script" path="res://ui/screen_components/player_menu/player_menu.gd" id="1_0vdgd"]
+[ext_resource type="Theme" uid="uid://dmot8ul1c5l3n" path="res://assets/themes/theme_1.tres" id="2_sboyk"]
+
+[node name="PlayerMenu" type="MarginContainer"]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+grow_horizontal = 0
+script = ExtResource("1_0vdgd")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+theme = ExtResource("2_sboyk")
+
+[node name="QuestPickerButton" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "Quest Picker"
+
+[node name="WorldViewButton" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "World View"
+
+[node name="ChangeWeaponButton" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "Change Weapon"
+
+[connection signal="pressed" from="VBoxContainer/QuestPickerButton" to="." method="_on_quest_picker_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/WorldViewButton" to="." method="_on_world_view_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/ChangeWeaponButton" to="." method="_on_change_weapon_button_pressed"]

@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://divb6fcfgiohe"]
+[gd_scene load_steps=9 format=3 uid="uid://divb6fcfgiohe"]
 
 [ext_resource type="Texture2D" uid="uid://1lwus3xnrrcy" path="res://ui/screens/quest_picker/scroll_background.jpg" id="1_b78gk"]
 [ext_resource type="Script" path="res://ui/screens/quest_picker/quest_picker_screen.gd" id="1_qnbet"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://yvxphgobi3lv" path="res://scenes/battle_scenes/battle_one_crab_scene.tscn/battle_one_crab_scene.tscn" id="5_0bals"]
 [ext_resource type="PackedScene" uid="uid://72d63gy81i1d" path="res://scenes/battle_scenes/two_crabs_battle_scene/two_crabs_battle_scene.tscn" id="6_w7xp4"]
 [ext_resource type="PackedScene" uid="uid://b3x2sadw27m6s" path="res://ui/deck/draw_pile/deck_ui.tscn" id="7_0lvpa"]
+[ext_resource type="PackedScene" uid="uid://clw6ot57jagn8" path="res://ui/screen_components/player_menu/player_menu.tscn" id="8_7j8ww"]
 
 [node name="QuestPickerScreen" type="Control"]
 layout_mode = 3
@@ -78,3 +79,8 @@ layout_mode = 2
 size_flags_vertical = 10
 title = "Deck"
 deck_type = 0
+
+[node name="PlayerMenu" parent="." instance=ExtResource("8_7j8ww")]
+layout_mode = 1
+offset_left = -105.0
+offset_bottom = 53.0

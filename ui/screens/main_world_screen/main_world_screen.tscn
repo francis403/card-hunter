@@ -1,41 +1,22 @@
-[gd_scene load_steps=5 format=3 uid="uid://b0kqapqpcyv1q"]
+[gd_scene load_steps=6 format=3 uid="uid://baqwuitia2ptv"]
 
+[ext_resource type="Script" path="res://ui/screens/main_world_screen/main_world_screen.gd" id="1_3wacw"]
+[ext_resource type="PackedScene" uid="uid://dqlmwbtf0bya2" path="res://ui/screens/generic_screen/generic_screen.tscn" id="1_eplf0"]
 [ext_resource type="PackedScene" uid="uid://4hdqldcrtvn0" path="res://scenes/managers/world_generator_manager/world_generator_manager.tscn" id="1_f2eca"]
-[ext_resource type="Texture2D" uid="uid://1lwus3xnrrcy" path="res://ui/screens/quest_picker/scroll_background.jpg" id="1_q3wbr"]
-[ext_resource type="Theme" uid="uid://dmot8ul1c5l3n" path="res://assets/themes/theme_1.tres" id="2_3q8m2"]
 [ext_resource type="PackedScene" uid="uid://bjwyqp8bw74nx" path="res://scenes/game_objects/world/world_node/world_node.tscn" id="4_mvul0"]
+[ext_resource type="PackedScene" uid="uid://b3x2sadw27m6s" path="res://ui/deck/draw_pile/deck_ui.tscn" id="5_yl1ki"]
 
-[node name="MainWorldScreen" type="Node"]
+[node name="MainWorldScreen" instance=ExtResource("1_eplf0")]
+script = ExtResource("1_3wacw")
 
-[node name="WorldGeneratorManager" parent="." node_paths=PackedStringArray("world_node_container", "village_node_marker") instance=ExtResource("1_f2eca")]
+[node name="WorldGeneratorManager" parent="." index="0" node_paths=PackedStringArray("world_node_container", "village_node_marker") instance=ExtResource("1_f2eca")]
 world_node_container = NodePath("../WorldNodes")
 village_node_marker = NodePath("../VillageNodeMarker")
 
-[node name="Background" type="TextureRect" parent="."]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("1_q3wbr")
-
-[node name="MarginContainer" type="MarginContainer" parent="."]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_constants/margin_top = 20
-
-[node name="Title" type="Label" parent="MarginContainer"]
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 0
-theme = ExtResource("2_3q8m2")
-theme_override_font_sizes/font_size = 64
+[node name="Title" parent="Screen" index="0"]
 text = "World Map"
 
-[node name="WorldNodes" type="MarginContainer" parent="."]
+[node name="WorldNodes" type="MarginContainer" parent="." index="3"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -44,16 +25,15 @@ grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="WorldNode" parent="WorldNodes" instance=ExtResource("4_mvul0")]
+[node name="WorldNode" parent="WorldNodes" index="0" instance=ExtResource("4_mvul0")]
 position = Vector2(482, 238)
 
-[node name="WorldNode2" parent="WorldNodes" instance=ExtResource("4_mvul0")]
+[node name="WorldNode2" parent="WorldNodes" index="1" instance=ExtResource("4_mvul0")]
 position = Vector2(682, 238)
 
-[node name="HomeNode" parent="WorldNodes" node_paths=PackedStringArray("connections") instance=ExtResource("4_mvul0")]
-position = Vector2(581, 311)
-_world_node_type = 0
-connections = [NodePath("../WorldNode"), NodePath("../WorldNode2")]
+[node name="DeckUI" parent="." index="5" instance=ExtResource("5_yl1ki")]
+title = "Deck"
+deck_type = 0
 
-[node name="VillageNodeMarker" type="Marker2D" parent="."]
+[node name="VillageNodeMarker" type="Marker2D" parent="." index="6"]
 position = Vector2(581, 310)
