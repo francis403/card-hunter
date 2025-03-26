@@ -12,9 +12,10 @@ enum WorldNodeTypeEnum {
 @onready var world_node_sprite: Sprite2D = $worldNodeSprite
 
 @export var _world_node_type: WorldNodeTypeEnum = WorldNodeTypeEnum.UNKNOWN
+@export var connections: Array[WorldNode] = []
+@export var quest_scene: PackedScene
 
-@export
-var connections: Array[WorldNode] = []
+var world_node_id: String
 
 func _ready() -> void:
 	_prepare_world_node_sprite()
@@ -27,4 +28,5 @@ func _prepare_world_node_sprite():
 
 func _on_area_2d_input_event(viewport: Node, event: InputEvent, shape_idx: int) -> void:
 	if event.is_pressed():
-		print("pressed world node")
+		if quest_scene:
+			get_tree().change_scene_to_packed(quest_scene)
