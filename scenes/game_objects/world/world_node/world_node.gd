@@ -1,12 +1,15 @@
 extends Node2D
 class_name WorldNode
 
+const REVEALED_NODE_EXPORT = preload("res://assets/images/nodes/revealed_node-export.png")
 const QUESTION_MARK_NODE_SPRITE = preload("res://assets/images/nodes/question_mark_node.png")
 const VILAGE_NODE_SPRITE = preload("res://assets/images/nodes/vilage_node.png")
+const QUESTION_MARK_NODE_TRANSPARENT_SPRITE = preload("res://assets/images/nodes/question_mark_node-transparent.png")
 
 enum WorldNodeTypeEnum {
 	VILLAGE,
-	UNKNOWN
+	UNKNOWN,
+	REVEALED
 }
 
 @onready var world_node_sprite: Sprite2D = $worldNodeSprite
@@ -17,7 +20,6 @@ enum WorldNodeTypeEnum {
 @export var quest_scene: PackedScene
 
 var is_showing_player_sprite: bool = false
-
 var world_node_id: String
 
 func _ready() -> void:
@@ -32,7 +34,9 @@ func _on_hide_player_in_other_node_signal(node_id: String):
 func _prepare_world_node_sprite():
 	if _world_node_type == WorldNodeTypeEnum.VILLAGE:
 		world_node_sprite.texture = VILAGE_NODE_SPRITE
-	
+	elif _world_node_type == WorldNodeTypeEnum.REVEALED:
+		world_node_sprite.texture = REVEALED_NODE_EXPORT
+		
 	if File.progress.current_world_node_id == world_node_id:
 		show_player()
 
@@ -43,7 +47,6 @@ func _on_area_2d_input_event(viewport: Node, event: InputEvent, shape_idx: int) 
 func _process_on_world_node_click():
 	if self.is_showing_player_sprite && quest_scene:
 		get_tree().change_scene_to_packed(quest_scene)
-	print(_process_on_world_node_click)
 	show_player()
 	BattlemapSignals.update_player_node.emit(world_node_id)
 	BattlemapSignals.hide_player_in_other_node.emit(world_node_id)

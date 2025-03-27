@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://bjwyqp8bw74nx"]
 
-[ext_resource type="Texture2D" uid="uid://dqdpwkgcjg7u8" path="res://assets/images/nodes/question_mark_node.png" id="1_e6gyp"]
 [ext_resource type="Script" path="res://scenes/game_objects/world/world_node/world_node.gd" id="1_grnsk"]
+[ext_resource type="Texture2D" uid="uid://dxu3uud8jtakw" path="res://assets/images/nodes/question_mark_node-transparent.png" id="2_jnumg"]
 [ext_resource type="Texture2D" uid="uid://dsctmiux3yqib" path="res://scenes/player/tile_0112.png" id="3_2fyg1"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_jgbhb"]
@@ -11,7 +11,7 @@ radius = 32.0
 script = ExtResource("1_grnsk")
 
 [node name="worldNodeSprite" type="Sprite2D" parent="."]
-texture = ExtResource("1_e6gyp")
+texture = ExtResource("2_jnumg")
 
 [node name="PlayerSprite" type="Sprite2D" parent="."]
 visible = false

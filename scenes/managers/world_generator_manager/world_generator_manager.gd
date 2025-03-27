@@ -38,9 +38,10 @@ func _generate_world():
 
 func _draw_line_between_connecting_nodes(base_node: WorldNode):
 	for node in base_node.connections:
+		## TODO: need to improve the line mechanism
 		draw_line(
 			base_node.global_position, 
-			node.global_position, 
+			node.global_position + Vector2(0, 30), 
 			Color.BLACK
 		)
 	

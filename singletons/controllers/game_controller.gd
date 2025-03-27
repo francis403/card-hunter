@@ -1,8 +1,5 @@
 extends Node
 
-#func _ready() -> void:
-	#File.load_save_file()
-
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("escape_button_pressed"):
 		_process_settings_screen()
