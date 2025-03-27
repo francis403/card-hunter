@@ -19,3 +19,4 @@ func replace_deck(other_deck: PlayerDeck):
 	
 func get_deck():
 	return _deck
+	

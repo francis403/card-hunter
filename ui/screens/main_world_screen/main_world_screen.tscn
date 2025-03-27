@@ -10,6 +10,7 @@
 script = ExtResource("1_3wacw")
 
 [node name="WorldGeneratorManager" parent="." index="1" node_paths=PackedStringArray("world_node_container", "village_node_marker") instance=ExtResource("1_f2eca")]
+position = Vector2(-1, 0)
 world_node_container = NodePath("../WorldNodes")
 village_node_marker = NodePath("../VillageNodeMarker")
 

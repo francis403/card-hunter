@@ -1,7 +1,7 @@
 [gd_scene load_steps=9 format=3 uid="uid://de1lhh284xmap"]
 
 [ext_resource type="Texture2D" uid="uid://1lwus3xnrrcy" path="res://ui/screens/quest_picker/scroll_background.jpg" id="1_fo3qx"]
-[ext_resource type="Script" path="res://ui/screens/pick_class_scren/pick_class_screen.gd" id="1_uhqi0"]
+[ext_resource type="Script" path="res://ui/screens/pick_class_screen/pick_class_screen.gd" id="1_uhqi0"]
 [ext_resource type="Theme" uid="uid://dmot8ul1c5l3n" path="res://assets/themes/theme_1.tres" id="2_7a2qm"]
 [ext_resource type="Script" path="res://resources/player/player_class/player_class.gd" id="2_w1lat"]
 [ext_resource type="Resource" uid="uid://c4m3chcraaxeq" path="res://resources/player/player_class/player_class_resources/all_rounder_class.tres" id="3_0cpjo"]

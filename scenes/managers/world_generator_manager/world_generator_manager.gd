@@ -33,7 +33,6 @@ func _remove_preview():
 		node.queue_free()
 		
 func _generate_world():
-	print(_generate_world)
 	_generate_village()
 	_generate_adjacent_nodes(village_node)
 

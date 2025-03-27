@@ -28,5 +28,6 @@ func _prepare_world_node_sprite():
 
 func _on_area_2d_input_event(viewport: Node, event: InputEvent, shape_idx: int) -> void:
 	if event.is_pressed():
+		print(_on_area_2d_input_event)
 		if quest_scene:
 			get_tree().change_scene_to_packed(quest_scene)
