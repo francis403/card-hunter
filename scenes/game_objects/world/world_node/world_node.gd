@@ -15,6 +15,7 @@ enum WorldNodeTypeEnum {
 @export var _world_node_type: WorldNodeTypeEnum = WorldNodeTypeEnum.UNKNOWN
 @export var connections: Array[WorldNode] = []
 @export var quest_scene: PackedScene
+
 var is_showing_player_sprite: bool = false
 
 var world_node_id: String
@@ -40,6 +41,8 @@ func _on_area_2d_input_event(viewport: Node, event: InputEvent, shape_idx: int) 
 		_process_on_world_node_click()
 
 func _process_on_world_node_click():
+	if self.is_showing_player_sprite && quest_scene:
+		get_tree().change_scene_to_packed(quest_scene)
 	print(_process_on_world_node_click)
 	show_player()
 	BattlemapSignals.update_player_node.emit(world_node_id)
