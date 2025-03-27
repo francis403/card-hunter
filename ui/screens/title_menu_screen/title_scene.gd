@@ -17,3 +17,7 @@ func _on_settings_pressed() -> void:
 
 func _on_exit_pressed() -> void:
 	get_tree().quit()
+
+func _on_continue_pressed() -> void:
+	File.load_save_file()
+	get_tree().change_scene_to_packed(Constants.pick_class_screen_scene)

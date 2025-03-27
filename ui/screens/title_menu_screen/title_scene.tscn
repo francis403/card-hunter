@@ -101,5 +101,6 @@ offset_right = 81.5
 offset_bottom = 25.0
 
 [connection signal="pressed" from="MenuContainer/NewGame" to="." method="_on_new_game_pressed"]
+[connection signal="pressed" from="MenuContainer/Continue" to="." method="_on_continue_pressed"]
 [connection signal="pressed" from="MenuContainer/Settings" to="." method="_on_settings_pressed"]
 [connection signal="pressed" from="MenuContainer/Exit" to="." method="_on_exit_pressed"]
