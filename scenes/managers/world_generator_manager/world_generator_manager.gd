@@ -47,6 +47,8 @@ func _draw_line_between_connecting_nodes(base_node: WorldNode):
 func _generate_village():
 	village_node = WORLD_NODE_SCENE.instantiate()
 	village_node._world_node_type = WorldNode.WorldNodeTypeEnum.VILLAGE
+	village_node.world_node_id = str("village_node_id")
+	village_node.is_showing_player_sprite = true
 	village_node.global_position = village_node_marker.global_position
 	world_node_container.add_child(village_node)
 
