@@ -4,9 +4,16 @@
 [ext_resource type="Theme" uid="uid://dmot8ul1c5l3n" path="res://assets/themes/theme_1.tres" id="2_mb2ls"]
 [ext_resource type="PackedScene" uid="uid://clw6ot57jagn8" path="res://ui/screen_components/player_menu/player_menu.tscn" id="2_wgvgf"]
 
-[node name="GenericScreen" type="Node"]
+[node name="GenericScreen" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="Background" type="TextureRect" parent="."]
+layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -15,6 +22,7 @@ grow_vertical = 2
 texture = ExtResource("1_0g53d")
 
 [node name="Screen" type="MarginContainer" parent="."]
+layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -31,5 +39,6 @@ theme_override_font_sizes/font_size = 64
 text = "Title here"
 
 [node name="PlayerMenu" parent="." instance=ExtResource("2_wgvgf")]
+layout_mode = 1
 offset_left = -105.0
 offset_bottom = 53.0

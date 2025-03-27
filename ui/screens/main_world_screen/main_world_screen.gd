@@ -1,2 +1,2 @@
-extends Node
+extends Control
 class_name MainWorldScreen

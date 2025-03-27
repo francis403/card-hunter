@@ -15,7 +15,6 @@ func _ready() -> void:
 
 func _on_card_back_gui_input(event: InputEvent) -> void:
 	if event.is_pressed():
-		#PlayerController.replace_deck()
 		if player_class:
 			PlayerController.replace_deck(player_class.default_class_deck)
-		get_tree().change_scene_to_packed(Constants.quest_picker_screen_scroll_scene)
+		get_tree().change_scene_to_packed(Constants.main_world_scroll_scene)

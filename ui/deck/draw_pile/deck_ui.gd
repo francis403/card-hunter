@@ -37,7 +37,6 @@ func _on_deck_finished_prepping_signal(
 
 func _on_gui_input(event: InputEvent) -> void:
 	if event.is_pressed():
-		print("Show deck")
 		if deck_type == Deck_Type_Enum.DRAW_DECK:
 			BattlemapSignals.show_draw_pile_deck.emit()
 		elif deck_type == Deck_Type_Enum.DISCARD_DECK:
