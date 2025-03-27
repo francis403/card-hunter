@@ -10,6 +10,10 @@ func _on_battlemap_generated_signal(map: Battlemap):
 	print(_on_battlemap_generated_signal)
 	self.battlemap = map
 
+func _input(event: InputEvent) -> void:
+	if event.is_action_pressed("right_click"):
+		BattlemapSignals.canceled_player_input.emit()
+
 func get_player() -> PlayerPiece:
 	return battlemap.player
 	

@@ -35,15 +35,7 @@ func _ready() -> void:
 	BattleSignals.battle_won.connect(_on_battle_won_signal)
 
 	_draw_cards_start_of_turn(battlemap.player)
-	BattleSignals.battle_start.emit()
-	
-
-## TODO: if left button is pressed and we are awaiting user input
-##		 but we didn't click a tile cancel
-func _input(event: InputEvent) -> void:
-	if event.is_action_pressed("right_click"):
-		BattlemapSignals.canceled_player_input.emit()
-	
+	BattleSignals.battle_start.emit()	
 
 func _on_player_turn_started_signal():
 	is_player_turn = true
