@@ -20,3 +20,7 @@ func _on_back_button_pressed() -> void:
 func open_screen(parent_node: Node):
 	super.open_screen(parent_node)
 	self._volume_slider.value = File.settings.volume
+
+
+func _on_exit_button_pressed() -> void:
+	get_tree().quit()
