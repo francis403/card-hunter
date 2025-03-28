@@ -23,8 +23,10 @@ var village_node: WorldNode
 
 func _draw():
 	_remove_preview()
-	_generate_world()
-	_draw_line_between_connecting_nodes(village_node)
+	if not File.progress.village_node:
+		_generate_world()
+	else:
+		_load_world()
 
 func _remove_preview():
 	if not world_node_container:
@@ -35,6 +37,8 @@ func _remove_preview():
 func _generate_world():
 	_generate_village()
 	_generate_adjacent_nodes(village_node)
+	_save_world_state()
+	_draw_line_between_connecting_nodes(village_node)
 
 func _draw_line_between_connecting_nodes(base_node: WorldNode):
 	for node in base_node.connections:
@@ -68,3 +72,29 @@ func _generate_adjacent_nodes(base_node: WorldNode):
 		base_node.connections.append(generated_node)
 		world_node_container.add_child(generated_node)
 	#self.queue_redraw()
+
+func _load_world():
+	print(_load_world)
+	_load_village()
+	_load_connected_nodes(village_node)
+	_draw_line_between_connecting_nodes(village_node)
+	BattlemapSignals.hide_player_in_other_node.emit(File.progress.current_world_node_id)
+
+func _load_village():
+	village_node = File.progress.village_node
+	world_node_container.add_child(village_node)
+
+func _load_connected_nodes(base_node: WorldNode):
+	for node in base_node.connections:
+		world_node_container.add_child(node)
+
+## TODO: need to improve this
+func _save_world_state():
+	File.progress.village_node = village_node.duplicate()
+	File.progress.village_node.world_node_id = village_node.world_node_id
+	File.progress.village_node.connections.clear()
+	for node in village_node.connections:
+		var node_copy: WorldNode = node.duplicate()
+		node_copy.world_node_id = node.world_node_id
+		node_copy.is_revealed = node.is_revealed
+		File.progress.village_node.connections.append(node_copy)

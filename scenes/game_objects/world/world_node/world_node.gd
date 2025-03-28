@@ -19,8 +19,9 @@ enum WorldNodeTypeEnum {
 @export var connections: Array[WorldNode] = []
 @export var quest_scene: PackedScene
 
-var is_showing_player_sprite: bool = false
 var world_node_id: String
+var is_showing_player_sprite: bool = false
+var is_revealed: bool = false
 
 func _ready() -> void:
 	BattlemapSignals.hide_player_in_other_node.connect(_on_hide_player_in_other_node_signal)
