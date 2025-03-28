@@ -72,5 +72,6 @@ func _on_squares_attacked_signal(damage: int):
 		
 		
 func _die():
+	BattlemapSignals.player_died.emit()
 	BattleSignals.battle_lost.emit()
 	self.queue_free()

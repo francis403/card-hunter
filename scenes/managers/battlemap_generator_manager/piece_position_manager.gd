@@ -15,8 +15,9 @@ func place_piece_in_tile(piece: Piece, tile: Tile):
 	place_node_in_tile(piece, tile)
 
 func place_node_in_tile(node: Node2D, tile: Tile):
-	if not tile:
+	if not tile or not node:
 		return
+		
 	if tile.piece_in_tile:
 		return
 		

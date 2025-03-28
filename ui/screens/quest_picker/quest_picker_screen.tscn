@@ -4,10 +4,10 @@
 [ext_resource type="Script" path="res://ui/screens/quest_picker/quest_picker_screen.gd" id="1_qnbet"]
 [ext_resource type="Theme" uid="uid://dmot8ul1c5l3n" path="res://assets/themes/theme_1.tres" id="2_kjh2v"]
 [ext_resource type="PackedScene" uid="uid://i5erj77f8kxb" path="res://ui/quest_scroll/quest_scroll.tscn" id="3_6qql6"]
-[ext_resource type="PackedScene" uid="uid://bbrsr1pbawd0x" path="res://scenes/_main/battle_main_scene.tscn" id="4_q5n0a"]
-[ext_resource type="PackedScene" uid="uid://ccq54csejnel1" path="res://scenes/battle_scenes/two_monsters_temp_battle.tscn" id="5_tybal"]
-[ext_resource type="PackedScene" uid="uid://dec1v84jwtbsg" path="res://scenes/_test_scenes/test_battle_scene_1.tscn" id="6_pibi5"]
+[ext_resource type="PackedScene" uid="uid://yvxphgobi3lv" path="res://scenes/battle_scenes/battle_one_crab_scene.tscn/battle_one_crab_scene.tscn" id="5_0bals"]
+[ext_resource type="PackedScene" uid="uid://72d63gy81i1d" path="res://scenes/battle_scenes/two_crabs_battle_scene/two_crabs_battle_scene.tscn" id="6_w7xp4"]
 [ext_resource type="PackedScene" uid="uid://b3x2sadw27m6s" path="res://ui/deck/draw_pile/deck_ui.tscn" id="7_0lvpa"]
+[ext_resource type="PackedScene" uid="uid://clw6ot57jagn8" path="res://ui/screen_components/player_menu/player_menu.tscn" id="8_7j8ww"]
 
 [node name="QuestPickerScreen" type="Control"]
 layout_mode = 3
@@ -34,7 +34,9 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_constants/margin_left = 20
 theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
 theme_override_constants/margin_bottom = 20
 
 [node name="Title" type="Label" parent="MarginContainer"]
@@ -64,23 +66,21 @@ columns = 5
 layout_mode = 2
 _title = "Hunt a Crab"
 _description = "Well, you see, sometimes you just want crab legs."
-battle_scene = ExtResource("4_q5n0a")
+battle_scene = ExtResource("5_0bals")
 
 [node name="QuestScroll2" parent="MarginContainer/VBoxContainer/MarginContainer/GridContainer" instance=ExtResource("3_6qql6")]
 layout_mode = 2
 _title = "Hunt 2 crabs"
 _description = "I need more!"
-battle_scene = ExtResource("5_tybal")
-
-[node name="QuestScroll3" parent="MarginContainer/VBoxContainer/MarginContainer/GridContainer" instance=ExtResource("3_6qql6")]
-layout_mode = 2
-_title = "Test cards scene"
-_description = "This is for testing new cards"
-battle_scene = ExtResource("6_pibi5")
+battle_scene = ExtResource("6_w7xp4")
 
 [node name="DeckUI" parent="MarginContainer/VBoxContainer" instance=ExtResource("7_0lvpa")]
 layout_mode = 2
-size_flags_horizontal = 2
 size_flags_vertical = 10
 title = "Deck"
 deck_type = 0
+
+[node name="PlayerMenu" parent="." instance=ExtResource("8_7j8ww")]
+layout_mode = 1
+offset_left = -105.0
+offset_bottom = 53.0

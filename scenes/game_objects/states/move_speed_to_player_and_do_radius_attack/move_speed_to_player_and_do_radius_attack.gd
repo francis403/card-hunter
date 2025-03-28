@@ -1,11 +1,6 @@
 extends StateWithMovement
 class_name MoveSpeedToPlayerAndDoRadiusAttack
 
-# TODO: I have to make this state scenes more module
-#	They should be able to take an array of the following:
-#	- condition to trigger to next state
-#	- next state
-
 
 @export var range: int = 1
 	
@@ -15,7 +10,7 @@ func exit_state():
 func do_state_action():
 	super.do_state_action()
 	
-	var distance_to_player = BattleController.distance_between_tiles(
+	var distance_to_player = MovementUtils.distance_between_tiles(
 		monster.next_move if monster.next_move else monster._tile,
 		target._tile
 	)

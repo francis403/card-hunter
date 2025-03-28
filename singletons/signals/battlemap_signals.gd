@@ -42,3 +42,7 @@ signal monster_prepared_move(tile: Tile)
 signal monster_prepared_attack(attacked_tiles: Array[Tile])
 signal monster_died
 signal monster_moved_by_player(new_tile: Tile)
+
+## WorldMap Signals
+signal update_player_node(world_node_id: String)
+signal hide_player_in_other_node(world_node_id: String)

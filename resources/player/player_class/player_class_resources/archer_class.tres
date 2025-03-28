@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="PlayerClass" load_steps=4 format=3 uid="uid://bw0axal1uv0jp"]
+
+[ext_resource type="Resource" uid="uid://cxqwenx77ubwh" path="res://resources/player_deck/decks/generic_deck/starting_deck.tres" id="1_5x668"]
+[ext_resource type="Texture2D" uid="uid://dvy3u1j4j237v" path="res://assets/game_objects/card_parts/card_icons/bow.tres" id="2_gdw61"]
+[ext_resource type="Script" path="res://resources/player/player_class/player_class.gd" id="3_ogchd"]
+
+[resource]
+script = ExtResource("3_ogchd")
+player_class_name = "Archer Class"
+player_class_icon = ExtResource("2_gdw61")
+default_class_deck = ExtResource("1_5x668")

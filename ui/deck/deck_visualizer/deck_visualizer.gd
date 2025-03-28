@@ -27,6 +27,5 @@ func _instantiate_card(card_resource: CardResource):
 	card_instance.initialize_card()
 
 
-## TODO: is this the best way?
 func _on_back_button_pressed() -> void:
 	self.queue_free()

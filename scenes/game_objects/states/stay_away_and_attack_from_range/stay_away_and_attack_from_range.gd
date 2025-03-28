@@ -10,7 +10,7 @@ func exit_state():
 func do_state_action():
 	super.do_state_action()
 	
-	var distance_to_player = BattleController.distance_between_tiles(
+	var distance_to_player = MovementUtils.distance_between_tiles(
 		monster.next_move if monster.next_move else monster._tile,
 		target._tile
 	)

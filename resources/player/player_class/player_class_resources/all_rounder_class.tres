@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="PlayerClass" load_steps=4 format=3 uid="uid://c4m3chcraaxeq"]
+
+[ext_resource type="Script" path="res://resources/player/player_class/player_class.gd" id="1_ix56t"]
+[ext_resource type="Resource" uid="uid://cxqwenx77ubwh" path="res://resources/player_deck/decks/generic_deck/starting_deck.tres" id="1_sj70g"]
+[ext_resource type="Texture2D" uid="uid://5jbjkmerrlrg" path="res://assets/game_objects/card_parts/card_icons/shield.tres" id="2_sh0sq"]
+
+[resource]
+script = ExtResource("1_ix56t")
+player_class_name = "Generic Class"
+player_class_icon = ExtResource("2_sh0sq")
+default_class_deck = ExtResource("1_sj70g")
