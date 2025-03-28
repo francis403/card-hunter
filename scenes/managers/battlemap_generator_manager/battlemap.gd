@@ -78,3 +78,6 @@ func get_tile(grix_x, grix_y) -> Tile:
 	if grix_x >= 0 && grix_x < _number_of_columns && grix_y >= 0 && grix_y < _number_of_rows:
 		return grid_array[grix_y][grix_x]
 	return null
+	
+func get_total_amount_of_monsters():
+	return monsters.size()

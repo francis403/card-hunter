@@ -26,10 +26,8 @@ func play_card_action(
 	BattlemapSignals.awaiting_player_input.emit()
 
 	var tile: Tile = await BattlemapSignals.tile_picked_in_battlemap
-	if not tile:
-		return 
 		
-	if not tile.piece_in_tile:
+	if not tile or not tile.piece_in_tile:
 		BattlemapSignals.canceled_player_input.emit()
 		return
 	var piece_to_move: Piece = tile.piece_in_tile

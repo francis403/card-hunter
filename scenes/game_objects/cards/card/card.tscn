@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://d3vhms6yk456c"]
+[gd_scene load_steps=11 format=3 uid="uid://d3vhms6yk456c"]
 
 [ext_resource type="Script" path="res://scenes/game_objects/cards/card/card.gd" id="1_eebhr"]
 [ext_resource type="Resource" uid="uid://dild4y4i7lvo5" path="res://resources/card/card_resources/move_card.tres" id="2_iaqf0"]
@@ -8,6 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://skcch36g4exl" path="res://assets/game_objects/card_parts/image_box/card_image_box_normal.tres" id="6_xpnrf"]
 [ext_resource type="Texture2D" uid="uid://byctkwg83grsr" path="res://assets/game_objects/card_parts/tags_box/tag_box_normal.tres" id="7_4bjlj"]
 [ext_resource type="Texture2D" uid="uid://bpba38prsy36v" path="res://assets/game_objects/card_parts/description_box/description_box_white.tres" id="7_a52it"]
+[ext_resource type="Theme" uid="uid://dmot8ul1c5l3n" path="res://assets/themes/theme_1.tres" id="9_4jgyv"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_emsmj"]
 line_spacing = 1.0
@@ -146,6 +147,7 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 8
+theme = ExtResource("9_4jgyv")
 theme_override_font_sizes/font_size = 8
 text = "discard"
 icon_alignment = 1

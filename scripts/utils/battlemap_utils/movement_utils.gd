@@ -9,7 +9,7 @@ func get_movement_tile(
 	var x = start_tile._x_position
 	var y = start_tile._y_position
 	var moved_tiles: int = 0
-	var distance_to_player: int = BattleController.distance_between_tiles(
+	var distance_to_player: int = distance_between_tiles(
 		start_tile, 
 		target_tile
 	)
@@ -43,7 +43,7 @@ func move_away_from_tile(
 	var x = start_tile._x_position
 	var y = start_tile._y_position
 	var moved_tiles: int = 0
-	var current_distance: int = BattleController.distance_between_tiles(
+	var current_distance: int = distance_between_tiles(
 		start_tile, 
 		tile_to_move_away
 	)
@@ -63,3 +63,16 @@ func move_away_from_tile(
 		current_distance += 1
 		moved_tiles += 1
 	return BattleController.get_tile(x, y)
+	
+
+func distance_between_tiles(tile1: Tile, tile2: Tile) -> int:
+	var x1 = tile1._x_position
+	var x2 = tile2._x_position
+	var y1 = tile1._y_position
+	var y2 = tile2._y_position
+	return round(
+		pow(
+			pow((x2 - x1), 2) + pow((y2 - y1), 2),
+			0.5
+		)
+	)

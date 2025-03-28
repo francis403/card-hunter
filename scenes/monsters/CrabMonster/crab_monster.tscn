@@ -10,9 +10,12 @@
 [sub_resource type="CircleShape2D" id="CircleShape2D_jo88s"]
 
 [node name="CrabMonster" type="CharacterBody2D"]
+scale = Vector2(5, 5)
 script = ExtResource("1_f67w6")
-_max_hp = 100
+_health = 250
+_max_hp = 250
 _max_stamina = 500
+_strength = 30
 
 [node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("initial_state")]
 script = ExtResource("3_uvlbr")

@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="PlayerClass" load_steps=4 format=3 uid="uid://btmk8nbikbsox"]
+
+[ext_resource type="Resource" uid="uid://c52h8udn2ffm4" path="res://resources/player_deck/decks/generic_deck/great_sword_starting_deck.tres" id="1_8hddd"]
+[ext_resource type="Texture2D" uid="uid://da24gy550h2xp" path="res://assets/game_objects/card_parts/card_icons/sword.tres" id="2_yecv1"]
+[ext_resource type="Script" path="res://resources/player/player_class/player_class.gd" id="3_t60bu"]
+
+[resource]
+script = ExtResource("3_t60bu")
+player_class_name = "Great Sword Class"
+player_class_icon = ExtResource("2_yecv1")
+default_class_deck = ExtResource("1_8hddd")

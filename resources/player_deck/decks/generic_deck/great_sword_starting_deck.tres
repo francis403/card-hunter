@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="PlayerDeck" load_steps=9 format=3 uid="uid://c52h8udn2ffm4"]
+
+[ext_resource type="Script" path="res://resources/card/card_resource.gd" id="1_o1t47"]
+[ext_resource type="Resource" uid="uid://dild4y4i7lvo5" path="res://resources/card/card_resources/move_card.tres" id="2_0m5q7"]
+[ext_resource type="Resource" uid="uid://2it5k6b3esfs" path="res://resources/card/card_resources/slice_card.tres" id="3_g2b0g"]
+[ext_resource type="Resource" uid="uid://gf0hhocv78vs" path="res://resources/card/card_resources/dash_card.tres" id="4_t2lki"]
+[ext_resource type="Resource" uid="uid://bgxa6u42qqqax" path="res://resources/card/card_resources/push_card.tres" id="5_348ka"]
+[ext_resource type="Resource" uid="uid://bh6wol8b68puf" path="res://resources/card/card_resources/health_potion.tres" id="6_o8xc6"]
+[ext_resource type="Resource" uid="uid://diasqdd0iallv" path="res://resources/card/card_resources/breathe_card.tres" id="7_8xa8n"]
+[ext_resource type="Script" path="res://resources/player_deck/player_deck.gd" id="8_dnvnh"]
+
+[resource]
+script = ExtResource("8_dnvnh")
+_deck = Array[ExtResource("1_o1t47")]([ExtResource("2_0m5q7"), ExtResource("2_0m5q7"), ExtResource("3_g2b0g"), ExtResource("3_g2b0g"), ExtResource("3_g2b0g"), ExtResource("4_t2lki"), ExtResource("5_348ka"), ExtResource("6_o8xc6"), ExtResource("7_8xa8n"), ExtResource("3_g2b0g")])

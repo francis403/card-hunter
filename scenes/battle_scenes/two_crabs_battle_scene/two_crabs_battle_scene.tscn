@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://72d63gy81i1d"]
+
+[ext_resource type="PackedScene" uid="uid://dn1s6gbout3xc" path="res://scenes/battle_scenes/battle_generic_scene/battle_generic_scene.tscn" id="1_134wq"]
+[ext_resource type="PackedScene" uid="uid://deqlmpr5vbu60" path="res://scenes/monsters/CrabMonster/crab_monster.tscn" id="2_43rgl"]
+
+[node name="BattleGenericScene" instance=ExtResource("1_134wq")]
+
+[node name="Battlemap" parent="." index="3" node_paths=PackedStringArray("monsters")]
+monsters = [NodePath("../CrabMonster"), NodePath("../CrabMonster2")]
+
+[node name="CrabMonster" parent="." index="5" instance=ExtResource("2_43rgl")]
+
+[node name="CrabMonster2" parent="." index="6" instance=ExtResource("2_43rgl")]

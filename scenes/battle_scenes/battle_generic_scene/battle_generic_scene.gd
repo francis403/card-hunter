@@ -1,15 +1,19 @@
 extends Node
-class_name BattleMainController
+class_name BattleGenericScene
 
 const deck_visualizer_scene = preload("res://ui/deck/deck_visualizer/deck_visualizer.tscn")
 
+@onready var game_over_screen: GameOverScreen = $GameOverScreen
 @onready var hand: Hand = $Hand
 @onready var battlemap: Battlemap = $Battlemap
-@onready var player: PlayerCharacter = $Player
-
 @onready var ui_nodes: Control = $UINodes
 
+@export var player: PlayerCharacter
+
 var is_player_turn: bool = true
+var awaiting_player_input: bool = false
+
+var _number_of_monsters_defeated: int = 0
 
 func _ready() -> void:
 	BattlemapSignals.monster_turn_started.connect(_on_monster_turn_started_signal)
@@ -19,12 +23,19 @@ func _ready() -> void:
 	BattlemapSignals.show_draw_pile_deck.connect(_on_show_draw_pile_deck_signal)
 	BattlemapSignals.show_discard_pile_deck.connect(_on_show_discard_pile_deck_signal)
 
-	_draw_cards_start_of_turn(battlemap.player)
-	BattleSignals.battle_start.emit()
+	# Player signals
+	BattlemapSignals.awaiting_player_input.connect(_on_awaiting_player_input_signal)
+	BattlemapSignals.player_input_received.connect(_on_player_input_signal)
+	BattlemapSignals.canceled_player_input.connect(_on_player_input_signal)
 	
-func _input(event: InputEvent) -> void:
-	if event.is_action_pressed("cancel_button_pressed"):
-		BattlemapSignals.canceled_player_input.emit()
+	# Monsters
+	BattlemapSignals.monster_died.connect(_on_monster_died_signal)
+	
+	BattlemapSignals.player_died.connect(_on_battle_lost_signal)
+	BattleSignals.battle_won.connect(_on_battle_won_signal)
+
+	_draw_cards_start_of_turn(battlemap.player)
+	BattleSignals.battle_start.emit()	
 
 func _on_player_turn_started_signal():
 	is_player_turn = true
@@ -32,14 +43,6 @@ func _on_player_turn_started_signal():
 	_draw_cards_start_of_turn(player)
 	player.recover_stamina()
 	BattlemapSignals.unlock_player_input.emit()
-
-#func _on_monster_prepared_move_signal(move_tile: Tile):	
-	#if not move_tile:
-		#return
-	#battlemap.add_child(monster_sprite)
-	#battlemap.place_node_in_tile(monster_sprite, move_tile)
-	#monster_sprite.scale = BattleController.get_monster().scale
-	#monster_sprite.modulate = Color.WEB_GRAY
 
 func _draw_cards_start_of_turn(player: PlayerPiece):
 	var new_cards: Array[CardResource] = player.draw_til_hand_size()
@@ -64,3 +67,26 @@ func _on_show_discard_pile_deck_signal():
 	var deck_visualizer_instance: DeckVisualizer = deck_visualizer_scene.instantiate()
 	deck_visualizer_instance.deck = player.discard_pile
 	ui_nodes.add_child(deck_visualizer_instance)
+	
+func _on_awaiting_player_input_signal():
+	awaiting_player_input = true
+	
+func _on_player_input_signal():
+	awaiting_player_input = false
+	
+func _on_monster_died_signal():
+	_number_of_monsters_defeated += 1
+	if _number_of_monsters_defeated >= battlemap.get_total_amount_of_monsters():
+		BattleSignals.battle_won.emit()
+
+func _on_battle_lost_signal():
+	print(_on_battle_lost_signal)
+	game_over_screen.title_label.text = "You Lost"
+	game_over_screen.visible = true
+	get_tree().paused = true
+	game_over_screen.process_mode = Node.PROCESS_MODE_ALWAYS
+
+func _on_battle_won_signal():
+	game_over_screen.visible = true
+	get_tree().paused = true
+	game_over_screen.process_mode = Node.PROCESS_MODE_ALWAYS

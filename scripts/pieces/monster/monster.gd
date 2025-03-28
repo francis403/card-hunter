@@ -34,6 +34,7 @@ func apply_damage(damage: int):
 		
 func _die():
 	self._tile.piece_in_tile = null
+	BattlemapSignals.monster_died.emit()
 	queue_free()
 
 func get_sprite() -> Sprite2D:

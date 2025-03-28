@@ -14,3 +14,6 @@ func remove_card(card: CardResource):
 	for i in range(_deck.size()):
 		if _deck[i] == card:
 			_deck.remove_at(i)
+
+func get_size() -> int:
+	return _deck.size()

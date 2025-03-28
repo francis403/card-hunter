@@ -3,8 +3,6 @@ class_name Hand
 
 @onready var h_box_container: HBoxContainer = $HBoxContainer
 
-var card_scene: PackedScene = preload("res://scenes/game_objects/cards/card/card.tscn")
-
 func _ready() -> void:
 	_clean_preview()
 	BattlemapSignals.awaiting_player_input.connect(_on_input_awaiting_signal)
@@ -28,6 +26,7 @@ func _on_input_received_signal():
 	self.process_mode = Node.PROCESS_MODE_INHERIT
 
 func _on_player_canceled_input_signal():
+	h_box_container.modulate.a = 1
 	self.process_mode = Node.PROCESS_MODE_INHERIT
 	BattlemapSignals.tile_picked_in_battlemap.emit(null)
 
@@ -42,7 +41,7 @@ func populate_hand(new_cards: Array[CardResource]):
 func _instantiate_card(card_resource: CardResource):
 	if not card_resource:
 		return
-	var card_instance: Card = card_scene.instantiate()
+	var card_instance: Card = Constants.card_scene.instantiate()
 	h_box_container.add_child(card_instance)
 	card_instance.card_resource = card_resource
 	card_instance.initialize_card()

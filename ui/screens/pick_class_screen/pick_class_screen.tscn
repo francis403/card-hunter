@@ -1,0 +1,74 @@
+[gd_scene load_steps=9 format=3 uid="uid://de1lhh284xmap"]
+
+[ext_resource type="Texture2D" uid="uid://1lwus3xnrrcy" path="res://ui/screens/quest_picker/scroll_background.jpg" id="1_fo3qx"]
+[ext_resource type="Script" path="res://ui/screens/pick_class_screen/pick_class_screen.gd" id="1_uhqi0"]
+[ext_resource type="Theme" uid="uid://dmot8ul1c5l3n" path="res://assets/themes/theme_1.tres" id="2_7a2qm"]
+[ext_resource type="Script" path="res://resources/player/player_class/player_class.gd" id="2_w1lat"]
+[ext_resource type="Resource" uid="uid://c4m3chcraaxeq" path="res://resources/player/player_class/player_class_resources/all_rounder_class.tres" id="3_0cpjo"]
+[ext_resource type="PackedScene" uid="uid://cupm3r3yhcopw" path="res://ui/screen_components/class_picker_component/class_picker_component.tscn" id="4_adaab"]
+[ext_resource type="Resource" uid="uid://bw0axal1uv0jp" path="res://resources/player/player_class/player_class_resources/archer_class.tres" id="4_orbci"]
+[ext_resource type="Resource" uid="uid://btmk8nbikbsox" path="res://resources/player/player_class/player_class_resources/great_sword_class.tres" id="5_4x74p"]
+
+[node name="PickClassScreen" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_uhqi0")
+class_choices = Array[ExtResource("2_w1lat")]([ExtResource("3_0cpjo"), ExtResource("4_orbci"), ExtResource("5_4x74p")])
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_fo3qx")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="Title" type="Label" parent="MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+theme = ExtResource("2_7a2qm")
+theme_override_font_sizes/font_size = 64
+text = "Choose Your Weapon"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_top = 80
+theme_override_constants/margin_bottom = 60
+
+[node name="GridContainer" type="GridContainer" parent="MarginContainer/VBoxContainer/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 3
+theme_override_constants/h_separation = 20
+columns = 5
+
+[node name="GreatSwordClassContainer" parent="MarginContainer/VBoxContainer/MarginContainer/GridContainer" instance=ExtResource("4_adaab")]
+layout_mode = 2
+title = "Shield and Sword"
+
+[node name="GreatSwordClassContainer2" parent="MarginContainer/VBoxContainer/MarginContainer/GridContainer" instance=ExtResource("4_adaab")]
+layout_mode = 2
+title = "Bow"
+
+[node name="GreatSwordClassContainer3" parent="MarginContainer/VBoxContainer/MarginContainer/GridContainer" instance=ExtResource("4_adaab")]
+layout_mode = 2

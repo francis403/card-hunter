@@ -1,6 +1,6 @@
-[gd_scene load_steps=2 format=3 uid="uid://b1mvpc185uvtk"]
+[gd_scene load_steps=2 format=3 uid="uid://df2etti8jrj3l"]
 
-[ext_resource type="Script" path="res://scenes/managers/battle_manager/battle_manager.gd" id="1_vl5tk"]
+[ext_resource type="Script" path="res://singletons/controllers/battle_controller.gd" id="1_1rqo0"]
 
 [node name="BattleManager" type="Node"]
-script = ExtResource("1_vl5tk")
+script = ExtResource("1_1rqo0")
