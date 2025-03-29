@@ -11,6 +11,7 @@ const RADIUS = 30
 @export_category("World Generation Specification")
 @export var seed: String = ""
 @export var max_distance_to_village: int = 1
+@export var village_number_of_children: int = 5
 @export var maximum_number_of_child_nodes: int = 3
 
 @export_category("World Generation UI")
@@ -36,7 +37,9 @@ func _remove_preview():
 		
 func _generate_world():
 	_generate_village()
-	_generate_adjacent_nodes(village_node)
+	_generate_adjacent_nodes(village_node, village_number_of_children)
+	for node in village_node.connections:
+		_generate_adjacent_nodes(node, randi_range(0, maximum_number_of_child_nodes))
 	_save_world_state()
 
 func _draw_line_between_connecting_nodes(base_node: WorldNode):
@@ -60,18 +63,22 @@ func _generate_village():
 	village_node.global_position = village_node_marker.global_position
 	world_node_container.add_child(village_node)
 
-func _generate_adjacent_nodes(base_node: WorldNode):
+func _generate_adjacent_nodes(
+	base_node: WorldNode,
+	number_of_children: int = self.maximum_number_of_child_nodes
+):
 	var initial_generated_node_position: Vector2 = Vector2(
 				base_node.global_position.x - (seperation),
 				base_node.global_position.y - (seperation)
 			)
-	for i in range(0, maximum_number_of_child_nodes):
+	for i in range(base_node.connections.size(), number_of_children):
 		var generated_node: WorldNode = WORLD_NODE_SCENE.instantiate()
 		var generated_node_position: Vector2 =\
 			initial_generated_node_position + Vector2(i * seperation, 0)
 		generated_node.global_position = get_node_iteration_position(base_node, i)
 		generated_node.world_node_id = str(i)
 		generated_node.quest_scene = BATTLE_ONE_CRAB_SCENE
+		generated_node.connections.append(base_node)
 		base_node.connections.append(generated_node)
 		world_node_container.add_child(generated_node)
 		_draw_line_between_nodes(base_node, generated_node)
