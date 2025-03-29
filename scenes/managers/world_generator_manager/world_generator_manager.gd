@@ -6,7 +6,7 @@ class_name WorldGeneratorManager
 
 const WORLD_NODE_SCENE = preload("res://scenes/game_objects/world/world_node/world_node.tscn")
 const BATTLE_ONE_CRAB_SCENE = preload("res://scenes/battle_scenes/battle_one_crab_scene.tscn/battle_one_crab_scene.tscn")
-
+const RADIUS = 30
 
 @export_category("World Generation Specification")
 @export var seed: String = ""
@@ -38,14 +38,17 @@ func _generate_world():
 	_generate_village()
 	_generate_adjacent_nodes(village_node)
 	_save_world_state()
-	_draw_line_between_connecting_nodes(village_node)
 
 func _draw_line_between_connecting_nodes(base_node: WorldNode):
 	for node in base_node.connections:
-		## TODO: need to improve the line mechanism
-		draw_line(
+		_draw_line_between_nodes(base_node, node)
+	
+func _draw_line_between_nodes(base_node: WorldNode, other_node: WorldNode):
+	var angle: float = base_node.global_position.angle_to_point(other_node.global_position)
+	var offset: Vector2 = Vector2(-1 * RADIUS, 0)
+	draw_line(
 			base_node.global_position, 
-			node.global_position + Vector2(0, 30), 
+			other_node.global_position + offset.rotated(angle), 
 			Color.BLACK
 		)
 	
@@ -66,12 +69,12 @@ func _generate_adjacent_nodes(base_node: WorldNode):
 		var generated_node: WorldNode = WORLD_NODE_SCENE.instantiate()
 		var generated_node_position: Vector2 =\
 			initial_generated_node_position + Vector2(i * seperation, 0)
-		generated_node.global_position = generated_node_position
+		generated_node.global_position = get_node_iteration_position(base_node, i)
 		generated_node.world_node_id = str(i)
 		generated_node.quest_scene = BATTLE_ONE_CRAB_SCENE
 		base_node.connections.append(generated_node)
 		world_node_container.add_child(generated_node)
-	#self.queue_redraw()
+		_draw_line_between_nodes(base_node, generated_node)
 
 func _load_world():
 	print(_load_world)
@@ -87,6 +90,17 @@ func _load_village():
 func _load_connected_nodes(base_node: WorldNode):
 	for node in base_node.connections:
 		world_node_container.add_child(node)
+
+func get_random_node_position(center_node: WorldNode) -> Vector2:
+	var angle = randf_range(0, TAU)
+	var position_offset: Vector2 = Vector2(seperation, 0).rotated(angle)
+	return center_node.global_position + position_offset
+	
+func get_node_iteration_position(center_node: WorldNode, iteration: int) -> Vector2:
+	var partition: float =  (float(iteration + 1)/ maximum_number_of_child_nodes)
+	var angle: float = partition * TAU
+	var position_offset: Vector2 = Vector2(seperation, 0).rotated(angle)
+	return center_node.global_position + position_offset
 
 ## TODO: need to improve this
 func _save_world_state():
