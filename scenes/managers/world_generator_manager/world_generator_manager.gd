@@ -10,8 +10,7 @@ const RADIUS = 30
 
 @export_category("World Generation Specification")
 @export var seed: String = ""
-@export var max_distance_to_village: int = 1
-@export var village_number_of_children: int = 5
+@export var max_distance_to_village: int = 3
 @export var maximum_number_of_child_nodes: int = 3
 
 @export_category("World Generation UI")
@@ -37,9 +36,12 @@ func _remove_preview():
 		
 func _generate_world():
 	_generate_village()
-	_generate_adjacent_nodes(village_node, village_number_of_children)
-	for node in village_node.connections:
-		_generate_adjacent_nodes(node, randi_range(0, maximum_number_of_child_nodes))
+	_generate_adjacent_nodes(village_node, maximum_number_of_child_nodes, 1)
+	#for node in village_node.connections:
+		#_generate_adjacent_nodes(
+			#node,
+			#randi_range(0, maximum_number_of_child_nodes)
+		#)
 	_save_world_state()
 
 func _draw_line_between_connecting_nodes(base_node: WorldNode):
@@ -65,7 +67,8 @@ func _generate_village():
 
 func _generate_adjacent_nodes(
 	base_node: WorldNode,
-	number_of_children: int = self.maximum_number_of_child_nodes
+	number_of_children: int = self.maximum_number_of_child_nodes,
+	current_build_depth: int = 0
 ):
 	var initial_generated_node_position: Vector2 = Vector2(
 				base_node.global_position.x - (seperation),
@@ -82,6 +85,12 @@ func _generate_adjacent_nodes(
 		base_node.connections.append(generated_node)
 		world_node_container.add_child(generated_node)
 		_draw_line_between_nodes(base_node, generated_node)
+		if current_build_depth <= max_distance_to_village:
+			_generate_adjacent_nodes(
+				generated_node,
+				randi_range(0, maximum_number_of_child_nodes),
+				current_build_depth + 1
+			)
 
 func _load_world():
 	print(_load_world)
