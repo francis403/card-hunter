@@ -46,7 +46,6 @@ func _on_node_reveal_signal(world_node_id: String):
 	if self.world_node_id == world_node_id:
 		self.reveal_node()
 
-## TODO
 func _prepare_world_node_sprite():
 	if _world_node_type == WorldNodeTypeEnum.VILLAGE:
 		world_node_sprite.texture = VILAGE_NODE_SPRITE
@@ -66,7 +65,8 @@ func _process_on_world_node_click():
 	show_player()
 	BattlemapSignals.update_player_node.emit(world_node_id)
 	BattlemapSignals.hide_player_in_other_node.emit(world_node_id)
-	BattlemapSignals.generate_world_node_children.emit(self)
+	BattlemapSignals.reveal_connected_nodes.emit(self)
+	#BattlemapSignals.generate_world_node_children.emit(self)
 
 func hide_player():
 	is_showing_player_sprite = false
