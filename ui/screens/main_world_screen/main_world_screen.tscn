@@ -1,15 +1,18 @@
-[gd_scene load_steps=6 format=3 uid="uid://baqwuitia2ptv"]
+[gd_scene load_steps=7 format=3 uid="uid://baqwuitia2ptv"]
 
 [ext_resource type="Script" path="res://ui/screens/main_world_screen/main_world_screen.gd" id="1_3wacw"]
 [ext_resource type="PackedScene" uid="uid://dqlmwbtf0bya2" path="res://ui/screens/generic_screen/generic_screen.tscn" id="1_eplf0"]
 [ext_resource type="PackedScene" uid="uid://4hdqldcrtvn0" path="res://scenes/managers/world_generator_manager/world_generator_manager.tscn" id="1_f2eca"]
+[ext_resource type="PackedScene" uid="uid://bfnifkcvaye6" path="res://scenes/managers/world_manager/world_manager.tscn" id="4_m1ip7"]
 [ext_resource type="PackedScene" uid="uid://bjwyqp8bw74nx" path="res://scenes/game_objects/world/world_node/world_node.tscn" id="4_mvul0"]
 [ext_resource type="PackedScene" uid="uid://b3x2sadw27m6s" path="res://ui/deck/draw_pile/deck_ui.tscn" id="5_yl1ki"]
 
 [node name="MainWorldScreen" instance=ExtResource("1_eplf0")]
 script = ExtResource("1_3wacw")
 
-[node name="WorldGeneratorManager" parent="." index="1" node_paths=PackedStringArray("world_node_container", "village_node_marker") instance=ExtResource("1_f2eca")]
+[node name="WorldManager" parent="." index="1" instance=ExtResource("4_m1ip7")]
+
+[node name="WorldGeneratorManager" parent="." index="2" node_paths=PackedStringArray("world_node_container", "village_node_marker") instance=ExtResource("1_f2eca")]
 position = Vector2(-1, 0)
 world_node_container = NodePath("../WorldNodes")
 village_node_marker = NodePath("../VillageNodeMarker")
@@ -17,7 +20,7 @@ village_node_marker = NodePath("../VillageNodeMarker")
 [node name="Title" parent="Screen" index="0"]
 text = "World Map"
 
-[node name="WorldNodes" type="MarginContainer" parent="." index="3"]
+[node name="WorldNodes" type="MarginContainer" parent="." index="4"]
 layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -32,10 +35,10 @@ position = Vector2(482, 238)
 [node name="WorldNode2" parent="WorldNodes" index="1" instance=ExtResource("4_mvul0")]
 position = Vector2(682, 238)
 
-[node name="DeckUI" parent="." index="5" instance=ExtResource("5_yl1ki")]
+[node name="DeckUI" parent="." index="6" instance=ExtResource("5_yl1ki")]
 layout_mode = 1
 title = "Deck"
 deck_type = 0
 
-[node name="VillageNodeMarker" type="Marker2D" parent="." index="6"]
+[node name="VillageNodeMarker" type="Marker2D" parent="." index="7"]
 position = Vector2(581, 310)
