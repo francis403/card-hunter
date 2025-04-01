@@ -12,5 +12,5 @@ var world_state: WorldState
 
 func _init() -> void:
 	current_health = 100
-	current_world_node_id = str("village_node_id")
+	current_world_node_id = Constants.VILLAGE_NODE_ID
 	world_state = WorldState.new()

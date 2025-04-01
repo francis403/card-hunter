@@ -32,10 +32,13 @@ func _ready() -> void:
 func _draw():
 	print(_draw)
 	#_generate_world()
-	if not File.progress.village_node:
+	if not _is_world_saved():
 		_generate_world()
 	else:
 		_load_world()
+
+func _is_world_saved() -> bool:
+	return File.progress.village_node != null
 
 func _on_generate_world_node_children_signal(node: WorldNode):
 	#queue_redraw()
@@ -48,6 +51,7 @@ func _remove_preview():
 		node.queue_free()
 		
 func _generate_world():
+	print(_generate_world)
 	_generate_village()
 	_generate_adjacent_nodes(village_node, maximum_number_of_child_nodes, 1)
 	_save_world_state()
@@ -65,7 +69,7 @@ func _draw_line_between_nodes(base_node: WorldNode, other_node: WorldNode):
 func _generate_village():
 	village_node = WORLD_NODE_SCENE.instantiate()
 	village_node._world_node_type = WorldNode.WorldNodeTypeEnum.VILLAGE
-	village_node.world_node_id = str("village_node_id")
+	village_node.world_node_id = Constants.VILLAGE_NODE_ID
 	village_node.is_showing_player_sprite = true
 	village_node.global_position = village_node_marker.global_position
 	world_node_container.add_child(village_node)
@@ -107,6 +111,8 @@ func _load_world():
 func _load_village():
 	print(_load_village)
 	village_node = WORLD_NODE_SCENE.instantiate()
+	## TODO: need to load based on world state
+	## if we already loaded from world_state no need to do it again
 	File.progress.village_node.copy_into_node(village_node)
 	_initiate_world(village_node)
 
