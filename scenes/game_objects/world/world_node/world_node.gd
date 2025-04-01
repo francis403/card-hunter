@@ -80,6 +80,8 @@ func show_monster():
 	monster_texture_rect.visible = true
 
 func reveal_node():
+	if is_revealed:
+		return
 	var tween = create_tween()
 	tween.tween_property(self, "modulate:a", 0.0, 1.0)
 	await tween.finished
@@ -87,6 +89,7 @@ func reveal_node():
 	world_node_sprite.texture = REVEALED_NODE_SPRITE
 	show_monster()
 	tween.tween_property(self, "modulate:a", 1.0, 1.0).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_QUAD)
+	is_revealed = true
 
 func duplicate_node() -> WorldNode:
 	var node_copy: WorldNode = WorldNode.new()
