@@ -10,9 +10,7 @@ const IS_REVEALED_DICTIONARY_FIELD: String = "is_revealed"
 const IS_SHOWING_PLAYER_SPRITE_DICTIONARY_FIELD: String = "is_showing_player_sprite"
 const WORLD_NODE_TYPE_DICTIONARY_FIELD: String = "world_node_type"
 const POSITION_DICTIONARY_FIELD: String = "position"
-const CONNECTIONS_SIZE_DICTIONARY_FIELD: String = "connections_size"
 const CONNECTIONS_DICTIONARY_FIELD: String = "connections"
-const MONSTER_LIST_SIZE_DICTIONARY_FIELD: String = "monster_list_size"
 const MONSTERS_DICTIONARY_FIELD: String = "monsters"
 
 enum WorldNodeTypeEnum {
@@ -130,9 +128,7 @@ func convert_node_to_dictionary() -> Dictionary:
 	result[IS_SHOWING_PLAYER_SPRITE_DICTIONARY_FIELD] = self.is_showing_player_sprite
 	result[POSITION_DICTIONARY_FIELD] = self.position
 	result[WORLD_NODE_TYPE_DICTIONARY_FIELD] = self._world_node_type
-	result[CONNECTIONS_SIZE_DICTIONARY_FIELD] = self.connections.size()
 	result[CONNECTIONS_DICTIONARY_FIELD] = {}
-	result[MONSTER_LIST_SIZE_DICTIONARY_FIELD] = self.monsters_in_node.size()
 	## TODO: need to save more monster info in the future
 	var i: int = 0
 	for child_monster in self.monsters_in_node:
@@ -144,7 +140,4 @@ func load_node_from_dictionary(node_state: Dictionary):
 	self.is_revealed = node_state[IS_REVEALED_DICTIONARY_FIELD]
 	self.is_showing_player_sprite = node_state[IS_SHOWING_PLAYER_SPRITE_DICTIONARY_FIELD]
 	self._world_node_type = node_state[WORLD_NODE_TYPE_DICTIONARY_FIELD] 
-	## TODO: need to read connections
-	var connections_size: int = node_state[CONNECTIONS_SIZE_DICTIONARY_FIELD] 
-	## TODO: need to read monsters
-	var array_size: int = node_state[MONSTER_LIST_SIZE_DICTIONARY_FIELD]
+	self.position = node_state[POSITION_DICTIONARY_FIELD] 

@@ -32,13 +32,7 @@ func convert_world_state_to_node() -> WorldNode:
 
 func _get_node_from_state(state: Dictionary, id: String) -> WorldNode:
 	var result: WorldNode = WorldNode.new()
-		
-	result.world_node_id = id
-	result.is_revealed = state[id][WorldNode.IS_REVEALED_DICTIONARY_FIELD]
-	result.is_showing_player_sprite = state[id][WorldNode.IS_SHOWING_PLAYER_SPRITE_DICTIONARY_FIELD]
-	result._world_node_type = state[id][WorldNode.WORLD_NODE_TYPE_DICTIONARY_FIELD]
-	result.position = state[id][WorldNode.POSITION_DICTIONARY_FIELD]
-	
+	result.load_node_from_dictionary(state[id])
 	for connection_id in state[id][WorldNode.CONNECTIONS_DICTIONARY_FIELD].keys():
 		result.connections.append(
 			_get_node_from_state(
@@ -46,6 +40,7 @@ func _get_node_from_state(state: Dictionary, id: String) -> WorldNode:
 				connection_id
 			)
 		)
+	## TODO: need to do the monsters
 	
 	return result
 	
