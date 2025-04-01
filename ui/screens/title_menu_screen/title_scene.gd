@@ -9,6 +9,7 @@ func _ready() -> void:
 	
 
 func _on_new_game_pressed() -> void:
+	File.delete_save()
 	get_tree().change_scene_to_packed(Constants.pick_class_screen_scene)
 
 

@@ -14,6 +14,9 @@ func _ready() -> void:
 	settings = Settings.new()
 	progress = Progress.new()
 
+func delete_save():
+	DirAccess.remove_absolute(SAVE_FILE_PATH)
+
 func save():
 	var file = FileAccess.open(SAVE_FILE_PATH, FileAccess.WRITE)
 	file.store_var(save_data)
