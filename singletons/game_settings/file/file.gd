@@ -32,6 +32,7 @@ func change_settings():
 
 func change_progress():
 	save_data["progress"]["player_world_node_id"] = progress.current_world_node_id
+	save_data["progress"]["world_state"] = progress.world_state.to_dictionary()
 	save()
 
 func load_settings():
@@ -41,6 +42,8 @@ func load_settings():
 func load_progress():
 	if save_data["progress"].has("player_world_node_id"):
 		self.progress.current_world_node_id = save_data["progress"]["player_world_node_id"]
+	if save_data["progress"].has("world_state"):
+		self.progress.world_state = save_data["progress"]["world_state"]
 		
 ## SIGNALS
 ## TODO: do we want to save as soon as the player clicks there? 

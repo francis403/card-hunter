@@ -28,6 +28,7 @@ func _ready() -> void:
 	_remove_preview()
 
 
+## TODO: if we already have a world _state no need to generate it
 func _draw():
 	print(_draw)
 	#_generate_world()
@@ -127,6 +128,7 @@ func _save_world_state():
 	File.progress.village_node = village_node.duplicate_node()
 	File.progress.village_node.connections.clear()
 	_save_world_node(village_node, File.progress.village_node)
+	File.progress.world_state.convert_node_to_world_state(village_node)
 		
 func _save_world_node(
 	base_node: WorldNode,

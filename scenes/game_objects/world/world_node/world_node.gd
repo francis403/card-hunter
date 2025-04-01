@@ -5,6 +5,16 @@ const REVEALED_NODE_SPRITE = preload("res://assets/images/nodes/revealed_node.pn
 const VILAGE_NODE_SPRITE = preload("res://assets/images/nodes/vilage_node.png")
 const QUESTION_MARK_NODE_TRANSPARENT_SPRITE = preload("res://assets/images/nodes/question_mark_node-transparent.png")
 
+const ID_DICTIONARY_FIELD: String = "id"
+const IS_REVEALED_DICTIONARY_FIELD: String = "is_revealed"
+const IS_SHOWING_PLAYER_SPRITE_DICTIONARY_FIELD: String = "is_showing_player_sprite"
+const WORLD_NODE_TYPE_DICTIONARY_FIELD: String = "world_node_type"
+const POSITION_DICTIONARY_FIELD: String = "position"
+const CONNECTIONS_SIZE_DICTIONARY_FIELD: String = "connections_size"
+const CONNECTIONS_DICTIONARY_FIELD: String = "connections"
+const MONSTER_LIST_SIZE_DICTIONARY_FIELD: String = "monster_list_size"
+const MONSTERS_DICTIONARY_FIELD: String = "monsters"
+
 enum WorldNodeTypeEnum {
 	VILLAGE,
 	UNKNOWN,
@@ -112,3 +122,29 @@ func copy_properties_into_node(node: WorldNode):
 	node._world_node_type = self._world_node_type
 	for child_monster in self.monsters_in_node:
 		node.monsters_in_node.append(child_monster)
+
+func convert_node_to_dictionary() -> Dictionary:
+	var result: Dictionary = {}
+	result[ID_DICTIONARY_FIELD] = self.world_node_id
+	result[IS_REVEALED_DICTIONARY_FIELD] = self.is_revealed
+	result[IS_SHOWING_PLAYER_SPRITE_DICTIONARY_FIELD] = self.is_showing_player_sprite
+	result[POSITION_DICTIONARY_FIELD] = self.position
+	result[WORLD_NODE_TYPE_DICTIONARY_FIELD] = self._world_node_type
+	result[CONNECTIONS_SIZE_DICTIONARY_FIELD] = self.connections.size()
+	result[CONNECTIONS_DICTIONARY_FIELD] = {}
+	result[MONSTER_LIST_SIZE_DICTIONARY_FIELD] = self.monsters_in_node.size()
+	## TODO: need to save more monster info in the future
+	var i: int = 0
+	for child_monster in self.monsters_in_node:
+		result[MONSTERS_DICTIONARY_FIELD][i] = "crab_monster"
+	return result
+	
+func load_node_from_dictionary(node_state: Dictionary):
+	self.world_node_id = node_state[ID_DICTIONARY_FIELD]
+	self.is_revealed = node_state[IS_REVEALED_DICTIONARY_FIELD]
+	self.is_showing_player_sprite = node_state[IS_SHOWING_PLAYER_SPRITE_DICTIONARY_FIELD]
+	self._world_node_type = node_state[WORLD_NODE_TYPE_DICTIONARY_FIELD] 
+	## TODO: need to read connections
+	var connections_size: int = node_state[CONNECTIONS_SIZE_DICTIONARY_FIELD] 
+	## TODO: need to read monsters
+	var array_size: int = node_state[MONSTER_LIST_SIZE_DICTIONARY_FIELD]
