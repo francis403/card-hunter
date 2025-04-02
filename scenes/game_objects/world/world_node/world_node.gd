@@ -7,6 +7,7 @@ const QUESTION_MARK_NODE_TRANSPARENT_SPRITE = preload("res://assets/images/nodes
 
 const ID_DICTIONARY_FIELD: String = "id"
 const IS_REVEALED_DICTIONARY_FIELD: String = "is_revealed"
+const IS_REACHABLE_DICTIONARY_FIELD: String = "is_reachable"
 const IS_SHOWING_PLAYER_SPRITE_DICTIONARY_FIELD: String = "is_showing_player_sprite"
 const WORLD_NODE_TYPE_DICTIONARY_FIELD: String = "world_node_type"
 const POSITION_DICTIONARY_FIELD: String = "position"
@@ -23,12 +24,12 @@ enum WorldNodeTypeEnum {
 @onready var player_texture_rect: TextureRect = $HBoxContainer/PlayerTextureRect
 @onready var monster_texture_rect: TextureRect = $HBoxContainer/MonsterTextureRect
 
-
 @export var _world_node_type: WorldNodeTypeEnum = WorldNodeTypeEnum.UNKNOWN
 @export var connections: Array[WorldNode] = []
 
 @export_category("Monsters in node")
 @export var monsters_in_node: Array[MonsterPiece] = []
+
 ## Generates random monsters.
 ## Will add to the monsters_in_node array by default
 @export var generate_random_monsters: bool = true
@@ -38,6 +39,7 @@ enum WorldNodeTypeEnum {
 var world_node_id: String
 var is_showing_player_sprite: bool = false
 var is_revealed: bool = false
+var is_reachable: bool = false
 var is_loaded: bool = false
 
 func _ready() -> void:
@@ -70,7 +72,12 @@ func _on_area_2d_input_event(viewport: Node, event: InputEvent, shape_idx: int) 
 func _process_on_world_node_click():
 	if self.is_showing_player_sprite && quest_scene:
 		get_tree().change_scene_to_packed(quest_scene)
-	show_player()
+		
+	## TODO: show a message
+	if not self.is_reachable:
+		return
+		
+	self.show_player()
 	BattlemapSignals.update_player_node.emit(world_node_id)
 	BattlemapSignals.hide_player_in_other_node.emit(world_node_id)
 	BattlemapSignals.reveal_connected_nodes.emit(self)
@@ -98,6 +105,10 @@ func reveal_node():
 	show_monster()
 	tween.tween_property(self, "modulate:a", 1.0, 1.0).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_QUAD)
 	is_revealed = true
+	mark_reachable()
+
+func mark_reachable():
+	self.is_reachable = true
 
 func duplicate_node() -> WorldNode:
 	var node_copy: WorldNode = WorldNode.new()
@@ -125,6 +136,7 @@ func convert_node_to_dictionary() -> Dictionary:
 	var result: Dictionary = {}
 	result[ID_DICTIONARY_FIELD] = self.world_node_id
 	result[IS_REVEALED_DICTIONARY_FIELD] = self.is_revealed
+	result[IS_REACHABLE_DICTIONARY_FIELD] = self.is_reachable
 	result[IS_SHOWING_PLAYER_SPRITE_DICTIONARY_FIELD] = self.is_showing_player_sprite
 	result[POSITION_DICTIONARY_FIELD] = self.position
 	result[WORLD_NODE_TYPE_DICTIONARY_FIELD] = self._world_node_type
@@ -138,6 +150,7 @@ func convert_node_to_dictionary() -> Dictionary:
 func load_node_from_dictionary(node_state: Dictionary):
 	self.world_node_id = node_state[ID_DICTIONARY_FIELD]
 	self.is_revealed = node_state[IS_REVEALED_DICTIONARY_FIELD]
+	self.is_reachable = node_state[IS_REACHABLE_DICTIONARY_FIELD]
 	self.is_showing_player_sprite = node_state[IS_SHOWING_PLAYER_SPRITE_DICTIONARY_FIELD]
 	self._world_node_type = node_state[WORLD_NODE_TYPE_DICTIONARY_FIELD] 
 	self.position = node_state[POSITION_DICTIONARY_FIELD] 

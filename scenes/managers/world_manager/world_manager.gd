@@ -7,5 +7,4 @@ func _ready() -> void:
 
 func _on_reveal_connected_nodes_signal(world_node: WorldNode):
 	for node in world_node.connections:
-		#node.reveal_node()
 		BattlemapSignals.reveal_node.emit(node.world_node_id)

@@ -71,6 +71,7 @@ func _generate_village():
 	village_node._world_node_type = WorldNode.WorldNodeTypeEnum.VILLAGE
 	village_node.world_node_id = Constants.VILLAGE_NODE_ID
 	village_node.is_showing_player_sprite = true
+	village_node.is_reachable = true
 	village_node.global_position = village_node_marker.global_position
 	world_node_container.add_child(village_node)
 
