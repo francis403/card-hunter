@@ -7,6 +7,8 @@ const QUESTION_MARK_NODE_TRANSPARENT_SPRITE = preload("res://assets/images/nodes
 
 const BATTLE_GENERIC_SCENE = preload("res://scenes/battle_scenes/battle_generic_scene/battle_generic_scene.tscn")
 
+const CRAB_MONSTER_SCENE = preload("res://scenes/monsters/CrabMonster/crab_monster.tscn")
+
 const ID_DICTIONARY_FIELD: String = "id"
 const IS_REVEALED_DICTIONARY_FIELD: String = "is_revealed"
 const IS_REACHABLE_DICTIONARY_FIELD: String = "is_reachable"
@@ -191,6 +193,7 @@ func load_node_from_dictionary(node_state: Dictionary):
 	self.is_showing_player_sprite = node_state[IS_SHOWING_PLAYER_SPRITE_DICTIONARY_FIELD]
 	self._world_node_type = node_state[WORLD_NODE_TYPE_DICTIONARY_FIELD] 
 	self.position = node_state[POSITION_DICTIONARY_FIELD] 
+	## TODO: this needs to be smarter
 	self.monsters_in_node = []
 	for monster_id in node_state[MONSTERS_DICTIONARY_FIELD].keys():
-		self.monsters_in_node.append(CrabMonster.new())
+		self.monsters_in_node.append(CRAB_MONSTER_SCENE.instantiate())
