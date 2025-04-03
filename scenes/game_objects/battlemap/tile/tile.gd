@@ -66,7 +66,6 @@ func _on_player_input_signal():
 	self.hide_background()
 
 func _on_background_button_pressed() -> void:
-	print(_on_background_button_pressed)
 	BattlemapSignals.tile_picked_in_battlemap.emit(self)
 	hide_background()
 	

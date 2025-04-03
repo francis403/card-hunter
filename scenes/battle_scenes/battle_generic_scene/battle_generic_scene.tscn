@@ -40,6 +40,8 @@ _number_of_rows = 5
 position = Vector2(323, 351)
 scale = Vector2(3, 3)
 
+[node name="monsters" type="Node" parent="."]
+
 [node name="Hand" parent="." instance=ExtResource("7_q21cd")]
 size_flags_horizontal = 4
 size_flags_vertical = 4

@@ -6,6 +6,7 @@ class_name WorldGeneratorManager
 
 const WORLD_NODE_SCENE = preload("res://scenes/game_objects/world/world_node/world_node.tscn")
 const BATTLE_ONE_CRAB_SCENE = preload("res://scenes/battle_scenes/battle_one_crab_scene.tscn/battle_one_crab_scene.tscn")
+const CRAB_MONSTER_SCENE = preload("res://scenes/monsters/CrabMonster/crab_monster.tscn")
 const RADIUS = 30
 
 @export_category("World Generation Specification")
@@ -20,29 +21,24 @@ const RADIUS = 30
 
 var total_number_of_nodes_generated: int = 0
 
-## TODO: Need an object class to represent the World
+## an instance of the world's root node
 var village_node: WorldNode
 
 func _ready() -> void:
-	BattlemapSignals.generate_world_node_children.connect(_on_generate_world_node_children_signal)
+	BattlemapSignals.world_updated.connect(_save_world_state)
 	_remove_preview()
+	village_node = File.progress.village_node
 
-
-## TODO: if we already have a world _state no need to generate it
 func _draw():
 	print(_draw)
-	#_generate_world()
 	if not _is_world_saved():
 		_generate_world()
 	else:
 		_load_world()
 
 func _is_world_saved() -> bool:
-	return File.progress.village_node != null
-
-func _on_generate_world_node_children_signal(node: WorldNode):
-	#queue_redraw()
-	pass
+	return village_node != null
+	
 
 func _remove_preview():
 	if not world_node_container:
@@ -54,8 +50,8 @@ func _generate_world():
 	print(_generate_world)
 	_generate_village()
 	_generate_adjacent_nodes(village_node, maximum_number_of_child_nodes, 1)
-	_save_world_state()
 	BattlemapSignals.reveal_connected_nodes.emit(village_node)
+	_save_world_state()
 	
 func _draw_line_between_nodes(base_node: WorldNode, other_node: WorldNode):
 	var angle: float = base_node.global_position.angle_to_point(other_node.global_position)
@@ -71,6 +67,7 @@ func _generate_village():
 	village_node._world_node_type = WorldNode.WorldNodeTypeEnum.VILLAGE
 	village_node.world_node_id = Constants.VILLAGE_NODE_ID
 	village_node.is_showing_player_sprite = true
+	village_node.is_revealed = true
 	village_node.is_reachable = true
 	village_node.global_position = village_node_marker.global_position
 	world_node_container.add_child(village_node)
@@ -92,7 +89,7 @@ func _generate_adjacent_nodes(
 		generated_node.world_node_id = str(total_number_of_nodes_generated)
 		total_number_of_nodes_generated += 1
 		generated_node.quest_scene = BATTLE_ONE_CRAB_SCENE
-		#generated_node.connections.append(base_node)
+		generated_node.monsters_in_node.append_array(_generate_random_monsters())
 		base_node.connections.append(generated_node)
 		world_node_container.add_child(generated_node)
 		_draw_line_between_nodes(base_node, generated_node)
@@ -103,17 +100,22 @@ func _generate_adjacent_nodes(
 				current_build_depth + 1
 			)
 
+func _generate_random_monsters(max_number: int = 1) -> Array[MonsterPiece]:
+	var result: Array[MonsterPiece] = []
+	var crab_monster: CrabMonster = CRAB_MONSTER_SCENE.instantiate()
+	result.append(crab_monster)
+	#result.append(CrabMonster.new())
+	return result
+	
+
 func _load_world():
 	print(_load_world)
 	_load_village()
 	BattlemapSignals.hide_player_in_other_node.emit(File.progress.current_world_node_id)
-	BattlemapSignals.reveal_connected_nodes.emit(village_node)
 
 func _load_village():
 	print(_load_village)
 	village_node = WORLD_NODE_SCENE.instantiate()
-	## TODO: need to load based on world state
-	## if we already loaded from world_state no need to do it again
 	File.progress.village_node.copy_into_node(village_node)
 	_initiate_world(village_node)
 
@@ -132,6 +134,7 @@ func get_node_iteration_position(center_node: WorldNode, iteration: int) -> Vect
 	return center_node.global_position + position_offset
 
 func _save_world_state():
+	print(_save_world_state)
 	File.progress.village_node = village_node.duplicate_node()
 	File.progress.village_node.connections.clear()
 	_save_world_node(village_node, File.progress.village_node)
@@ -143,8 +146,8 @@ func _save_world_node(
 	save_children: bool = true
 ):
 	base_node.is_loaded = true
-	for node in base_node.connections:
-		var node_copy: WorldNode = node.duplicate_node()
+	for child in base_node.connections:
+		var node_copy: WorldNode = child.duplicate_node()
 		save_node.connections.append(node_copy)
 		if save_children and not base_node.is_loaded:
-			_save_world_node(node, node_copy, true)
+			_save_world_node(child, node_copy, true)

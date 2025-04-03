@@ -10,4 +10,5 @@ monsters = [NodePath("../CrabMonster")]
 
 [node name="CrabMonster" parent="." index="5" instance=ExtResource("2_aicp5")]
 position = Vector2(778, 352)
-scale = Vector2(5, 5)
+_health = 1
+_max_hp = 1

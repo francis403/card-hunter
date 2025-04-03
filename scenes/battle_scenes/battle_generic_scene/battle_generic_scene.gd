@@ -8,7 +8,13 @@ const deck_visualizer_scene = preload("res://ui/deck/deck_visualizer/deck_visual
 @onready var battlemap: Battlemap = $Battlemap
 @onready var ui_nodes: Control = $UINodes
 
+## holds all monsters in the battle scene
+@onready var monsters_node: Node = $monsters
+
 @export var player: PlayerCharacter
+
+## Defines the monsters in the battle scene
+@export var monsters: Array[Piece] = []
 
 var is_player_turn: bool = true
 var awaiting_player_input: bool = false
@@ -35,6 +41,7 @@ func _ready() -> void:
 	BattleSignals.battle_won.connect(_on_battle_won_signal)
 
 	_draw_cards_start_of_turn(battlemap.player)
+	_prep_battle_arena_monsters()
 	BattleSignals.battle_start.emit()	
 
 func _on_player_turn_started_signal():
@@ -49,6 +56,14 @@ func _draw_cards_start_of_turn(player: PlayerPiece):
 	hand.populate_hand(new_cards)
 	if new_cards.size() > 0:
 		BattlemapSignals.draw_pile_updated.emit(player.draw_pile)
+	
+func _prep_battle_arena_monsters():
+	if monsters.size() > 0:
+		battlemap.monsters = []
+		battlemap.monsters.append_array(monsters)
+		for monster in monsters:
+			monsters_node.add_child(monster)
+		battlemap.update_monsters()
 	
 func _on_monster_turn_started_signal():
 	is_player_turn = false
@@ -80,13 +95,14 @@ func _on_monster_died_signal():
 		BattleSignals.battle_won.emit()
 
 func _on_battle_lost_signal():
-	print(_on_battle_lost_signal)
 	game_over_screen.title_label.text = "You Lost"
-	game_over_screen.visible = true
-	get_tree().paused = true
-	game_over_screen.process_mode = Node.PROCESS_MODE_ALWAYS
+	_show_game_over_screen()
 
 func _on_battle_won_signal():
+	BattlemapSignals.node_completed.emit(File.progress.current_world_node_id)
+	_show_game_over_screen()
+	
+func _show_game_over_screen():
 	game_over_screen.visible = true
 	get_tree().paused = true
 	game_over_screen.process_mode = Node.PROCESS_MODE_ALWAYS
