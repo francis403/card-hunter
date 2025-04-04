@@ -1,0 +1,2 @@
+extends GenericMonster
+class_name SpiderMonster

@@ -8,6 +8,7 @@ const QUESTION_MARK_NODE_TRANSPARENT_SPRITE = preload("res://assets/images/nodes
 const BATTLE_GENERIC_SCENE = preload("res://scenes/battle_scenes/battle_generic_scene/battle_generic_scene.tscn")
 
 const CRAB_MONSTER_SCENE = preload("res://scenes/monsters/CrabMonster/crab_monster.tscn")
+const SPIDER_MONSTER_SCENE = preload("res://scenes/monsters/spider_monster/spider_monster.tscn")
 
 const ID_DICTIONARY_FIELD: String = "id"
 const IS_REVEALED_DICTIONARY_FIELD: String = "is_revealed"
@@ -32,7 +33,7 @@ enum WorldNodeTypeEnum {
 @export var connections: Array[WorldNode] = []
 
 @export_category("Monsters in node")
-@export var monsters_in_node: Array[MonsterPiece] = []
+@export var monsters_in_node: Array[GenericMonster] = []
 
 ## Generates random monsters.
 ## Will add to the monsters_in_node array by default
@@ -79,7 +80,7 @@ func _prepare_world_node_sprite():
 
 func _prepare_world_node():
 	_prepare_world_node_sprite()
-	if self.is_revealed and self.world_node_id != Constants.VILLAGE_NODE_ID:
+	if self.is_revealed:
 		show_monster()
 
 func _on_area_2d_input_event(viewport: Node, event: InputEvent, shape_idx: int) -> void:
@@ -123,7 +124,7 @@ func show_player():
 ## TODO: show monster that is there
 func show_monster():
 	if monsters_in_node.size() > 0:
-		#monster_texture_rect.texture = monsters_in_node[0].get_sprite().texture
+		monster_texture_rect.texture = monsters_in_node[0].get_texture()
 		monster_texture_rect.visible = true
 
 func reveal_node():
@@ -182,7 +183,7 @@ func convert_node_to_dictionary() -> Dictionary:
 	result[MONSTERS_DICTIONARY_FIELD] = {}
 	var i: int = 0
 	for child_monster in self.monsters_in_node:
-		result[MONSTERS_DICTIONARY_FIELD][i] = "crab_monster"
+		result[MONSTERS_DICTIONARY_FIELD][i] = child_monster.monster_id
 		i += 1
 	return result
 	
@@ -196,4 +197,7 @@ func load_node_from_dictionary(node_state: Dictionary):
 	## TODO: this needs to be smarter
 	self.monsters_in_node = []
 	for monster_id in node_state[MONSTERS_DICTIONARY_FIELD].keys():
-		self.monsters_in_node.append(CRAB_MONSTER_SCENE.instantiate())
+		if node_state[MONSTERS_DICTIONARY_FIELD][monster_id] == "crab_monster_small":
+			self.monsters_in_node.append(CRAB_MONSTER_SCENE.instantiate())
+		else:
+			self.monsters_in_node.append(SPIDER_MONSTER_SCENE.instantiate())

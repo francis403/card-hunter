@@ -1,0 +1,22 @@
+[gd_scene load_steps=6 format=3 uid="uid://bv8fq3m5ak66a"]
+
+[ext_resource type="PackedScene" uid="uid://b5v5j3rfoc38q" path="res://scenes/monsters/generic_monster/generic_monster.tscn" id="1_ayxpp"]
+[ext_resource type="Script" path="res://scenes/monsters/spider_monster/spider_monster.gd" id="2_bi3n2"]
+[ext_resource type="Texture2D" uid="uid://4nyonofwewd8" path="res://scenes/monsters/spider_monster/tile_0122.png" id="2_kyton"]
+[ext_resource type="PackedScene" uid="uid://dmrgvn8lav1xo" path="res://scenes/game_objects/states/move_speed_to_player_and_do_radius_attack/move_speed_to_player_and_do_radius_attack.tscn" id="3_bmss7"]
+[ext_resource type="PackedScene" uid="uid://oalssska7u76" path="res://scenes/game_objects/states/stay_away_and_attack_from_range/stay_away_and_attack_from_range.tscn" id="4_3sr68"]
+
+[node name="SpiderMonster" instance=ExtResource("1_ayxpp")]
+script = ExtResource("2_bi3n2")
+monster_id = "spider_monster_small"
+monster_texture = ExtResource("2_kyton")
+
+[node name="StateMachine" parent="." index="0" node_paths=PackedStringArray("initial_state")]
+initial_state = NodePath("MoveSpeedToPlayerAndDoRadiusAttack")
+
+[node name="MoveSpeedToPlayerAndDoRadiusAttack" parent="StateMachine" index="0" instance=ExtResource("3_bmss7")]
+
+[node name="StayAwayAndAttackFromRange" parent="StateMachine" index="1" instance=ExtResource("4_3sr68")]
+
+[node name="Sprite2D" parent="." index="2"]
+texture = ExtResource("2_kyton")
