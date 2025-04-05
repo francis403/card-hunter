@@ -90,8 +90,8 @@ func highligh_tiles_radius(
 			var radius_distance: int = abs(radius_x) + abs(radius_y)
 			if config.ignore_origin and radius_distance == 0:
 				continue
-			## TODO: do corners count for the radius?
-			#if abs(radius_x) + abs(radius_y) <= radius:
+			if config.ignore_corners and radius_distance > radius:
+				continue
 			_make_tile_clickable(tile_x, tile_y, config)
 
 func highligh_tiles_cross(
