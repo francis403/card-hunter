@@ -22,6 +22,11 @@ const RADIUS = 30
 
 var total_number_of_nodes_generated: int = 0
 
+## TODO: need to urgenlty improve this, this is not a smart way to check for node overllaping
+## Used as a helper to make sure we have no nodes overllaping
+var _generated_nodes: Array[WorldNode] = []
+var _min_position_difference: float = 20.0
+
 ## an instance of the world's root node
 var village_node: WorldNode
 
@@ -87,12 +92,19 @@ func _generate_adjacent_nodes(
 		var generated_node_position: Vector2 =\
 			initial_generated_node_position + Vector2(i * seperation, 0)
 		generated_node.global_position = get_node_iteration_position(base_node, i)
+		
+		var overllaping_nodes: Array[WorldNode] = get_overlapping_nodes(generated_node)
+		if overllaping_nodes.size() > 0:
+			base_node.connections.append(overllaping_nodes[0])
+			_draw_line_between_nodes(base_node, overllaping_nodes[0])
+			continue
 		generated_node.world_node_id = str(total_number_of_nodes_generated)
-		total_number_of_nodes_generated += 1
 		generated_node.quest_scene = BATTLE_ONE_CRAB_SCENE
 		generated_node.monsters_in_node.append_array(_generate_random_monsters())
 		base_node.connections.append(generated_node)
 		world_node_container.add_child(generated_node)
+		_generated_nodes.append(generated_node)
+		total_number_of_nodes_generated += 1
 		_draw_line_between_nodes(base_node, generated_node)
 		if current_build_depth <= max_distance_to_village:
 			_generate_adjacent_nodes(
@@ -115,6 +127,14 @@ func _generate_random_monsters(max_number: int = 1) -> Array[GenericMonster]:
 		result.append(monster)
 	return result
 	
+
+func get_overlapping_nodes(world_node: WorldNode) -> Array[WorldNode]:
+	var overlapping_nodes: Array[WorldNode] = []
+	for generated_node in _generated_nodes:
+		#print(world_node.global_position.distance_to(generated_node.global_position))
+		if world_node.global_position.distance_to(generated_node.global_position) < _min_position_difference:
+			overlapping_nodes.append(generated_node)
+	return overlapping_nodes
 
 func _load_world():
 	print(_load_world)

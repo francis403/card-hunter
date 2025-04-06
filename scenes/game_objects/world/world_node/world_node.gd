@@ -1,4 +1,7 @@
 extends Node2D
+
+## TODO: need to simplify this code\
+##
 class_name WorldNode
 
 const REVEALED_NODE_SPRITE = preload("res://assets/images/nodes/revealed_node.png")
@@ -28,6 +31,7 @@ enum WorldNodeTypeEnum {
 @onready var world_node_sprite: Sprite2D = $worldNodeSprite
 @onready var player_texture_rect: TextureRect = $HBoxContainer/PlayerTextureRect
 @onready var monster_texture_rect: TextureRect = $HBoxContainer/MonsterTextureRect
+@onready var area_2d: Area2D = $Area2D
 
 @export var _world_node_type: WorldNodeTypeEnum = WorldNodeTypeEnum.UNKNOWN
 @export var connections: Array[WorldNode] = []
