@@ -93,10 +93,10 @@ func _generate_adjacent_nodes(
 			initial_generated_node_position + Vector2(i * seperation, 0)
 		generated_node.global_position = get_node_iteration_position(base_node, i)
 		
-		var overllaping_nodes: Array[WorldNode] = get_overlapping_nodes(generated_node)
-		if overllaping_nodes.size() > 0:
-			base_node.connections.append(overllaping_nodes[0])
-			_draw_line_between_nodes(base_node, overllaping_nodes[0])
+		var overllaping_node: WorldNode = get_overlapping_node(generated_node)
+		if overllaping_node:
+			base_node.connections.append(overllaping_node)
+			_draw_line_between_nodes(base_node, overllaping_node)
 			continue
 		generated_node.world_node_id = str(total_number_of_nodes_generated)
 		generated_node.quest_scene = BATTLE_ONE_CRAB_SCENE
@@ -128,13 +128,13 @@ func _generate_random_monsters(max_number: int = 1) -> Array[GenericMonster]:
 	return result
 	
 
-func get_overlapping_nodes(world_node: WorldNode) -> Array[WorldNode]:
+## Get the first overlapping node
+func get_overlapping_node(world_node: WorldNode) -> WorldNode:
 	var overlapping_nodes: Array[WorldNode] = []
 	for generated_node in _generated_nodes:
-		#print(world_node.global_position.distance_to(generated_node.global_position))
 		if world_node.global_position.distance_to(generated_node.global_position) < _min_position_difference:
-			overlapping_nodes.append(generated_node)
-	return overlapping_nodes
+			return generated_node
+	return null
 
 func _load_world():
 	print(_load_world)
