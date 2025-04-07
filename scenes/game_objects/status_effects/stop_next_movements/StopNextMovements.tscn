@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://bnm8alxnxk87q"]
+
+[ext_resource type="Script" path="res://scenes/game_objects/status_effects/stop_next_movements/stop_next_movements.gd" id="1_8h4th"]
+
+[node name="StopNextMovements" type="Node"]
+script = ExtResource("1_8h4th")

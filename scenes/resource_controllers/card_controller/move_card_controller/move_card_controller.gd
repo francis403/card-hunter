@@ -8,13 +8,27 @@ func play_card_action(
 	card_categories: EventCategoryDictionary = null
 ):
 	super.play_card_action(card_resource, card_categories)
-
-	if not card_can_be_played(card_resource, card_categories):
-		return
 	
 	if not card_categories.has_category("move"):
 		print("ERROR: no move info in card")
 	var move_card_category: MoveCategoryCard = card_categories.get_category("move")
+	
+	## TODO: is this way efficient?
+	## TODO: this is not smart, need to improve this.
+	##	The player should have the final say if he can move or not
+	##	card emits before_player_movement and awaits for confirmation
+	##	Player receives the signal and emits start_before_movement_status_effects if anything is subscribed
+	##	awaits result
+	##	
+	##	if
+	var _number_of_connections: int = BattlemapSignals.before_player_movement.get_connections().size()
+	BattlemapSignals.before_player_movement.emit()
+	#if _number_of_connections > 0:
+		#BattlemapSignals.before_player_movement.emit()
+		#var can_player_move: bool = await BattlemapSignals.determined_if_player_can_move
+		#BattlemapSignals.determined_if_player_can_move.get_connections().size()
+		#if not can_player_move:
+			#return
 	
 	var piece_to_move: Piece = get_piece(card_resource, move_card_category)
 	var area_type: Constants.AreaType = get_area_type(card_resource, move_card_category)
@@ -40,3 +54,4 @@ func play_card_action(
 	
 	battlemap.place_piece_in_tile(piece_to_move, tile)
 	after_card_is_played(card_resource, card_categories)
+	BattlemapSignals.after_player_movement.emit()

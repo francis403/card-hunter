@@ -9,6 +9,8 @@ class_name Piece
 @export var _stamina_recover: int = 15
 @export var _strength: int = 1
 
+
+
 var _tile: Tile
 
 func set_piece_tile(tile: Tile):
@@ -23,3 +25,7 @@ func apply_damage(damage: int):
 
 func _die():
 	self.queue_free()
+
+func add_status(status: StatusEffect):
+	pass
+	

@@ -31,6 +31,7 @@ func place_node_in_tile(node: Node2D, tile: Tile):
 			node._tile.piece_in_tile = null
 		node.set_piece_tile(tile)
 		tile.piece_in_tile = node
+		tile.trigger_tile_effects(node)
 	node.position = center_tile_position + offset
 
 func move_player_x_right(x: int):

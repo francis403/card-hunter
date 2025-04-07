@@ -24,6 +24,7 @@ signal card_removed_from_deck(index: int)
 
 ## Player signals
 signal player_turn_started
+signal player_turn_ended
 signal player_stamina_changed(current_stamina: int)
 signal player_health_changed(current_hp: int)
 signal lock_player_input
@@ -33,6 +34,11 @@ signal player_input_received
 signal canceled_player_input
 signal player_died
 signal play_card_stream(audio_stream: AudioStream)
+
+# status can subscripte to a specific signal and apply whatever they need
+signal determined_if_player_can_move(can_move: bool)
+signal before_player_movement
+signal after_player_movement
 
 ## Monster signals
 signal monster_turn_started

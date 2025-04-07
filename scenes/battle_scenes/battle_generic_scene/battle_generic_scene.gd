@@ -42,7 +42,7 @@ func _ready() -> void:
 
 	_draw_cards_start_of_turn(battlemap.player)
 	_prep_battle_arena_monsters()
-	BattleSignals.battle_start.emit()	
+	BattleSignals.battle_start.emit()
 
 func _on_player_turn_started_signal():
 	is_player_turn = true
