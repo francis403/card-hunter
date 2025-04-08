@@ -27,7 +27,8 @@ func play_card_action(
 	# freeze hand
 	BattlemapSignals.awaiting_player_input.emit()
 	# show possible squares and await input	
-	highlight_tiles(piece, area_type, damage_info_card.range)
+	var config: TileHighlightConfig = _build_highlight_config(area_type, damage_info_card)
+	highlight_tiles(piece, config)
 	
 	var tile: Tile = await BattlemapSignals.tile_picked_in_battlemap
 	BattlemapSignals.player_input_received.emit()
@@ -39,3 +40,13 @@ func play_card_action(
 		tile.piece_in_tile.apply_damage(damage_info_card.damage)
 		
 	after_card_is_played(card_resource, card_categories)
+
+func _build_highlight_config(
+	area_type: Constants.AreaType,
+	damage_info_card: DamageCategoryCard
+) -> TileHighlightConfig:
+	var config = TileHighlightConfig.new()
+	config.area_type = area_type
+	config.range = damage_info_card.range
+	config.min_range = damage_info_card.min_range
+	return config

@@ -35,8 +35,6 @@ func get_area_type(
 
 func highlight_tiles(
 	piece: Piece,
-	area_type: Constants.AreaType,
-	range: int,
-	show_attack_tile: bool = false
+	config: TileHighlightConfig
 ):
-	BattlemapSignals.highlight_tiles.emit(piece._tile, range, area_type)
+	BattlemapSignals.highlight_tiles.emit(piece._tile, config)

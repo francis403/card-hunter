@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="DamageCategoryCard" load_steps=2 format=3 uid="uid://c51fw7pna4qxi"]
+
+[ext_resource type="Script" path="res://resources/card/event_category/damage_category_card.gd" id="1_qff5f"]
+
+[resource]
+script = ExtResource("1_qff5f")
+damage = 40
+range = 3
+min_range = 1
+category_id = "damage"
+target = 0
+area_type = 0

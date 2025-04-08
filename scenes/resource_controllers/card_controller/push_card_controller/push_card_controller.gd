@@ -19,8 +19,11 @@ func play_card_action(
 	var area_type = get_area_type(card_resource, move_card_category)
 	var player: PlayerPiece = battlemap.player
 	
-	# show possible squares and await input	
-	highlight_tiles(player, area_type, move_card_category.range)
+	# show possible squares and await input
+	var config: TileHighlightConfig = TileHighlightConfig.new()
+	config.area_type = area_type
+	config.range = move_card_category.range
+	highlight_tiles(player, config)
 
 	# freeze hand
 	BattlemapSignals.awaiting_player_input.emit()
@@ -33,8 +36,8 @@ func play_card_action(
 	var piece_to_move: Piece = tile.piece_in_tile
 	
 	BattlemapSignals.clear_player_highlighted_tiles.emit()
-	
-	highlight_tiles(piece_to_move, area_type, move_card_category.move_distance)
+	config.range = move_card_category.move_distance
+	highlight_tiles(piece_to_move, config)
 
 	tile = await BattlemapSignals.tile_picked_in_battlemap
 	BattlemapSignals.player_input_received.emit()
@@ -46,3 +49,12 @@ func play_card_action(
 		
 	
 	after_card_is_played(card_resource, card_categories)
+
+func _build_highlight_config(
+	area_type: Constants.AreaType,
+	move_info_card: MoveCategoryCard
+) -> TileHighlightConfig:
+	var config = TileHighlightConfig.new()
+	config.area_type = area_type
+	config.range = move_info_card.move_distance
+	return config

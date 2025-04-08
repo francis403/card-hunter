@@ -6,6 +6,7 @@
 script = ExtResource("1_wsb5a")
 damage = 50
 range = 1
+min_range = 0
 category_id = "damage"
 target = 0
 area_type = 0

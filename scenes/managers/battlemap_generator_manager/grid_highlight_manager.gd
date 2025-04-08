@@ -16,12 +16,8 @@ func _on_clear_highlighted_tiles_signal():
 
 func _on_highlight_tiles_signal(
 	source_tile: Tile,
-	range: int,
-	area_type: Constants.AreaType
+	config: TileHighlightConfig
 ):
-	var config = TileHighlightConfig.new()
-	config.area_type = area_type
-	config.range = range
 	highlight_tiles(source_tile, config)
 	
 	
@@ -50,7 +46,6 @@ func _on_highlight_attacked_tiles_signal(
 	highlight_tiles(source_tile, config)	
 
 ## Highlights all tiles
-## TODO: need to pass a tile highlight config object
 func highlight_tiles(
 	source_tile: Tile,
 	config: TileHighlightConfig
