@@ -9,6 +9,8 @@ signal clear_player_highlighted_tiles
 signal clear_attack_highlight_tiles
 signal clear_highlighted_tiles
 signal tile_picked_in_battlemap(tile: Tile)
+signal add_effect_to_tile(tile_effect: TileEffect, tile: Tile)
+signal add_effect_type_to_tile(tile_effect: Constants.TileEffectTypes, tile: Tile)
 
 ## deck signals
 signal draw_pile_updated(draw_pile_cards: Array[CardResource])

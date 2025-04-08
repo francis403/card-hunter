@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://bubmhtlvq0xpd"]
+[gd_scene load_steps=6 format=3 uid="uid://bubmhtlvq0xpd"]
 
 [ext_resource type="Script" path="res://scenes/managers/battlemap_generator_manager/battlemap.gd" id="1_7c3uq"]
 [ext_resource type="Script" path="res://scenes/managers/battlemap_generator_manager/grid_highlight_manager.gd" id="2_672c6"]
 [ext_resource type="Script" path="res://scenes/managers/battlemap_generator_manager/piece_position_manager.gd" id="2_xchib"]
 [ext_resource type="PackedScene" uid="uid://onw2yx218q6" path="res://scenes/game_objects/battlemap/tile/tile.tscn" id="3_a6rd3"]
+[ext_resource type="Script" path="res://scenes/managers/battlemap_generator_manager/grid_effect_manager.gd" id="3_xsweh"]
 
 [node name="Battlemap" type="Node2D"]
 script = ExtResource("1_7c3uq")
@@ -14,6 +15,9 @@ battlemap = NodePath("..")
 
 [node name="PiecePositionManager" type="Node" parent="."]
 script = ExtResource("2_xchib")
+
+[node name="GridEffectManager" type="Node" parent="."]
+script = ExtResource("3_xsweh")
 
 [node name="grid_array_holder_control" type="Control" parent="."]
 layout_mode = 3

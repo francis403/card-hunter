@@ -23,12 +23,6 @@ func play_card_action(
 	##	if
 	var _number_of_connections: int = BattlemapSignals.before_player_movement.get_connections().size()
 	BattlemapSignals.before_player_movement.emit()
-	#if _number_of_connections > 0:
-		#BattlemapSignals.before_player_movement.emit()
-		#var can_player_move: bool = await BattlemapSignals.determined_if_player_can_move
-		#BattlemapSignals.determined_if_player_can_move.get_connections().size()
-		#if not can_player_move:
-			#return
 	
 	var piece_to_move: Piece = get_piece(card_resource, move_card_category)
 	var area_type: Constants.AreaType = get_area_type(card_resource, move_card_category)
@@ -39,7 +33,7 @@ func play_card_action(
 	# show possible squares and await input	
 	BattlemapSignals.highlight_move_tiles.emit(
 		piece_to_move._tile,
-		move_card_category.move_distance,
+		piece_to_move._speed * move_card_category.move_distance,
 		area_type
 	)
 	#highlight_tiles(piece_to_move, area_type, move_card_category.move_distance)

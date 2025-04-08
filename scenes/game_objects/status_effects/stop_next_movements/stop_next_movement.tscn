@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://bnm8alxnxk87q"]
+
+[ext_resource type="Script" path="res://scenes/game_objects/status_effects/stop_next_movements/stop_next_movements.gd" id="1_k156l"]
+[ext_resource type="Texture2D" uid="uid://btbd3n1d3jqn6" path="res://scenes/game_objects/battlemap/tile_effects/spiderweb/spider-web-png-34733.png" id="2_uvjgk"]
+
+[node name="StopNextMovements" type="Node"]
+script = ExtResource("1_k156l")
+id = "stop_next_movement"
+description = "You are stuck. You cannot move this turn."
+status_icon = ExtResource("2_uvjgk")

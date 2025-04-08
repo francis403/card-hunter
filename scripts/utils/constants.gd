@@ -31,6 +31,10 @@ enum StatType {
 	DAMAGE
 }
 
+
+enum TileEffectTypes {
+	SPIDER_WEB
+}
 # Constanst
 
 var quest_picker_screen_scroll_scene = load("res://ui/screens/quest_picker/quest_picker_screen.tscn")
