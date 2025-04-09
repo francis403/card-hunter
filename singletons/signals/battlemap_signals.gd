@@ -3,8 +3,8 @@ extends Node
 ## battlemap signals
 signal battlemap_generated(battlemap_grid: Battlemap)
 signal highlight_tiles(source_tile: Tile, config: TileHighlightConfig)
-signal highlight_attack_tiles(source_tile: Tile, range: int, area_type: Constants.AreaType)
-signal highlight_move_tiles(source_tile: Tile, range: int, area_type: Constants.AreaType)
+signal highlight_attack_tiles(source_tile: Tile, config: TileHighlightConfig)
+signal highlight_move_tiles(source_tile: Tile, config: TileHighlightConfig)
 signal clear_player_highlighted_tiles
 signal clear_attack_highlight_tiles
 signal clear_highlighted_tiles

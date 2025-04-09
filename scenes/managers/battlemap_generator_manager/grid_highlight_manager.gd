@@ -24,24 +24,16 @@ func _on_highlight_tiles_signal(
 ## Highlight all movable tiles 
 func _on_hightlight_move_tiles_signal(
 	source_tile: Tile,
-	range: int,
-	area_type: Constants.AreaType
+	config: TileHighlightConfig
 ):
-	var config = TileHighlightConfig.new()
-	config.area_type = area_type
-	config.range = range
 	config.ignore_occupied_tiles = true
 	highlight_tiles(source_tile, config)
 
 ## Highlights all tiles as attacked
 func _on_highlight_attacked_tiles_signal(
 	source_tile: Tile,
-	range: int,
-	area_type: Constants.AreaType
+	config: TileHighlightConfig
 ):
-	var config = TileHighlightConfig.new()
-	config.area_type = area_type
-	config.range = range
 	config.is_tile_attacked = true
 	highlight_tiles(source_tile, config)	
 
@@ -70,7 +62,8 @@ func highlight_tiles(
 			source_tile,
 			config
 		)
-	
+
+## TODO: skip the first min_range
 func highligh_tiles_radius(
 	source_tile: Tile,
 	config: TileHighlightConfig
@@ -83,7 +76,10 @@ func highligh_tiles_radius(
 			var tile_x = x + radius_x
 			var tile_y = y + radius_y
 			var radius_distance: int = abs(radius_x) + abs(radius_y)
+			var furthest_square_distance: int = max(abs(radius_x), abs(radius_y))
 			if config.ignore_origin and radius_distance == 0:
+				continue
+			if furthest_square_distance <= config.min_range :
 				continue
 			if config.ignore_corners and radius_distance > radius:
 				continue
@@ -112,7 +108,6 @@ func highligh_tiles_line(
 	var line_length = config.range
 	for i in range(1, line_length + 1):
 		_make_tile_clickable(x + i, y, config)
-	
 
 func _make_tile_clickable(
 	x: int,

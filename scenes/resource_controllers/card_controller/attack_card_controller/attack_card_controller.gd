@@ -13,21 +13,20 @@ func play_card_action(
 	if not card_categories.has_category("damage"):
 		print("ERROR: no damage info in card")
 	var damage_info_card: DamageCategoryCard = card_categories.get_category("damage")
+	var config: TileHighlightConfig = get_card_tile_highlight_config(damage_info_card)
 	
-	# The attack is always played by the player
 	var piece: Piece = battlemap.player
-	#var target = _get_piece(card_resource)
 	if not piece:
 		print("ERROR: No player found while playig attack card...")
 		return
 	
-	var area_type = get_area_type(card_resource, damage_info_card)
-	var range_of_attack = damage_info_card.range
+	var area_type = get_area_type(card_resource, config.area_type)
+	config.area_type = area_type
 	
 	# freeze hand
 	BattlemapSignals.awaiting_player_input.emit()
+	
 	# show possible squares and await input	
-	var config: TileHighlightConfig = _build_highlight_config(area_type, damage_info_card)
 	highlight_tiles(piece, config)
 	
 	var tile: Tile = await BattlemapSignals.tile_picked_in_battlemap
@@ -40,13 +39,3 @@ func play_card_action(
 		tile.piece_in_tile.apply_damage(damage_info_card.damage)
 		
 	after_card_is_played(card_resource, card_categories)
-
-func _build_highlight_config(
-	area_type: Constants.AreaType,
-	damage_info_card: DamageCategoryCard
-) -> TileHighlightConfig:
-	var config = TileHighlightConfig.new()
-	config.area_type = area_type
-	config.range = damage_info_card.range
-	config.min_range = damage_info_card.min_range
-	return config

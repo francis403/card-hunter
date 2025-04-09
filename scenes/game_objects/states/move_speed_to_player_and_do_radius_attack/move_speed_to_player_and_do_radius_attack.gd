@@ -62,8 +62,9 @@ func preview_monster_attack_behaviour(recalculate_move: bool = false) -> void:
 func highlight_attack_tiles(source_tile: Tile):
 	# clean old attacked tiles
 	BattlemapSignals.clear_attack_highlight_tiles.emit()
+	var config: TileHighlightConfig = TileHighlightConfig.new()
+	config.area_type = Constants.AreaType.RADIUS
 	BattlemapSignals.highlight_attack_tiles.emit(
 		source_tile,
-		1,
-		Constants.AreaType.RADIUS
+		config
 	)

@@ -12,29 +12,24 @@ func play_card_action(
 	if not card_categories.has_category("move"):
 		print("ERROR: no move info in card")
 	var move_card_category: MoveCategoryCard = card_categories.get_category("move")
-	
-	## TODO: is this way efficient?
-	## TODO: this is not smart, need to improve this.
-	##	The player should have the final say if he can move or not
-	##	card emits before_player_movement and awaits for confirmation
-	##	Player receives the signal and emits start_before_movement_status_effects if anything is subscribed
-	##	awaits result
-	##	
-	##	if
-	var _number_of_connections: int = BattlemapSignals.before_player_movement.get_connections().size()
+	var config: TileHighlightConfig = get_card_tile_highlight_config(move_card_category)
+
+	#var _number_of_connections: int = BattlemapSignals.before_player_movement.get_connections().size()
 	BattlemapSignals.before_player_movement.emit()
 	
 	var piece_to_move: Piece = get_piece(card_resource, move_card_category)
-	var area_type: Constants.AreaType = get_area_type(card_resource, move_card_category)
-		
+	var area_type: Constants.AreaType = get_area_type(card_resource, config.area_type)
+	
+	config.area_type = area_type
+	config.range = piece_to_move._speed * config.range
 	# freeze hand
 	BattlemapSignals.awaiting_player_input.emit()
 		
-	# show possible squares and await input	
+	# show possible squares and await input
+	## TODO: convert to tile highlight config
 	BattlemapSignals.highlight_move_tiles.emit(
 		piece_to_move._tile,
-		piece_to_move._speed * move_card_category.move_distance,
-		area_type
+		config
 	)
 	#highlight_tiles(piece_to_move, area_type, move_card_category.move_distance)
 	

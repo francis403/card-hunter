@@ -14,13 +14,13 @@ func play_card_action(
 		print("ERROR: no move info in card")
 		
 	var move_card_category: MoveCategoryCard = card_categories.get_category("move")
+	var config: TileHighlightConfig = get_card_tile_highlight_config(move_card_category)
 	var target_type: Constants.TargetType\
 		= get_target_type(card_resource, move_card_category)
-	var area_type = get_area_type(card_resource, move_card_category)
+	var area_type = get_area_type(card_resource, config.area_type)
 	var player: PlayerPiece = battlemap.player
 	
 	# show possible squares and await input
-	var config: TileHighlightConfig = TileHighlightConfig.new()
 	config.area_type = area_type
 	config.range = move_card_category.range
 	highlight_tiles(player, config)
@@ -44,10 +44,8 @@ func play_card_action(
 	battlemap.place_piece_in_tile(piece_to_move, tile)
 
 	if piece_to_move is MonsterPiece:
-		#BattlemapSignals.monster_moved_by_player.emit(tile)
 		piece_to_move.on_monster_moved_by_player(tile)
 		
-	
 	after_card_is_played(card_resource, card_categories)
 
 func _build_highlight_config(

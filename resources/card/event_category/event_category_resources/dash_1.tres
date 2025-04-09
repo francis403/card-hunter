@@ -1,6 +1,16 @@
-[gd_resource type="Resource" script_class="MoveCategoryCard" load_steps=2 format=3 uid="uid://dtcaoex7vl38o"]
+[gd_resource type="Resource" script_class="MoveCategoryCard" load_steps=4 format=3 uid="uid://dtcaoex7vl38o"]
 
 [ext_resource type="Script" path="res://resources/card/event_category/move_category_card.gd" id="1_2cmdc"]
+[ext_resource type="Script" path="res://resources/configuration/tile_highlight_configuration/tile_highlight_configuration.gd" id="1_qt8ee"]
+
+[sub_resource type="Resource" id="Resource_mybmc"]
+script = ExtResource("1_qt8ee")
+range = 2
+min_range = 0.0
+area_type = 5
+ignore_occupied_tiles = false
+ignore_origin = true
+ignore_corners = false
 
 [resource]
 script = ExtResource("1_2cmdc")
@@ -9,3 +19,4 @@ move_distance = 2
 category_id = "move"
 target = 1
 area_type = 5
+configuration = SubResource("Resource_mybmc")

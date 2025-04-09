@@ -27,14 +27,19 @@ func _get_piece(
 
 func get_area_type(
 	card_resource: CardResource,
-	card_category: EventCategory
+	config_area_type: Constants.AreaType
 ) -> Constants.AreaType:
-	if card_category.area_type == Constants.AreaType.INHERIT:
+	if config_area_type == Constants.AreaType.INHERIT:
 		return card_resource.default_area_type
-	return card_category.area_type
+	return config_area_type
 
 func highlight_tiles(
 	piece: Piece,
 	config: TileHighlightConfig
 ):
 	BattlemapSignals.highlight_tiles.emit(piece._tile, config)
+
+func get_card_tile_highlight_config(
+	event_category: EventCategory
+) -> TileHighlightConfig:
+	return event_category.configuration if event_category.configuration else TileHighlightConfig.new()
