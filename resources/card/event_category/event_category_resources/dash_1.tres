@@ -14,7 +14,6 @@ ignore_corners = false
 
 [resource]
 script = ExtResource("1_2cmdc")
-range = 1
 move_distance = 2
 category_id = "move"
 target = 1

@@ -26,9 +26,6 @@ func do_movement():
 	
 	if next_turn_move_tile:
 		BattleController.battlemap.place_piece_in_tile(monster, next_turn_move_tile)
-	if monster_sprite:
-		monster_sprite.queue_free()
-	monster_sprite = monster.get_sprite().duplicate()
 	
 	next_turn_move_tile = MovementUtils.move_away_from_tile(
 		monster._tile,

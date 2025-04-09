@@ -22,7 +22,7 @@ func play_card_action(
 	
 	# show possible squares and await input
 	config.area_type = area_type
-	config.range = move_card_category.range
+	config.range = config.range
 	highlight_tiles(player, config)
 
 	# freeze hand
