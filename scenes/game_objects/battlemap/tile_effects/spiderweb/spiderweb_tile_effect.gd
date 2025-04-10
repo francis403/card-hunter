@@ -7,6 +7,6 @@ const STOP_NEXT_MOVEMENTS_STATUS = preload("res://scenes/game_objects/status_eff
 
 func apply_effect(piece: Piece):
 	var stop_next_movement_status: StopNextMovements = STOP_NEXT_MOVEMENTS_STATUS.instantiate()
-	stop_next_movement_status.piece = piece
+	stop_next_movement_status.target = piece
 	piece.add_status(stop_next_movement_status)
 	self.queue_free()
