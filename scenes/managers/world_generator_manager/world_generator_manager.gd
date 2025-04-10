@@ -27,8 +27,13 @@ var total_number_of_nodes_generated: int = 0
 var _generated_nodes: Array[WorldNode] = []
 var _min_position_difference: float = 20.0
 
+var _loaded_nodes: Array[String] = []
+
 ## an instance of the world's root node
-var village_node: WorldNode = File.progress.village_node
+var village_node: WorldNode
+
+func _init() -> void:
+	village_node = File.progress.village_node
 
 func _ready() -> void:
 	print(_ready)
@@ -40,6 +45,10 @@ func _draw():
 		_generate_world()
 	else:
 		_load_world()
+
+func _exit_tree() -> void:
+	## on exit need to make sure not to delete the village node
+	File.progress.village_node = village_node.duplicate_node(true)
 
 func _is_world_saved() -> bool:
 	return village_node != null
@@ -148,6 +157,10 @@ func _load_village():
 	print("after")
 
 func _initiate_world(base_node: WorldNode):
+	## TODO: need to improve this
+	if _loaded_nodes.has(base_node.world_node_id):
+		return
+	_loaded_nodes.append(base_node.world_node_id)
 	world_node_container.add_child(base_node)
 	if base_node.is_showing_player_sprite:
 		PlayerController.current_world_node = base_node
