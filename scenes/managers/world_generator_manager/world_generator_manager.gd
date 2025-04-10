@@ -143,9 +143,9 @@ func _load_world():
 
 func _load_village():
 	print(_load_village)
-	village_node = WORLD_NODE_SCENE.instantiate()
-	File.progress.village_node.copy_into_node(village_node, true)
+	village_node = File.progress.village_node
 	_initiate_world(village_node)
+	print("after")
 
 func _initiate_world(base_node: WorldNode):
 	world_node_container.add_child(base_node)

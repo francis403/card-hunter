@@ -50,7 +50,7 @@ func load_progress():
 	
 func _load_world_state():
 	self.progress.world_state._world_state = save_data["progress"]["world_state"]
-	self.progress.village_node = self.progress.world_state.convert_world_state_to_node().duplicate_node()
+	self.progress.village_node = self.progress.world_state.convert_world_state_to_node()
 
 ## SIGNALS
 ## TODO: do we want to save as soon as the player clicks there? 

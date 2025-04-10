@@ -43,5 +43,6 @@ var pick_class_screen_scene = load("res://ui/screens/pick_class_screen/pick_clas
 
 const deck_visualizer_scene = preload("res://ui/deck/deck_visualizer/deck_visualizer.tscn")
 const card_scene = preload("res://scenes/game_objects/cards/card/card.tscn")
+#const WORLD_NODE_SCENE = preload("res://scenes/game_objects/world/world_node/world_node.tscn")
 
 const VILLAGE_NODE_ID: String = "village_node_id"

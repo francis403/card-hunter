@@ -3,6 +3,7 @@ extends Node
 class_name WorldState
 
 const WORLD_DICTIONARY_FIELD: String = "world"
+const WORLD_NODE_SCENE = preload("res://scenes/game_objects/world/world_node/world_node.tscn")
 
 ## Represents the world state in a dictionary. 
 ## This is what is saved/loaded to file
@@ -36,7 +37,7 @@ func convert_world_state_to_node() -> WorldNode:
 
 ##TODO: add monster reading
 func _get_node_from_state(state: Dictionary, id: String) -> WorldNode:
-	var result: WorldNode = WorldNode.new()
+	var result: WorldNode = WORLD_NODE_SCENE.instantiate()
 	result.load_node_from_dictionary(state[id])
 	for connection_id in state[id][WorldNode.CONNECTIONS_DICTIONARY_FIELD].keys():
 		result.connections.append(
