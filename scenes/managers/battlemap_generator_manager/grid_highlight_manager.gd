@@ -41,12 +41,15 @@ func _on_highlight_attacked_tiles_signal(
 func highlight_tiles(
 	source_tile: Tile,
 	config: TileHighlightConfig
-):
+) -> Array[Tile]:
+	var highlighted_tiles: Array[Tile] = []
 	var area_type: Constants.AreaType = config.area_type
 	if area_type == Constants.AreaType.RADIUS:
-		highligh_tiles_radius(
-			source_tile,
-			config
+		highlighted_tiles.append_array(
+			highligh_tiles_radius(
+				source_tile,
+				config
+			)
 		)
 	elif area_type == Constants.AreaType.CROSS:
 		highligh_tiles_cross(
@@ -62,12 +65,13 @@ func highlight_tiles(
 			source_tile,
 			config
 		)
+	return highlighted_tiles
 
-## TODO: skip the first min_range
 func highligh_tiles_radius(
 	source_tile: Tile,
 	config: TileHighlightConfig
-):
+) -> Array[Tile]:
+	var highlighted_tiles: Array[Tile] = []
 	var x: int = source_tile._x_position
 	var y: int = source_tile._y_position
 	var radius = config.range
@@ -83,8 +87,9 @@ func highligh_tiles_radius(
 				continue
 			if config.ignore_corners and radius_distance > radius:
 				continue
+			highlighted_tiles.append(BattleController.get_tile(tile_x, tile_y))
 			_make_tile_clickable(tile_x, tile_y, config)
-
+	return highlighted_tiles
 func highligh_tiles_cross(
 	source_tile: Tile,
 	config: TileHighlightConfig
@@ -124,5 +129,5 @@ func _make_tile_clickable(
 	if tile:
 		if is_tile_attacked:
 			tile.show_attack_background()
-		else:
+		elif config.make_tile_clickable:
 			tile.show_background()

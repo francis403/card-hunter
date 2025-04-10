@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://dlmk5gnkgawp0"]
+
+[ext_resource type="Script" path="res://scenes/game_objects/states/create_spider_webs_if_out_of_range/create_spider_webs_if_out_of_range.gd" id="1_0gxdb"]
+
+[node name="CreateSpiderWebsIfOutOfRange" type="Node"]
+script = ExtResource("1_0gxdb")

@@ -7,6 +7,7 @@ class_name WorldNode
 const REVEALED_NODE_SPRITE = preload("res://assets/images/nodes/revealed_node.png")
 const VILAGE_NODE_SPRITE = preload("res://assets/images/nodes/vilage_node.png")
 const QUESTION_MARK_NODE_TRANSPARENT_SPRITE = preload("res://assets/images/nodes/question_mark_node-transparent.png")
+const WORLD_NODE_SCENE = preload("res://scenes/game_objects/world/world_node/world_node.tscn")
 
 const BATTLE_GENERIC_SCENE = preload("res://scenes/battle_scenes/battle_generic_scene/battle_generic_scene.tscn")
 
@@ -62,16 +63,19 @@ func _on_hide_player_in_other_node_signal(node_id: String):
 	if world_node_id != node_id:
 		hide_player()
 
-func _on_node_reveal_signal(world_node_id: String):
-	if self.world_node_id == world_node_id:
+func _on_node_reveal_signal(node_id: String):
+	if self.world_node_id == node_id:
 		self.reveal_node()
 
+## TODO: this needs to be run before we are ready to copy the data
 func _on_node_complete_signal(world_node_id: String):
 	if self.world_node_id != world_node_id:
 		return
-	monster_texture_rect.visible = false
-	monsters_in_node.clear()
 	BattlemapSignals.reveal_connected_nodes.emit(self)
+
+func clear_monsters():
+	self.monster_texture_rect.visible = false
+	self.monsters_in_node.clear()
 
 func _prepare_world_node_sprite():
 	if _world_node_type == WorldNodeTypeEnum.VILLAGE:
@@ -92,11 +96,6 @@ func _on_area_2d_input_event(viewport: Node, event: InputEvent, shape_idx: int) 
 		_process_on_world_node_click()
 
 func _process_on_world_node_click():
-	print(_process_on_world_node_click)
-	
-	## TODO: generate combat based on the monster there
-	## TODO: append info of monsters to fight in battle_controller
-	## 		then generic scene on start reads from there
 	if self.is_showing_player_sprite && _has_quest():
 		
 		var battle_scene: BattleGenericScene = BATTLE_GENERIC_SCENE.instantiate()
@@ -110,8 +109,12 @@ func _process_on_world_node_click():
 		return
 		
 	self.show_player()
-	BattlemapSignals.update_player_node.emit(world_node_id)
-	BattlemapSignals.hide_player_in_other_node.emit(world_node_id)
+	
+	File.progress.update_player_position(self)
+	
+	## Tell the game to save 
+	BattlemapSignals.update_player_node.emit(self)
+	#BattlemapSignals.hide_player_in_other_node.emit(world_node_id)
 
 ## TODO: add the ability for more than just battling mosnters
 func _has_quest():
@@ -119,7 +122,8 @@ func _has_quest():
 	
 func hide_player():
 	is_showing_player_sprite = false
-	player_texture_rect.visible = false
+	if player_texture_rect:
+		player_texture_rect.visible = false
 
 func show_player():
 	is_showing_player_sprite = true
@@ -152,18 +156,22 @@ func mark_revealed():
 	world_node_sprite.texture = REVEALED_NODE_SPRITE
 	_world_node_type = WorldNodeTypeEnum.REVEALED
 	
-func duplicate_node() -> WorldNode:
-	var node_copy: WorldNode = WorldNode.new()
+func duplicate_node(instantite_node_copy: bool = false) -> WorldNode:
+	var node_copy: WorldNode = null
+	if instantite_node_copy:
+		node_copy = WORLD_NODE_SCENE.instantiate()
+	else:
+		node_copy = WorldNode.new()
 	self.copy_properties_into_node(node_copy)
 	for child in self.connections:
-		node_copy.connections.append(child.duplicate_node())
+		node_copy.connections.append(child.duplicate_node(instantite_node_copy))
 	return node_copy
 
-func copy_into_node(node: WorldNode) -> void:
+func copy_into_node(node: WorldNode, instantiate_node: bool = false) -> void:
 	self.copy_properties_into_node(node)
 	node.connections.clear()
 	for child in self.connections:
-		node.connections.append(child.duplicate_node())
+		node.connections.append(child.duplicate_node(instantiate_node))
 
 func copy_properties_into_node(node: WorldNode):
 	node.world_node_id = self.world_node_id
@@ -186,6 +194,7 @@ func convert_node_to_dictionary() -> Dictionary:
 	result[CONNECTIONS_DICTIONARY_FIELD] = {}
 	result[MONSTERS_DICTIONARY_FIELD] = {}
 	var i: int = 0
+	## TODO: throwing an error whn the monster is freed
 	for child_monster in self.monsters_in_node:
 		result[MONSTERS_DICTIONARY_FIELD][i] = child_monster.monster_id
 		i += 1
@@ -196,6 +205,8 @@ func load_node_from_dictionary(node_state: Dictionary):
 	self.is_revealed = node_state[IS_REVEALED_DICTIONARY_FIELD]
 	self.is_reachable = node_state[IS_REACHABLE_DICTIONARY_FIELD]
 	self.is_showing_player_sprite = node_state[IS_SHOWING_PLAYER_SPRITE_DICTIONARY_FIELD]
+	if self.is_showing_player_sprite:
+		PlayerController.current_world_node = self
 	self._world_node_type = node_state[WORLD_NODE_TYPE_DICTIONARY_FIELD] 
 	self.position = node_state[POSITION_DICTIONARY_FIELD] 
 	## TODO: this needs to be smarter

@@ -36,7 +36,6 @@ func _ready() -> void:
 	village_node = File.progress.village_node
 
 func _draw():
-	print(_draw)
 	if not _is_world_saved():
 		_generate_world()
 	else:
@@ -77,6 +76,7 @@ func _generate_village():
 	village_node.is_reachable = true
 	village_node.global_position = village_node_marker.global_position
 	world_node_container.add_child(village_node)
+	PlayerController.current_world_node = village_node
 
 func _generate_adjacent_nodes(
 	base_node: WorldNode,
@@ -144,16 +144,17 @@ func _load_world():
 func _load_village():
 	print(_load_village)
 	village_node = WORLD_NODE_SCENE.instantiate()
-	File.progress.village_node.copy_into_node(village_node)
+	File.progress.village_node.copy_into_node(village_node, true)
+	File.progress.village_node = village_node
 	_initiate_world(village_node)
 
 func _initiate_world(base_node: WorldNode):
 	world_node_container.add_child(base_node)
+	if base_node.is_showing_player_sprite:
+		PlayerController.current_world_node = base_node
 	for child in base_node.connections:
-		var child_node: WorldNode = WORLD_NODE_SCENE.instantiate()
-		child.copy_into_node(child_node)
-		_initiate_world(child_node)
-		_draw_line_between_nodes(base_node, child_node)
+		_initiate_world(child)
+		_draw_line_between_nodes(base_node, child)
 	
 func get_node_iteration_position(center_node: WorldNode, iteration: int) -> Vector2:
 	var partition: float =  (float(iteration + 1)/ maximum_number_of_child_nodes)
@@ -163,19 +164,5 @@ func get_node_iteration_position(center_node: WorldNode, iteration: int) -> Vect
 
 func _save_world_state():
 	print(_save_world_state)
-	File.progress.village_node = village_node.duplicate_node()
-	File.progress.village_node.connections.clear()
-	_save_world_node(village_node, File.progress.village_node)
+	File.progress.village_node = village_node
 	File.progress.world_state.convert_node_to_world_state(village_node)
-		
-func _save_world_node(
-	base_node: WorldNode,
-	save_node: WorldNode,
-	save_children: bool = true
-):
-	base_node.is_loaded = true
-	for child in base_node.connections:
-		var node_copy: WorldNode = child.duplicate_node()
-		save_node.connections.append(node_copy)
-		if save_children and not base_node.is_loaded:
-			_save_world_node(child, node_copy, true)

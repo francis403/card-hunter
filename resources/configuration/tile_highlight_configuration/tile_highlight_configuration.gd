@@ -11,3 +11,4 @@ class_name TileHighlightConfig
 @export var ignore_corners: bool = false
 
 var is_tile_attacked: bool = false
+var make_tile_clickable: bool = true

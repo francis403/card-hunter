@@ -15,8 +15,10 @@ monster_texture = ExtResource("2_kyton")
 initial_state = NodePath("MoveSpeedToPlayerAndDoRadiusAttack")
 
 [node name="MoveSpeedToPlayerAndDoRadiusAttack" parent="StateMachine" index="0" instance=ExtResource("3_bmss7")]
+range = 3
 
 [node name="StayAwayAndAttackFromRange" parent="StateMachine" index="1" instance=ExtResource("4_3sr68")]
+range = 3
 
 [node name="Sprite2D" parent="." index="2"]
 texture = ExtResource("2_kyton")
