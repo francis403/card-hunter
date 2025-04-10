@@ -28,12 +28,12 @@ var _generated_nodes: Array[WorldNode] = []
 var _min_position_difference: float = 20.0
 
 ## an instance of the world's root node
-var village_node: WorldNode
+var village_node: WorldNode = File.progress.village_node
 
 func _ready() -> void:
+	print(_ready)
 	BattlemapSignals.world_updated.connect(_save_world_state)
-	_remove_preview()
-	village_node = File.progress.village_node
+	#_remove_preview()
 
 func _draw():
 	if not _is_world_saved():
@@ -145,7 +145,6 @@ func _load_village():
 	print(_load_village)
 	village_node = WORLD_NODE_SCENE.instantiate()
 	File.progress.village_node.copy_into_node(village_node, true)
-	File.progress.village_node = village_node
 	_initiate_world(village_node)
 
 func _initiate_world(base_node: WorldNode):
