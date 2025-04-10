@@ -10,7 +10,7 @@ var settings: Settings
 var progress: Progress
 
 func _ready() -> void:
-	BattlemapSignals.update_player_node.connect(_on_update_player_node_signal)
+	BattlemapSignals.player_world_state_updated.connect(_on_player_world_state_updated_signal)
 	settings = Settings.new()
 	progress = Progress.new()
 
@@ -54,6 +54,6 @@ func _load_world_state():
 
 ## SIGNALS
 ## TODO: do we want to save as soon as the player clicks there? 
-func _on_update_player_node_signal(world_node: WorldNode):
+func _on_player_world_state_updated_signal(world_node: WorldNode):
 	progress.world_state.convert_node_to_world_state(progress.village_node)
 	change_progress()

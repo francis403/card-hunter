@@ -52,7 +52,7 @@ signal monster_died
 signal monster_moved_by_player(new_tile: Tile)
 
 ## WorldMap Signals
-signal update_player_node(world_node: WorldNode)
+signal player_world_state_updated(world_node: WorldNode)
 signal hide_player_in_other_node(world_node_id: String)
 signal reveal_connected_nodes(world_node: WorldNode)
 signal reveal_node(world_node_id: String)

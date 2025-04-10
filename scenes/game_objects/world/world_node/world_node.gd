@@ -113,7 +113,7 @@ func _process_on_world_node_click():
 	File.progress.update_player_position(self)
 	
 	## Tell the game to save 
-	BattlemapSignals.update_player_node.emit(self)
+	BattlemapSignals.player_world_state_updated.emit(self)
 	#BattlemapSignals.hide_player_in_other_node.emit(world_node_id)
 
 ## TODO: add the ability for more than just battling mosnters
@@ -194,7 +194,6 @@ func convert_node_to_dictionary() -> Dictionary:
 	result[CONNECTIONS_DICTIONARY_FIELD] = {}
 	result[MONSTERS_DICTIONARY_FIELD] = {}
 	var i: int = 0
-	## TODO: throwing an error whn the monster is freed
 	for child_monster in self.monsters_in_node:
 		result[MONSTERS_DICTIONARY_FIELD][i] = child_monster.monster_id
 		i += 1

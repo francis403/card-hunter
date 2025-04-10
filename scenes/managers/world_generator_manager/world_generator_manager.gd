@@ -1,6 +1,6 @@
 extends Node2D
 
-## handles the world generation
+## Handles the world generation & the world loading from save file
 ## TODO: Need to divide this class in two (world_generation / world loading)
 class_name WorldGeneratorManager
 
