@@ -23,16 +23,16 @@ func do_state_action():
 	## if we start having a tile to add, add it there
 	if target_tile:
 		BattlemapSignals.add_effect_type_to_tile.emit(
-		Constants.TileEffectTypes.SPIDER_WEB,
-		target_tile
-	)
+			Constants.TileEffectTypes.SPIDER_WEB,
+			target_tile
+		)
 
 	## if we are in range do something else
 	var distance_to_player = MovementUtils.distance_between_tiles(
 		monster.next_move if monster.next_move else monster._tile,
 		target._tile
 	)
-	if distance_to_player < self.maximum_distance_to_player:
+	if distance_to_player <= self.maximum_distance_to_player:
 		BattlemapSignals.clear_attack_highlight_tiles.emit()
 		self.changed_state.emit(self, "ShootSpiderWebsIfWithinRangeState")
 		return

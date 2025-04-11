@@ -1,11 +1,17 @@
 extends StateWithMovement
-class_name MoveSpeedToPlayerAndDoRadiusAttack
+class_name MovendSingleAttackState
 
-@export var change_state: String = "StayAwayAndAttackFromRange"
-@export var range: int = 1
+@export var state_if_higher_than_max_range: String = ""
+@export var max_range: int = 1
+@export var highlight_config: TileHighlightConfig
 	
 func exit_state():
 	pass
+	
+func enter_state():
+	super.enter_state()
+	print(enter_state)
+	do_attack()
 	
 func do_state_action():
 	super.do_state_action()
@@ -16,15 +22,13 @@ func do_state_action():
 	)
 	
 	# only show when able to attack player
-	if distance_to_player > 1:
+	if distance_to_player > max_range:
 		BattlemapSignals.clear_attack_highlight_tiles.emit()
+		self.changed_state.emit(self, state_if_higher_than_max_range)
 		return
 	
 	self.do_attack()
 	
-	var half_hp_monster: float = float (monster._max_hp) / 2
-	if half_hp_monster > monster._health:
-		self.changed_state.emit(self, change_state)
 
 func do_preview_action(recalculate_move: bool = false):
 	self.preview_monster_attack_behaviour(recalculate_move)
@@ -46,7 +50,6 @@ func do_movement():
 func do_attack():
 	preview_monster_attack_behaviour()
 
-## TODO: this is a state that will always be in a monster. Just get the monster from there
 func preview_monster_attack_behaviour(recalculate_move: bool = false) -> void:
 	if monster.next_move and recalculate_move:
 		monster.next_move = null
@@ -61,6 +64,8 @@ func highlight_attack_tiles(source_tile: Tile):
 	BattlemapSignals.clear_attack_highlight_tiles.emit()
 	var config: TileHighlightConfig = TileHighlightConfig.new()
 	config.area_type = Constants.AreaType.RADIUS
+	if highlight_config:
+		config = highlight_config 
 	BattlemapSignals.highlight_attack_tiles.emit(
 		source_tile,
 		config

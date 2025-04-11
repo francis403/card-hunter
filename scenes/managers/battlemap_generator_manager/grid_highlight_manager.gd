@@ -94,6 +94,8 @@ func highligh_tiles_radius(
 			var radius_distance: int = abs(radius_x) + abs(radius_y)
 			var furthest_square_distance: int = max(abs(radius_x), abs(radius_y))
 			var tile: Tile = BattleController.get_tile(tile_x, tile_y)
+			if not tile:
+				continue
 			if config.ignore_origin and radius_distance == 0:
 				continue
 			if furthest_square_distance <= config.min_range :

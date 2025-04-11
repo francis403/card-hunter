@@ -69,6 +69,10 @@ func _on_player_input_signal():
 ## TODO: to test
 func add_tile_effect(tile_effect: TileEffect):
 	tile_effects_container.add_child(tile_effect)
+	
+	## TODO: I should probably read from config
+	if self.piece_in_tile:
+		tile_effect.apply_effect(piece_in_tile)
 
 func has_effect() -> bool:
 	return tile_effects_container.get_children().size() > 0
