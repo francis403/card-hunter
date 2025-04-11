@@ -8,7 +8,8 @@ func _ready() -> void:
 	BattlemapSignals.highlight_tiles.connect(_on_highlight_tiles_signal)
 	BattlemapSignals.highlight_move_tiles.connect(_on_hightlight_move_tiles_signal)
 	BattlemapSignals.highlight_attack_tiles.connect(_on_highlight_attacked_tiles_signal)
-
+	BattlemapSignals.get_monster_range_tiles.connect(_on_get_monster_range_tiles_signal)
+	
 # TODO
 func _on_clear_highlighted_tiles_signal():
 	pass
@@ -37,6 +38,14 @@ func _on_highlight_attacked_tiles_signal(
 	config.is_tile_attacked = true
 	highlight_tiles(source_tile, config)	
 
+func _on_get_monster_range_tiles_signal(
+	source_tile: Tile,
+	config: TileHighlightConfig
+):
+	config.make_tile_clickable = false
+	var result: Array = highlight_tiles(source_tile, config)
+	BattlemapSignals.monster_range_tiles_generated.emit(result)
+
 ## Highlights all tiles
 func highlight_tiles(
 	source_tile: Tile,
@@ -57,7 +66,10 @@ func highlight_tiles(
 			config
 		)
 	elif area_type == Constants.AreaType.SPECIFIC:
-		print("TODO: specific movement")
+		highligh_tile_specific(
+			source_tile,
+			config
+		)
 	elif area_type == Constants.AreaType.SHOTGUN:
 		print("TODO: shotgun movement")
 	elif area_type == Constants.AreaType.LINE:
@@ -81,13 +93,16 @@ func highligh_tiles_radius(
 			var tile_y = y + radius_y
 			var radius_distance: int = abs(radius_x) + abs(radius_y)
 			var furthest_square_distance: int = max(abs(radius_x), abs(radius_y))
+			var tile: Tile = BattleController.get_tile(tile_x, tile_y)
 			if config.ignore_origin and radius_distance == 0:
 				continue
 			if furthest_square_distance <= config.min_range :
 				continue
 			if config.ignore_corners and radius_distance > radius:
 				continue
-			highlighted_tiles.append(BattleController.get_tile(tile_x, tile_y))
+			if config.ignore_tiles_with_effects and tile.has_effect():
+				continue
+			highlighted_tiles.append(tile)
 			_make_tile_clickable(tile_x, tile_y, config)
 	return highlighted_tiles
 func highligh_tiles_cross(
@@ -113,6 +128,12 @@ func highligh_tiles_line(
 	var line_length = config.range
 	for i in range(1, line_length + 1):
 		_make_tile_clickable(x + i, y, config)
+
+func highligh_tile_specific(
+	source_tile: Tile,
+	config: TileHighlightConfig
+):
+	_make_tile_clickable(source_tile._x_position, source_tile._y_position, config)
 
 func _make_tile_clickable(
 	x: int,

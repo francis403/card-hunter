@@ -3,8 +3,8 @@
 [ext_resource type="PackedScene" uid="uid://b5v5j3rfoc38q" path="res://scenes/monsters/generic_monster/generic_monster.tscn" id="1_ayxpp"]
 [ext_resource type="Script" path="res://scenes/monsters/spider_monster/spider_monster.gd" id="2_bi3n2"]
 [ext_resource type="Texture2D" uid="uid://4nyonofwewd8" path="res://scenes/monsters/spider_monster/tile_0122.png" id="2_kyton"]
-[ext_resource type="PackedScene" uid="uid://dmrgvn8lav1xo" path="res://scenes/game_objects/states/move_speed_to_player_and_do_radius_attack/move_speed_to_player_and_do_radius_attack.tscn" id="3_bmss7"]
-[ext_resource type="PackedScene" uid="uid://oalssska7u76" path="res://scenes/game_objects/states/stay_away_and_attack_from_range/stay_away_and_attack_from_range.tscn" id="4_3sr68"]
+[ext_resource type="PackedScene" uid="uid://cvfuga8sci420" path="res://scenes/game_objects/states/shoot_spider_webs_if_within_range/shoot_spider_webs_if_within_range.tscn" id="6_15hyu"]
+[ext_resource type="PackedScene" uid="uid://dlmk5gnkgawp0" path="res://scenes/game_objects/states/create_spider_webs_if_out_of_range/create_spider_webs_if_out_of_range.tscn" id="6_njwvq"]
 
 [node name="SpiderMonster" instance=ExtResource("1_ayxpp")]
 script = ExtResource("2_bi3n2")
@@ -12,13 +12,11 @@ monster_id = "spider_monster_small"
 monster_texture = ExtResource("2_kyton")
 
 [node name="StateMachine" parent="." index="0" node_paths=PackedStringArray("initial_state")]
-initial_state = NodePath("MoveSpeedToPlayerAndDoRadiusAttack")
+initial_state = NodePath("CreateSpiderWebsIfOutOfRange")
 
-[node name="MoveSpeedToPlayerAndDoRadiusAttack" parent="StateMachine" index="0" instance=ExtResource("3_bmss7")]
-range = 3
+[node name="CreateSpiderWebsIfOutOfRange" parent="StateMachine" index="0" instance=ExtResource("6_njwvq")]
 
-[node name="StayAwayAndAttackFromRange" parent="StateMachine" index="1" instance=ExtResource("4_3sr68")]
-range = 3
+[node name="ShootSpiderWebsIfWithinRangeState" parent="StateMachine" index="1" instance=ExtResource("6_15hyu")]
 
 [node name="Sprite2D" parent="." index="2"]
 texture = ExtResource("2_kyton")

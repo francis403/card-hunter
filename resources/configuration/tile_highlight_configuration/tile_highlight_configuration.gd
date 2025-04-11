@@ -9,6 +9,7 @@ class_name TileHighlightConfig
 @export var ignore_occupied_tiles: bool = false
 @export var ignore_origin: bool = true
 @export var ignore_corners: bool = false
+@export var ignore_tiles_with_effects: bool = false
 
 var is_tile_attacked: bool = false
 var make_tile_clickable: bool = true

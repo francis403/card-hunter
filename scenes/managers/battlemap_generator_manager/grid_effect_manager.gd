@@ -15,6 +15,8 @@ func _on_add_effect_type_to_tile_signal(
 	tile_effect: Constants.TileEffectTypes,
 	tile: Tile
 ):
+	if not tile:
+		return
 	var result: TileEffect = null
 	if tile_effect == Constants.TileEffectTypes.SPIDER_WEB:
 		result = SPIDERWEB_TILE_EFFECT.instantiate()

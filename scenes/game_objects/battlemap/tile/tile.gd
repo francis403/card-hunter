@@ -8,7 +8,6 @@ var _x_size: int = 40
 var _y_size: int = 40
 var is_tile_attacked: bool = false
 var piece_in_tile: Piece = null
-var tile_effect: TileEffect = null
 
 @export var show_status: bool = false
 
@@ -70,6 +69,9 @@ func _on_player_input_signal():
 ## TODO: to test
 func add_tile_effect(tile_effect: TileEffect):
 	tile_effects_container.add_child(tile_effect)
+
+func has_effect() -> bool:
+	return tile_effects_container.get_children().size() > 0
 
 func _on_background_button_pressed() -> void:
 	BattlemapSignals.tile_picked_in_battlemap.emit(self)
