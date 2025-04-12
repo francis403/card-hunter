@@ -11,6 +11,7 @@ area_type = 4
 ignore_occupied_tiles = false
 ignore_origin = true
 ignore_corners = true
+ignore_tiles_with_effects = false
 
 [resource]
 script = ExtResource("1_qff5f")

@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://b5v5j3rfoc38q"]
+[gd_scene load_steps=5 format=3 uid="uid://b77dqwv8b42lt"]
 
 [ext_resource type="Script" path="res://scenes/monsters/generic_monster/generic_monster.gd" id="1_vliax"]
 [ext_resource type="Script" path="res://scenes/game_objects/state_machine/state_machine.gd" id="2_38rv1"]

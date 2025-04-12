@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="CardResource" load_steps=5 format=3 uid="uid://c4pdcu0hw1iq3"]
 
-[ext_resource type="PackedScene" uid="uid://dvot20aekrfrs" path="res://scenes/resource_controllers/card_controller/power_card_controller/power_card_controller.tscn" id="1_g48in"]
+[ext_resource type="PackedScene" path="res://scenes/resource_controllers/card_controller/power_card_controller/power_card_controller.tscn" id="1_g48in"]
 [ext_resource type="Script" path="res://scripts/event_category/event_category.gd" id="2_8rsu5"]
 [ext_resource type="Resource" uid="uid://d1vessqs6t3ro" path="res://resources/card/event_category/event_category_resources/double_speed.tres" id="3_bfxog"]
 [ext_resource type="Script" path="res://resources/card/card_resource.gd" id="4_cl04y"]

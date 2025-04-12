@@ -8,9 +8,19 @@ class_name CreateSpiderWebsIfOutsideOfRange
 
 var target_tile: Tile = null
 
+func _ready() -> void:
+	BattleSignals.battle_start.connect(_on_battle_start_signal)
+
 func enter_state():
 	super.enter_state()
+	if not monster._tile:
+		return
 	print(enter_state)
+	target_tile = await _get_next_random_tile()
+	highlight_tile(target_tile)
+
+func _on_battle_start_signal():
+	print(_on_battle_start_signal)
 	target_tile = await _get_next_random_tile()
 	highlight_tile(target_tile)
 
@@ -41,6 +51,7 @@ func do_state_action():
 	target_tile = await _get_next_random_tile()
 	highlight_tile(target_tile)
 
+## TODO: on battle start this is not working well
 func _get_next_random_tile() -> Tile:
 	var tile_hightlight_configuration: TileHighlightConfig = TileHighlightConfig.new()
 	tile_hightlight_configuration.area_type = Constants.AreaType.RADIUS
