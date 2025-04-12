@@ -10,7 +10,7 @@
 script = ExtResource("2_3v5n3")
 id = "dash_1"
 title = "Dash"
-description = "Dash to one direction in a cross"
+description = "Dash to one direction in a cross. Move double your speed."
 default_target = 1
 default_area_type = 5
 stamina_cost = 10

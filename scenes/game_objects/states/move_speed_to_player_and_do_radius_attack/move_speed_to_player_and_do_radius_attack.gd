@@ -1,7 +1,7 @@
 extends StateWithMovement
 class_name MoveSpeedToPlayerAndDoRadiusAttack
 
-
+@export var change_state: String = "StayAwayAndAttackFromRange"
 @export var range: int = 1
 	
 func exit_state():
@@ -24,7 +24,7 @@ func do_state_action():
 	
 	var half_hp_monster: float = float (monster._max_hp) / 2
 	if half_hp_monster > monster._health:
-		self.changed_state.emit(self, "StayAwayAndAttackFromRange")
+		self.changed_state.emit(self, change_state)
 
 func do_preview_action(recalculate_move: bool = false):
 	self.preview_monster_attack_behaviour(recalculate_move)
@@ -34,9 +34,6 @@ func do_movement():
 	
 	if next_turn_move_tile:
 		BattleController.battlemap.place_piece_in_tile(monster, next_turn_move_tile)
-	if monster_sprite:
-		monster_sprite.queue_free()
-	monster_sprite = monster.get_sprite().duplicate()
 	next_turn_move_tile = MovementUtils.get_movement_tile(
 		monster._tile,
 		target._tile,
@@ -62,8 +59,9 @@ func preview_monster_attack_behaviour(recalculate_move: bool = false) -> void:
 func highlight_attack_tiles(source_tile: Tile):
 	# clean old attacked tiles
 	BattlemapSignals.clear_attack_highlight_tiles.emit()
+	var config: TileHighlightConfig = TileHighlightConfig.new()
+	config.area_type = Constants.AreaType.RADIUS
 	BattlemapSignals.highlight_attack_tiles.emit(
 		source_tile,
-		1,
-		Constants.AreaType.RADIUS
+		config
 	)

@@ -1,0 +1,29 @@
+[gd_scene load_steps=7 format=3 uid="uid://bv8fq3m5ak66a"]
+
+[ext_resource type="PackedScene" uid="uid://b5v5j3rfoc38q" path="res://scenes/monsters/generic_monster/generic_monster.tscn" id="1_ayxpp"]
+[ext_resource type="Script" path="res://scenes/monsters/spider_monster/spider_monster.gd" id="2_bi3n2"]
+[ext_resource type="Texture2D" uid="uid://4nyonofwewd8" path="res://scenes/monsters/spider_monster/tile_0122.png" id="2_kyton"]
+[ext_resource type="PackedScene" uid="uid://cvfuga8sci420" path="res://scenes/game_objects/states/shoot_spider_webs_if_within_range/shoot_spider_webs_if_within_range.tscn" id="6_15hyu"]
+[ext_resource type="PackedScene" uid="uid://by053fy0oimg0" path="res://scenes/game_objects/states/move_and_single_attack_state/move_and_single_attack_state.tscn" id="6_glkbu"]
+[ext_resource type="PackedScene" uid="uid://dlmk5gnkgawp0" path="res://scenes/game_objects/states/create_spider_webs_if_out_of_range/create_spider_webs_if_out_of_range.tscn" id="6_njwvq"]
+
+[node name="SpiderMonster" instance=ExtResource("1_ayxpp")]
+script = ExtResource("2_bi3n2")
+monster_id = "spider_monster_small"
+monster_texture = ExtResource("2_kyton")
+_strength = 25
+
+[node name="StateMachine" parent="." index="0" node_paths=PackedStringArray("initial_state")]
+initial_state = NodePath("CreateSpiderWebsIfOutOfRange")
+
+[node name="CreateSpiderWebsIfOutOfRange" parent="StateMachine" index="0" instance=ExtResource("6_njwvq")]
+maximum_distance_to_player = 3
+
+[node name="ShootSpiderWebsIfWithinRangeState" parent="StateMachine" index="1" instance=ExtResource("6_15hyu")]
+maximum_distance_to_player = 2
+
+[node name="MoveAndSingleAttackState" parent="StateMachine" index="2" instance=ExtResource("6_glkbu")]
+state_if_higher_than_max_range = "ShootSpiderWebsIfWithinRangeState"
+
+[node name="Sprite2D" parent="." index="2"]
+texture = ExtResource("2_kyton")

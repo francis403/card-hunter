@@ -1,0 +1,20 @@
+[gd_scene load_steps=3 format=3 uid="uid://dt8xbon57aeth"]
+
+[ext_resource type="Script" path="res://scenes/game_objects/battlemap/tile_effects/spiderweb/spiderweb_tile_effect.gd" id="1_p1k5p"]
+[ext_resource type="Texture2D" uid="uid://btbd3n1d3jqn6" path="res://scenes/game_objects/battlemap/tile_effects/spiderweb/spider-web-png-34733.png" id="2_w8oj4"]
+
+[node name="SpiderwebTileEffect" type="MarginContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 6
+size_flags_vertical = 6
+mouse_filter = 2
+script = ExtResource("1_p1k5p")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 2
+texture = ExtResource("2_w8oj4")
+expand_mode = 3

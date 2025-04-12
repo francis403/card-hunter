@@ -1,11 +1,21 @@
-[gd_resource type="Resource" script_class="DamageCategoryCard" load_steps=2 format=3 uid="uid://4ycmg3fr67o3"]
+[gd_resource type="Resource" script_class="DamageCategoryCard" load_steps=4 format=3 uid="uid://4ycmg3fr67o3"]
 
+[ext_resource type="Script" path="res://resources/configuration/tile_highlight_configuration/tile_highlight_configuration.gd" id="1_ibyhm"]
 [ext_resource type="Script" path="res://resources/card/event_category/damage_category_card.gd" id="1_wsb5a"]
+
+[sub_resource type="Resource" id="Resource_erove"]
+script = ExtResource("1_ibyhm")
+range = 1
+min_range = 0.0
+area_type = 4
+ignore_occupied_tiles = false
+ignore_origin = true
+ignore_corners = false
 
 [resource]
 script = ExtResource("1_wsb5a")
 damage = 50
-range = 1
 category_id = "damage"
 target = 0
 area_type = 0
+configuration = SubResource("Resource_erove")
