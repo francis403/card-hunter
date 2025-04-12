@@ -1,4 +1,5 @@
 extends CardController
+class_name StatsCardController
 
 func play_card_action(
 	card_resource: CardResource, 

@@ -16,6 +16,7 @@ func _ready() -> void:
 	BattlemapSignals.card_discarded_from_hand.connect(_on_card_discared_from_hand_signal)
 	BattlemapSignals.card_removed_from_deck.connect(on_card_removed_from_deck)
 	BattlemapSignals.deal_damage_to_attacked_squares.connect(_on_squares_attacked_signal)
+	#BattlemapSignals.before_player_movement.connect(_before_player_movement_signal)
 	_prepare_deck()
 	
 func _prepare_deck():
@@ -69,9 +70,13 @@ func _on_squares_attacked_signal(damage: int):
 	#print(_on_squares_attacked_signal)
 	if self._tile.is_tile_attacked:
 		self.apply_damage(damage)
-		
+
+## TODO: this is not smart, need to improve this
+func _before_player_movement_signal():
+	pass
 		
 func _die():
 	BattlemapSignals.player_died.emit()
 	BattleSignals.battle_lost.emit()
 	self.queue_free()
+	

@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://2kudly1bbe3w"]
+
+[ext_resource type="Script" path="res://scenes/game_objects/status_effects/double_speed/double_speed_status_effect.gd" id="1_vaeq6"]
+
+[node name="DoubleSpeedStatusEffect" type="Node"]
+script = ExtResource("1_vaeq6")
+id = "double_speed"
+description = "Doubles your Speed"

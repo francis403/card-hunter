@@ -1,26 +1,26 @@
-[gd_scene load_steps=10 format=3 uid="uid://bmwr7a1er0gjl"]
+[gd_scene load_steps=5 format=3 uid="uid://bmwr7a1er0gjl"]
 
 [ext_resource type="Script" path="res://scenes/player/player.gd" id="1_77jw2"]
 [ext_resource type="Texture2D" uid="uid://dsctmiux3yqib" path="res://scenes/player/tile_0112.png" id="1_x2m06"]
-[ext_resource type="Script" path="res://resources/card/card_resource.gd" id="2_antcg"]
-[ext_resource type="Resource" uid="uid://dild4y4i7lvo5" path="res://resources/card/card_resources/move_card.tres" id="3_dw0et"]
-[ext_resource type="Resource" uid="uid://2it5k6b3esfs" path="res://resources/card/card_resources/slice_card.tres" id="4_cw1eq"]
-[ext_resource type="Resource" uid="uid://bgxa6u42qqqax" path="res://resources/card/card_resources/push_card.tres" id="5_jy7aj"]
-[ext_resource type="Resource" uid="uid://gf0hhocv78vs" path="res://resources/card/card_resources/dash_card.tres" id="6_6ubwe"]
-[ext_resource type="Resource" uid="uid://diasqdd0iallv" path="res://resources/card/card_resources/breathe_card.tres" id="7_5c04w"]
+[ext_resource type="PackedScene" uid="uid://dsrc12ncpkf6w" path="res://ui/battlemap/player/status_effects_ui/status_effects_ui.tscn" id="2_kq1yt"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_dysk7"]
 
 [node name="Player" type="CharacterBody2D"]
 script = ExtResource("1_77jw2")
-_deck = Array[ExtResource("2_antcg")]([ExtResource("3_dw0et"), ExtResource("3_dw0et"), ExtResource("3_dw0et"), ExtResource("4_cw1eq"), ExtResource("4_cw1eq"), ExtResource("4_cw1eq"), ExtResource("5_jy7aj"), ExtResource("6_6ubwe"), ExtResource("7_5c04w"), ExtResource("5_jy7aj")])
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+[node name="StatusContainer" type="Node" parent="."]
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("1_x2m06")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_dysk7")
+
+[node name="StatusEffectsUI" parent="." instance=ExtResource("2_kq1yt")]
+offset_left = -7.0
+offset_top = 10.0
+offset_right = 5.0
+offset_bottom = 25.0

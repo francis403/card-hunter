@@ -58,6 +58,11 @@ func _populate_battlemap():
 	_piece_position_manager._player = player
 	_piece_position_manager.place_piece_in_tile(player, get_tile(2, 2))
 	
+	update_monsters()
+
+func update_monsters():
+	if monsters.size() <= 0:
+		return
 	_piece_position_manager.place_piece_in_tile(monsters[0], get_tile(8, 2))
 	if monsters.size() > 1:
 		_piece_position_manager.place_piece_in_tile(monsters[1], get_tile(7, 2))

@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="DamageCategoryCard" load_steps=4 format=3 uid="uid://c51fw7pna4qxi"]
+
+[ext_resource type="Script" path="res://resources/configuration/tile_highlight_configuration/tile_highlight_configuration.gd" id="1_8f2mh"]
+[ext_resource type="Script" path="res://resources/card/event_category/damage_category_card.gd" id="1_qff5f"]
+
+[sub_resource type="Resource" id="Resource_lrsnm"]
+script = ExtResource("1_8f2mh")
+range = 2
+min_range = 0.0
+area_type = 4
+ignore_occupied_tiles = false
+ignore_origin = true
+ignore_corners = true
+ignore_tiles_with_effects = false
+
+[resource]
+script = ExtResource("1_qff5f")
+damage = 25
+category_id = "damage"
+target = 0
+area_type = 0
+configuration = SubResource("Resource_lrsnm")

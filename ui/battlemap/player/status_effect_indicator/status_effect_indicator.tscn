@@ -1,0 +1,37 @@
+[gd_scene load_steps=3 format=3 uid="uid://dpyunfs7um0hr"]
+
+[ext_resource type="Script" path="res://ui/battlemap/player/status_effect_indicator/status_effect_indicator.gd" id="1_icma4"]
+[ext_resource type="Texture2D" uid="uid://bx2xoxn5u8g7m" path="res://assets/game_objects/battlemap/player_objects/status_indicators/status_box.tres" id="1_te4i2"]
+
+[node name="StatusEffectIndicator" type="MarginContainer"]
+script = ExtResource("1_icma4")
+
+[node name="HBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="Indicator" type="MarginContainer" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="TextureRect" type="TextureRect" parent="HBoxContainer/Indicator"]
+layout_mode = 2
+texture = ExtResource("1_te4i2")
+
+[node name="Label" type="Label" parent="HBoxContainer/Indicator"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+text = "S"
+horizontal_alignment = 1
+
+[node name="DescriptionContainer" type="PanelContainer" parent="HBoxContainer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+
+[node name="DescriptionLabel" type="Label" parent="HBoxContainer/DescriptionContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+text = "Test Description"
+
+[connection signal="mouse_entered" from="HBoxContainer/Indicator/TextureRect" to="." method="_on_texture_rect_mouse_entered"]
+[connection signal="mouse_exited" from="HBoxContainer/Indicator/TextureRect" to="." method="_on_texture_rect_mouse_exited"]

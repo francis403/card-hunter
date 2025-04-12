@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://cvfuga8sci420"]
+
+[ext_resource type="Script" path="res://scenes/game_objects/states/shoot_spider_webs_if_within_range/shoot_spider_webs_if_within_range.gd" id="1_naplm"]
+
+[node name="ShootSpiderWebsIfWithinRangeState" type="Node"]
+script = ExtResource("1_naplm")

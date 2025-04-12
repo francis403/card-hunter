@@ -10,9 +10,12 @@ var settings: Settings
 var progress: Progress
 
 func _ready() -> void:
-	BattlemapSignals.update_player_node.connect(_on_update_player_node_signal)
+	BattlemapSignals.player_world_state_updated.connect(_on_player_world_state_updated_signal)
 	settings = Settings.new()
 	progress = Progress.new()
+
+func delete_save():
+	DirAccess.remove_absolute(SAVE_FILE_PATH)
 
 func save():
 	var file = FileAccess.open(SAVE_FILE_PATH, FileAccess.WRITE)
@@ -32,6 +35,7 @@ func change_settings():
 
 func change_progress():
 	save_data["progress"]["player_world_node_id"] = progress.current_world_node_id
+	save_data["progress"]["world_state"] = progress.world_state.to_dictionary()
 	save()
 
 func load_settings():
@@ -41,9 +45,15 @@ func load_settings():
 func load_progress():
 	if save_data["progress"].has("player_world_node_id"):
 		self.progress.current_world_node_id = save_data["progress"]["player_world_node_id"]
-		
+	if save_data["progress"].has("world_state"):
+		_load_world_state()
+	
+func _load_world_state():
+	self.progress.world_state._world_state = save_data["progress"]["world_state"]
+	self.progress.village_node = self.progress.world_state.convert_world_state_to_node()
+
 ## SIGNALS
 ## TODO: do we want to save as soon as the player clicks there? 
-func _on_update_player_node_signal(node_id: String):
-	progress.current_world_node_id = node_id
+func _on_player_world_state_updated_signal(world_node: WorldNode):
+	progress.world_state.convert_node_to_world_state(progress.village_node)
 	change_progress()
