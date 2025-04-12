@@ -31,3 +31,9 @@ func add_status(status: StatusEffect):
 	
 func remove_status(status_id: String):
 	pass
+
+func has_any_status() -> bool:
+	return false
+
+func has_status(status_id: String) -> bool:
+	return false

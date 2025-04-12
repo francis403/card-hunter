@@ -11,7 +11,7 @@ func exit_state():
 func enter_state():
 	super.enter_state()
 	print(enter_state)
-	do_attack()
+	self.do_state_action()
 	
 func do_state_action():
 	super.do_state_action()
