@@ -5,7 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://d0sjr0hkie86e" path="res://assets/images/background/background_forest.png" id="3_1pw4i"]
 [ext_resource type="PackedScene" uid="uid://bubmhtlvq0xpd" path="res://scenes/managers/battlemap_generator_manager/battlemap.tscn" id="4_xndhl"]
 [ext_resource type="PackedScene" uid="uid://sun7m5vx06ud" path="res://scenes/game_objects/cards/hand/hand.tscn" id="7_q21cd"]
-[ext_resource type="PackedScene" uid="uid://ckqvejbgtxuhp" path="res://ui/battlemap/player/player_stats/player_stats_ui.tscn" id="8_2ovol"]
+[ext_resource type="PackedScene" uid="uid://cgc2dtd114i3x" path="res://ui/battlemap/player/player_stats/player_stats_ui.tscn" id="8_2ovol"]
 [ext_resource type="PackedScene" uid="uid://bmwr7a1er0gjl" path="res://scenes/player/player.tscn" id="8_ye4fl"]
 [ext_resource type="PackedScene" uid="uid://b3x2sadw27m6s" path="res://ui/deck/draw_pile/deck_ui.tscn" id="9_a3gj4"]
 [ext_resource type="PackedScene" uid="uid://qcu3ip6nb1i3" path="res://ui/screens/game_over_screen/game_over_screen.tscn" id="9_bw6p8"]

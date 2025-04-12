@@ -1,4 +1,4 @@
-[gd_scene load_steps=2 format=3 uid="uid://dsrc12ncpkf6w"]
+[gd_scene load_steps=2 format=3 uid="uid://c1hf7o2cwp273"]
 
 [ext_resource type="Script" path="res://ui/battlemap/player/status_effects_ui/status_effects_ui.gd" id="1_7uerk"]
 
