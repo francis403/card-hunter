@@ -10,7 +10,7 @@
 script = ExtResource("3_cwmqd")
 id = "move"
 title = "Move"
-description = "Simple one direction move."
+description = "Move up to your speed in any direction."
 default_target = 1
 default_area_type = 4
 stamina_cost = 5

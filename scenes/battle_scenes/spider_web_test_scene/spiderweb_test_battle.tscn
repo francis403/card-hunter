@@ -1,0 +1,14 @@
+[gd_scene load_steps=4 format=3 uid="uid://dhlof03tujbw1"]
+
+[ext_resource type="PackedScene" uid="uid://dn1s6gbout3xc" path="res://scenes/battle_scenes/battle_generic_scene/battle_generic_scene.tscn" id="1_lg62d"]
+[ext_resource type="PackedScene" uid="uid://w530cnkei473" path="res://scenes/monsters/spider_monster/spider_monster.tscn" id="2_27gmh"]
+[ext_resource type="Script" path="res://scenes/battle_scenes/spider_web_test_scene/spiderweb_test_battle.gd" id="2_qppwk"]
+
+[node name="SpiderWebTestScene" instance=ExtResource("1_lg62d")]
+script = ExtResource("2_qppwk")
+
+[node name="Battlemap" parent="." index="3" node_paths=PackedStringArray("monsters")]
+monsters = [NodePath("../monsters/SpiderMonster")]
+
+[node name="SpiderMonster" parent="monsters" index="0" instance=ExtResource("2_27gmh")]
+position = Vector2(843, 333)

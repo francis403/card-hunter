@@ -22,3 +22,7 @@ func get_monster() -> MonsterPiece:
 
 func get_tile(x: int, y: int) -> Tile:
 	return battlemap.get_tile(x, y)
+
+## TODO: how can we do this knowing what we already know
+func get_random_tile(center_tile: Tile, config: TileHighlightConfig) -> Tile:
+	return null

@@ -26,9 +26,6 @@ func do_movement():
 	
 	if next_turn_move_tile:
 		BattleController.battlemap.place_piece_in_tile(monster, next_turn_move_tile)
-	if monster_sprite:
-		monster_sprite.queue_free()
-	monster_sprite = monster.get_sprite().duplicate()
 	
 	next_turn_move_tile = MovementUtils.move_away_from_tile(
 		monster._tile,
@@ -60,8 +57,10 @@ func do_preview_action(recalculate_move: bool = false) -> void:
 func highlight_attack_tiles(source_tile: Tile):
 	# clean old attacked tiles
 	BattlemapSignals.clear_attack_highlight_tiles.emit()
+	var config: TileHighlightConfig = TileHighlightConfig.new()
+	config.area_type = Constants.AreaType.CROSS
+	config.range = range
 	BattlemapSignals.highlight_attack_tiles.emit(
 		source_tile,
-		range,
-		Constants.AreaType.CROSS
+		config
 	)

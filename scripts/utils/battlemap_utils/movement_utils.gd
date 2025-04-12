@@ -76,3 +76,8 @@ func distance_between_tiles(tile1: Tile, tile2: Tile) -> int:
 			0.5
 		)
 	)
+	
+func get_left_tile(tile: Tile):
+	if not tile:
+		return null
+	return BattleController.get_tile(tile._x_position - 1, tile._y_position)
