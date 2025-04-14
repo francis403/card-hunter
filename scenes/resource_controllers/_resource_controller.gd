@@ -21,9 +21,9 @@ func get_target_type(
 func _get_piece(
 	target_type: Constants.TargetType
 ):
-	if target_type == Constants.TargetType.SELF || target_type == Constants.TargetType.INHERIT:
+	if target_type == Constants.TargetType.SELF || target_type == Constants.TargetType.PLAYER || target_type == Constants.TargetType.INHERIT:
 		return battlemap.player
-	return battlemap.monster[0]
+	return battlemap.monsters[0]
 
 func get_area_type(
 	card_resource: CardResource,

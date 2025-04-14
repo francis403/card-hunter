@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="TileEffectCategoryCard" load_steps=5 format=3 uid="uid://cmm6vet2ijr77"]
+
+[ext_resource type="Script" path="res://resources/configuration/tile_highlight_configuration/tile_highlight_configuration.gd" id="1_3fcem"]
+[ext_resource type="Script" path="res://resources/card/event_category/tile_effect_category_card.gd" id="1_5rc2i"]
+[ext_resource type="PackedScene" uid="uid://dt8xbon57aeth" path="res://scenes/game_objects/battlemap/tile_effects/spiderweb/spiderweb_tile_effect.tscn" id="2_7gtv2"]
+
+[sub_resource type="Resource" id="Resource_akqwd"]
+script = ExtResource("1_3fcem")
+range = 1
+min_range = 0.0
+area_type = 4
+ignore_occupied_tiles = false
+ignore_origin = true
+ignore_corners = false
+ignore_tiles_with_effects = true
+
+[resource]
+script = ExtResource("1_5rc2i")
+number_of_turns = 1
+tile_effect_scene = ExtResource("2_7gtv2")
+category_id = "tile_effect"
+target = 0
+area_type = 0
+configuration = SubResource("Resource_akqwd")

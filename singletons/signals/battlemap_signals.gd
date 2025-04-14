@@ -9,6 +9,7 @@ signal clear_player_highlighted_tiles
 signal clear_attack_highlight_tiles
 signal clear_highlighted_tiles
 signal tile_picked_in_battlemap(tile: Tile)
+# TODO: signals should be a response to something, not to tell the game to do something
 signal add_effect_to_tile(tile_effect: TileEffect, tile: Tile)
 signal add_effect_type_to_tile(tile_effect: Constants.TileEffectTypes, tile: Tile)
 signal get_monster_range_tiles(source_tile: Tile, config: TileHighlightConfig)

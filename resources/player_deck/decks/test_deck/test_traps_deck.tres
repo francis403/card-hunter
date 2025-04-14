@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="PlayerDeck" load_steps=6 format=3 uid="uid://b7u2qx0w0ve5l"]
+
+[ext_resource type="Script" path="res://resources/card/card_resource.gd" id="1_mpmrs"]
+[ext_resource type="Resource" uid="uid://dild4y4i7lvo5" path="res://resources/card/card_resources/move_card.tres" id="2_8ccbm"]
+[ext_resource type="Resource" uid="uid://c4jdxyuh3hqwd" path="res://resources/card/card_resources/place_spiderweb_trap.tres" id="4_5us66"]
+[ext_resource type="Resource" uid="uid://gf0hhocv78vs" path="res://resources/card/card_resources/dash_card.tres" id="4_u5wi4"]
+[ext_resource type="Script" path="res://resources/player_deck/player_deck.gd" id="8_ekfqw"]
+
+[resource]
+script = ExtResource("8_ekfqw")
+_deck = Array[ExtResource("1_mpmrs")]([ExtResource("2_8ccbm"), ExtResource("2_8ccbm"), ExtResource("4_u5wi4"), ExtResource("4_5us66"), ExtResource("4_5us66")])

@@ -4,7 +4,8 @@ extends Node
 const STARTING_DECK: PlayerDeck =\
 	preload("res://resources/player_deck/decks/generic_deck/starting_deck.tres")
 	
-
+const TEST_TRAPS_DECK: PlayerDeck =\
+	 preload("res://resources/player_deck/decks/test_deck/test_traps_deck.tres")
 ## Representation of the deck the player currently has equiped
 var _deck: PlayerDeck = STARTING_DECK
 
@@ -19,8 +20,9 @@ var current_world_node: WorldNode
 
 ## Might be smarter to just load it here
 func _ready() -> void:
-	if File.progress:
-		_deck = File.progress.current_player_deck
+	#if File.progress:
+		#_deck = File.progress.current_player_deck
+	_deck = TEST_TRAPS_DECK
 
 func _load_deck(player_dictionary: Dictionary):
 	_deck._load(player_dictionary)
