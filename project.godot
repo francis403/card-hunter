@@ -23,10 +23,11 @@ Constants="*res://scripts/utils/constants.gd"
 File="*res://singletons/game_settings/file/file.gd"
 PlayerController="*res://singletons/controllers/player_controller.gd"
 GameController="*res://singletons/controllers/game_controller.gd"
+BattleController="*res://singletons/controllers/battle_controller.gd"
 MovementUtils="*res://scripts/utils/battlemap_utils/movement_utils.gd"
 Music="*res://singletons/game_settings/music/music.gd"
-BattleController="*res://singletons/controllers/battle_controller.gd"
 ScreenUtils="*res://scripts/utils/screen_utils/screen_utils.gd"
+CardResourcesController="*res://singletons/controllers/card_resources_controller.gd"
 
 [display]
 

@@ -36,6 +36,7 @@ func change_settings():
 func change_progress():
 	save_data["progress"]["player_world_node_id"] = progress.current_world_node_id
 	save_data["progress"]["world_state"] = progress.world_state.to_dictionary()
+	save_data["progress"]["player"] = PlayerController.get_deck().save()
 	save()
 
 func load_settings():
@@ -47,10 +48,21 @@ func load_progress():
 		self.progress.current_world_node_id = save_data["progress"]["player_world_node_id"]
 	if save_data["progress"].has("world_state"):
 		_load_world_state()
+	if save_data["progress"].has("player"):
+		## TODO: load player info
+		_load_player_info()
+		pass
 	
 func _load_world_state():
 	self.progress.world_state._world_state = save_data["progress"]["world_state"]
 	self.progress.village_node = self.progress.world_state.convert_world_state_to_node()
+
+## TODO: this can probably be done a lot better
+func _load_player_info():
+	var player_deck_info: Dictionary = save_data["progress"]["player"]
+	progress.current_player_deck._load(player_deck_info)
+		
+	#PlayerController._deck = save_data["progress"]["player"]["deck"]
 
 ## SIGNALS
 ## TODO: do we want to save as soon as the player clicks there? 

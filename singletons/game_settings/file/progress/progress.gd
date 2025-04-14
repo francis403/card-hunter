@@ -10,9 +10,18 @@ var village_node: WorldNode
 ## Dictionary representation of the world
 var world_state: WorldState
 
+## Representation of the deck the player currently has equiped
+var current_player_deck: PlayerDeck
+
+## Represents the current player health
+var current_player_health: int
+
+## Default values
 func _init() -> void:
 	current_health = 100
 	current_world_node_id = Constants.VILLAGE_NODE_ID
+	current_player_deck = PlayerDeck.new()
+	current_player_health = 100
 	world_state = WorldState.new()
 
 func update_player_position(current_world_node: WorldNode):
