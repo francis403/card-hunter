@@ -33,10 +33,8 @@ func _ready() -> void:
 	BattlemapSignals.awaiting_player_input.connect(_on_awaiting_player_input_signal)
 	BattlemapSignals.player_input_received.connect(_on_player_input_signal)
 	BattlemapSignals.canceled_player_input.connect(_on_player_input_signal)
-	
 	# Monsters
 	BattlemapSignals.monster_died.connect(_on_monster_died_signal)
-	
 	BattlemapSignals.player_died.connect(_on_battle_lost_signal)
 	BattleSignals.battle_won.connect(_on_battle_won_signal)
 
@@ -92,6 +90,7 @@ func _on_player_input_signal():
 func _on_monster_died_signal():
 	_number_of_monsters_defeated += 1
 	if _number_of_monsters_defeated >= battlemap.get_total_amount_of_monsters():
+		PlayerController.current_player_health = player._health
 		BattleSignals.battle_won.emit()
 
 func _on_battle_lost_signal():

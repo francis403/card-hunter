@@ -16,8 +16,13 @@ position = Vector2(-1, 0)
 world_node_container = NodePath("../WorldNodes")
 village_node_marker = NodePath("../VillageNodeMarker")
 
-[node name="Title" parent="Screen" index="0"]
-text = "World Map"
+[node name="Title" parent="Screen/HBoxContainer" index="0"]
+text = "World Screen"
+
+[node name="Label" type="Label" parent="Screen/HBoxContainer" index="1"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Days till next attack: 5"
 
 [node name="WorldNodes" type="MarginContainer" parent="." index="4"]
 layout_mode = 0

@@ -31,7 +31,13 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/margin_top = 20
 
-[node name="Title" type="Label" parent="Screen"]
+[node name="HBoxContainer" type="VBoxContainer" parent="Screen"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+theme = ExtResource("2_mb2ls")
+
+[node name="Title" type="Label" parent="Screen/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 0

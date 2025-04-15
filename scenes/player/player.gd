@@ -7,6 +7,10 @@ class_name PlayerCharacter
 
 func _ready() -> void:
 	super._ready()
+	if PlayerController.current_player_health >= 0:
+		self._health = PlayerController.current_player_health
+	else:
+		PlayerController.current_player_health = self._health
 	BattlemapSignals.play_card_stream.connect(_on_play_card_sound_signal)
 
 func _on_play_card_sound_signal(audio_stream: AudioStream):
