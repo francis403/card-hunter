@@ -1,15 +1,17 @@
-[gd_scene load_steps=5 format=3 uid="uid://bmwr7a1er0gjl"]
+[gd_scene load_steps=6 format=3 uid="uid://bmwr7a1er0gjl"]
 
 [ext_resource type="Script" path="res://scenes/player/player.gd" id="1_77jw2"]
 [ext_resource type="Texture2D" uid="uid://dsctmiux3yqib" path="res://scenes/player/tile_0112.png" id="1_x2m06"]
 [ext_resource type="PackedScene" uid="uid://dsrc12ncpkf6w" path="res://ui/battlemap/player/status_effects_ui/status_effects_ui.tscn" id="2_kq1yt"]
+[ext_resource type="PackedScene" uid="uid://vfo362uqdox" path="res://scenes/game_objects/status_effects/status_effect_container/status_effect_container.tscn" id="4_d4gjb"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_dysk7"]
 
 [node name="Player" type="CharacterBody2D"]
 script = ExtResource("1_77jw2")
 
-[node name="StatusContainer" type="Node" parent="."]
+[node name="StatusEffectContainer" parent="." node_paths=PackedStringArray("status_effect_ui") instance=ExtResource("4_d4gjb")]
+status_effect_ui = NodePath("../StatusEffectsUI")
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 

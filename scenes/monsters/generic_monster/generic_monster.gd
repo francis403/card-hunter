@@ -4,7 +4,8 @@ class_name GenericMonster
 @onready var sprite_2d: Sprite2D = $Sprite2D
 @onready var collision_shape_2d: CollisionShape2D = $CollisionShape2D
 @onready var state_machine: StateMachine = $StateMachine
-@onready var status_container: Node = $StatusContainer
+
+@onready var status_effect_container: StatusEffectContainer = $StatusEffectContainer
 @onready var status_effects_ui: StatusEffectUI = $StatusEffectsUI
 
 @onready var move_intent_container: MarginContainer = $StatusControl/MoveIntentContainer
@@ -57,10 +58,7 @@ func add_status(status: StatusEffect):
 	## Check to see if the monster is immune to the specific status
 	if _is_monster_immune_to_status(monster_config, status.id):
 		return
-	status.target = self
-	status_container.add_child(status)
-	status_effects_ui.add_status_effect_indicator(status)
-	status.on_effect_gain()
+	status_effect_container.add_status(status, self)
 
 ## TODO: improve this
 func remove_status(status_id: String):
@@ -80,12 +78,7 @@ func _is_monster_immune_to_status(
 	return monster_config.monster_immunity_config.immune_list.has(status_id)
 
 func has_any_status() -> bool:
-	return status_container.get_child_count() > 0
+	return status_effect_container.has_any_status()
 
-## TODO: I can improve this with a dictionary
-## TODO: Make it O(1) instead of O(n)
 func has_status(status_id: String) -> bool:
-	for status in status_container.get_children():
-		if status.id == status_id:
-			return true
-	return false
+	return status_effect_container.has_status(status_id)

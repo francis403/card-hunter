@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://vfo362uqdox"]
+
+[ext_resource type="Script" path="res://scenes/game_objects/status_effects/status_effect_container/status_effect_container.gd" id="1_kskef"]
+
+[node name="StatusEffectContainer" type="Node"]
+script = ExtResource("1_kskef")
+
+[node name="Container" type="Node" parent="."]

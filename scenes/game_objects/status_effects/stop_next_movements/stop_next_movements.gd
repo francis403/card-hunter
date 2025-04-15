@@ -3,6 +3,7 @@ class_name StopNextMovements
 
 @export var number_of_movements_to_stop: int = 1
 var old_piece_speed: int = 1
+var _number_of_active_turns: int = 0
 
 func _ready() -> void:
 	## discard next time the monster turn starts
