@@ -9,7 +9,8 @@ func _ready() -> void:
 
 
 func _on_add_effect_to_tile_signal(tile_effect: TileEffect, tile: Tile):
-	tile.add_tile_effect(tile_effect)
+	if tile:
+		tile.add_tile_effect(tile_effect)
 
 func _on_add_effect_type_to_tile_signal(
 	tile_effect: Constants.TileEffectTypes,

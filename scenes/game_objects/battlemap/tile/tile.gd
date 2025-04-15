@@ -84,8 +84,6 @@ func _on_background_button_pressed() -> void:
 ## TODO: need to make imunities and stuff like that
 func trigger_tile_effects(piece: Piece):
 	#print(trigger_tile_effects)
-	if not piece is PlayerPiece:
-		return
 	for effect in tile_effects_container.get_children():
 		if effect is TileEffect:
 			effect.apply_effect(piece)

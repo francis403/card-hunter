@@ -1,8 +1,6 @@
 extends Node
 class_name ResourceController
 
-var battlemap: Battlemap
-
 func get_piece(
 	card_resource: CardResource,
 	card_category: EventCategory
@@ -21,6 +19,7 @@ func get_target_type(
 func _get_piece(
 	target_type: Constants.TargetType
 ):
+	var battlemap: Battlemap = BattleController.battlemap
 	if target_type == Constants.TargetType.SELF || target_type == Constants.TargetType.PLAYER || target_type == Constants.TargetType.INHERIT:
 		return battlemap.player
 	return battlemap.monsters[0]

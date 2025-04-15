@@ -1,24 +1,24 @@
 [gd_scene load_steps=6 format=3 uid="uid://cvlh0ir1dbn8k"]
 
 [ext_resource type="Script" path="res://scenes/monsters/CrabMonster/crab_monster.gd" id="1_f67w6"]
-[ext_resource type="PackedScene" uid="uid://b5v5j3rfoc38q" path="res://scenes/monsters/generic_monster/generic_monster.tscn" id="1_jxbo4"]
+[ext_resource type="PackedScene" uid="uid://b77dqwv8b42lt" path="res://scenes/monsters/generic_monster/generic_monster.tscn" id="1_jxbo4"]
 [ext_resource type="Texture2D" uid="uid://y720kc3pkme0" path="res://scenes/monsters/CrabMonster/tile_0110.png" id="1_x8062"]
 [ext_resource type="PackedScene" uid="uid://oalssska7u76" path="res://scenes/game_objects/states/stay_away_and_attack_from_range/stay_away_and_attack_from_range.tscn" id="4_e5dvf"]
 [ext_resource type="PackedScene" uid="uid://dmrgvn8lav1xo" path="res://scenes/game_objects/states/move_speed_to_player_and_do_radius_attack/move_speed_to_player_and_do_radius_attack.tscn" id="4_r160r"]
 
 [node name="CrabMonster" instance=ExtResource("1_jxbo4")]
 script = ExtResource("1_f67w6")
-monster_id = "spider_monster_small"
+monster_id = "crab_monster_small"
 monster_texture = ExtResource("1_x8062")
 _max_hp = 100
 _strength = 34
 
-[node name="StateMachine" parent="." index="0" node_paths=PackedStringArray("initial_state")]
+[node name="StateMachine" parent="." index="1" node_paths=PackedStringArray("initial_state")]
 initial_state = NodePath("MoveSpeedToPlayerAndDoRadiusAttack")
 
 [node name="MoveSpeedToPlayerAndDoRadiusAttack" parent="StateMachine" index="0" instance=ExtResource("4_r160r")]
 
 [node name="StayAwayAndAttackFromRange" parent="StateMachine" index="1" instance=ExtResource("4_e5dvf")]
 
-[node name="Sprite2D" parent="." index="2"]
+[node name="Sprite2D" parent="." index="3"]
 texture = ExtResource("1_x8062")

@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://b77dqwv8b42lt"]
+[gd_scene load_steps=6 format=3 uid="uid://b77dqwv8b42lt"]
 
 [ext_resource type="Script" path="res://scenes/monsters/generic_monster/generic_monster.gd" id="1_vliax"]
 [ext_resource type="Script" path="res://scenes/game_objects/state_machine/state_machine.gd" id="2_38rv1"]
+[ext_resource type="PackedScene" uid="uid://dsrc12ncpkf6w" path="res://ui/battlemap/player/status_effects_ui/status_effects_ui.tscn" id="4_dqndt"]
 [ext_resource type="Texture2D" uid="uid://bqlcfti4m2fao" path="res://assets/game_objects/monster_parts/intents/move_intents/red_arrow_move_intent.png" id="5_dum2y"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_jo88s"]
@@ -9,6 +10,8 @@
 [node name="GenericMonster" type="CharacterBody2D"]
 scale = Vector2(5, 5)
 script = ExtResource("1_vliax")
+
+[node name="StatusContainer" type="Node" parent="."]
 
 [node name="StateMachine" type="Node" parent="."]
 script = ExtResource("2_38rv1")
@@ -42,3 +45,9 @@ expand_mode = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_jo88s")
+
+[node name="StatusEffectsUI" parent="." instance=ExtResource("4_dqndt")]
+offset_left = -1.4
+offset_top = 2.0
+offset_right = 10.6
+offset_bottom = 17.0

@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://de1lhh284xmap"]
+[gd_scene load_steps=10 format=3 uid="uid://de1lhh284xmap"]
 
 [ext_resource type="Texture2D" uid="uid://1lwus3xnrrcy" path="res://ui/screens/quest_picker/scroll_background.jpg" id="1_fo3qx"]
 [ext_resource type="Script" path="res://ui/screens/pick_class_screen/pick_class_screen.gd" id="1_uhqi0"]
@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://cupm3r3yhcopw" path="res://ui/screen_components/class_picker_component/class_picker_component.tscn" id="4_adaab"]
 [ext_resource type="Resource" uid="uid://bw0axal1uv0jp" path="res://resources/player/player_class/player_class_resources/archer_class.tres" id="4_orbci"]
 [ext_resource type="Resource" uid="uid://btmk8nbikbsox" path="res://resources/player/player_class/player_class_resources/great_sword_class.tres" id="5_4x74p"]
+[ext_resource type="Resource" uid="uid://dm3jlpe4irrmi" path="res://resources/player/player_class/player_class_resources/test_class.tres" id="6_jbvoq"]
 
 [node name="PickClassScreen" type="Control"]
 layout_mode = 3
@@ -17,7 +18,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_uhqi0")
-class_choices = Array[ExtResource("2_w1lat")]([ExtResource("3_0cpjo"), ExtResource("4_orbci"), ExtResource("5_4x74p")])
+class_choices = Array[ExtResource("2_w1lat")]([ExtResource("3_0cpjo"), ExtResource("4_orbci"), ExtResource("5_4x74p"), ExtResource("6_jbvoq")])
 
 [node name="TextureRect" type="TextureRect" parent="."]
 layout_mode = 1

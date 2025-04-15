@@ -15,7 +15,7 @@ func play_card_action(
 	var damage_info_card: DamageCategoryCard = card_categories.get_category("damage")
 	var config: TileHighlightConfig = get_card_tile_highlight_config(damage_info_card)
 	
-	var piece: Piece = battlemap.player
+	var piece: Piece = BattleController.get_player()
 	if not piece:
 		print("ERROR: No player found while playig attack card...")
 		return

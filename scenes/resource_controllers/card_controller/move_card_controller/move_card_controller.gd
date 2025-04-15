@@ -11,9 +11,10 @@ func play_card_action(
 	
 	if not card_categories.has_category("move"):
 		print("ERROR: no move info in card")
+		return
 	var move_card_category: MoveCategoryCard = card_categories.get_category("move")
 	var config: TileHighlightConfig = get_card_tile_highlight_config(move_card_category)
-
+	var battlemap: Battlemap = BattleController.battlemap
 	#var _number_of_connections: int = BattlemapSignals.before_player_movement.get_connections().size()
 	BattlemapSignals.before_player_movement.emit()
 	

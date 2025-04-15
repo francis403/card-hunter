@@ -25,6 +25,10 @@ func play_card_action(
 	var tile: Tile = await BattlemapSignals.tile_picked_in_battlemap
 	BattlemapSignals.player_input_received.emit()
 	
+	if tile == null:
+		# cancel card
+		return
+	
 	BattlemapSignals.add_effect_to_tile.emit(tile_effect, tile)
 
 	super.after_card_is_played(card_resource, event_categories)
