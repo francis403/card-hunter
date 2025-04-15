@@ -18,6 +18,10 @@ var current_player_health: int
 ## TODO: make sure this node is correctly updated
 var current_world_node: WorldNode
 
+func _ready() -> void:
+	if File.progress.current_player_deck:
+		_deck = File.progress.current_player_deck
+
 func _load_deck(player_dictionary: Dictionary):
 	_deck._load(player_dictionary)
 
