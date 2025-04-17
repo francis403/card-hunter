@@ -92,24 +92,14 @@ func _generate_adjacent_nodes(
 	number_of_children: int = self.maximum_number_of_child_nodes,
 	current_build_depth: int = 0
 ):
-	var initial_generated_node_position: Vector2 = Vector2(
-				base_node.global_position.x - (seperation),
-				base_node.global_position.y - (seperation)
-			)
 	for i in range(base_node.connections.size(), number_of_children):
-		var generated_node: WorldNode = WORLD_NODE_SCENE.instantiate()
-		var generated_node_position: Vector2 =\
-			initial_generated_node_position + Vector2(i * seperation, 0)
-		generated_node.global_position = get_node_iteration_position(base_node, i)
-		
-		var overllaping_node: WorldNode = get_overlapping_node(generated_node)
+		var generated_position: Vector2 = get_node_iteration_position(base_node, i)
+		var overllaping_node: WorldNode = get_overlapping_node(generated_position)
 		if overllaping_node:
 			base_node.connections.append(overllaping_node)
 			_draw_line_between_nodes(base_node, overllaping_node)
 			continue
-		generated_node.world_node_id = str(total_number_of_nodes_generated)
-		generated_node.quest_scene = BATTLE_ONE_CRAB_SCENE
-		generated_node.monsters_in_node.append_array(_generate_random_monsters())
+		var generated_node: WorldNode = _generate_monster_hunt_node(generated_position)
 		base_node.connections.append(generated_node)
 		world_node_container.add_child(generated_node)
 		_generated_nodes.append(generated_node)
@@ -121,6 +111,13 @@ func _generate_adjacent_nodes(
 				2,
 				current_build_depth + 1
 			)
+
+func _generate_monster_hunt_node(global_position: Vector2) -> WorldNode:
+	var generated_node: WorldNode = WORLD_NODE_SCENE.instantiate()
+	generated_node.global_position = global_position
+	generated_node.world_node_id = str(total_number_of_nodes_generated)
+	generated_node.monsters_in_node.append_array(_generate_random_monsters())
+	return generated_node
 
 func _generate_random_monsters(max_number: int = 1) -> Array[GenericMonster]:
 	var result: Array[GenericMonster] = []
@@ -138,10 +135,10 @@ func _generate_random_monsters(max_number: int = 1) -> Array[GenericMonster]:
 	
 
 ## Get the first overlapping node
-func get_overlapping_node(world_node: WorldNode) -> WorldNode:
+func get_overlapping_node(world_node_global_position: Vector2) -> WorldNode:
 	var overlapping_nodes: Array[WorldNode] = []
 	for generated_node in _generated_nodes:
-		if world_node.global_position.distance_to(generated_node.global_position) < _min_position_difference:
+		if world_node_global_position.distance_to(generated_node.global_position) < _min_position_difference:
 			return generated_node
 	return null
 

@@ -2,7 +2,8 @@ extends Node
 
 var battlemap: Battlemap
 
-## TODO: remove some stuff from GameController and put it here
+var turn_counter: int = 0
+
 func _ready() -> void:
 	BattlemapSignals.battlemap_generated.connect(_on_battlemap_generated_signal)
 	

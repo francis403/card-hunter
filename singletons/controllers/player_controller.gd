@@ -4,8 +4,6 @@ extends Node
 const STARTING_DECK: PlayerDeck =\
 	preload("res://resources/player_deck/decks/generic_deck/starting_deck.tres")
 	
-const TEST_TRAPS_DECK: PlayerDeck =\
-	 preload("res://resources/player_deck/decks/test_deck/test_traps_deck.tres")
 ## Representation of the deck the player currently has equiped
 var _deck: PlayerDeck = STARTING_DECK
 
