@@ -7,6 +7,7 @@ const deck_visualizer_scene = preload("res://ui/deck/deck_visualizer/deck_visual
 @onready var hand: Hand = $Hand
 @onready var battlemap: Battlemap = $Battlemap
 @onready var ui_nodes: Control = $UINodes
+@onready var battle_scene_rewards_manager: BattleSceneRewardsManager = $BattleSceneRewardsManager
 
 ## holds all monsters in the battle scene
 @onready var monsters_node: Node = $monsters
@@ -40,6 +41,7 @@ func _ready() -> void:
 
 	_draw_cards_start_of_turn(battlemap.player)
 	_prep_battle_arena_monsters()
+	battle_scene_rewards_manager.set_rewards_to_reward_screen()
 	BattleSignals.battle_start.emit()
 
 func _on_player_turn_started_signal():
@@ -94,15 +96,18 @@ func _on_monster_died_signal():
 		BattleSignals.battle_won.emit()
 
 func _on_battle_lost_signal():
-	game_over_screen.title_label.text = "You Lost"
+	#game_over_screen.title_label.text = "You Lost"
+	game_over_screen.prep_loss_screen()
 	_show_game_over_screen()
 
 func _on_battle_won_signal():
 	if PlayerController.current_world_node:
 		PlayerController.current_world_node.clear_monsters()
 	BattlemapSignals.node_completed.emit(File.progress.current_world_node_id)
+	game_over_screen.prep_win_screen()
 	_show_game_over_screen()
 	
+## TODO: add possible rewards
 func _show_game_over_screen():
 	game_over_screen.visible = true
 	get_tree().paused = true

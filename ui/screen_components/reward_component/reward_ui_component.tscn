@@ -1,0 +1,25 @@
+[gd_scene load_steps=4 format=3 uid="uid://nirklpiw6yaf"]
+
+[ext_resource type="Script" path="res://ui/screen_components/reward_component/reward_ui_component.gd" id="1_lmnmf"]
+[ext_resource type="Theme" uid="uid://dmot8ul1c5l3n" path="res://assets/themes/theme_1.tres" id="1_p1elt"]
+[ext_resource type="PackedScene" uid="uid://d3vhms6yk456c" path="res://scenes/game_objects/cards/card/card.tscn" id="2_e72e4"]
+
+[node name="RewardUIComponent" type="VBoxContainer"]
+script = ExtResource("1_lmnmf")
+
+[node name="Title" type="Label" parent="."]
+layout_mode = 2
+theme = ExtResource("1_p1elt")
+text = "Choose 1 reward"
+horizontal_alignment = 1
+
+[node name="CardContainer" type="HBoxContainer" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+alignment = 1
+
+[node name="Card" parent="CardContainer" instance=ExtResource("2_e72e4")]
+layout_mode = 2
+
+[node name="Card2" parent="CardContainer" instance=ExtResource("2_e72e4")]
+layout_mode = 2

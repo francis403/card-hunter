@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://w530cnkei473"]
+[gd_scene load_steps=14 format=3 uid="uid://w530cnkei473"]
 
 [ext_resource type="PackedScene" uid="uid://b77dqwv8b42lt" path="res://scenes/monsters/generic_monster/generic_monster.tscn" id="1_ayxpp"]
 [ext_resource type="Script" path="res://scenes/monsters/spider_monster/spider_monster.gd" id="2_bi3n2"]
@@ -6,8 +6,11 @@
 [ext_resource type="Script" path="res://resources/configuration/monster_configurations/monster_immunities_config/monster_immunitie_config.gd" id="4_axrlo"]
 [ext_resource type="Script" path="res://resources/configuration/monster_configurations/monster_config/monster_config.gd" id="5_odyso"]
 [ext_resource type="PackedScene" uid="uid://cvfuga8sci420" path="res://scenes/game_objects/states/shoot_spider_webs_if_within_range/shoot_spider_webs_if_within_range.tscn" id="6_15hyu"]
+[ext_resource type="Script" path="res://resources/card/card_resource.gd" id="6_eq10v"]
 [ext_resource type="PackedScene" uid="uid://by053fy0oimg0" path="res://scenes/game_objects/states/move_and_single_attack_state/move_and_single_attack_state.tscn" id="6_glkbu"]
 [ext_resource type="PackedScene" uid="uid://dlmk5gnkgawp0" path="res://scenes/game_objects/states/create_spider_webs_if_out_of_range/create_spider_webs_if_out_of_range.tscn" id="6_njwvq"]
+[ext_resource type="Resource" uid="uid://c4jdxyuh3hqwd" path="res://resources/card/card_resources/place_spiderweb_trap.tres" id="7_6bfs8"]
+[ext_resource type="Resource" uid="uid://gf0hhocv78vs" path="res://resources/card/card_resources/dash_card.tres" id="8_okrld"]
 
 [sub_resource type="Resource" id="Resource_mva3q"]
 script = ExtResource("4_axrlo")
@@ -22,9 +25,13 @@ script = ExtResource("2_bi3n2")
 monster_id = "spider_monster_small"
 monster_texture = ExtResource("2_kyton")
 monster_config = SubResource("Resource_bbo3v")
+_health = 1
 _strength = 25
 
-[node name="StateMachine" parent="." index="1" node_paths=PackedStringArray("initial_state")]
+[node name="RewardManager" parent="." index="0"]
+card_rewards = Array[ExtResource("6_eq10v")]([ExtResource("7_6bfs8"), ExtResource("8_okrld")])
+
+[node name="StateMachine" parent="." index="2" node_paths=PackedStringArray("initial_state")]
 initial_state = NodePath("CreateSpiderWebsIfOutOfRange")
 
 [node name="CreateSpiderWebsIfOutOfRange" parent="StateMachine" index="0" instance=ExtResource("6_njwvq")]
@@ -36,5 +43,5 @@ maximum_distance_to_player = 2
 [node name="MoveAndSingleAttackState" parent="StateMachine" index="2" instance=ExtResource("6_glkbu")]
 state_if_higher_than_max_range = "ShootSpiderWebsIfWithinRangeState"
 
-[node name="Sprite2D" parent="." index="3"]
+[node name="Sprite2D" parent="." index="4"]
 texture = ExtResource("2_kyton")

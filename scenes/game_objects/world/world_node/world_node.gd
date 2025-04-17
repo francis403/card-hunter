@@ -28,6 +28,7 @@ enum WorldNodeTypeEnum {
 	VILLAGE,
 	UNKNOWN,
 	EVENT,
+	TREASURE,
 	REVEALED
 }
 

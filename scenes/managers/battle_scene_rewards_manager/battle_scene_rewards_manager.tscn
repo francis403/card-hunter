@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://cksvi3r0uyp0o"]
+
+[ext_resource type="Script" path="res://scenes/managers/battle_scene_rewards_manager/battle_scene_rewards_manager.gd" id="1_yrpgp"]
+
+[node name="BattleSceneRewardsManager" type="Node"]
+script = ExtResource("1_yrpgp")
+
+[node name="PossibleRewards" type="Node" parent="."]

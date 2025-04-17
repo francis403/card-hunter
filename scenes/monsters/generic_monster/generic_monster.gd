@@ -9,6 +9,7 @@ class_name GenericMonster
 @onready var status_effects_ui: StatusEffectUI = $StatusEffectsUI
 
 @onready var move_intent_container: MarginContainer = $StatusControl/MoveIntentContainer
+@onready var reward_manager: RewardManager = $RewardManager
 
 @export var monster_id: String
 @export var monster_texture: Texture2D
@@ -82,3 +83,6 @@ func has_any_status() -> bool:
 
 func has_status(status_id: String) -> bool:
 	return status_effect_container.has_status(status_id)
+
+func get_card_rewards() -> Array[CardResource]:
+	return reward_manager.get_random_cards(2)

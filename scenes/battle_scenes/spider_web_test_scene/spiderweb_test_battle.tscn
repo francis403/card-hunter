@@ -12,3 +12,4 @@ monsters = [NodePath("../monsters/SpiderMonster")]
 
 [node name="SpiderMonster" parent="monsters" index="0" instance=ExtResource("2_27gmh")]
 position = Vector2(843, 333)
+_health = 1

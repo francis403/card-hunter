@@ -22,6 +22,7 @@ func _instantiate_card(card_resource: CardResource):
 	var card_instance: Card = card_scene.instantiate()
 	card_instance.card_can_be_discarded = false
 	card_instance.card_can_hover = false
+	card_instance.card_can_be_played = false
 	grid_container.add_child(card_instance)
 	card_instance.card_resource = card_resource
 	card_instance.initialize_card()

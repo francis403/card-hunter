@@ -9,4 +9,4 @@ func _ready() -> void:
 		Constants.TileEffectTypes.SPIDER_WEB,
 		MovementUtils.get_left_tile(player._tile)
 	)
-	PlayerController.replace_deck(BOW_DECK)
+	#PlayerController.replace_deck(BOW_DECK)

@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://qcu3ip6nb1i3"]
+[gd_scene load_steps=5 format=3 uid="uid://qcu3ip6nb1i3"]
 
 [ext_resource type="Script" path="res://ui/screens/game_over_screen/game_over_screen.gd" id="1_fybvw"]
 [ext_resource type="Texture2D" uid="uid://1lwus3xnrrcy" path="res://ui/screens/quest_picker/scroll_background.jpg" id="2_36f8c"]
 [ext_resource type="Theme" uid="uid://dmot8ul1c5l3n" path="res://assets/themes/theme_1.tres" id="3_1177m"]
+[ext_resource type="PackedScene" uid="uid://nirklpiw6yaf" path="res://ui/screen_components/reward_component/reward_ui_component.tscn" id="4_i0xc4"]
 
 [node name="GameOverScreen" type="MarginContainer"]
 anchors_preset = 8
@@ -43,6 +44,10 @@ size_flags_vertical = 0
 theme = ExtResource("3_1177m")
 theme_override_font_sizes/font_size = 64
 text = "You Win"
+
+[node name="RewardComponent" parent="MarginContainer/VBoxContainer" instance=ExtResource("4_i0xc4")]
+unique_name_in_owner = true
+layout_mode = 2
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2

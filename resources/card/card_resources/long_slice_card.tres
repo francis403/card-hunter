@@ -9,7 +9,6 @@
 [sub_resource type="Resource" id="Resource_65i3l"]
 script = ExtResource("4_0hsoc")
 damage = 20
-range = 2
 category_id = "damage"
 target = 2
 area_type = 3

@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://dn1s6gbout3xc"]
+[gd_scene load_steps=11 format=3 uid="uid://dn1s6gbout3xc"]
 
 [ext_resource type="Script" path="res://scenes/battle_scenes/battle_generic_scene/battle_generic_scene.gd" id="1_6gf8r"]
 [ext_resource type="AudioStream" uid="uid://dwcjod037iqrj" path="res://assets/sound/background_music/One Man Symphony - Collateral Damage (Free) - 15 CyberRace Theme 02.mp3" id="2_ugrlm"]
@@ -9,10 +9,15 @@
 [ext_resource type="PackedScene" uid="uid://bmwr7a1er0gjl" path="res://scenes/player/player.tscn" id="8_ye4fl"]
 [ext_resource type="PackedScene" uid="uid://b3x2sadw27m6s" path="res://ui/deck/draw_pile/deck_ui.tscn" id="9_a3gj4"]
 [ext_resource type="PackedScene" uid="uid://qcu3ip6nb1i3" path="res://ui/screens/game_over_screen/game_over_screen.tscn" id="9_bw6p8"]
+[ext_resource type="PackedScene" uid="uid://cksvi3r0uyp0o" path="res://scenes/managers/battle_scene_rewards_manager/battle_scene_rewards_manager.tscn" id="10_66p06"]
 
 [node name="BattleGenericScene" type="Node" node_paths=PackedStringArray("player")]
 script = ExtResource("1_6gf8r")
 player = NodePath("Player")
+
+[node name="BattleSceneRewardsManager" parent="." node_paths=PackedStringArray("monsters_container", "game_over_screen") instance=ExtResource("10_66p06")]
+monsters_container = NodePath("../monsters")
+game_over_screen = NodePath("../GameOverScreen")
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("2_ugrlm")
