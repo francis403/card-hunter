@@ -9,6 +9,7 @@
 
 [node name="Player" type="CharacterBody2D"]
 script = ExtResource("1_77jw2")
+_stamina_recover = 10
 
 [node name="StatusEffectContainer" parent="." node_paths=PackedStringArray("status_effect_ui") instance=ExtResource("4_d4gjb")]
 status_effect_ui = NodePath("../StatusEffectsUI")

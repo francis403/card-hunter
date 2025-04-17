@@ -7,7 +7,10 @@ func play_card_action(
 	event_categories: EventCategoryDictionary = null
 ):
 	super.play_card_action(card_resource, event_categories)
-	print(play_card_action)
+	
+	if not card_can_be_played(card_resource, event_categories):
+		return
+	
 	if not event_categories.has_category("power"):
 		print("ERROR: No power info in card")
 	var power_card_category: PowerCategoryCard = event_categories.get_category("power")

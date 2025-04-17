@@ -9,6 +9,9 @@ func play_card_action(
 ):
 	super.play_card_action(card_resource, card_categories)
 	
+	if not card_can_be_played(card_resource, card_categories):
+		return
+	
 	if not card_categories.has_category("move"):
 		print("ERROR: no move info in card")
 		return
