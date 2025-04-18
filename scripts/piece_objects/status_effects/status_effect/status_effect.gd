@@ -11,12 +11,19 @@ var target: Piece
 
 func _ready() -> void:
 	target = get_parent().get_parent()
+	self.on_effect_gain()
 
 func on_effect_gain():
 	pass
 
+## what happens when the effect is applied (only trigger once)
 func apply_effect():
 	pass
 	
+## What happens when the effect is triggered (can be multiple times )
+func on_effect_triggered():
+	pass
+
+## What happens when the effect is discarded (only triggered once)
 func on_effect_discarded():
 	pass
