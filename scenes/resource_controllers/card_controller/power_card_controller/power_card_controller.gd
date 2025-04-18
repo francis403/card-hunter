@@ -23,6 +23,5 @@ func play_card_action(
 	var status_effect_instance: StatusEffect = power_controller_instance
 	status_effect_instance.status_effect_config = power_card_category.status_event_config
 	target.add_status(status_effect_instance)
-	#status_effect_instance.on_effect_gain()
 
 	super.after_card_is_played(card_resource, event_categories)

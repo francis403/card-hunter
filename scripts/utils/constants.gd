@@ -28,9 +28,17 @@ enum StatType {
 	HEALTH,
 	MAX_SPEED,
 	SPEED,
+	STRENGTH,
 	DAMAGE
 }
 
+enum EffectTrigger {
+	ON_SELF_PLAYED,
+	ON_EVERY_CARD_PLAY,
+	ON_STATUS_APPLIED,
+	ON_START_OF_PLAYER_TURN,
+	ON_END_OF_PLAYER_TURN
+}
 
 enum TileEffectTypes {
 	SPIDER_WEB

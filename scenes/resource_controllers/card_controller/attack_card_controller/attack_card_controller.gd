@@ -14,7 +14,6 @@ func play_card_action(
 		print("ERROR: no damage info in card")
 	var damage_info_card: DamageCategoryCard = card_categories.get_category("damage")
 	var config: TileHighlightConfig = get_card_tile_highlight_config(damage_info_card)
-	
 	var piece: Piece = BattleController.get_player()
 	if not piece:
 		print("ERROR: No player found while playig attack card...")
@@ -35,7 +34,8 @@ func play_card_action(
 	if not tile:
 		return
 		
+	print("piece.strngth: ", piece._strength)
 	if tile.piece_in_tile:
-		tile.piece_in_tile.apply_damage(damage_info_card.damage)
+		tile.piece_in_tile.apply_damage(damage_info_card.damage * piece._strength )
 		
 	after_card_is_played(card_resource, card_categories)

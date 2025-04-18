@@ -6,8 +6,8 @@ class_name DoubleSpeedStatusEffect
 var old_piece_speed: int = 1
 var _turn_count: int = 0
 
-func _ready() -> void:
-	## discard next time the monster turn starts
+func on_effect_gain():
+	print("on effect gain")
 	BattlemapSignals.monster_turn_started.connect(_on_monster_turn_started)
 	old_piece_speed = self.target._speed
 	if self.status_effect_config:	
@@ -28,3 +28,4 @@ func on_effect_discarded():
 	self.target._speed = old_piece_speed
 	self.target.remove_status(self.id)
 	self.queue_free()
+	#super.on_effect_discarded()

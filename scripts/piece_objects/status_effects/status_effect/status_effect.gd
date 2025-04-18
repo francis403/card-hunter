@@ -13,6 +13,7 @@ func _ready() -> void:
 	target = get_parent().get_parent()
 	self.on_effect_gain()
 
+## Happens when the effect is added to the piece (only trigger once)
 func on_effect_gain():
 	pass
 

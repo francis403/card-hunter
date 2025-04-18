@@ -33,7 +33,6 @@ func initialize_card():
 # TODO: this should probably go to the hand_manager
 func _input(event: InputEvent) -> void:
 	if _mouse_hovering and event.is_action_pressed("left_click"):
-		print("is_hovering and is clicked")
 		_play_card()
 		card_picked.emit(self.card_resource)
 

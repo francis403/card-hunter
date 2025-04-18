@@ -13,3 +13,6 @@ class_name StatusEffectConfig
 ## Do you want to modify a specific status when the status
 @export_group("Modify a stat")
 @export var status_modifier_config: StatusModifierConfig
+
+@export_group("When the effect is triggered")
+@export var effect_trigger: Constants.EffectTrigger

@@ -4,5 +4,3 @@
 
 [node name="StatusEffectContainer" type="Node"]
 script = ExtResource("1_kskef")
-
-[node name="Container" type="Node" parent="."]

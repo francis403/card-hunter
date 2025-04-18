@@ -1,0 +1,27 @@
+[gd_resource type="Resource" script_class="PowerCategoryCard" load_steps=7 format=3 uid="uid://dnxisx0tavhcy"]
+
+[ext_resource type="PackedScene" uid="uid://dkai8lrtdu1t8" path="res://scenes/game_objects/status_effects/effects/_generic_status_effect/generic_status_effect_controller.tscn" id="1_x4ee5"]
+[ext_resource type="Script" path="res://resources/card/event_category/power_category_card.gd" id="2_i4h7b"]
+[ext_resource type="Script" path="res://resources/configuration/status_effect_config/status_effect_config.gd" id="3_s1piu"]
+[ext_resource type="Script" path="res://resources/configuration/effect_configs/status_modifier_config/status_modifier_config.gd" id="4_phjg8"]
+
+[sub_resource type="Resource" id="Resource_41bvg"]
+script = ExtResource("4_phjg8")
+stat = 6
+operation = 2
+value = 2.0
+
+[sub_resource type="Resource" id="Resource_bja8c"]
+script = ExtResource("3_s1piu")
+number_of_turns = 2
+apply_on_tile_added_to_pieces = true
+status_modifier_config = SubResource("Resource_41bvg")
+effect_trigger = 0
+
+[resource]
+script = ExtResource("2_i4h7b")
+power_controller = ExtResource("1_x4ee5")
+status_event_config = SubResource("Resource_bja8c")
+category_id = "power"
+target = 1
+area_type = 1
