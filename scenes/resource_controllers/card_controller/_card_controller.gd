@@ -32,6 +32,7 @@ func after_card_is_played(
 		BattlemapSignals.play_card_stream.emit(card_resource.audio_stream)
 	_apply_stamina_cost(card_resource.stamina_cost)
 	card_finished_playing.emit()
+	BattlemapSignals.card_has_been_played.emit(card_resource)
 
 func _apply_stamina_cost(stamina_cost: int):
 	var player: PlayerPiece = BattleController.get_player()

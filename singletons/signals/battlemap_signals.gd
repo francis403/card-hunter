@@ -24,6 +24,7 @@ signal show_draw_pile_deck
 signal show_discard_pile_deck
 
 ## Card signals
+signal card_has_been_played(card_resource: CardResource)
 signal card_discarded_from_hand(index: int)
 signal card_removed_from_deck(index: int)
 

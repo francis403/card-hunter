@@ -21,7 +21,22 @@ func play_card_action(
 		print("power controller is not a status effect!")
 		return
 	var status_effect_instance: StatusEffect = power_controller_instance
+	if status_effect_instance is GenericStatusEffectController:
+		_init_generic_status_effect_basic_fields(
+			status_effect_instance,
+			card_resource
+		)
+	
+	
 	status_effect_instance.status_effect_config = power_card_category.status_event_config
 	target.add_status(status_effect_instance)
 
 	super.after_card_is_played(card_resource, event_categories)
+
+func _init_generic_status_effect_basic_fields(
+	status_effect_instance: StatusEffect,
+	card_resource: CardResource
+):
+	status_effect_instance.id = card_resource.id + str("_status_effect")
+	status_effect_instance.description = card_resource.description
+	pass

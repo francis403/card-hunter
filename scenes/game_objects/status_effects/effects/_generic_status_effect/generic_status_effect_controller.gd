@@ -15,6 +15,7 @@ func _init() -> void:
 	
 func _ready() -> void:
 	super._ready()
+	_init_basic_fields()
 	if not self.status_effect_config:
 		return
 	self.effect_extra_cost_config = self.status_effect_config.extra_cost
@@ -23,15 +24,26 @@ func _ready() -> void:
 	_max_number_of_turns = self.status_effect_config.number_of_turns
 	_subscripe_on_status_trigger()
 	
+## TODO: need to think of a smart way to do this
+func _init_basic_fields():
+	pass
+	
 func _subscripe_on_status_trigger():
 	match status_trigger:
 		Constants.EffectTrigger.ON_SELF_PLAYED:
 			on_effect_triggered()
 		Constants.EffectTrigger.ON_END_OF_PLAYER_TURN:
 			BattlemapSignals._on_monster_turn_started.connect(on_effect_triggered)
+		Constants.EffectTrigger.ON_EVERY_CARD_PLAY:
+			BattlemapSignals.card_has_been_played.connect(_on_card_played_signal)
+	
+
 	
 func on_effect_gain():
 	_on_status_effect_gain_cost()
+
+func _on_card_played_signal(_card_resource: CardResource):
+	on_effect_triggered()
 
 ## I want this to be the function that is called when the status effect is triggered
 ## The sub status effects will simply need to change the apply_effect()
@@ -53,7 +65,11 @@ func _on_status_effect_gain_cost():
 	pass
 
 func _on_status_effect_trigger_cost():
-	pass
+	if not effect_extra_cost_config:
+		return
+	#match effect_extra_cost_config.extra_cost_timing:
+		#EffectExtraCostConfig.ExtraCostTiming.ON_EVERY_CARD_PLAY:
+			#pass
 
 func status_effect_trigger():
 	if status_modifier_config:
