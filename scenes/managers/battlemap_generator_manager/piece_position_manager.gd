@@ -14,6 +14,7 @@ func place_piece(piece: Piece, position: Vector2):
 func place_piece_in_tile(piece: Piece, tile: Tile):
 	place_node_in_tile(piece, tile)
 
+## TODO: do we need to check if it's a giant monster?
 func place_node_in_tile(node: Node2D, tile: Tile):
 	if not tile or not node:
 		return
@@ -31,6 +32,8 @@ func place_node_in_tile(node: Node2D, tile: Tile):
 			node._tile.piece_in_tile = null
 		node.set_piece_tile(tile)
 		tile.piece_in_tile = node
+		if node is GenericGiantMonster:
+			node.update_giant_monster_tiles()
 		tile.trigger_tile_effects(node)
 	node.position = center_tile_position + offset
 

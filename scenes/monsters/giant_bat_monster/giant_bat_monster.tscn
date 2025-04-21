@@ -10,6 +10,8 @@
 [node name="GiantBatMonster" instance=ExtResource("1_40ijh")]
 scale = Vector2(10, 10)
 script = ExtResource("2_ufmgn")
+type_of_giant_monster = 0
+extra_size = 1
 monster_id = "giant_bat_monster"
 monster_texture = ExtResource("3_lcpgw")
 _health = 200

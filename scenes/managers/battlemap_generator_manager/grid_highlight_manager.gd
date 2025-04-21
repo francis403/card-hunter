@@ -79,6 +79,8 @@ func highlight_tiles(
 		)
 	return highlighted_tiles
 
+## TODO: can I put this into a utils function of some sort?
+## we can maybe add a callable here as an argument
 func highligh_tiles_radius(
 	source_tile: Tile,
 	config: TileHighlightConfig
@@ -107,6 +109,7 @@ func highligh_tiles_radius(
 			highlighted_tiles.append(tile)
 			_make_tile_clickable(tile_x, tile_y, config)
 	return highlighted_tiles
+	
 func highligh_tiles_cross(
 	source_tile: Tile,
 	config: TileHighlightConfig
