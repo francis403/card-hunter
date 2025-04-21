@@ -3,6 +3,9 @@ class_name PlayerPiece
 
 @export var hand_size: int = 4
 
+## Used when we want to replace the deck of the player
+@export var replace_deck: PlayerDeck = null
+
 var current_card_in_hand_size: int = 0
 
 ## TODO: Need to convert all of this into PlayerDeck
@@ -20,10 +23,16 @@ func _ready() -> void:
 	_prepare_deck()
 	
 func _prepare_deck():
-	_deck = PlayerController.get_deck()._deck
+	if replace_deck:
+		_deck = replace_deck._deck
+	else:
+		_deck = PlayerController.get_deck()._deck
 	draw_pile = _deck.duplicate()
 	discard_pile = []
 	shuffle_deck(draw_pile)
+	
+func set_deck(player_deck: PlayerDeck ):
+	_deck = player_deck._deck
 	
 # We might have some special deck abilities
 func shuffle_deck(deck: Array[CardResource]):

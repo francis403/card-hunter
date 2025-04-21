@@ -39,4 +39,3 @@ func _init_generic_status_effect_basic_fields(
 ):
 	status_effect_instance.id = card_resource.id + str("_status_effect")
 	status_effect_instance.description = card_resource.description
-	pass
