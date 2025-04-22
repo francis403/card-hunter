@@ -1,11 +1,14 @@
-[gd_scene load_steps=7 format=3 uid="uid://b7euo8lhu61np"]
+[gd_scene load_steps=10 format=3 uid="uid://b7euo8lhu61np"]
 
 [ext_resource type="PackedScene" uid="uid://b77dqwv8b42lt" path="res://scenes/monsters/generic_monster/generic_monster.tscn" id="1_40ijh"]
 [ext_resource type="Script" path="res://scenes/monsters/giant_bat_monster/giant_bat_monster.gd" id="2_ufmgn"]
 [ext_resource type="PackedScene" uid="uid://dlmk5gnkgawp0" path="res://scenes/game_objects/states/create_spider_webs_if_out_of_range/create_spider_webs_if_out_of_range.tscn" id="3_ffcra"]
 [ext_resource type="Texture2D" uid="uid://b00x2s3ijsws1" path="res://scenes/monsters/giant_bat_monster/tile_0120.png" id="3_lcpgw"]
+[ext_resource type="Script" path="res://resources/card/card_resource.gd" id="4_jfbk4"]
 [ext_resource type="PackedScene" uid="uid://cvfuga8sci420" path="res://scenes/game_objects/states/shoot_spider_webs_if_within_range/shoot_spider_webs_if_within_range.tscn" id="4_wo37l"]
 [ext_resource type="PackedScene" uid="uid://by053fy0oimg0" path="res://scenes/game_objects/states/move_and_single_attack_state/move_and_single_attack_state.tscn" id="5_6ij3j"]
+[ext_resource type="Resource" uid="uid://betuhlkqwxesg" path="res://resources/card/card_resources/double_strength_power_card.tres" id="5_45onj"]
+[ext_resource type="Resource" uid="uid://c4pdcu0hw1iq3" path="res://resources/card/card_resources/double_speed_power_card.tres" id="6_xbyb3"]
 
 [node name="GiantBatMonster" instance=ExtResource("1_40ijh")]
 scale = Vector2(10, 10)
@@ -18,6 +21,9 @@ _health = 200
 _max_hp = 200
 _speed = 2
 _strength = 20
+
+[node name="RewardManager" parent="." index="0"]
+card_rewards = Array[ExtResource("4_jfbk4")]([ExtResource("5_45onj"), ExtResource("6_xbyb3")])
 
 [node name="StateMachine" parent="." index="2" node_paths=PackedStringArray("initial_state")]
 initial_state = NodePath("CreateSpiderWebsIfOutOfRange")

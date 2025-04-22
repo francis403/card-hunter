@@ -81,3 +81,5 @@ deck_type = 2
 
 [node name="GameOverScreen" parent="." instance=ExtResource("9_bw6p8")]
 visible = false
+
+[connection signal="tree_exited" from="." to="." method="_on_tree_exited"]

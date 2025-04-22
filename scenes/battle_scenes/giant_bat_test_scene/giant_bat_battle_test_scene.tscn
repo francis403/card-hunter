@@ -7,6 +7,7 @@
 
 [node name="GiantBatBattleTestScene" instance=ExtResource("1_cbbkr")]
 script = ExtResource("2_mnfw0")
+is_boss_battle = true
 
 [node name="Battlemap" parent="." index="4" node_paths=PackedStringArray("monsters")]
 monsters = [NodePath("../monsters/GiantBatMonster")]
@@ -16,3 +17,4 @@ replace_deck = ExtResource("3_wj1rm")
 
 [node name="GiantBatMonster" parent="monsters" index="0" instance=ExtResource("2_4m7ix")]
 position = Vector2(830, 307)
+_health = 1

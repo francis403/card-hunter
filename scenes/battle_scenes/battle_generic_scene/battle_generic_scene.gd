@@ -17,6 +17,8 @@ const deck_visualizer_scene = preload("res://ui/deck/deck_visualizer/deck_visual
 ## Defines the monsters in the battle scene
 @export var monsters: Array[Piece] = []
 
+@export var is_boss_battle: bool = false
+
 var is_player_turn: bool = true
 var awaiting_player_input: bool = false
 
@@ -112,3 +114,11 @@ func _show_game_over_screen():
 	game_over_screen.visible = true
 	get_tree().paused = true
 	game_over_screen.process_mode = Node.PROCESS_MODE_ALWAYS
+
+
+func _on_tree_exited() -> void:
+	if is_boss_battle:
+		GameController.days_till_attack = 5
+		BattleSignals.boss_battle_complete.emit()
+		return
+	BattleSignals.battle_complete.emit()
