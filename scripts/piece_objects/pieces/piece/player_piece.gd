@@ -48,6 +48,7 @@ func draw_til_hand_size() -> Array[CardResource]:
 		new_cards_added.append(drawn_card)
 	return new_cards_added
 		
+## TODO: I guess if I had to add a draw animation it would be from here
 func draw_card() -> CardResource:
 	if draw_pile.size() <= 0:
 		# put all the cards in the discard pile in the draw pile
@@ -63,7 +64,7 @@ func recover_stamina(stamina = _stamina_recover):
 	BattlemapSignals.player_stamina_changed.emit(self._stamina)
 	
 func _on_battle_start_signal():
-	pass
+	BattlemapSignals.player_turn_started.emit()
 
 func _on_card_discared_from_hand_signal(index: int):
 	var card: CardResource = cards_in_hand.pop_at(index)

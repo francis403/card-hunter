@@ -41,7 +41,7 @@ func _ready() -> void:
 	BattlemapSignals.player_died.connect(_on_battle_lost_signal)
 	BattleSignals.battle_won.connect(_on_battle_won_signal)
 
-	_draw_cards_start_of_turn(battlemap.player)
+	#_draw_cards_start_of_turn(battlemap.player)
 	_prep_battle_arena_monsters()
 	battle_scene_rewards_manager.set_rewards_to_reward_screen()
 	BattleSignals.battle_start.emit()
@@ -53,6 +53,7 @@ func _on_player_turn_started_signal():
 	player.recover_stamina()
 	BattlemapSignals.unlock_player_input.emit()
 
+## TODO: this is probably better if I do as soon as the battle has started
 func _draw_cards_start_of_turn(player: PlayerPiece):
 	var new_cards: Array[CardResource] = player.draw_til_hand_size()
 	hand.populate_hand(new_cards)

@@ -3,6 +3,9 @@ class_name Hand
 
 @onready var h_box_container: HBoxContainer = $HBoxContainer
 
+@export var draw_pile_marker: Marker2D
+@export var discard_pile_marker: Marker2D
+
 func _ready() -> void:
 	_clean_preview()
 	BattlemapSignals.awaiting_player_input.connect(_on_input_awaiting_signal)
@@ -38,13 +41,42 @@ func populate_hand(new_cards: Array[CardResource]):
 	for card_resource in new_cards:
 		_instantiate_card(card_resource)
 
+## TODO: Draw card animation could be done here
 func _instantiate_card(card_resource: CardResource):
 	if not card_resource:
 		return
 	var card_instance: Card = Constants.card_scene.instantiate()
 	h_box_container.add_child(card_instance)
+	#var tween: Tween = _play_draw_card_animation(card_instance)
+	#if tween:
+		#await  tween.finished
 	card_instance.card_resource = card_resource
 	card_instance.initialize_card()
+	#Callable(_play_draw_card_animation).call_deferred(card_instance)
+	
+	
+func _play_draw_card_animation(card: Card) -> Tween:
+	if not draw_pile_marker:
+		return null
+	#var final_card_position: Vector2 = card.global_position
+	var tween = create_tween()
+	
+	#tween.tween_property(card, "scale", Vector2(0, 0), 0).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	#tween.tween_property(card, "scale", Vector2(1, 1), 1.0).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	#tween.parallel()
+	tween.tween_property(card, "global_position", draw_pile_marker.global_position, 0).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	tween.tween_property(card, "global_position", self.global_position, 0.5).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	
+	
+	# Optional: fade in or scale animation
+	#card.modulate.a = 0.0
+	#tween.tween_property(card, "modulate:a", 0, 0)
+	#tween.tween_property(card, "modulate:a", 1.0, 0.5)
+
+	# Optional: slight scale bounce
+	#card.scale = Vector2(0.0, 0.0)
+	
+	return tween
 	
 func _on_card_discared_from_hand_signal(index: int):
 	pass
