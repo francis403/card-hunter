@@ -1,0 +1,41 @@
+[gd_resource type="Resource" script_class="CardResource" load_steps=11 format=3 uid="uid://bq2qepkf8ydvw"]
+
+[ext_resource type="PackedScene" uid="uid://dvot20aekrfrs" path="res://scenes/resource_controllers/card_controller/power_card_controller/power_card_controller.tscn" id="1_lkhin"]
+[ext_resource type="Script" path="res://scripts/event_category/event_category.gd" id="2_ggi7y"]
+[ext_resource type="PackedScene" uid="uid://dkai8lrtdu1t8" path="res://scenes/game_objects/status_effects/effects/_generic_status_effect/generic_status_effect_controller.tscn" id="3_1hk1a"]
+[ext_resource type="Script" path="res://resources/card/card_resource.gd" id="4_jrss3"]
+[ext_resource type="Script" path="res://resources/card/event_category/power_category_card.gd" id="4_xune5"]
+[ext_resource type="Script" path="res://resources/configuration/status_effect_config/status_effect_config.gd" id="5_q2vcl"]
+[ext_resource type="Script" path="res://resources/configuration/effect_configs/status_effect_modifier_config/status_effect_modifier_config.gd" id="6_pyceg"]
+
+[sub_resource type="Resource" id="Resource_8pu1j"]
+script = ExtResource("6_pyceg")
+stat = 0
+value = 1.0
+
+[sub_resource type="Resource" id="Resource_hmbm2"]
+script = ExtResource("5_q2vcl")
+number_of_turns = 0
+apply_on_tile_added_to_pieces = true
+status_effect_modifier_config = SubResource("Resource_8pu1j")
+effect_trigger = 0
+
+[sub_resource type="Resource" id="Resource_txr6j"]
+script = ExtResource("4_xune5")
+power_controller = ExtResource("3_1hk1a")
+status_event_config = SubResource("Resource_hmbm2")
+category_id = "power"
+target = 0
+area_type = 0
+
+[resource]
+script = ExtResource("4_jrss3")
+id = "healing_salve_1"
+title = "Healing Salve"
+description = "Remove all status efects & heal 10 hp"
+default_target = 1
+default_area_type = 1
+stamina_cost = 0
+tag_array = Array[String]([])
+event_categories = Array[ExtResource("2_ggi7y")]([SubResource("Resource_txr6j")])
+card_ability_controller_scene = ExtResource("1_lkhin")

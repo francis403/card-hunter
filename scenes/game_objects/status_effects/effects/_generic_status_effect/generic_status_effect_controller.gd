@@ -5,6 +5,7 @@ class_name GenericStatusEffectController
 
 var effect_extra_cost_config: EffectExtraCostConfig = null
 var status_modifier_config: StatusModifierConfig = null
+var status_effect_modifier_config: StatusEffectModifierConfig = null
 var status_trigger: Constants.EffectTrigger = Constants.EffectTrigger.ON_SELF_PLAYED
 
 var _number_of_turns: int
@@ -20,6 +21,7 @@ func _ready() -> void:
 		return
 	self.effect_extra_cost_config = self.status_effect_config.extra_cost
 	self.status_modifier_config = self.status_effect_config.status_modifier_config
+	self.status_effect_modifier_config = self.status_effect_config.status_effect_modifier_config
 	self.status_trigger = self.status_effect_config.effect_trigger
 	_max_number_of_turns = self.status_effect_config.number_of_turns
 	_subscripe_on_status_trigger()
@@ -48,7 +50,6 @@ func _on_card_played_signal(_card_resource: CardResource):
 ## I want this to be the function that is called when the status effect is triggered
 ## The sub status effects will simply need to change the apply_effect()
 func on_effect_triggered():
-	print(on_effect_triggered)
 	_on_status_effect_trigger_cost()
 	status_effect_trigger()
 	_on_status_effect_finished_cost()
@@ -74,6 +75,8 @@ func _on_status_effect_trigger_cost():
 func status_effect_trigger():
 	if status_modifier_config:
 		_apply_status_modifier()
+	if status_effect_modifier_config:
+		_apply_status_effect_modifier()
 
 func _apply_status_modifier():
 	print(_apply_status_modifier)
@@ -92,7 +95,12 @@ func _apply_status_modifier():
 				100
 			)
 			BattlemapSignals.player_health_changed.emit(target._health)
-	pass
+
+func _apply_status_effect_modifier():
+	print(_apply_status_modifier)
+	match status_modifier_config.stat:
+		StatusEffectModifierConfig.StatusEffectTypes.REMOVE_ALL:
+			target.remove_all_status()
 
 func _on_status_effect_finished_cost():
 	pass

@@ -29,6 +29,9 @@ func _die():
 func add_status(status: StatusEffect):
 	pass
 	
+func remove_all_status():
+	pass
+	
 func remove_status(status_id: String):
 	pass
 

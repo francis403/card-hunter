@@ -206,6 +206,8 @@ func convert_node_to_dictionary() -> Dictionary:
 	result[MONSTERS_DICTIONARY_FIELD] = {}
 	var i: int = 0
 	for child_monster in self.monsters_in_node:
+		if not child_monster:
+			continue
 		result[MONSTERS_DICTIONARY_FIELD][i] = child_monster.monster_id
 		i += 1
 	return result

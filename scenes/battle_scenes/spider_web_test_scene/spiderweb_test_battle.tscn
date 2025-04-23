@@ -17,10 +17,5 @@ replace_deck = ExtResource("3_ee7cp")
 [node name="SpiderMonster" parent="monsters" index="0" instance=ExtResource("2_27gmh")]
 position = Vector2(843, 333)
 
-[node name="Hand" parent="." index="7" node_paths=PackedStringArray("draw_pile_marker")]
-offset_top = 0.0
-offset_bottom = 0.0
-draw_pile_marker = NodePath("../DrawPileMarker")
-
-[node name="DrawPileMarker" type="Marker2D" parent="." index="10"]
+[node name="DrawPileMarker2" type="Marker2D" parent="." index="10"]
 position = Vector2(49, 583)

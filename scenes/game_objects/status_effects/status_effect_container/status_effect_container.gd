@@ -6,7 +6,6 @@ class_name StatusEffectContainer
 func add_status(status: StatusEffect, piece: Piece):
 	## TODO: check immunities here maybe
 	
-	## TODO: not more than one of the same status
 	if self.has_status(status.id):
 		return
 	
@@ -33,3 +32,7 @@ func remove_status(status_id: String):
 		if child.status_effect.id == status_id:
 			child.queue_free()
 			return
+
+func remove_all_status():
+	for child in status_effect_ui.get_status_indicator_children():
+		child.queue_free()

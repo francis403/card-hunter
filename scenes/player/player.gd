@@ -26,6 +26,9 @@ func has_any_status() -> bool:
 func has_status(status_id: String) -> bool:
 	return status_effect_container.has_status(status_id)
 
+func remove_all_status():
+	status_effect_container.remove_all_status()
+
 ## TODO: improve this
 func remove_status(status_id: String):
 	status_effect_container.remove_status(status_id)
