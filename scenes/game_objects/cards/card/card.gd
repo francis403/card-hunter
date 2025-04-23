@@ -17,6 +17,7 @@ var card_can_be_played: bool = true
 var card_category_dictionary: EventCategoryDictionary
 # TODO: this should probably go to the hand_manager
 var _mouse_hovering: bool = false
+var _discard_button_mouse_hovering: bool = false
 
 func _ready() -> void:
 	if card_resource:
@@ -32,6 +33,8 @@ func initialize_card():
 	
 # TODO: this should probably go to the hand_manager
 func _input(event: InputEvent) -> void:
+	if _discard_button_mouse_hovering:
+		return
 	if _mouse_hovering and event.is_action_pressed("left_click"):
 		_play_card()
 		card_picked.emit(self.card_resource)
@@ -77,5 +80,19 @@ func _on_mouse_exited() -> void:
 		.set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_BACK)
 	
 
+## NO longer used
 func _on_discard_button_pressed() -> void:
 	_discard_card()
+
+
+func _on_discard_button_gui_input(event: InputEvent) -> void:
+	if event.is_pressed():
+		_discard_card()
+
+
+func _on_discard_button_mouse_exited() -> void:
+	_discard_button_mouse_hovering = false
+
+
+func _on_discard_button_mouse_entered() -> void:
+	_discard_button_mouse_hovering = true
