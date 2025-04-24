@@ -6,6 +6,8 @@ class_name Hand
 @export var draw_pile_marker: Marker2D
 @export var discard_pile_marker: Marker2D
 
+var has_drawn_hand_before: bool = false
+
 func _ready() -> void:
 	_clean_preview()
 	BattlemapSignals.awaiting_player_input.connect(_on_input_awaiting_signal)
@@ -37,6 +39,7 @@ func _clean_preview():
 	for node in h_box_container.get_children():
 		node.queue_free()
 
+## TODO: don't love the way I'm doing the animation
 func populate_hand(new_cards: Array[CardResource]):
 	var new_instantiated_cards: Array[Card] = []
 	for card_resource in new_cards:
@@ -45,8 +48,10 @@ func populate_hand(new_cards: Array[CardResource]):
 	if new_instantiated_cards.size() <= 0:
 		return
 	await h_box_container.sort_children
+	if not has_drawn_hand_before:
+		has_drawn_hand_before = true
+		await h_box_container.sort_children
 	for child in new_instantiated_cards:
-		
 		var tween = _play_draw_card_animation(child)
 		if tween:
 			await tween.finished
@@ -65,7 +70,7 @@ func _instantiate_card(card_resource: CardResource) -> Card:
 	
 	
 func _play_draw_card_animation(card: Card) -> Tween:
-	if not draw_pile_marker:
+	if not draw_pile_marker || not card:
 		return null
 	var final_card_position: Vector2 = card.global_position
 	var tween = create_tween()
