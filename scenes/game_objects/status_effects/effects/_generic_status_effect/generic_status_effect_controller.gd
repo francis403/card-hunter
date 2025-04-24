@@ -34,8 +34,10 @@ func _subscripe_on_status_trigger():
 	match status_trigger:
 		Constants.EffectTrigger.ON_SELF_PLAYED:
 			on_effect_triggered()
+			## need to add the countdown here as well
+			BattlemapSignals.monster_turn_started.connect(_on_end_of_effect_trigger)
 		Constants.EffectTrigger.ON_END_OF_PLAYER_TURN:
-			BattlemapSignals._on_monster_turn_started.connect(on_effect_triggered)
+			BattlemapSignals.monster_turn_started.connect(on_effect_triggered)
 		Constants.EffectTrigger.ON_EVERY_CARD_PLAY:
 			BattlemapSignals.card_has_been_played.connect(_on_card_played_signal)
 	

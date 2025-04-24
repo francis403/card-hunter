@@ -16,6 +16,3 @@ replace_deck = ExtResource("3_ee7cp")
 
 [node name="SpiderMonster" parent="monsters" index="0" instance=ExtResource("2_27gmh")]
 position = Vector2(843, 333)
-
-[node name="DrawPileMarker2" type="Marker2D" parent="." index="10"]
-position = Vector2(49, 583)

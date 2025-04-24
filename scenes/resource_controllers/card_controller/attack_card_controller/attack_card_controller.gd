@@ -34,7 +34,6 @@ func play_card_action(
 	if not tile:
 		return
 		
-	print("piece.strngth: ", piece._strength)
 	if tile.piece_in_tile:
 		tile.piece_in_tile.apply_damage(damage_info_card.damage * piece._strength )
 		

@@ -41,7 +41,8 @@ enum EffectTrigger {
 }
 
 enum TileEffectTypes {
-	SPIDER_WEB
+	SPIDER_WEB,
+	BLOODIED
 }
 
 # Constanst

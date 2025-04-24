@@ -5,7 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://4nyonofwewd8" path="res://scenes/monsters/spider_monster/tile_0122.png" id="2_kyton"]
 [ext_resource type="Script" path="res://resources/configuration/monster_configurations/monster_immunities_config/monster_immunitie_config.gd" id="4_axrlo"]
 [ext_resource type="Script" path="res://resources/configuration/monster_configurations/monster_config/monster_config.gd" id="5_odyso"]
-[ext_resource type="PackedScene" uid="uid://cvfuga8sci420" path="res://scenes/game_objects/states/shoot_spider_webs_if_within_range/shoot_spider_webs_if_within_range.tscn" id="6_15hyu"]
+[ext_resource type="PackedScene" uid="uid://cvfuga8sci420" path="res://scenes/game_objects/states/shoot_with_effect_if_within_range/shoot_with_effect_if_within_range.tscn" id="6_15hyu"]
 [ext_resource type="Script" path="res://resources/card/card_resource.gd" id="6_eq10v"]
 [ext_resource type="PackedScene" uid="uid://by053fy0oimg0" path="res://scenes/game_objects/states/move_and_single_attack_state/move_and_single_attack_state.tscn" id="6_glkbu"]
 [ext_resource type="PackedScene" uid="uid://dlmk5gnkgawp0" path="res://scenes/game_objects/states/create_spider_webs_if_out_of_range/create_spider_webs_if_out_of_range.tscn" id="6_njwvq"]
