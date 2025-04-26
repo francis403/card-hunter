@@ -25,7 +25,7 @@ func play_card_action(
 	var area_type: Constants.AreaType = get_area_type(card_resource, config.area_type)
 	
 	config.area_type = area_type
-	config.range = piece_to_move._speed * config.range
+	config.range = piece_to_move._speed * move_card_category.move_distance
 	# freeze hand
 	BattlemapSignals.awaiting_player_input.emit()
 		

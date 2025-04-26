@@ -3,7 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://dn1s6gbout3xc" path="res://scenes/battle_scenes/battle_generic_scene/battle_generic_scene.tscn" id="1_cbbkr"]
 [ext_resource type="PackedScene" uid="uid://b7euo8lhu61np" path="res://scenes/monsters/giant_bat_monster/giant_bat_monster.tscn" id="2_4m7ix"]
 [ext_resource type="Script" path="res://scenes/battle_scenes/giant_bat_test_scene/giant_bat_battle_test_scene.gd" id="2_mnfw0"]
-[ext_resource type="Resource" uid="uid://b7u2qx0w0ve5l" path="res://resources/player_deck/decks/test_deck/test_traps_deck.tres" id="3_6njto"]
+[ext_resource type="Resource" uid="uid://c2013uvhxp01r" path="res://resources/player_deck/decks/generic_deck/bow_deck.tres" id="3_wj1rm"]
 
 [node name="GiantBatBattleTestScene" instance=ExtResource("1_cbbkr")]
 script = ExtResource("2_mnfw0")
@@ -13,7 +13,7 @@ is_boss_battle = true
 monsters = [NodePath("../monsters/GiantBatMonster")]
 
 [node name="Player" parent="." index="5"]
-replace_deck = ExtResource("3_6njto")
+replace_deck = ExtResource("3_wj1rm")
 
 [node name="GiantBatMonster" parent="monsters" index="0" instance=ExtResource("2_4m7ix")]
 position = Vector2(830, 307)

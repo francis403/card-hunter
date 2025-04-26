@@ -9,9 +9,11 @@ class_name Piece
 @export var _stamina_recover: int = 15
 @export var _strength: int = 1
 
-
-
+var base_speed: int
 var _tile: Tile
+
+func _init() -> void:
+	base_speed = _speed
 
 func set_piece_tile(tile: Tile):
 	_tile = tile
