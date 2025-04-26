@@ -37,6 +37,7 @@ func change_settings():
 func change_progress():
 	save_data["progress"]["player_world_node_id"] = progress.current_world_node_id
 	save_data["progress"]["world_state"] = progress.world_state.to_dictionary()
+	save_data["progress"]["world_state"]["days_left"] = GameController.days_till_attack
 	save_data["progress"]["player"] = PlayerController.get_deck().save()
 	save_data["progress"]["player"]["hp"] = PlayerController.current_player_health
 	save()
@@ -54,6 +55,8 @@ func load_progress():
 		_load_player_info()
 	
 func _load_world_state():
+	if save_data["progress"]["world_state"].has("days_left"):
+		GameController.days_till_attack = save_data["progress"]["world_state"]["days_left"]
 	self.progress.world_state._world_state = save_data["progress"]["world_state"]
 	self.progress.village_node = self.progress.world_state.convert_world_state_to_node()
 

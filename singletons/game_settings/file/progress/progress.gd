@@ -14,7 +14,6 @@ var world_state: WorldState
 var current_player_deck: PlayerDeck
 
 
-
 ## Default values
 func _init() -> void:
 	current_health = -1
