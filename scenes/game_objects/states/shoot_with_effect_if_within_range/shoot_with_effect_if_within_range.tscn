@@ -1,6 +1,8 @@
-[gd_scene load_steps=2 format=3 uid="uid://cvfuga8sci420"]
+[gd_scene load_steps=3 format=3 uid="uid://cvfuga8sci420"]
 
 [ext_resource type="Script" path="res://scenes/game_objects/states/shoot_with_effect_if_within_range/shoot_with_effect_if_within_range.gd" id="1_3bq5h"]
+[ext_resource type="Texture2D" uid="uid://deoj2fp6s1lym" path="res://assets/images/icons/monster_icons/behaviour_icons/red_range_behaviour_icon.png" id="2_aafpu"]
 
 [node name="ShootWithEffectIfWithinRangeState" type="Node"]
 script = ExtResource("1_3bq5h")
+state_icon = ExtResource("2_aafpu")

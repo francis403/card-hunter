@@ -64,9 +64,10 @@ func _prep_battle_arena_monsters():
 	if monsters.size() > 0:
 		battlemap.monsters = []
 		battlemap.monsters.append_array(monsters)
+		battlemap.update_monsters()
 		for monster in monsters:
 			monsters_node.add_child(monster)
-		battlemap.update_monsters()
+		#battlemap.update_monsters()
 	
 func _on_monster_turn_started_signal():
 	is_player_turn = false

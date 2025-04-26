@@ -1,40 +1,36 @@
 extends StateWithMovement
-class_name MoveSpeedToPlayerAndDoRadiusAttack
+class_name MoveSpeedToPlayerAndDoAttack
 
-@export var change_state: String = "StayAwayAndAttackFromRange"
+## If 
+@export var state_if_outside_range: String = "StayAwayAndAttackFromRange"
 @export var range: int = 1
-
-var melee_attack_icon = self.state_icon
+	
+## Defines which tiles to highlight for the attack
+@export var tile_highlight_config: TileHighlightConfig
 	
 func exit_state():
 	pass
 	
 func enter_state():
 	super.enter_state()
-	self.do_movement()
+	self.do_state_action()
 	
 func do_state_action():
 	super.do_state_action()
-	
+	print(do_state_action)
 	var distance_to_player = MovementUtils.distance_between_tiles(
 		monster.next_move if monster.next_move else monster._tile,
 		target._tile
 	)
 	
 	# only show when able to attack player
-	if distance_to_player > 1:
+	if distance_to_player > range:
 		BattlemapSignals.clear_attack_highlight_tiles.emit()
-		monster.set_state_icon(MOVE_ICON)
-		self.do_movement()
+		self.changed_state.emit(self, state_if_outside_range)
 		return
 	
-	monster.set_state_icon(melee_attack_icon)
-	
 	self.do_attack()
-	
-	var half_hp_monster: float = float (monster._max_hp) / 2
-	if half_hp_monster > monster._health:
-		self.changed_state.emit(self, change_state)
+		
 
 func do_preview_action(recalculate_move: bool = false):
 	self.preview_monster_attack_behaviour(recalculate_move)
@@ -44,7 +40,6 @@ func do_movement():
 	
 	if next_turn_move_tile:
 		BattleController.battlemap.place_piece_in_tile(monster, next_turn_move_tile)
-		
 	next_turn_move_tile = MovementUtils.get_movement_tile(
 		monster._tile,
 		target._tile,

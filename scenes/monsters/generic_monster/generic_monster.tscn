@@ -46,6 +46,10 @@ layout_mode = 2
 texture = ExtResource("5_dum2y")
 expand_mode = 2
 
+[node name="MoveIntentImage" type="TextureRect" parent="StatusControl/MoveIntentContainer/MoveIntentImage"]
+texture = ExtResource("5_dum2y")
+expand_mode = 2
+
 [node name="Sprite2D" type="Sprite2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

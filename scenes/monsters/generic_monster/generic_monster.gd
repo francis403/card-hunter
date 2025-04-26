@@ -11,6 +11,9 @@ class_name GenericMonster
 @onready var move_intent_container: MarginContainer = $StatusControl/MoveIntentContainer
 @onready var reward_manager: RewardManager = $RewardManager
 
+## Indicator of what the monster is going to do
+@onready var move_intent_image: TextureRect = $StatusControl/MoveIntentContainer/MoveIntentImage
+
 @export var monster_id: String
 @export var monster_texture: Texture2D
 @export var monster_config: MonsterConfig
@@ -19,7 +22,9 @@ func _ready() -> void:
 	super._ready()
 	if monster_texture and not sprite_2d.texture:
 		sprite_2d.texture = monster_texture
+	self.set_state_icon()
 
+## Play the monster turn
 func play_monster_turn():
 	super.play_monster_turn()
 	state_machine.do_state_action()
@@ -37,8 +42,15 @@ func _on_monster_prepared_move_signal(tile: Tile):
 	else:
 		move_intent_container.visible = false
 
-func on_battle_start_signal():
-	state_machine.do_state_action()
+func set_state_icon(icon: Texture2D = null):
+	if not state_machine or not move_intent_image:
+		return
+	if icon:
+		move_intent_image.texture = icon
+		return
+	var current_state_icon: Texture2D = state_machine.get_state_icon()
+	if current_state_icon:
+		move_intent_image.texture = current_state_icon
 	
 ## TODO: I don't think I need this function
 func get_sprite() -> Sprite2D:

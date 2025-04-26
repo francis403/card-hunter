@@ -23,6 +23,11 @@ func do_state_action():
 	if current_state:
 		current_state.do_state_action()
 
+func get_state_icon() -> Texture2D:
+	if current_state:
+		return current_state.state_icon
+	return null
+
 func do_preview_action(recalculate_move: bool = false):
 	if current_state:
 		current_state.do_preview_action(recalculate_move)

@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://w530cnkei473"]
+[gd_scene load_steps=15 format=3 uid="uid://w530cnkei473"]
 
 [ext_resource type="PackedScene" uid="uid://b77dqwv8b42lt" path="res://scenes/monsters/generic_monster/generic_monster.tscn" id="1_ayxpp"]
 [ext_resource type="Script" path="res://scenes/monsters/spider_monster/spider_monster.gd" id="2_bi3n2"]
@@ -11,6 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://dlmk5gnkgawp0" path="res://scenes/game_objects/states/create_spider_webs_if_out_of_range/create_spider_webs_if_out_of_range.tscn" id="6_njwvq"]
 [ext_resource type="Resource" uid="uid://c4jdxyuh3hqwd" path="res://resources/card/card_resources/place_spiderweb_trap.tres" id="7_6bfs8"]
 [ext_resource type="Resource" uid="uid://gf0hhocv78vs" path="res://resources/card/card_resources/dash_card.tres" id="8_okrld"]
+[ext_resource type="Texture2D" uid="uid://btbd3n1d3jqn6" path="res://scenes/game_objects/battlemap/tile_effects/spiderweb/spider-web-png-34733.png" id="10_rf0dk"]
 
 [sub_resource type="Resource" id="Resource_mva3q"]
 script = ExtResource("4_axrlo")
@@ -36,12 +37,16 @@ initial_state = NodePath("CreateSpiderWebsIfOutOfRange")
 
 [node name="CreateSpiderWebsIfOutOfRange" parent="StateMachine" index="0" instance=ExtResource("6_njwvq")]
 maximum_distance_to_player = 3
+state_icon = ExtResource("10_rf0dk")
 
 [node name="ShootSpiderWebsIfWithinRangeState" parent="StateMachine" index="1" instance=ExtResource("6_15hyu")]
 maximum_distance_to_player = 2
 
 [node name="MoveAndSingleAttackState" parent="StateMachine" index="2" instance=ExtResource("6_glkbu")]
 state_if_higher_than_max_range = "ShootSpiderWebsIfWithinRangeState"
+
+[node name="MoveIntentImage" parent="StatusControl/MoveIntentContainer/MoveIntentImage" index="0"]
+layout_mode = 0
 
 [node name="Sprite2D" parent="." index="4"]
 texture = ExtResource("2_kyton")

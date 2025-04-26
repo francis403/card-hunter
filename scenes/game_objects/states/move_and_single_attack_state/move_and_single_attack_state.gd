@@ -5,9 +5,7 @@ class_name MovendSingleAttackState
 @export var max_range: int = 1
 @export var highlight_config: TileHighlightConfig
 	
-func exit_state():
-	pass
-	
+
 func enter_state():
 	super.enter_state()
 	print(enter_state)

@@ -19,20 +19,16 @@ class_name ShootSpiderWebsIfWithinRange
 
 var target_tile: Tile = null
 var is_player_hit: bool = false
-var ignore_next_state_action: bool = false
 
 func enter_state():
 	super.enter_state()
 	print(enter_state)
 	target_tile = BattleController.get_player()._tile
-	ignore_next_state_action = true
 	highlight_tile(target_tile)
 
 func do_state_action():
 	super.do_state_action()
-	if ignore_next_state_action:
-		ignore_next_state_action = false
-		return
+	
 	BattlemapSignals.clear_attack_highlight_tiles.emit()
 	
 	BattlemapSignals.add_effect_type_to_tile.emit(
@@ -45,8 +41,9 @@ func do_state_action():
 	
 	## If player is hit, and we want to do something when player is hit
 	if is_player_hit && player_hit_state:
-		self.changed_state.emit(self, close_range_state)
-		return
+		if close_range_state != "":
+			self.changed_state.emit(self, close_range_state)
+			return
 	## Oherwise, if player is not hit calculete the next target tile and behaviour
 	# if we are in range do something else
 	var distance_to_player = MovementUtils.distance_between_tiles(
@@ -58,10 +55,11 @@ func do_state_action():
 		self.changed_state.emit(self, out_of_range_state)
 		return
 
-	if distance_to_player <= self.min_distance_to_player && close_range_state:
+	if distance_to_player <= self.min_distance_to_player:
 		BattlemapSignals.clear_attack_highlight_tiles.emit()
-		self.changed_state.emit(self, close_range_state)
-		return
+		if close_range_state != "":
+			self.changed_state.emit(self, close_range_state)
+			return
 
 	target_tile = BattleController.get_player()._tile
 	highlight_tile(target_tile)
