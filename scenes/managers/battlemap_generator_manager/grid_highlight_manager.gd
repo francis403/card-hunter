@@ -118,10 +118,14 @@ func highligh_tiles_cross(
 	var y = source_tile._y_position
 	var line_length: int = config.range
 	for i in range(1, line_length + 1):
-		_make_tile_clickable(x + i, y, config)
-		_make_tile_clickable(x - i, y, config)
-		_make_tile_clickable(x, y + i, config)
-		_make_tile_clickable(x, y - i, config)
+		if not config.ignore_north_tiles:
+			_make_tile_clickable(x, y - i, config)
+		if not config.ignore_south_tiles:
+			_make_tile_clickable(x, y + i, config)
+		if not config.ignore_east_tiles:
+			_make_tile_clickable(x + i, y, config)
+		if not config.ignore_west_tiles:
+			_make_tile_clickable(x - i, y, config)
 	
 ## TODO: this will need the player to hover over where he wants the attack to go
 func highligh_tiles_line(
