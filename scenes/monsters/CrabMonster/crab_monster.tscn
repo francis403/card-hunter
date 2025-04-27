@@ -13,9 +13,9 @@
 script = ExtResource("1_f67w6")
 monster_id = "crab_monster_small"
 monster_texture = ExtResource("1_x8062")
-_health = 50
+_health = 75
 _max_hp = 100
-_strength = 100
+_strength = 50
 
 [node name="RewardManager" parent="." index="0"]
 card_rewards = Array[ExtResource("4_80ah1")]([ExtResource("5_1ndn3"), ExtResource("6_dxkdq")])

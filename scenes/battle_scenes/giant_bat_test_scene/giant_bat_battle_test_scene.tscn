@@ -28,4 +28,3 @@ replace_deck = ExtResource("3_wj1rm")
 [node name="GiantBatMonster" parent="monsters" index="0" instance=ExtResource("2_4m7ix")]
 position = Vector2(830, 307)
 monster_config = SubResource("Resource_ukxud")
-_health = 1

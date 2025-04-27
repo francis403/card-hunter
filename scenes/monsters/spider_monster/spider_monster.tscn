@@ -26,8 +26,9 @@ script = ExtResource("2_bi3n2")
 monster_id = "spider_monster_small"
 monster_texture = ExtResource("2_kyton")
 monster_config = SubResource("Resource_bbo3v")
-_health = 1
-_strength = 25
+_health = 60
+_max_hp = 60
+_strength = 20
 
 [node name="RewardManager" parent="." index="0"]
 card_rewards = Array[ExtResource("6_eq10v")]([ExtResource("7_6bfs8"), ExtResource("8_okrld")])

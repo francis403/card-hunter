@@ -22,7 +22,7 @@ monster_texture = ExtResource("3_lcpgw")
 _health = 200
 _max_hp = 200
 _speed = 2
-_strength = 20
+_strength = 33
 
 [node name="RewardManager" parent="." index="0"]
 card_rewards = Array[ExtResource("4_jfbk4")]([ExtResource("5_45onj"), ExtResource("6_xbyb3")])
