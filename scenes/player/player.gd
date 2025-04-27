@@ -1,6 +1,8 @@
 extends PlayerPiece
 class_name PlayerCharacter
 
+const PLAYER_HIT_1 = preload("res://assets/sound/sound_effects/player_hit_1.mp3")
+
 @onready var audio_stream_player: AudioStreamPlayer = $AudioStreamPlayer
 @onready var status_effect_container: StatusEffectContainer = $StatusEffectContainer
 @onready var status_effects_ui: StatusEffectUI = $StatusEffectsUI
@@ -32,3 +34,8 @@ func remove_all_status():
 ## TODO: improve this
 func remove_status(status_id: String):
 	status_effect_container.remove_status(status_id)
+
+func apply_damage(damage: int):
+	audio_stream_player.stream = PLAYER_HIT_1
+	audio_stream_player.play()
+	super.apply_damage(damage)
