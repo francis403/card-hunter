@@ -24,6 +24,9 @@ var awaiting_player_input: bool = false
 
 var _number_of_monsters_defeated: int = 0
 
+func _init() -> void:
+	GameController.is_showing_battle_scene = true
+
 func _ready() -> void:
 	BattlemapSignals.monster_turn_started.connect(_on_monster_turn_started_signal)
 	BattlemapSignals.player_turn_started.connect(_on_player_turn_started_signal)
@@ -119,6 +122,7 @@ func _show_game_over_screen():
 
 
 func _on_tree_exited() -> void:
+	GameController.is_showing_battle_scene = false
 	if is_boss_battle:
 		GameController.days_till_attack = 5
 		BattleSignals.boss_battle_complete.emit()

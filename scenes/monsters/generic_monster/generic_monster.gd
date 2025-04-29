@@ -98,3 +98,22 @@ func has_status(status_id: String) -> bool:
 
 func get_card_rewards() -> Array[CardResource]:
 	return reward_manager.get_random_cards(2)
+
+func apply_damage(damage: int):
+	_play_hit_flash()
+	super.apply_damage(damage)
+
+## TODO: set this two functions in a common class
+func _play_hit_flash():
+	if sprite_2d.material:
+		var tween = create_tween()
+		tween.tween_method(
+			set_flash_modifier,
+			1.0,
+			0.0,
+			0.2
+		)
+
+func set_flash_modifier(value: float) -> void:
+	if sprite_2d.material:
+		sprite_2d.material.set_shader_parameter("flash_modifier", value)

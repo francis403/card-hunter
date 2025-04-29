@@ -108,8 +108,11 @@ func _process_on_world_node_click():
 		return
 	
 	if self.is_showing_player_sprite && _has_quest():
-		var battle_scene: BattleGenericScene = generate_battle_scene()
-		get_tree().root.add_child(battle_scene)	
+		if !GameController.is_showing_battle_scene:
+			var battle_scene: BattleGenericScene = generate_battle_scene()
+			get_tree().root.add_child(battle_scene)
+		else:
+			print("Error, investigate!")
 	
 	self.show_player()
 	

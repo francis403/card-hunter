@@ -4,6 +4,7 @@ var GIANT_BAT_BATTLE_TEST_SCENE = load("res://scenes/battle_scenes/giant_bat_tes
 
 ## days till the boss
 var days_till_attack: int = 5
+var is_showing_battle_scene: bool = false
 
 func _ready() -> void:
 	BattleSignals.boss_battle_complete.connect(_on_boss_battle_complete_signal)
