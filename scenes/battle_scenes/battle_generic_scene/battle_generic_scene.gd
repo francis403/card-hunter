@@ -21,8 +21,9 @@ const deck_visualizer_scene = preload("res://ui/deck/deck_visualizer/deck_visual
 
 var is_player_turn: bool = true
 var awaiting_player_input: bool = false
-
 var _number_of_monsters_defeated: int = 0
+
+var _world_node: WorldNode = null
 
 func _init() -> void:
 	GameController.is_showing_battle_scene = true
@@ -84,6 +85,8 @@ func _on_show_draw_pile_deck_signal():
 	deck_visualizer_instance.deck = player.draw_pile
 	ui_nodes.add_child(deck_visualizer_instance)
 	
+func set_world_node(world_node: WorldNode):
+	self._world_node = world_node
 	
 func _on_show_discard_pile_deck_signal():
 	var deck_visualizer_instance: DeckVisualizer = deck_visualizer_scene.instantiate()
@@ -110,7 +113,11 @@ func _on_battle_lost_signal():
 func _on_battle_won_signal():
 	if PlayerController.current_world_node:
 		PlayerController.current_world_node.clear_monsters()
-	BattlemapSignals.node_completed.emit(File.progress.current_world_node_id)
+	#BattlemapSignals.node_completed.emit(File.progress.current_world_node_id)
+	if _world_node:
+		BattlemapSignals.reveal_connected_nodes.emit(_world_node)
+		_world_node.clear_monsters()
+	
 	game_over_screen.prep_win_screen()
 	_show_game_over_screen()
 	

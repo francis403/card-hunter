@@ -60,7 +60,6 @@ var is_loaded: bool = false
 func _ready() -> void:
 	BattlemapSignals.hide_player_in_other_node.connect(_on_hide_player_in_other_node_signal)
 	BattlemapSignals.reveal_node.connect(_on_node_reveal_signal)
-	BattlemapSignals.node_completed.connect(_on_node_complete_signal)
 	_prepare_world_node()
 	
 
@@ -72,11 +71,6 @@ func _on_node_reveal_signal(node_id: String):
 	if self.world_node_id == node_id:
 		self.reveal_node()
 
-## TODO: this needs to be run before we are ready to copy the data
-func _on_node_complete_signal(world_node_id: String):
-	if self.world_node_id != world_node_id:
-		return
-	BattlemapSignals.reveal_connected_nodes.emit(self)
 
 func clear_monsters():
 	self.monster_texture_rect.visible = false
@@ -109,6 +103,7 @@ func _process_on_world_node_click():
 	
 	if self.is_showing_player_sprite && _has_quest():
 		if !GameController.is_showing_battle_scene:
+			print(_process_on_world_node_click, " id = ", world_node_id)
 			var battle_scene: BattleGenericScene = generate_battle_scene()
 			get_tree().root.add_child(battle_scene)
 		else:
@@ -125,6 +120,7 @@ func _process_on_world_node_click():
 func generate_battle_scene() -> BattleGenericScene:
 	var battle_scene: BattleGenericScene = BATTLE_GENERIC_SCENE.instantiate()
 	battle_scene.monsters.clear()
+	battle_scene.set_world_node(self)
 	#battle_scene.player._health = PlayerController.current_player_health
 	for monster in monsters_in_node:
 		battle_scene.monsters.append(monster)
