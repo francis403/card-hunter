@@ -6,7 +6,6 @@ class_name MainWorldScreen
 
 
 func _ready() -> void:
-	#BattleSignals.battle_won.connect(_on_battle_won_signal)
 	BattleSignals.battle_start.connect(_on_battle_start_signal)
 	BattleSignals.battle_complete.connect(_on_battle_won_signal)
 	_clean_preview()

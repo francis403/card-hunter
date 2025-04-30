@@ -74,8 +74,14 @@ func add_tile_effect(tile_effect: TileEffect):
 	if self.piece_in_tile:
 		tile_effect.apply_effect(piece_in_tile)
 
+func remove_tile_effects():
+	for child_effect in tile_effects_container.get_children():
+		child_effect.queue_free()
+
 func has_effect() -> bool:
 	return tile_effects_container.get_children().size() > 0
+
+
 
 func _on_background_button_pressed() -> void:
 	BattlemapSignals.tile_picked_in_battlemap.emit(self)

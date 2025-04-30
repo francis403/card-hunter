@@ -36,5 +36,7 @@ func play_card_action(
 		
 	if tile.piece_in_tile:
 		tile.piece_in_tile.apply_damage(damage_info_card.damage * piece._strength )
+	elif tile.has_effect():
+		tile.remove_tile_effects()
 		
 	after_card_is_played(card_resource, card_categories)
