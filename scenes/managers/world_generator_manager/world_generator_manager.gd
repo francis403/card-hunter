@@ -71,10 +71,10 @@ func _draw_line_between_nodes(base_node: WorldNode, other_node: WorldNode):
 	var angle: float = base_node.global_position.angle_to_point(other_node.global_position)
 	var offset: Vector2 = Vector2(-1 * RADIUS, 0)
 	draw_line(
-			base_node.global_position, 
-			other_node.global_position + offset.rotated(angle), 
-			Color.BLACK
-		)
+		base_node.global_position, 
+		other_node.global_position + offset.rotated(angle), 
+		Color.BLACK
+	)
 	
 func _generate_village():
 	village_node = WORLD_NODE_SCENE.instantiate()
