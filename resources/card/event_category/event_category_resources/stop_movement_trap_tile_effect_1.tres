@@ -12,6 +12,7 @@ area_type = 4
 ignore_occupied_tiles = false
 ignore_origin = true
 ignore_corners = false
+ignore_non_corners = false
 ignore_tiles_with_effects = true
 ignore_north_tiles = false
 ignore_south_tiles = false
