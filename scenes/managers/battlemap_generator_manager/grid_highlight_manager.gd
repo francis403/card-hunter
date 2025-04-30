@@ -104,12 +104,14 @@ func highligh_tiles_radius(
 				continue
 			if config.ignore_corners and radius_distance > radius:
 				continue
+			if config.ignore_non_corners and abs(radius_x) != abs(radius_y):
+				continue 
 			if config.ignore_tiles_with_effects and tile.has_effect():
 				continue
 			highlighted_tiles.append(tile)
 			_make_tile_clickable(tile_x, tile_y, config)
 	return highlighted_tiles
-	
+
 func highligh_tiles_cross(
 	source_tile: Tile,
 	config: TileHighlightConfig

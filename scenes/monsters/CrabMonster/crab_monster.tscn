@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://cvlh0ir1dbn8k"]
+[gd_scene load_steps=10 format=3 uid="uid://cvlh0ir1dbn8k"]
 
 [ext_resource type="Script" path="res://scenes/monsters/CrabMonster/crab_monster.gd" id="1_f67w6"]
 [ext_resource type="PackedScene" uid="uid://b77dqwv8b42lt" path="res://scenes/monsters/generic_monster/generic_monster.tscn" id="1_jxbo4"]
@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://dmrgvn8lav1xo" path="res://scenes/game_objects/states/move_speed_to_player_and_do_radius_attack/move_speed_to_player_and_do_radius_attack.tscn" id="4_r160r"]
 [ext_resource type="Resource" uid="uid://bgxa6u42qqqax" path="res://resources/card/card_resources/push_card.tres" id="5_1ndn3"]
 [ext_resource type="Resource" uid="uid://c23fejsjots6f" path="res://resources/card/card_resources/long_slice_card.tres" id="6_dxkdq"]
+[ext_resource type="Resource" uid="uid://byx5an2on6khw" path="res://resources/card/card_resources/crab_walk.tres" id="7_6x6uy"]
 
 [node name="CrabMonster" instance=ExtResource("1_jxbo4")]
 script = ExtResource("1_f67w6")
@@ -18,7 +19,7 @@ _max_hp = 100
 _strength = 50
 
 [node name="RewardManager" parent="." index="0"]
-card_rewards = Array[ExtResource("4_80ah1")]([ExtResource("5_1ndn3"), ExtResource("6_dxkdq")])
+card_rewards = Array[ExtResource("4_80ah1")]([ExtResource("5_1ndn3"), ExtResource("6_dxkdq"), ExtResource("7_6x6uy")])
 
 [node name="StateMachine" parent="." index="2" node_paths=PackedStringArray("initial_state")]
 initial_state = NodePath("MoveSpeedToPlayerAndDoRadiusAttack")
@@ -26,9 +27,6 @@ initial_state = NodePath("MoveSpeedToPlayerAndDoRadiusAttack")
 [node name="MoveSpeedToPlayerAndDoRadiusAttack" parent="StateMachine" index="0" instance=ExtResource("4_r160r")]
 
 [node name="StayAwayAndAttackFromRange" parent="StateMachine" index="1" instance=ExtResource("4_e5dvf")]
-
-[node name="MoveIntentImage" parent="StatusControl/MoveIntentContainer/MoveIntentImage" index="0"]
-layout_mode = 0
 
 [node name="Sprite2D" parent="." index="4"]
 texture = ExtResource("1_x8062")
