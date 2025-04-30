@@ -28,6 +28,7 @@ func load_save_file():
 	save_data = file.get_var()
 	load_settings()
 	load_progress()
+	
 
 func change_settings():
 	save_data["settings"]["volume"] = settings.volume
@@ -36,6 +37,9 @@ func change_settings():
 func change_progress():
 	save_data["progress"]["player_world_node_id"] = progress.current_world_node_id
 	save_data["progress"]["world_state"] = progress.world_state.to_dictionary()
+	save_data["progress"]["world_state"]["days_left"] = GameController.days_till_attack
+	save_data["progress"]["player"] = PlayerController.get_deck().save()
+	save_data["progress"]["player"]["hp"] = PlayerController.current_player_health
 	save()
 
 func load_settings():
@@ -47,10 +51,23 @@ func load_progress():
 		self.progress.current_world_node_id = save_data["progress"]["player_world_node_id"]
 	if save_data["progress"].has("world_state"):
 		_load_world_state()
+	if save_data["progress"].has("player"):
+		_load_player_info()
 	
 func _load_world_state():
+	if save_data["progress"]["world_state"].has("days_left"):
+		GameController.days_till_attack = save_data["progress"]["world_state"]["days_left"]
 	self.progress.world_state._world_state = save_data["progress"]["world_state"]
 	self.progress.village_node = self.progress.world_state.convert_world_state_to_node()
+
+## TODO: this can probably be done a lot better
+func _load_player_info():
+	var player_deck_info: Dictionary = save_data["progress"]["player"]
+	progress.current_player_deck._load(player_deck_info)
+	#progress.current_health = save_data["progress"]["player"]["hp"]
+	progress.current_health = save_data["progress"]["player"]["hp"]
+	PlayerController.current_player_health = progress.current_health
+	#PlayerController._deck = save_data["progress"]["player"]["deck"]
 
 ## SIGNALS
 ## TODO: do we want to save as soon as the player clicks there? 

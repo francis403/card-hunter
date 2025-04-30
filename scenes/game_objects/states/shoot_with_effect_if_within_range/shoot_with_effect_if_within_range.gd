@@ -4,7 +4,7 @@ extends StateWithMovement
 class_name ShootSpiderWebsIfWithinRange
 
 @export_category("General State Behaviour")
-@export var webs_range: int = 2
+@export var range: int = 2
 @export var status_id: String = "stop_next_movement"
 @export var tile_effect_type: Constants.TileEffectTypes = Constants.TileEffectTypes.SPIDER_WEB
 
@@ -28,6 +28,7 @@ func enter_state():
 
 func do_state_action():
 	super.do_state_action()
+	
 	BattlemapSignals.clear_attack_highlight_tiles.emit()
 	
 	BattlemapSignals.add_effect_type_to_tile.emit(
@@ -36,26 +37,29 @@ func do_state_action():
 	)
 	
 	is_player_hit = target.has_status(status_id)
+	#is_player_hit = false
 	
 	## If player is hit, and we want to do something when player is hit
 	if is_player_hit && player_hit_state:
-		self.changed_state.emit(self, close_range_state)
-		return
+		if close_range_state != "":
+			self.changed_state.emit(self, close_range_state)
+			return
 	## Oherwise, if player is not hit calculete the next target tile and behaviour
 	# if we are in range do something else
 	var distance_to_player = MovementUtils.distance_between_tiles(
 		monster.next_move if monster.next_move else monster._tile,
 		target._tile
 	)
-	if distance_to_player > self.maximum_distance_to_player:
+	if distance_to_player > self.maximum_distance_to_player && out_of_range_state:
 		BattlemapSignals.clear_attack_highlight_tiles.emit()
 		self.changed_state.emit(self, out_of_range_state)
 		return
 
 	if distance_to_player <= self.min_distance_to_player:
 		BattlemapSignals.clear_attack_highlight_tiles.emit()
-		self.changed_state.emit(self, close_range_state)
-		return
+		if close_range_state != "":
+			self.changed_state.emit(self, close_range_state)
+			return
 
 	target_tile = BattleController.get_player()._tile
 	highlight_tile(target_tile)

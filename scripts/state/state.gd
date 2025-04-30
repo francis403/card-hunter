@@ -1,6 +1,10 @@
 extends Node
 class_name State
 
+const MOVE_ICON = preload("res://assets/images/icons/monster_icons/behaviour_icons/move_icon.png")
+
+@export var state_icon: Texture2D = MOVE_ICON
+
 signal changed_state(state: State, new_state: String)
 
 func enter_state():

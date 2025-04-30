@@ -3,13 +3,9 @@ class_name CardController
 
 signal card_finished_playing
 
-func _ready() -> void:
-	BattlemapSignals.battlemap_generated.connect(_on_battlemap_generated_signal)
-	battlemap = BattleController.battlemap
-
 func _on_battlemap_generated_signal(map: Battlemap):
 	print(_on_battlemap_generated_signal)
-	self.battlemap = map
+	#self.battlemap = map
 
 
 func play_card_action(
@@ -19,9 +15,7 @@ func play_card_action(
 	
 	if not card_can_be_played(card_resource, card_categories):
 		return
-	
-	if not battlemap:
-		battlemap = BattleController.battlemap
+	var battlemap: Battlemap = BattleController.battlemap
 	
 	var stamina_cost = card_resource.stamina_cost
 	var player: PlayerPiece = BattleController.get_player()
@@ -38,6 +32,7 @@ func after_card_is_played(
 		BattlemapSignals.play_card_stream.emit(card_resource.audio_stream)
 	_apply_stamina_cost(card_resource.stamina_cost)
 	card_finished_playing.emit()
+	BattlemapSignals.card_has_been_played.emit(card_resource)
 
 func _apply_stamina_cost(stamina_cost: int):
 	var player: PlayerPiece = BattleController.get_player()

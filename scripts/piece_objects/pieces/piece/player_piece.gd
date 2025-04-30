@@ -3,6 +3,9 @@ class_name PlayerPiece
 
 @export var hand_size: int = 4
 
+## Used when we want to replace the deck of the player
+@export var replace_deck: PlayerDeck = null
+
 var current_card_in_hand_size: int = 0
 
 ## TODO: Need to convert all of this into PlayerDeck
@@ -20,10 +23,16 @@ func _ready() -> void:
 	_prepare_deck()
 	
 func _prepare_deck():
-	_deck = PlayerController.get_deck()._deck
+	if replace_deck:
+		_deck = replace_deck._deck
+	else:
+		_deck = PlayerController.get_deck()._deck
 	draw_pile = _deck.duplicate()
 	discard_pile = []
 	shuffle_deck(draw_pile)
+	
+func set_deck(player_deck: PlayerDeck ):
+	_deck = player_deck._deck
 	
 # We might have some special deck abilities
 func shuffle_deck(deck: Array[CardResource]):
@@ -39,6 +48,7 @@ func draw_til_hand_size() -> Array[CardResource]:
 		new_cards_added.append(drawn_card)
 	return new_cards_added
 		
+## TODO: I guess if I had to add a draw animation it would be from here
 func draw_card() -> CardResource:
 	if draw_pile.size() <= 0:
 		# put all the cards in the discard pile in the draw pile
@@ -54,7 +64,7 @@ func recover_stamina(stamina = _stamina_recover):
 	BattlemapSignals.player_stamina_changed.emit(self._stamina)
 	
 func _on_battle_start_signal():
-	pass
+	BattlemapSignals.player_turn_started.emit()
 
 func _on_card_discared_from_hand_signal(index: int):
 	var card: CardResource = cards_in_hand.pop_at(index)

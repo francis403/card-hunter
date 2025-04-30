@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="CardResource" load_steps=5 format=3 uid="uid://c4jdxyuh3hqwd"]
+
+[ext_resource type="PackedScene" uid="uid://7q272i7up6hr" path="res://scenes/resource_controllers/card_controller/tile_effect_card_controller/tile_effect_card_controller.tscn" id="1_kqis5"]
+[ext_resource type="Script" path="res://scripts/event_category/event_category.gd" id="2_mmbfd"]
+[ext_resource type="Resource" uid="uid://cmm6vet2ijr77" path="res://resources/card/event_category/event_category_resources/stop_movement_trap_tile_effect_1.tres" id="3_h62fr"]
+[ext_resource type="Script" path="res://resources/card/card_resource.gd" id="4_gljlf"]
+
+[resource]
+script = ExtResource("4_gljlf")
+id = "spider_web_trap_1"
+title = "Spiderweb Trap"
+description = "The monster won't be able to move the next turn"
+default_target = 3
+default_area_type = 4
+stamina_cost = 20
+tag_array = Array[String]([])
+event_categories = Array[ExtResource("2_mmbfd")]([ExtResource("3_h62fr")])
+card_ability_controller_scene = ExtResource("1_kqis5")

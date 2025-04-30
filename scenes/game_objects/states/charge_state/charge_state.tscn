@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://bm3s6jrsg6gan"]
+
+[ext_resource type="Script" path="res://scenes/game_objects/states/charge_state/charge_state.gd" id="1_wnbbw"]
+
+[node name="ChargeState" type="Node"]
+script = ExtResource("1_wnbbw")

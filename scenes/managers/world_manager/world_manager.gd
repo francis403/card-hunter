@@ -1,4 +1,6 @@
 extends Node
+
+## TODO: this might no longer be needed
 class_name WorldManager
 
 ## counts all nodes currently being revealed

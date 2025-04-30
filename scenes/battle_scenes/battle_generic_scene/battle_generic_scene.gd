@@ -7,6 +7,7 @@ const deck_visualizer_scene = preload("res://ui/deck/deck_visualizer/deck_visual
 @onready var hand: Hand = $Hand
 @onready var battlemap: Battlemap = $Battlemap
 @onready var ui_nodes: Control = $UINodes
+@onready var battle_scene_rewards_manager: BattleSceneRewardsManager = $BattleSceneRewardsManager
 
 ## holds all monsters in the battle scene
 @onready var monsters_node: Node = $monsters
@@ -16,10 +17,16 @@ const deck_visualizer_scene = preload("res://ui/deck/deck_visualizer/deck_visual
 ## Defines the monsters in the battle scene
 @export var monsters: Array[Piece] = []
 
+@export var is_boss_battle: bool = false
+
 var is_player_turn: bool = true
 var awaiting_player_input: bool = false
-
 var _number_of_monsters_defeated: int = 0
+
+var _world_node: WorldNode = null
+
+func _init() -> void:
+	GameController.is_showing_battle_scene = true
 
 func _ready() -> void:
 	BattlemapSignals.monster_turn_started.connect(_on_monster_turn_started_signal)
@@ -33,15 +40,14 @@ func _ready() -> void:
 	BattlemapSignals.awaiting_player_input.connect(_on_awaiting_player_input_signal)
 	BattlemapSignals.player_input_received.connect(_on_player_input_signal)
 	BattlemapSignals.canceled_player_input.connect(_on_player_input_signal)
-	
 	# Monsters
 	BattlemapSignals.monster_died.connect(_on_monster_died_signal)
-	
 	BattlemapSignals.player_died.connect(_on_battle_lost_signal)
 	BattleSignals.battle_won.connect(_on_battle_won_signal)
 
-	_draw_cards_start_of_turn(battlemap.player)
+	#_draw_cards_start_of_turn(battlemap.player)
 	_prep_battle_arena_monsters()
+	battle_scene_rewards_manager.set_rewards_to_reward_screen()
 	BattleSignals.battle_start.emit()
 
 func _on_player_turn_started_signal():
@@ -51,6 +57,7 @@ func _on_player_turn_started_signal():
 	player.recover_stamina()
 	BattlemapSignals.unlock_player_input.emit()
 
+## TODO: this is probably better if I do as soon as the battle has started
 func _draw_cards_start_of_turn(player: PlayerPiece):
 	var new_cards: Array[CardResource] = player.draw_til_hand_size()
 	hand.populate_hand(new_cards)
@@ -61,9 +68,10 @@ func _prep_battle_arena_monsters():
 	if monsters.size() > 0:
 		battlemap.monsters = []
 		battlemap.monsters.append_array(monsters)
+		battlemap.update_monsters()
 		for monster in monsters:
 			monsters_node.add_child(monster)
-		battlemap.update_monsters()
+		#battlemap.update_monsters()
 	
 func _on_monster_turn_started_signal():
 	is_player_turn = false
@@ -77,6 +85,8 @@ func _on_show_draw_pile_deck_signal():
 	deck_visualizer_instance.deck = player.draw_pile
 	ui_nodes.add_child(deck_visualizer_instance)
 	
+func set_world_node(world_node: WorldNode):
+	self._world_node = world_node
 	
 func _on_show_discard_pile_deck_signal():
 	var deck_visualizer_instance: DeckVisualizer = deck_visualizer_scene.instantiate()
@@ -92,19 +102,37 @@ func _on_player_input_signal():
 func _on_monster_died_signal():
 	_number_of_monsters_defeated += 1
 	if _number_of_monsters_defeated >= battlemap.get_total_amount_of_monsters():
+		PlayerController.current_player_health = player._health
 		BattleSignals.battle_won.emit()
 
 func _on_battle_lost_signal():
-	game_over_screen.title_label.text = "You Lost"
+	#game_over_screen.title_label.text = "You Lost"
+	game_over_screen.prep_loss_screen()
 	_show_game_over_screen()
 
 func _on_battle_won_signal():
-	if PlayerController.current_world_node:
-		PlayerController.current_world_node.clear_monsters()
-	BattlemapSignals.node_completed.emit(File.progress.current_world_node_id)
+	#if PlayerController.current_world_node:
+		#PlayerController.current_world_node.clear_monsters()
+	#BattlemapSignals.node_completed.emit(File.progress.current_world_node_id)
+	if _world_node:
+		#BattlemapSignals.reveal_connected_nodes.emit(_world_node)
+		_world_node.reveal_connected_nodes()
+		_world_node.clear_monsters()
+	
+	game_over_screen.prep_win_screen()
 	_show_game_over_screen()
 	
+## TODO: add possible rewards
 func _show_game_over_screen():
 	game_over_screen.visible = true
 	get_tree().paused = true
 	game_over_screen.process_mode = Node.PROCESS_MODE_ALWAYS
+
+
+func _on_tree_exited() -> void:
+	GameController.is_showing_battle_scene = false
+	if is_boss_battle:
+		GameController.days_till_attack = 5
+		BattleSignals.boss_battle_complete.emit()
+		return
+	BattleSignals.battle_complete.emit()

@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="CardResource" load_steps=5 format=3 uid="uid://betuhlkqwxesg"]
+
+[ext_resource type="PackedScene" uid="uid://dvot20aekrfrs" path="res://scenes/resource_controllers/card_controller/power_card_controller/power_card_controller.tscn" id="1_bptu3"]
+[ext_resource type="Script" path="res://scripts/event_category/event_category.gd" id="2_mgerv"]
+[ext_resource type="Resource" uid="uid://dnxisx0tavhcy" path="res://resources/card/event_category/event_category_resources/double_strength.tres" id="3_2kxsn"]
+[ext_resource type="Script" path="res://resources/card/card_resource.gd" id="4_gg38s"]
+
+[resource]
+script = ExtResource("4_gg38s")
+id = "double_strength_power_1"
+title = "Double Strength"
+description = "For the next two turns have you double damage."
+default_target = 1
+default_area_type = 1
+stamina_cost = 20
+tag_array = Array[String]([])
+event_categories = Array[ExtResource("2_mgerv")]([ExtResource("3_2kxsn")])
+card_ability_controller_scene = ExtResource("1_bptu3")

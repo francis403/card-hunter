@@ -1,0 +1,26 @@
+[gd_scene load_steps=8 format=3 uid="uid://bp8v6rbwvlp4m"]
+
+[ext_resource type="PackedScene" uid="uid://dn1s6gbout3xc" path="res://scenes/battle_scenes/battle_generic_scene/battle_generic_scene.tscn" id="1_cbbkr"]
+[ext_resource type="PackedScene" uid="uid://b7euo8lhu61np" path="res://scenes/monsters/giant_bat_monster/giant_bat_monster.tscn" id="2_4m7ix"]
+[ext_resource type="Script" path="res://scenes/battle_scenes/giant_bat_test_scene/giant_bat_battle_test_scene.gd" id="2_mnfw0"]
+[ext_resource type="Script" path="res://resources/configuration/monster_configurations/monster_immunities_config/monster_immunitie_config.gd" id="5_31qv0"]
+[ext_resource type="Script" path="res://resources/configuration/monster_configurations/monster_config/monster_config.gd" id="6_4r54o"]
+
+[sub_resource type="Resource" id="Resource_iftat"]
+script = ExtResource("5_31qv0")
+immune_list = Array[String](["bloodied_status_effect"])
+
+[sub_resource type="Resource" id="Resource_ukxud"]
+script = ExtResource("6_4r54o")
+monster_immunity_config = SubResource("Resource_iftat")
+
+[node name="GiantBatBattleTestScene" instance=ExtResource("1_cbbkr")]
+script = ExtResource("2_mnfw0")
+is_boss_battle = true
+
+[node name="Battlemap" parent="." index="4" node_paths=PackedStringArray("monsters")]
+monsters = [NodePath("../monsters/GiantBatMonster")]
+
+[node name="GiantBatMonster" parent="monsters" index="0" instance=ExtResource("2_4m7ix")]
+position = Vector2(830, 307)
+monster_config = SubResource("Resource_ukxud")

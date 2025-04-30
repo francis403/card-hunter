@@ -14,7 +14,7 @@ func _ready() -> void:
 	BattlemapSignals.lock_player_input.connect(_on_player_lock_input)
 	BattlemapSignals.unlock_player_input.connect(_on_player_unlock_input)
 	BattlemapSignals.monster_hp_changed.connect(_on_monster_health_changed)
-
+	_initialize_player_stats()
 
 func _on_player_stamina_changed(current_stamina: int):
 	player_stamina_label.text = "Stamina: " + str(current_stamina)
@@ -34,3 +34,6 @@ func _on_end_turn_button_pressed() -> void:
 func _on_monster_health_changed(new_hp: int, max_hp: int):
 	var progess_bar_value: float = float (new_hp) / float(max_hp)
 	monster_hp_progress_bar.value = progess_bar_value
+
+func _initialize_player_stats():
+	player_health_label.text = "HP: " + str(PlayerController.current_player_health)

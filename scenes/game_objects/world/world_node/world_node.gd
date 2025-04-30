@@ -1,12 +1,13 @@
 extends Node2D
 
 ## TODO: need to simplify this code\
-##
+## Represents a location in the world
 class_name WorldNode
 
 const REVEALED_NODE_SPRITE = preload("res://assets/images/nodes/revealed_node.png")
 const VILAGE_NODE_SPRITE = preload("res://assets/images/nodes/vilage_node.png")
 const QUESTION_MARK_NODE_TRANSPARENT_SPRITE = preload("res://assets/images/nodes/question_mark_node-transparent.png")
+const EVENT_NODE_ICON_SPRITE = preload("res://assets/images/nodes/event_node_icon.png")
 const WORLD_NODE_SCENE = preload("res://scenes/game_objects/world/world_node/world_node.tscn")
 
 const BATTLE_GENERIC_SCENE = preload("res://scenes/battle_scenes/battle_generic_scene/battle_generic_scene.tscn")
@@ -26,6 +27,8 @@ const MONSTERS_DICTIONARY_FIELD: String = "monsters"
 enum WorldNodeTypeEnum {
 	VILLAGE,
 	UNKNOWN,
+	EVENT,
+	TREASURE,
 	REVEALED
 }
 
@@ -39,6 +42,8 @@ enum WorldNodeTypeEnum {
 
 @export_category("Monsters in node")
 @export var monsters_in_node: Array[GenericMonster] = []
+
+## TODO: A world node might have a monster, an event, or a treasure
 
 ## Generates random monsters.
 ## Will add to the monsters_in_node array by default
@@ -54,8 +59,6 @@ var is_loaded: bool = false
 
 func _ready() -> void:
 	BattlemapSignals.hide_player_in_other_node.connect(_on_hide_player_in_other_node_signal)
-	BattlemapSignals.reveal_node.connect(_on_node_reveal_signal)
-	BattlemapSignals.node_completed.connect(_on_node_complete_signal)
 	_prepare_world_node()
 	
 
@@ -63,15 +66,10 @@ func _on_hide_player_in_other_node_signal(node_id: String):
 	if world_node_id != node_id:
 		hide_player()
 
-func _on_node_reveal_signal(node_id: String):
-	if self.world_node_id == node_id:
-		self.reveal_node()
-
-## TODO: this needs to be run before we are ready to copy the data
-func _on_node_complete_signal(world_node_id: String):
-	if self.world_node_id != world_node_id:
-		return
-	BattlemapSignals.reveal_connected_nodes.emit(self)
+func reveal_connected_nodes():
+	for node in self.connections:
+		node.reveal_node()
+	BattlemapSignals.world_updated.emit()
 
 func clear_monsters():
 	self.monster_texture_rect.visible = false
@@ -82,6 +80,8 @@ func _prepare_world_node_sprite():
 		world_node_sprite.texture = VILAGE_NODE_SPRITE
 	elif _world_node_type == WorldNodeTypeEnum.REVEALED:
 		world_node_sprite.texture = REVEALED_NODE_SPRITE
+	elif _world_node_type == WorldNodeTypeEnum.EVENT:
+		world_node_sprite.texture = EVENT_NODE_ICON_SPRITE
 		
 	if File.progress.current_world_node_id == world_node_id:
 		show_player()
@@ -96,18 +96,18 @@ func _on_area_2d_input_event(viewport: Node, event: InputEvent, shape_idx: int) 
 		_process_on_world_node_click()
 
 func _process_on_world_node_click():
-	if self.is_showing_player_sprite && _has_quest():
-		
-		var battle_scene: BattleGenericScene = BATTLE_GENERIC_SCENE.instantiate()
-		battle_scene.monsters.clear()
-		for monster in monsters_in_node:
-			battle_scene.monsters.append(monster)
-		get_tree().root.add_child(battle_scene)
-		
 	## TODO: show a message
 	if not self.is_reachable:
 		return
-		
+	
+	if self.is_showing_player_sprite && _has_quest():
+		if !GameController.is_showing_battle_scene:
+			print(_process_on_world_node_click, " id = ", world_node_id)
+			var battle_scene: BattleGenericScene = generate_battle_scene()
+			get_tree().root.add_child(battle_scene)
+		else:
+			print("Error, investigate!")
+	
 	self.show_player()
 	
 	File.progress.update_player_position(self)
@@ -115,6 +115,15 @@ func _process_on_world_node_click():
 	## Tell the game to save 
 	BattlemapSignals.player_world_state_updated.emit(self)
 	#BattlemapSignals.hide_player_in_other_node.emit(world_node_id)
+	
+func generate_battle_scene() -> BattleGenericScene:
+	var battle_scene: BattleGenericScene = BATTLE_GENERIC_SCENE.instantiate()
+	battle_scene.monsters.clear()
+	battle_scene.set_world_node(self)
+	#battle_scene.player._health = PlayerController.current_player_health
+	for monster in monsters_in_node:
+		battle_scene.monsters.append(monster)
+	return battle_scene
 
 ## TODO: add the ability for more than just battling mosnters
 func _has_quest():
@@ -195,6 +204,8 @@ func convert_node_to_dictionary() -> Dictionary:
 	result[MONSTERS_DICTIONARY_FIELD] = {}
 	var i: int = 0
 	for child_monster in self.monsters_in_node:
+		if not child_monster:
+			continue
 		result[MONSTERS_DICTIONARY_FIELD][i] = child_monster.monster_id
 		i += 1
 	return result

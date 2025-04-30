@@ -79,6 +79,8 @@ func highlight_tiles(
 		)
 	return highlighted_tiles
 
+## TODO: can I put this into a utils function of some sort?
+## we can maybe add a callable here as an argument
 func highligh_tiles_radius(
 	source_tile: Tile,
 	config: TileHighlightConfig
@@ -102,11 +104,14 @@ func highligh_tiles_radius(
 				continue
 			if config.ignore_corners and radius_distance > radius:
 				continue
+			if config.ignore_non_corners and abs(radius_x) != abs(radius_y):
+				continue 
 			if config.ignore_tiles_with_effects and tile.has_effect():
 				continue
 			highlighted_tiles.append(tile)
 			_make_tile_clickable(tile_x, tile_y, config)
 	return highlighted_tiles
+
 func highligh_tiles_cross(
 	source_tile: Tile,
 	config: TileHighlightConfig
@@ -115,10 +120,14 @@ func highligh_tiles_cross(
 	var y = source_tile._y_position
 	var line_length: int = config.range
 	for i in range(1, line_length + 1):
-		_make_tile_clickable(x + i, y, config)
-		_make_tile_clickable(x - i, y, config)
-		_make_tile_clickable(x, y + i, config)
-		_make_tile_clickable(x, y - i, config)
+		if not config.ignore_north_tiles:
+			_make_tile_clickable(x, y - i, config)
+		if not config.ignore_south_tiles:
+			_make_tile_clickable(x, y + i, config)
+		if not config.ignore_east_tiles:
+			_make_tile_clickable(x + i, y, config)
+		if not config.ignore_west_tiles:
+			_make_tile_clickable(x - i, y, config)
 	
 ## TODO: this will need the player to hover over where he wants the attack to go
 func highligh_tiles_line(

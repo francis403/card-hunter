@@ -12,14 +12,16 @@ func play_card_action(
 		
 	if not card_categories.has_category("move"):
 		print("ERROR: no move info in card")
+		return
 		
 	var move_card_category: MoveCategoryCard = card_categories.get_category("move")
 	var config: TileHighlightConfig = get_card_tile_highlight_config(move_card_category)
 	var target_type: Constants.TargetType\
 		= get_target_type(card_resource, move_card_category)
 	var area_type = get_area_type(card_resource, config.area_type)
-	var player: PlayerPiece = battlemap.player
 	
+	var battlemap: Battlemap = BattleController.battlemap
+	var player: PlayerPiece = battlemap.player
 	# show possible squares and await input
 	config.area_type = area_type
 	config.range = config.range
@@ -29,7 +31,7 @@ func play_card_action(
 	BattlemapSignals.awaiting_player_input.emit()
 
 	var tile: Tile = await BattlemapSignals.tile_picked_in_battlemap
-		
+	
 	if not tile or not tile.piece_in_tile:
 		BattlemapSignals.canceled_player_input.emit()
 		return

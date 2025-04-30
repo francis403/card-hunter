@@ -1,6 +1,8 @@
 extends CharacterBody2D
 class_name Piece
 
+signal piece_took_damage(damage: int)
+
 @export var _health: int = 100
 @export var _max_hp: int = _health
 @export var _speed: int = 1
@@ -9,9 +11,11 @@ class_name Piece
 @export var _stamina_recover: int = 15
 @export var _strength: int = 1
 
-
-
+var base_speed: int
 var _tile: Tile
+
+func _init() -> void:
+	base_speed = _speed
 
 func set_piece_tile(tile: Tile):
 	_tile = tile
@@ -20,6 +24,7 @@ func set_piece_tile(tile: Tile):
 func apply_damage(damage: int):
 	self._health -= damage
 	BattlemapSignals.player_health_changed.emit(self._health)
+	piece_took_damage.emit(damage)
 	if _health <= 0:
 		_die()
 
@@ -27,6 +32,9 @@ func _die():
 	self.queue_free()
 
 func add_status(status: StatusEffect):
+	pass
+	
+func remove_all_status():
 	pass
 	
 func remove_status(status_id: String):

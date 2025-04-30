@@ -5,16 +5,26 @@ class_name GenericMonster
 @onready var collision_shape_2d: CollisionShape2D = $CollisionShape2D
 @onready var state_machine: StateMachine = $StateMachine
 
+@onready var status_effect_container: StatusEffectContainer = $StatusEffectContainer
+@onready var status_effects_ui: StatusEffectUI = $StatusEffectsUI
+
 @onready var move_intent_container: MarginContainer = $StatusControl/MoveIntentContainer
+@onready var reward_manager: RewardManager = $RewardManager
+
+## Indicator of what the monster is going to do
+@onready var move_intent_image: TextureRect = $StatusControl/MoveIntentContainer/MoveIntentImage
 
 @export var monster_id: String
 @export var monster_texture: Texture2D
+@export var monster_config: MonsterConfig
 
 func _ready() -> void:
 	super._ready()
 	if monster_texture and not sprite_2d.texture:
 		sprite_2d.texture = monster_texture
+	self.set_state_icon()
 
+## Play the monster turn
 func play_monster_turn():
 	super.play_monster_turn()
 	state_machine.do_state_action()
@@ -32,8 +42,15 @@ func _on_monster_prepared_move_signal(tile: Tile):
 	else:
 		move_intent_container.visible = false
 
-func on_battle_start_signal():
-	state_machine.do_state_action()
+func set_state_icon(icon: Texture2D = null):
+	if not state_machine or not move_intent_image:
+		return
+	if icon:
+		move_intent_image.texture = icon
+		return
+	var current_state_icon: Texture2D = state_machine.get_state_icon()
+	if current_state_icon:
+		move_intent_image.texture = current_state_icon
 	
 ## TODO: I don't think I need this function
 func get_sprite() -> Sprite2D:
@@ -48,3 +65,55 @@ func get_texture() -> Texture2D:
 
 func highlight_attack_action() -> void:
 	state_machine.current_state.highlight_attack_action()
+
+func add_status(status: StatusEffect):
+	## TODO: improve
+	## Check to see if the monster is immune to the specific status
+	if _is_monster_immune_to_status(monster_config, status.id):
+		return
+	status_effect_container.add_status(status, self)
+
+## TODO: improve this
+func remove_status(status_id: String):
+	for child in status_effects_ui.get_status_indicator_children():
+		if child.status_effect.id == status_id:
+			child.queue_free()
+			return
+
+func _is_monster_immune_to_status(
+	monster_config: MonsterConfig,
+	status_id: String
+) -> bool:
+	if not monster_config:
+		return false
+	if not monster_config.monster_immunity_config:
+		return false
+	return monster_config.monster_immunity_config.immune_list.has(status_id)
+
+func has_any_status() -> bool:
+	return status_effect_container.has_any_status()
+
+func has_status(status_id: String) -> bool:
+	return status_effect_container.has_status(status_id)
+
+func get_card_rewards() -> Array[CardResource]:
+	return reward_manager.get_random_cards(2)
+
+func apply_damage(damage: int):
+	_play_hit_flash()
+	super.apply_damage(damage)
+
+## TODO: set this two functions in a common class
+func _play_hit_flash():
+	if sprite_2d.material:
+		var tween = create_tween()
+		tween.tween_method(
+			set_flash_modifier,
+			1.0,
+			0.0,
+			0.2
+		)
+
+func set_flash_modifier(value: float) -> void:
+	if sprite_2d.material:
+		sprite_2d.material.set_shader_parameter("flash_modifier", value)

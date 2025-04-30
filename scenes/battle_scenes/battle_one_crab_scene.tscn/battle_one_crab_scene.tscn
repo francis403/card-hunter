@@ -5,10 +5,9 @@
 
 [node name="BattleGenericScene" instance=ExtResource("1_w4lpb")]
 
-[node name="Battlemap" parent="." index="3" node_paths=PackedStringArray("monsters")]
+[node name="Battlemap" parent="." index="4" node_paths=PackedStringArray("monsters")]
 monsters = [NodePath("../CrabMonster")]
 
 [node name="CrabMonster" parent="." index="5" instance=ExtResource("2_aicp5")]
 position = Vector2(778, 352)
-_health = 1
 _max_hp = 1

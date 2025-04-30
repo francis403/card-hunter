@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="PlayerClass" load_steps=4 format=3 uid="uid://dm3jlpe4irrmi"]
+
+[ext_resource type="Resource" uid="uid://b7u2qx0w0ve5l" path="res://resources/player_deck/decks/test_deck/test_traps_deck.tres" id="1_0pytb"]
+[ext_resource type="Texture2D" uid="uid://da24gy550h2xp" path="res://assets/game_objects/card_parts/card_icons/sword.tres" id="2_rp38r"]
+[ext_resource type="Script" path="res://resources/player/player_class/player_class.gd" id="3_22x4c"]
+
+[resource]
+script = ExtResource("3_22x4c")
+player_class_name = "Test Cards Class"
+player_class_icon = ExtResource("2_rp38r")
+default_class_deck = ExtResource("1_0pytb")

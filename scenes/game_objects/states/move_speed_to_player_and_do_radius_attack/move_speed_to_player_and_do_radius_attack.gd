@@ -3,9 +3,15 @@ class_name MoveSpeedToPlayerAndDoRadiusAttack
 
 @export var change_state: String = "StayAwayAndAttackFromRange"
 @export var range: int = 1
+
+var melee_attack_icon = self.state_icon
 	
 func exit_state():
 	pass
+	
+func enter_state():
+	super.enter_state()
+	self.do_movement()
 	
 func do_state_action():
 	super.do_state_action()
@@ -18,7 +24,11 @@ func do_state_action():
 	# only show when able to attack player
 	if distance_to_player > 1:
 		BattlemapSignals.clear_attack_highlight_tiles.emit()
+		monster.set_state_icon(MOVE_ICON)
+		self.do_movement()
 		return
+	
+	monster.set_state_icon(melee_attack_icon)
 	
 	self.do_attack()
 	
@@ -34,6 +44,7 @@ func do_movement():
 	
 	if next_turn_move_tile:
 		BattleController.battlemap.place_piece_in_tile(monster, next_turn_move_tile)
+		
 	next_turn_move_tile = MovementUtils.get_movement_tile(
 		monster._tile,
 		target._tile,

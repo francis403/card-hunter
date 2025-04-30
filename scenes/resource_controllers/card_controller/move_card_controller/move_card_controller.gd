@@ -9,11 +9,15 @@ func play_card_action(
 ):
 	super.play_card_action(card_resource, card_categories)
 	
+	if not card_can_be_played(card_resource, card_categories):
+		return
+	
 	if not card_categories.has_category("move"):
 		print("ERROR: no move info in card")
+		return
 	var move_card_category: MoveCategoryCard = card_categories.get_category("move")
 	var config: TileHighlightConfig = get_card_tile_highlight_config(move_card_category)
-
+	var battlemap: Battlemap = BattleController.battlemap
 	#var _number_of_connections: int = BattlemapSignals.before_player_movement.get_connections().size()
 	BattlemapSignals.before_player_movement.emit()
 	
@@ -21,7 +25,7 @@ func play_card_action(
 	var area_type: Constants.AreaType = get_area_type(card_resource, config.area_type)
 	
 	config.area_type = area_type
-	config.range = piece_to_move._speed * config.range
+	config.range = piece_to_move._speed * move_card_category.move_distance
 	# freeze hand
 	BattlemapSignals.awaiting_player_input.emit()
 		

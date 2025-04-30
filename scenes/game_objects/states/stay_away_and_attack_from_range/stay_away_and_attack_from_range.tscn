@@ -1,6 +1,8 @@
-[gd_scene load_steps=2 format=3 uid="uid://oalssska7u76"]
+[gd_scene load_steps=3 format=3 uid="uid://oalssska7u76"]
 
 [ext_resource type="Script" path="res://scenes/game_objects/states/stay_away_and_attack_from_range/stay_away_and_attack_from_range.gd" id="1_qxhos"]
+[ext_resource type="Texture2D" uid="uid://deoj2fp6s1lym" path="res://assets/images/icons/monster_icons/behaviour_icons/red_range_behaviour_icon.png" id="2_janob"]
 
 [node name="StayAwayAndAttackFromRange" type="Node"]
 script = ExtResource("1_qxhos")
+state_icon = ExtResource("2_janob")

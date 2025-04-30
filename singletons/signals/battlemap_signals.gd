@@ -9,6 +9,7 @@ signal clear_player_highlighted_tiles
 signal clear_attack_highlight_tiles
 signal clear_highlighted_tiles
 signal tile_picked_in_battlemap(tile: Tile)
+# TODO: signals should be a response to something, not to tell the game to do something
 signal add_effect_to_tile(tile_effect: TileEffect, tile: Tile)
 signal add_effect_type_to_tile(tile_effect: Constants.TileEffectTypes, tile: Tile)
 signal get_monster_range_tiles(source_tile: Tile, config: TileHighlightConfig)
@@ -23,6 +24,7 @@ signal show_draw_pile_deck
 signal show_discard_pile_deck
 
 ## Card signals
+signal card_has_been_played(card_resource: CardResource)
 signal card_discarded_from_hand(index: int)
 signal card_removed_from_deck(index: int)
 
@@ -52,6 +54,7 @@ signal monster_prepared_move(tile: Tile)
 signal monster_prepared_attack(attacked_tiles: Array[Tile])
 signal monster_died
 signal monster_moved_by_player(new_tile: Tile)
+
 
 ## WorldMap Signals
 signal player_world_state_updated(world_node: WorldNode)
