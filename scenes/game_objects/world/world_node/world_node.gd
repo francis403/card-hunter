@@ -59,7 +59,6 @@ var is_loaded: bool = false
 
 func _ready() -> void:
 	BattlemapSignals.hide_player_in_other_node.connect(_on_hide_player_in_other_node_signal)
-	BattlemapSignals.reveal_node.connect(_on_node_reveal_signal)
 	_prepare_world_node()
 	
 
@@ -67,10 +66,10 @@ func _on_hide_player_in_other_node_signal(node_id: String):
 	if world_node_id != node_id:
 		hide_player()
 
-func _on_node_reveal_signal(node_id: String):
-	if self.world_node_id == node_id:
-		self.reveal_node()
-
+func reveal_connected_nodes():
+	for node in self.connections:
+		node.reveal_node()
+	BattlemapSignals.world_updated.emit()
 
 func clear_monsters():
 	self.monster_texture_rect.visible = false

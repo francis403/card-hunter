@@ -64,7 +64,7 @@ func _generate_world():
 	print(_generate_world)
 	_generate_village()
 	_generate_adjacent_nodes(village_node, maximum_number_of_child_nodes, 1)
-	BattlemapSignals.reveal_connected_nodes.emit(village_node)
+	village_node.reveal_connected_nodes()
 	_save_world_state()
 	
 func _draw_line_between_nodes(base_node: WorldNode, other_node: WorldNode):

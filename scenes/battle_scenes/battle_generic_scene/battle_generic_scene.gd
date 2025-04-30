@@ -111,11 +111,12 @@ func _on_battle_lost_signal():
 	_show_game_over_screen()
 
 func _on_battle_won_signal():
-	if PlayerController.current_world_node:
-		PlayerController.current_world_node.clear_monsters()
+	#if PlayerController.current_world_node:
+		#PlayerController.current_world_node.clear_monsters()
 	#BattlemapSignals.node_completed.emit(File.progress.current_world_node_id)
 	if _world_node:
-		BattlemapSignals.reveal_connected_nodes.emit(_world_node)
+		#BattlemapSignals.reveal_connected_nodes.emit(_world_node)
+		_world_node.reveal_connected_nodes()
 		_world_node.clear_monsters()
 	
 	game_over_screen.prep_win_screen()
