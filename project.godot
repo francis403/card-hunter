@@ -27,7 +27,8 @@ BattleController="*res://singletons/controllers/battle_controller.gd"
 MovementUtils="*res://scripts/utils/battlemap_utils/movement_utils.gd"
 Music="*res://singletons/game_settings/music/music.gd"
 ScreenUtils="*res://scripts/utils/screen_utils/screen_utils.gd"
-CardResourcesController="*res://singletons/controllers/card_resources_controller.gd"
+CardResourcesController="*res://singletons/controllers/resource_controllers/card_resources_controller.gd"
+MonsterResourcesController="*res://singletons/controllers/resource_controllers/monster_resources_controller.gd"
 
 [display]
 

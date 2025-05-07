@@ -5,9 +5,7 @@ extends Node2D
 class_name WorldGeneratorManager
 
 const WORLD_NODE_SCENE = preload("res://scenes/game_objects/world/world_node/world_node.tscn")
-const BATTLE_ONE_CRAB_SCENE = preload("res://scenes/battle_scenes/battle_one_crab_scene.tscn/battle_one_crab_scene.tscn")
-const CRAB_MONSTER_SCENE = preload("res://scenes/monsters/CrabMonster/crab_monster.tscn")
-const SPIDER_MONSTER_SCENE = preload("res://scenes/monsters/spider_monster/spider_monster.tscn")
+
 const RADIUS = 30
 
 @export_category("World Generation Specification")
@@ -123,13 +121,13 @@ func _generate_random_monsters(max_number: int = 1) -> Array[GenericMonster]:
 	var result: Array[GenericMonster] = []
 	for i in max_number:
 		var random_number: int = randi() % 2
-		var monster: GenericMonster = null
-		if random_number == 0:
-			monster = CRAB_MONSTER_SCENE.instantiate()
-		elif random_number == 1:
-			monster = SPIDER_MONSTER_SCENE.instantiate()
-		else:
-			monster = CRAB_MONSTER_SCENE.instantiate()
+		var monster: GenericMonster = MonsterResourcesController.get_random_generic_monster()
+		#if random_number == 0:
+			#monster = CRAB_MONSTER_SCENE.instantiate()
+		#elif random_number == 1:
+			#monster = SPIDER_MONSTER_SCENE.instantiate()
+		#else:
+			#monster = CRAB_MONSTER_SCENE.instantiate()
 		result.append(monster)
 	return result
 	

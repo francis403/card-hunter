@@ -8,7 +8,7 @@ const card_resources_folder = "res://resources/card/card_resources"
 ## TODO: has an object that contains all the cards and if they have been unlocked or not
 var _card_in_game: Dictionary = {}
 
-## TODO: read all cards info into the dictionary
+## read all cards info into the dictionary
 func _init() -> void:
 	_init_cards_in_game_dictionary()
 

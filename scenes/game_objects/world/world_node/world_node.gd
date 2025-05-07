@@ -9,11 +9,7 @@ const VILAGE_NODE_SPRITE = preload("res://assets/images/nodes/vilage_node.png")
 const QUESTION_MARK_NODE_TRANSPARENT_SPRITE = preload("res://assets/images/nodes/question_mark_node-transparent.png")
 const EVENT_NODE_ICON_SPRITE = preload("res://assets/images/nodes/event_node_icon.png")
 const WORLD_NODE_SCENE = preload("res://scenes/game_objects/world/world_node/world_node.tscn")
-
 const BATTLE_GENERIC_SCENE = preload("res://scenes/battle_scenes/battle_generic_scene/battle_generic_scene.tscn")
-
-const CRAB_MONSTER_SCENE = preload("res://scenes/monsters/CrabMonster/crab_monster.tscn")
-const SPIDER_MONSTER_SCENE = preload("res://scenes/monsters/spider_monster/spider_monster.tscn")
 
 const ID_DICTIONARY_FIELD: String = "id"
 const IS_REVEALED_DICTIONARY_FIELD: String = "is_revealed"
@@ -219,10 +215,12 @@ func load_node_from_dictionary(node_state: Dictionary):
 		PlayerController.current_world_node = self
 	self._world_node_type = node_state[WORLD_NODE_TYPE_DICTIONARY_FIELD] 
 	self.position = node_state[POSITION_DICTIONARY_FIELD] 
-	## TODO: this needs to be smarter
 	self.monsters_in_node = []
 	for monster_id in node_state[MONSTERS_DICTIONARY_FIELD].keys():
-		if node_state[MONSTERS_DICTIONARY_FIELD][monster_id] == "crab_monster_small":
-			self.monsters_in_node.append(CRAB_MONSTER_SCENE.instantiate())
-		else:
-			self.monsters_in_node.append(SPIDER_MONSTER_SCENE.instantiate())
+		var actual_monster_id: String = node_state[MONSTERS_DICTIONARY_FIELD][monster_id]
+		var monster: GenericMonster = MonsterResourcesController.get_specific_monster(actual_monster_id)
+		if monster == null:
+			print("ERROR!!")
+			continue
+		var monster_scene: PackedScene = load(monster.scene_file_path)
+		self.monsters_in_node.append(monster_scene.instantiate())

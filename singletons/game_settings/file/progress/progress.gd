@@ -22,6 +22,8 @@ func _init() -> void:
 	world_state = WorldState.new()
 
 func update_player_position(current_world_node: WorldNode):
+	if not PlayerController.current_world_node:
+		PlayerController.current_world_node = current_world_node
 	PlayerController.current_world_node.hide_player()
 	File.progress.current_world_node_id = current_world_node.world_node_id
 	PlayerController.current_world_node = current_world_node

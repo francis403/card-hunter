@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://4nyonofwewd8"
-path="res://.godot/imported/tile_0122.png-e620201e37260282316caa0b67cef98d.ctex"
+uid="uid://y720kc3pkme0"
+path="res://.godot/imported/tile_0110.png-10057fd2e23116e57c99c05540658116.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://scenes/monsters/spider_monster/tile_0122.png"
-dest_files=["res://.godot/imported/tile_0122.png-e620201e37260282316caa0b67cef98d.ctex"]
+source_file="res://scenes/monsters/generic_monsters/crab_monster/tile_0110.png"
+dest_files=["res://.godot/imported/tile_0110.png-10057fd2e23116e57c99c05540658116.ctex"]
 
 [params]
 

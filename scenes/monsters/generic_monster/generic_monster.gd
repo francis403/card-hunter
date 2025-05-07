@@ -18,6 +18,10 @@ class_name GenericMonster
 @export var monster_texture: Texture2D
 @export var monster_config: MonsterConfig
 
+var my_scene: PackedScene = null
+
+
+
 func _ready() -> void:
 	super._ready()
 	if monster_texture and not sprite_2d.texture:
