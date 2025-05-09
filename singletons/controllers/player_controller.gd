@@ -17,7 +17,7 @@ var current_player_health: int = -1:
 
 ## Reference to the current world node the player is in.
 ## TODO: make sure this node is correctly updated
-var current_world_node: WorldNode
+var current_world_node: GenericWorldNode
 
 func _ready() -> void:
 	_load_save_data()

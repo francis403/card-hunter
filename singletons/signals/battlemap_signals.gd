@@ -57,12 +57,10 @@ signal monster_moved_by_player(new_tile: Tile)
 
 
 ## WorldMap Signals
-signal player_world_state_updated(world_node: WorldNode)
+signal player_world_state_updated(world_node: GenericWorldNode)
 signal hide_player_in_other_node(world_node_id: String)
-signal reveal_connected_nodes(world_node: WorldNode)
+signal reveal_connected_nodes(world_node: GenericWorldNode)
 signal reveal_node(world_node_id: String)
 signal node_finished_revealing(world_node_id: String)
 signal node_completed(world_node_id: String)
 signal world_updated
-# TODO: if we want some sort of fog of war
-signal generate_world_node_children(world_node: WorldNode)

@@ -4,7 +4,8 @@ extends Node2D
 ## TODO: Need to divide this class in two (world_generation / world loading)
 class_name WorldGeneratorManager
 
-const WORLD_NODE_SCENE = preload("res://scenes/game_objects/world/world_node/world_node.tscn")
+const WORLD_NODE_SCENE = preload("res://scenes/game_objects/world/monster_hunt_world_node/monster_hunt_world_node.tscn")
+const VILLAGE_NODE_SCENE = preload("res://scenes/game_objects/world/village_world_node/village_world_node.tscn")
 
 const RADIUS = 30
 
@@ -22,13 +23,13 @@ var total_number_of_nodes_generated: int = 0
 
 ## TODO: need to urgenlty improve this, this is not a smart way to check for node overllaping
 ## Used as a helper to make sure we have no nodes overllaping
-var _generated_nodes: Array[WorldNode] = []
+var _generated_nodes: Array[MonsterHuntWorldNode] = []
 var _min_position_difference: float = 20.0
 
 var _loaded_nodes: Array[String] = []
 
 ## an instance of the world's root node
-var village_node: WorldNode
+var village_node: VillageWorldNode
 
 func _init() -> void:
 	village_node = File.progress.village_node
@@ -65,7 +66,7 @@ func _generate_world():
 	village_node.reveal_connected_nodes()
 	_save_world_state()
 	
-func _draw_line_between_nodes(base_node: WorldNode, other_node: WorldNode):
+func _draw_line_between_nodes(base_node: GenericWorldNode, other_node: GenericWorldNode):
 	var angle: float = base_node.global_position.angle_to_point(other_node.global_position)
 	var offset: Vector2 = Vector2(-1 * RADIUS, 0)
 	draw_line(
@@ -75,8 +76,7 @@ func _draw_line_between_nodes(base_node: WorldNode, other_node: WorldNode):
 	)
 	
 func _generate_village():
-	village_node = WORLD_NODE_SCENE.instantiate()
-	village_node._world_node_type = WorldNode.WorldNodeTypeEnum.VILLAGE
+	village_node = VILLAGE_NODE_SCENE.instantiate()
 	village_node.world_node_id = Constants.VILLAGE_NODE_ID
 	village_node.is_showing_player_sprite = true
 	village_node.is_revealed = true
@@ -86,18 +86,18 @@ func _generate_village():
 	PlayerController.current_world_node = village_node
 
 func _generate_adjacent_nodes(
-	base_node: WorldNode,
+	base_node: GenericWorldNode,
 	number_of_children: int = self.maximum_number_of_child_nodes,
 	current_build_depth: int = 0
 ):
 	for i in range(base_node.connections.size(), number_of_children):
 		var generated_position: Vector2 = get_node_iteration_position(base_node, i)
-		var overllaping_node: WorldNode = get_overlapping_node(generated_position)
+		var overllaping_node: MonsterHuntWorldNode = get_overlapping_node(generated_position)
 		if overllaping_node:
 			base_node.connections.append(overllaping_node)
 			_draw_line_between_nodes(base_node, overllaping_node)
 			continue
-		var generated_node: WorldNode = _generate_monster_hunt_node(generated_position)
+		var generated_node: MonsterHuntWorldNode = _generate_monster_hunt_node(generated_position)
 		base_node.connections.append(generated_node)
 		world_node_container.add_child(generated_node)
 		_generated_nodes.append(generated_node)
@@ -110,8 +110,8 @@ func _generate_adjacent_nodes(
 				current_build_depth + 1
 			)
 
-func _generate_monster_hunt_node(global_position: Vector2) -> WorldNode:
-	var generated_node: WorldNode = WORLD_NODE_SCENE.instantiate()
+func _generate_monster_hunt_node(global_position: Vector2) -> MonsterHuntWorldNode:
+	var generated_node: MonsterHuntWorldNode = WORLD_NODE_SCENE.instantiate().duplicate()
 	generated_node.global_position = global_position
 	generated_node.world_node_id = str(total_number_of_nodes_generated)
 	generated_node.monsters_in_node.append_array(_generate_random_monsters())
@@ -133,8 +133,8 @@ func _generate_random_monsters(max_number: int = 1) -> Array[GenericMonster]:
 	
 
 ## Get the first overlapping node
-func get_overlapping_node(world_node_global_position: Vector2) -> WorldNode:
-	var overlapping_nodes: Array[WorldNode] = []
+func get_overlapping_node(world_node_global_position: Vector2) -> MonsterHuntWorldNode:
+	var overlapping_nodes: Array[MonsterHuntWorldNode] = []
 	for generated_node in _generated_nodes:
 		if world_node_global_position.distance_to(generated_node.global_position) < _min_position_difference:
 			return generated_node
@@ -146,12 +146,10 @@ func _load_world():
 	BattlemapSignals.hide_player_in_other_node.emit(File.progress.current_world_node_id)
 
 func _load_village():
-	print(_load_village)
 	village_node = File.progress.village_node
 	_initiate_world(village_node)
-	print("after")
 
-func _initiate_world(base_node: WorldNode):
+func _initiate_world(base_node: GenericWorldNode):
 	## TODO: need to improve this
 	if _loaded_nodes.has(base_node.world_node_id):
 		return
@@ -163,7 +161,7 @@ func _initiate_world(base_node: WorldNode):
 		_initiate_world(child)
 		_draw_line_between_nodes(base_node, child)
 	
-func get_node_iteration_position(center_node: WorldNode, iteration: int) -> Vector2:
+func get_node_iteration_position(center_node: GenericWorldNode, iteration: int) -> Vector2:
 	var partition: float =  (float(iteration + 1)/ maximum_number_of_child_nodes)
 	var angle: float = partition * TAU
 	var position_offset: Vector2 = Vector2(seperation, 0).rotated(angle)

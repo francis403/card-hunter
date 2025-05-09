@@ -2,42 +2,25 @@ extends Node2D
 
 ## TODO: need to simplify this code\
 ## Represents a location in the world
-class_name WorldNode
+class_name GenericWorldNode
 
-const REVEALED_NODE_SPRITE = preload("res://assets/images/nodes/revealed_node.png")
-const VILAGE_NODE_SPRITE = preload("res://assets/images/nodes/vilage_node.png")
-const QUESTION_MARK_NODE_TRANSPARENT_SPRITE = preload("res://assets/images/nodes/question_mark_node-transparent.png")
 const EVENT_NODE_ICON_SPRITE = preload("res://assets/images/nodes/event_node_icon.png")
-const WORLD_NODE_SCENE = preload("res://scenes/game_objects/world/world_node/world_node.tscn")
-const BATTLE_GENERIC_SCENE = preload("res://scenes/battle_scenes/battle_generic_scene/battle_generic_scene.tscn")
 
 const ID_DICTIONARY_FIELD: String = "id"
 const IS_REVEALED_DICTIONARY_FIELD: String = "is_revealed"
 const IS_REACHABLE_DICTIONARY_FIELD: String = "is_reachable"
 const IS_SHOWING_PLAYER_SPRITE_DICTIONARY_FIELD: String = "is_showing_player_sprite"
 const WORLD_NODE_TYPE_DICTIONARY_FIELD: String = "world_node_type"
+const NODE_SCENE_PATH_DICTIONARY_FIELD: String = "node_scene"
 const POSITION_DICTIONARY_FIELD: String = "position"
 const CONNECTIONS_DICTIONARY_FIELD: String = "connections"
-const MONSTERS_DICTIONARY_FIELD: String = "monsters"
-
-enum WorldNodeTypeEnum {
-	VILLAGE,
-	UNKNOWN,
-	EVENT,
-	TREASURE,
-	REVEALED
-}
 
 @onready var world_node_sprite: Sprite2D = $worldNodeSprite
 @onready var player_texture_rect: TextureRect = $HBoxContainer/PlayerTextureRect
 @onready var monster_texture_rect: TextureRect = $HBoxContainer/MonsterTextureRect
 @onready var area_2d: Area2D = $Area2D
 
-@export var _world_node_type: WorldNodeTypeEnum = WorldNodeTypeEnum.UNKNOWN
-@export var connections: Array[WorldNode] = []
-
-@export_category("Monsters in node")
-@export var monsters_in_node: Array[GenericMonster] = []
+@export var connections: Array[GenericWorldNode] = []
 
 ## TODO: A world node might have a monster, an event, or a treasure
 
@@ -53,11 +36,29 @@ var is_revealed: bool = false
 var is_reachable: bool = false
 var is_loaded: bool = false
 
+## This needs to be overwritten by every children
+var my_node_scene: PackedScene = null
+var my_node_scene_path: String = ""
+
+func _init() -> void:
+	set_world_scene()
+	my_node_scene = load(my_node_scene_path)
+
 func _ready() -> void:
 	BattlemapSignals.hide_player_in_other_node.connect(_on_hide_player_in_other_node_signal)
 	_prepare_world_node()
+	after_node_is_ready()
 	
 
+func _prepare_world_node():
+	_prepare_world_node_sprite()
+	if self.is_revealed:
+		reveal_node_effect()
+
+func _prepare_world_node_sprite():
+	if File.progress.current_world_node_id == world_node_id:
+		show_player()
+	
 func _on_hide_player_in_other_node_signal(node_id: String):
 	if world_node_id != node_id:
 		hide_player()
@@ -67,25 +68,32 @@ func reveal_connected_nodes():
 		node.reveal_node()
 	BattlemapSignals.world_updated.emit()
 
-func clear_monsters():
-	self.monster_texture_rect.visible = false
-	self.monsters_in_node.clear()
+## Function to be overwritten by the different types of nodes
+func reveal_node_effect():
+	pass
+	
+## Function to be overwritten that defines what happens when a node is clicked
+func on_node_click_event():
+	pass
+	
+## Function that has to be overwritten
+func set_world_scene():
+	my_node_scene_path = "res://scenes/game_objects/world/generic_world_node/generic_world_node.tscn"
+	
+## Function that has to be overwritten
+## occurres at the end of the Ready Function
+func after_node_is_ready():
+	pass
 
-func _prepare_world_node_sprite():
-	if _world_node_type == WorldNodeTypeEnum.VILLAGE:
-		world_node_sprite.texture = VILAGE_NODE_SPRITE
-	elif _world_node_type == WorldNodeTypeEnum.REVEALED:
-		world_node_sprite.texture = REVEALED_NODE_SPRITE
-	elif _world_node_type == WorldNodeTypeEnum.EVENT:
-		world_node_sprite.texture = EVENT_NODE_ICON_SPRITE
-		
-	if File.progress.current_world_node_id == world_node_id:
-		show_player()
+## Function that can be overwritten
+## Checks if the node can be clicked
+func _is_click_event_processable() -> bool:
+	return false
 
-func _prepare_world_node():
-	_prepare_world_node_sprite()
-	if self.is_revealed:
-		show_monster()
+## Function that can be overwritten
+## Occurs after the world node is completed
+func after_world_node_completed_successfully():
+	pass
 
 func _on_area_2d_input_event(viewport: Node, event: InputEvent, shape_idx: int) -> void:
 	if event.is_pressed():
@@ -96,13 +104,8 @@ func _process_on_world_node_click():
 	if not self.is_reachable:
 		return
 	
-	if self.is_showing_player_sprite && _has_quest():
-		if !GameController.is_showing_battle_scene:
-			print(_process_on_world_node_click, " id = ", world_node_id)
-			var battle_scene: BattleGenericScene = generate_battle_scene()
-			get_tree().root.add_child(battle_scene)
-		else:
-			print("Error, investigate!")
+	if self.is_showing_player_sprite:
+		on_node_click_event()
 	
 	self.show_player()
 	
@@ -110,20 +113,6 @@ func _process_on_world_node_click():
 	
 	## Tell the game to save 
 	BattlemapSignals.player_world_state_updated.emit(self)
-	#BattlemapSignals.hide_player_in_other_node.emit(world_node_id)
-	
-func generate_battle_scene() -> BattleGenericScene:
-	var battle_scene: BattleGenericScene = BATTLE_GENERIC_SCENE.instantiate()
-	battle_scene.monsters.clear()
-	battle_scene.set_world_node(self)
-	#battle_scene.player._health = PlayerController.current_player_health
-	for monster in monsters_in_node:
-		battle_scene.monsters.append(monster)
-	return battle_scene
-
-## TODO: add the ability for more than just battling mosnters
-func _has_quest():
-	return monsters_in_node.size() > 0
 	
 func hide_player():
 	is_showing_player_sprite = false
@@ -133,60 +122,54 @@ func hide_player():
 func show_player():
 	is_showing_player_sprite = true
 	player_texture_rect.visible = true
-	
-## TODO: show monster that is there
-func show_monster():
-	if monsters_in_node.size() > 0:
-		monster_texture_rect.texture = monsters_in_node[0].get_texture()
-		monster_texture_rect.visible = true
 
+## TODO: for some reason a random node is not being revealed
+## This seems to be happening for world_node id 2 
+## it only seems to happen after I load the game, I'm probably setting a wrong setting or something
 func reveal_node():
-	if is_revealed:
+	print(reveal_node, ": ", self.world_node_id)
+	if self.is_revealed:
 		return
-	is_revealed = true
-	mark_reachable()
+	
+	## TODO: debug issue
+	if self.world_node_id == "2":
+		print("Start of the bug")
+	self.is_revealed = true
+	_mark_reachable()
 	var tween = create_tween()
 	tween.tween_property(self, "modulate:a", 0.0, 1.0)
 	await tween.finished
 	tween = create_tween()
-	mark_revealed()
-	show_monster()
+	reveal_node_effect()
 	tween.tween_property(self, "modulate:a", 1.0, 1.0).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_QUAD)
 	BattlemapSignals.node_finished_revealing.emit(self.world_node_id)
 
-func mark_reachable():
+func _mark_reachable():
 	self.is_reachable = true
-
-func mark_revealed():
-	world_node_sprite.texture = REVEALED_NODE_SPRITE
-	_world_node_type = WorldNodeTypeEnum.REVEALED
 	
-func duplicate_node(instantite_node_copy: bool = false) -> WorldNode:
-	var node_copy: WorldNode = null
+func duplicate_node(instantite_node_copy: bool = false) -> GenericWorldNode:
+	var node_copy: GenericWorldNode = null
 	if instantite_node_copy:
-		node_copy = WORLD_NODE_SCENE.instantiate()
+		node_copy = my_node_scene.instantiate()
 	else:
-		node_copy = WorldNode.new()
+		node_copy = GenericWorldNode.new()
 	self.copy_properties_into_node(node_copy)
 	for child in self.connections:
 		node_copy.connections.append(child.duplicate_node(instantite_node_copy))
 	return node_copy
 
-func copy_into_node(node: WorldNode, instantiate_node: bool = false) -> void:
+func copy_into_node(node: GenericWorldNode, instantiate_node: bool = false) -> void:
 	self.copy_properties_into_node(node)
 	node.connections.clear()
 	for child in self.connections:
 		node.connections.append(child.duplicate_node(instantiate_node))
 
-func copy_properties_into_node(node: WorldNode):
+func copy_properties_into_node(node: GenericWorldNode):
 	node.world_node_id = self.world_node_id
 	node.position = self.position
 	node.is_revealed = self.is_revealed
 	node.is_reachable = self.is_reachable
 	node.is_showing_player_sprite = self.is_showing_player_sprite
-	node._world_node_type = self._world_node_type
-	for child_monster in self.monsters_in_node:
-		node.monsters_in_node.append(child_monster)
 
 func convert_node_to_dictionary() -> Dictionary:
 	var result: Dictionary = {}
@@ -195,15 +178,8 @@ func convert_node_to_dictionary() -> Dictionary:
 	result[IS_REACHABLE_DICTIONARY_FIELD] = self.is_reachable
 	result[IS_SHOWING_PLAYER_SPRITE_DICTIONARY_FIELD] = self.is_showing_player_sprite
 	result[POSITION_DICTIONARY_FIELD] = self.position
-	result[WORLD_NODE_TYPE_DICTIONARY_FIELD] = self._world_node_type
+	result[NODE_SCENE_PATH_DICTIONARY_FIELD] = self.my_node_scene_path
 	result[CONNECTIONS_DICTIONARY_FIELD] = {}
-	result[MONSTERS_DICTIONARY_FIELD] = {}
-	var i: int = 0
-	for child_monster in self.monsters_in_node:
-		if not child_monster:
-			continue
-		result[MONSTERS_DICTIONARY_FIELD][i] = child_monster.monster_id
-		i += 1
 	return result
 	
 func load_node_from_dictionary(node_state: Dictionary):
@@ -213,14 +189,6 @@ func load_node_from_dictionary(node_state: Dictionary):
 	self.is_showing_player_sprite = node_state[IS_SHOWING_PLAYER_SPRITE_DICTIONARY_FIELD]
 	if self.is_showing_player_sprite:
 		PlayerController.current_world_node = self
-	self._world_node_type = node_state[WORLD_NODE_TYPE_DICTIONARY_FIELD] 
+	self.my_node_scene_path = node_state[NODE_SCENE_PATH_DICTIONARY_FIELD]
+	self.my_node_scene = load(my_node_scene_path)
 	self.position = node_state[POSITION_DICTIONARY_FIELD] 
-	self.monsters_in_node = []
-	for monster_id in node_state[MONSTERS_DICTIONARY_FIELD].keys():
-		var actual_monster_id: String = node_state[MONSTERS_DICTIONARY_FIELD][monster_id]
-		var monster: GenericMonster = MonsterResourcesController.get_specific_monster(actual_monster_id)
-		if monster == null:
-			print("ERROR!!")
-			continue
-		var monster_scene: PackedScene = load(monster.scene_file_path)
-		self.monsters_in_node.append(monster_scene.instantiate())

@@ -11,7 +11,7 @@ func _ready() -> void:
 	BattlemapSignals.node_finished_revealing.connect(_on_node_finished_revealing_signal)
 	print(_ready)
 
-func _on_reveal_connected_nodes_signal(world_node: WorldNode):
+func _on_reveal_connected_nodes_signal(world_node: GenericWorldNode):
 	for node in world_node.connections:
 		BattlemapSignals.reveal_node.emit(node.world_node_id)
 		_nodes_left_to_reveal += 1

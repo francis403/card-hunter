@@ -1,0 +1,44 @@
+[gd_scene load_steps=6 format=3 uid="uid://djh35o5nfx5et"]
+
+[ext_resource type="Script" path="res://scenes/game_objects/world/monster_hunt_world_node/monster_hunt_world_node.gd" id="1_tqmkw"]
+[ext_resource type="Texture2D" uid="uid://dxu3uud8jtakw" path="res://assets/images/nodes/question_mark_node-transparent.png" id="2_hut4g"]
+[ext_resource type="Texture2D" uid="uid://dsctmiux3yqib" path="res://scenes/player/tile_0112.png" id="3_seasa"]
+[ext_resource type="Texture2D" uid="uid://y720kc3pkme0" path="res://scenes/monsters/generic_monsters/crab_monster/tile_0110.png" id="4_6qbie"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_jgbhb"]
+radius = 32.0
+
+[node name="GenericWorldNode" type="Node2D"]
+script = ExtResource("1_tqmkw")
+
+[node name="worldNodeSprite" type="Sprite2D" parent="."]
+texture = ExtResource("2_hut4g")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 4
+
+[node name="PlayerTextureRect" type="TextureRect" parent="HBoxContainer"]
+visible = false
+layout_mode = 2
+texture = ExtResource("3_seasa")
+stretch_mode = 2
+
+[node name="MonsterTextureRect" type="TextureRect" parent="HBoxContainer"]
+visible = false
+layout_mode = 2
+texture = ExtResource("4_6qbie")
+stretch_mode = 2
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_jgbhb")
+
+[connection signal="input_event" from="Area2D" to="." method="_on_area_2d_input_event"]

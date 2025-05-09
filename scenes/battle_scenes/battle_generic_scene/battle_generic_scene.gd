@@ -23,7 +23,7 @@ var is_player_turn: bool = true
 var awaiting_player_input: bool = false
 var _number_of_monsters_defeated: int = 0
 
-var _world_node: WorldNode = null
+var _world_node: GenericWorldNode = null
 
 func _init() -> void:
 	GameController.is_showing_battle_scene = true
@@ -85,7 +85,7 @@ func _on_show_draw_pile_deck_signal():
 	deck_visualizer_instance.deck = player.draw_pile
 	ui_nodes.add_child(deck_visualizer_instance)
 	
-func set_world_node(world_node: WorldNode):
+func set_world_node(world_node: GenericWorldNode):
 	self._world_node = world_node
 	
 func _on_show_discard_pile_deck_signal():
@@ -117,7 +117,7 @@ func _on_battle_won_signal():
 	if _world_node:
 		#BattlemapSignals.reveal_connected_nodes.emit(_world_node)
 		_world_node.reveal_connected_nodes()
-		_world_node.clear_monsters()
+		_world_node.after_world_node_completed_successfully()
 	
 	game_over_screen.prep_win_screen()
 	_show_game_over_screen()
