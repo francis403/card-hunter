@@ -123,17 +123,9 @@ func show_player():
 	is_showing_player_sprite = true
 	player_texture_rect.visible = true
 
-## TODO: for some reason a random node is not being revealed
-## This seems to be happening for world_node id 2 
-## it only seems to happen after I load the game, I'm probably setting a wrong setting or something
 func reveal_node():
-	print(reveal_node, ": ", self.world_node_id)
 	if self.is_revealed:
 		return
-	
-	## TODO: debug issue
-	if self.world_node_id == "2":
-		print("Start of the bug")
 	self.is_revealed = true
 	_mark_reachable()
 	var tween = create_tween()

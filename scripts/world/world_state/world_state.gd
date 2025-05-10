@@ -11,6 +11,9 @@ var _world_state: Dictionary = {
 	"world": {}
 }
 
+## Quick access to all world_node references
+var nodes_in_world: Dictionary = {}
+
 func to_dictionary() -> Dictionary:
 	return _world_state
 
@@ -27,7 +30,6 @@ func _append_to_state(state: Dictionary, node: GenericWorldNode):
 			child
 		)
 
-## TODO: need to find a way to convert from generic node to the specific world node
 func convert_world_state_to_node() -> GenericWorldNode:
 	var result: GenericWorldNode = _get_node_from_state(
 		_world_state[WORLD_DICTIONARY_FIELD],
@@ -36,11 +38,16 @@ func convert_world_state_to_node() -> GenericWorldNode:
 	
 	return result
 
-func _get_node_from_state(state: Dictionary, id: String) -> GenericWorldNode:
-	#var result: GenericWorldNode = WORLD_NODE_SCENE.instantiate()
+func _get_node_from_state(
+	state: Dictionary,
+	id: String
+) -> GenericWorldNode:
 	var world_node_scene_path: String = state[id][GenericWorldNode.NODE_SCENE_PATH_DICTIONARY_FIELD]
-	var result = load(world_node_scene_path).instantiate().duplicate()
+	if nodes_in_world.has(id):
+		return nodes_in_world[id]
+	var result = load(world_node_scene_path).instantiate()
 	result.load_node_from_dictionary(state[id])
+	nodes_in_world[id] = result
 	for connection_id in state[id][GenericWorldNode.CONNECTIONS_DICTIONARY_FIELD].keys():
 		result.connections.append(
 			_get_node_from_state(
