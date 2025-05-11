@@ -38,7 +38,7 @@ func do_movement():
 		next_turn_move_tile
 	)
 	
-	self.changed_state.emit(self, "MoveSpeedToPlayerAndDoRadiusAttack")
+	self.check_and_apply_state_change_action()
 	
 func do_attack():
 	do_preview_action()

@@ -32,9 +32,7 @@ func do_state_action():
 	
 	self.do_attack()
 	
-	var half_hp_monster: float = float (monster._max_hp) / 2
-	if half_hp_monster > monster._health:
-		self.changed_state.emit(self, change_state)
+	self.check_and_apply_state_change_action()
 
 func do_preview_action(recalculate_move: bool = false):
 	self.preview_monster_attack_behaviour(recalculate_move)

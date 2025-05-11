@@ -16,6 +16,8 @@ func _input(event: InputEvent) -> void:
 		BattlemapSignals.canceled_player_input.emit()
 
 func get_player() -> PlayerPiece:
+	if not battlemap:
+		return null
 	return battlemap.player
 	
 func get_monster() -> MonsterPiece:
