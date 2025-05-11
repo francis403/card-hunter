@@ -26,7 +26,6 @@ func _on_battle_start_signal():
 
 func do_state_action():
 	super.do_state_action()
-	print(do_state_action)
 	
 	BattlemapSignals.clear_attack_highlight_tiles.emit()
 
@@ -38,15 +37,9 @@ func do_state_action():
 		)
 
 	## if we are in range do something else
-	var distance_to_player = MovementUtils.distance_between_tiles(
-		monster.next_move if monster.next_move else monster._tile,
-		target._tile
-	)
-	if distance_to_player <= self.maximum_distance_to_player:
-		BattlemapSignals.clear_attack_highlight_tiles.emit()
-		self.changed_state.emit(self, "ShootSpiderWebsIfWithinRangeState")
+	var is_state_changed: bool = self.check_and_apply_state_change_action()
+	if is_state_changed:
 		return
-
 	## get next target_tile and highlight
 	target_tile = await _get_next_random_tile()
 	highlight_tile(target_tile)

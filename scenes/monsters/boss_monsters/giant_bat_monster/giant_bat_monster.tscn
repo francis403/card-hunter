@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://b7euo8lhu61np"]
+[gd_scene load_steps=20 format=3 uid="uid://b7euo8lhu61np"]
 
 [ext_resource type="PackedScene" uid="uid://b77dqwv8b42lt" path="res://scenes/monsters/generic_monster/generic_monster.tscn" id="1_40ijh"]
 [ext_resource type="Script" path="res://scenes/monsters/boss_monsters/giant_bat_monster/giant_bat_monster.gd" id="2_ufmgn"]
@@ -12,6 +12,8 @@
 [ext_resource type="PackedScene" uid="uid://xrdhr3l1djpf" path="res://scenes/game_objects/states/move_speed_to_player_and_do_attack/move_speed_to_player_and_do_attack.tscn" id="8_8fv03"]
 [ext_resource type="PackedScene" uid="uid://cr61b4kmh0w3u" path="res://scenes/game_objects/states/fly_away_state/fly_away_state.tscn" id="9_4qrvu"]
 [ext_resource type="Texture2D" uid="uid://dt0pn34ommgfx" path="res://assets/images/icons/monster_icons/behaviour_icons/melee_claw_behaviour.png" id="9_y3ror"]
+[ext_resource type="Script" path="res://resources/monster/state/state_change_condition/state_change_condition.gd" id="10_fobs6"]
+[ext_resource type="Script" path="res://resources/monster/state/state_condition/state_condition.gd" id="11_ia0wh"]
 [ext_resource type="PackedScene" uid="uid://bm3s6jrsg6gan" path="res://scenes/game_objects/states/charge_state/charge_state.tscn" id="11_mp3qu"]
 
 [sub_resource type="Resource" id="Resource_gkbj6"]
@@ -21,6 +23,18 @@ immune_list = Array[String](["bloodied_status_effect"])
 [sub_resource type="Resource" id="Resource_g6vab"]
 script = ExtResource("5_kpdkg")
 monster_immunity_config = SubResource("Resource_gkbj6")
+
+[sub_resource type="Resource" id="Resource_7nvag"]
+script = ExtResource("11_ia0wh")
+state_condition = 1
+logical_operation = 4
+x = 3
+
+[sub_resource type="Resource" id="Resource_ojp2u"]
+resource_name = "InChargeRange"
+script = ExtResource("10_fobs6")
+conditions = Array[ExtResource("11_ia0wh")]([SubResource("Resource_7nvag")])
+state_name = "ChargeState"
 
 [node name="GiantBatMonster" instance=ExtResource("1_40ijh")]
 scale = Vector2(10, 10)
@@ -50,6 +64,7 @@ out_of_range_state = ""
 min_distance_to_player = 3
 close_range_state = "ChargeState"
 player_hit_state = "ChargeState"
+state_change_conditions = Array[ExtResource("10_fobs6")]([SubResource("Resource_ojp2u")])
 
 [node name="MoveSpeedToPlayerAndDoAttack" parent="StateMachine" index="1" instance=ExtResource("8_8fv03")]
 state_if_outside_range = "ShootBloodIfWithinRangeState"

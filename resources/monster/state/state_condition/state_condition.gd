@@ -47,7 +47,6 @@ func distance_to_player_comparison(
 		monster._tile, 
 		player._tile
 	)
-		
 	return logical_operation_comparison(distance_to_player)
 	
 func monster_health_comparison(

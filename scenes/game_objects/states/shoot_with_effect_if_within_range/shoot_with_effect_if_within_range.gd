@@ -46,20 +46,24 @@ func do_state_action():
 			return
 	## Oherwise, if player is not hit calculete the next target tile and behaviour
 	# if we are in range do something else
-	var distance_to_player = MovementUtils.distance_between_tiles(
-		monster.next_move if monster.next_move else monster._tile,
-		target._tile
-	)
-	if distance_to_player > self.maximum_distance_to_player && out_of_range_state:
+	#var distance_to_player = MovementUtils.distance_between_tiles(
+		#monster.next_move if monster.next_move else monster._tile,
+		#target._tile
+	#)
+	#if distance_to_player > self.maximum_distance_to_player && out_of_range_state:
+		#BattlemapSignals.clear_attack_highlight_tiles.emit()
+		#self.changed_state.emit(self, out_of_range_state)
+		#return
+#
+	#if distance_to_player <= self.min_distance_to_player:
+		#BattlemapSignals.clear_attack_highlight_tiles.emit()
+		#if close_range_state != "":
+			#self.changed_state.emit(self, close_range_state)
+			#return
+	var is_state_changed: bool = self.check_and_apply_state_change_action()
+	if is_state_changed:
 		BattlemapSignals.clear_attack_highlight_tiles.emit()
-		self.changed_state.emit(self, out_of_range_state)
 		return
-
-	if distance_to_player <= self.min_distance_to_player:
-		BattlemapSignals.clear_attack_highlight_tiles.emit()
-		if close_range_state != "":
-			self.changed_state.emit(self, close_range_state)
-			return
 
 	target_tile = BattleController.get_player()._tile
 	highlight_tile(target_tile)

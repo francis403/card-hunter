@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://w530cnkei473"]
+[gd_scene load_steps=25 format=3 uid="uid://w530cnkei473"]
 
 [ext_resource type="PackedScene" uid="uid://b77dqwv8b42lt" path="res://scenes/monsters/generic_monster/generic_monster.tscn" id="1_ayxpp"]
 [ext_resource type="Script" path="res://scenes/monsters/generic_monsters/spider_monster/spider_monster.gd" id="2_bi3n2"]
@@ -13,6 +13,9 @@
 [ext_resource type="Resource" uid="uid://c4jdxyuh3hqwd" path="res://resources/card/card_resources/place_spiderweb_trap.tres" id="7_6bfs8"]
 [ext_resource type="Resource" uid="uid://gf0hhocv78vs" path="res://resources/card/card_resources/dash_card.tres" id="8_okrld"]
 [ext_resource type="Texture2D" uid="uid://btbd3n1d3jqn6" path="res://scenes/game_objects/battlemap/tile_effects/spiderweb/spider-web-png-34733.png" id="10_rf0dk"]
+[ext_resource type="Resource" uid="uid://cdfg8pprgsw28" path="res://resources/monster/state/state_condition/conditions/player_in_range_3.tres" id="13_4dkmf"]
+[ext_resource type="Script" path="res://resources/monster/state/state_change_condition/state_change_condition.gd" id="13_hcas0"]
+[ext_resource type="Script" path="res://resources/monster/state/state_condition/state_condition.gd" id="14_pe6an"]
 
 [sub_resource type="Resource" id="Resource_mva3q"]
 script = ExtResource("4_axrlo")
@@ -27,6 +30,36 @@ _min_number_boss_fights = 0
 script = ExtResource("5_odyso")
 monster_immunity_config = SubResource("Resource_mva3q")
 monster_spawn_config = SubResource("Resource_go8gw")
+
+[sub_resource type="Resource" id="Resource_67v8e"]
+resource_name = "Player In Range 3"
+script = ExtResource("13_hcas0")
+conditions = Array[ExtResource("14_pe6an")]([ExtResource("13_4dkmf")])
+state_name = "ShootSpiderWebsIfWithinRangeState"
+
+[sub_resource type="Resource" id="Resource_3uyqa"]
+script = ExtResource("14_pe6an")
+state_condition = 1
+logical_operation = 1
+x = 3
+
+[sub_resource type="Resource" id="Resource_gy6h8"]
+resource_name = "Out of Range"
+script = ExtResource("13_hcas0")
+conditions = Array[ExtResource("14_pe6an")]([SubResource("Resource_3uyqa")])
+state_name = "CreateSpiderWebsIfOutOfRange"
+
+[sub_resource type="Resource" id="Resource_ieal3"]
+script = ExtResource("14_pe6an")
+state_condition = 1
+logical_operation = 4
+x = 1
+
+[sub_resource type="Resource" id="Resource_cqel2"]
+resource_name = "In Melee Range"
+script = ExtResource("13_hcas0")
+conditions = Array[ExtResource("14_pe6an")]([SubResource("Resource_ieal3")])
+state_name = "MoveAndSingleAttackState"
 
 [node name="SpiderMonster" instance=ExtResource("1_ayxpp")]
 script = ExtResource("2_bi3n2")
@@ -45,10 +78,12 @@ initial_state = NodePath("CreateSpiderWebsIfOutOfRange")
 
 [node name="CreateSpiderWebsIfOutOfRange" parent="StateMachine" index="0" instance=ExtResource("6_njwvq")]
 maximum_distance_to_player = 3
+state_change_conditions = Array[ExtResource("13_hcas0")]([SubResource("Resource_67v8e")])
 state_icon = ExtResource("10_rf0dk")
 
 [node name="ShootSpiderWebsIfWithinRangeState" parent="StateMachine" index="1" instance=ExtResource("6_15hyu")]
 maximum_distance_to_player = 2
+state_change_conditions = Array[ExtResource("13_hcas0")]([SubResource("Resource_gy6h8"), SubResource("Resource_cqel2")])
 
 [node name="MoveAndSingleAttackState" parent="StateMachine" index="2" instance=ExtResource("6_glkbu")]
 state_if_higher_than_max_range = "ShootSpiderWebsIfWithinRangeState"
