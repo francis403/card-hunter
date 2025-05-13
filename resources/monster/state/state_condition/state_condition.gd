@@ -44,7 +44,7 @@ func distance_to_player_comparison(
 	if not player:
 		return false
 	var distance_to_player: int = MovementUtils.distance_between_tiles(
-		monster._tile, 
+		monster.next_move if monster.next_move else monster._tile,
 		player._tile
 	)
 	return logical_operation_comparison(distance_to_player)
