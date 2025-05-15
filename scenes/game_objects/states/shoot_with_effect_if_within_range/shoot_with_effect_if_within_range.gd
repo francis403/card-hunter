@@ -28,7 +28,7 @@ func enter_state():
 
 func do_state_action():
 	super.do_state_action()
-	
+	print(do_state_action)
 	BattlemapSignals.clear_attack_highlight_tiles.emit()
 	
 	BattlemapSignals.add_effect_type_to_tile.emit(
@@ -41,6 +41,7 @@ func do_state_action():
 	
 	## If player is hit, and we want to do something when player is hit
 	if is_player_hit && player_hit_state:
+		print("is_player_hit && player_hit_state")
 		if close_range_state != "":
 			self.changed_state.emit(self, close_range_state)
 			return
