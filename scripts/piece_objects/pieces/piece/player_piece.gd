@@ -9,10 +9,10 @@ class_name PlayerPiece
 var current_card_in_hand_size: int = 0
 
 ## TODO: Need to convert all of this into PlayerDeck
-var draw_pile: Array[CardResource] = []
-var discard_pile: Array[CardResource] = []
-var cards_in_hand: Array[CardResource] = []
-var _deck: Array[CardResource] = []
+var draw_pile: Array[CardResourceV2] = []
+var discard_pile: Array[CardResourceV2] = []
+var cards_in_hand: Array[CardResourceV2] = []
+var _deck: Array[CardResourceV2] = []
 
 func _ready() -> void:
 	BattleSignals.battle_start.connect(_on_battle_start_signal)

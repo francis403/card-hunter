@@ -1,4 +1,6 @@
 extends StatusEffect
+
+## TODO: we should be able to represent this via resource
 class_name StopNextMovements
 
 @export var number_of_movements_to_stop: int = 1

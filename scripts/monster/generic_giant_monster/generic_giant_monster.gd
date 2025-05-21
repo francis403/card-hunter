@@ -1,7 +1,6 @@
 extends GenericMonster
 
 ## A giant monster, which is in more than one tile
-## TODO: when the monster moves I need to update the occupying_tiles
 class_name GenericGiantMonster
 
 enum GiantMonsterSorroundingTiles {

@@ -20,6 +20,7 @@ func _on_play_card_sound_signal(audio_stream: AudioStream):
 	audio_stream_player.stream = audio_stream
 	audio_stream_player.play()
 	
+## TODO: We want to Modify this so we are adding a BasePowerEffectNode
 func add_status(status: StatusEffect):
 	status_effect_container.add_status(status, self)
 

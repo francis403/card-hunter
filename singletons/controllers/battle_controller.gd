@@ -21,6 +21,8 @@ func get_player() -> PlayerPiece:
 	return battlemap.player
 	
 func get_monster() -> MonsterPiece:
+	if not battlemap or not battlemap.monsters or battlemap.monsters.is_empty():
+		return null
 	return battlemap.monsters[0]
 
 func get_tile(x: int, y: int) -> Tile:

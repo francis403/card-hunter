@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="StatusModifierTriggerEffectEventResource" load_steps=5 format=3 uid="uid://do80lwea2knh2"]
+
+[ext_resource type="PackedScene" uid="uid://b10tsdd4yth4m" path="res://scenes/resource_controllers/battle_entities/trigger_effect_event/trigger_effect_events/status_modifier_trigger_effect/status_modifier_trigger_effect.tscn" id="1_4yl3a"]
+[ext_resource type="Script" path="res://resources/battle_entities/trigger_effect_event/trigger_effect_event_subtypes/status_modifier_trigger_effect_event_resource/status_modifier_trigger_effect_event_resource.gd" id="2_vcmar"]
+[ext_resource type="Script" path="res://resources/configuration/effect_configs/status_modifier_config/status_modifier_config.gd" id="3_alda5"]
+
+[sub_resource type="Resource" id="Resource_7tnc5"]
+script = ExtResource("3_alda5")
+stat = 6
+operation = 2
+value = 2.0
+
+[resource]
+script = ExtResource("2_vcmar")
+status_modifier_config = SubResource("Resource_7tnc5")
+id = "double_strength_on_init"
+effect_trigger = 0
+effect_controller = ExtResource("1_4yl3a")

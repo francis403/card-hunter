@@ -1,0 +1,4 @@
+extends TriggerEffectEventResource
+class_name StatusModifierTriggerEffectEventResource
+
+@export var status_modifier_config: StatusModifierConfig

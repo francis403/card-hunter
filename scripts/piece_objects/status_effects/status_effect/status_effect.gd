@@ -1,4 +1,7 @@
 extends Node
+
+## TODO: Modify this so it uses the PowerEffect resource instead
+## This StatusEffect seems to be the BasePowerEffectCOntroller
 class_name StatusEffect
 
 @export var id: String = ""
