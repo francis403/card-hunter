@@ -25,6 +25,7 @@ func _init_monsters_in_game_dictionary():
 	#_init_boss_monsters_in_game()
 	
 func _init_generic_monsters_in_game():
+	print(_init_generic_monsters_in_game, ": loading monsters...")
 	var _generic_monster_dictionary: Dictionary = _monsters_in_game_dictionary[_GENERIC_MONSTER_DICTIONARY_FIELD]
 	var generic_monsters_file_path_list: Array[String] = get_all_scene_file_paths(_generic_monsters_folder_path)
 	
@@ -33,6 +34,7 @@ func _init_generic_monsters_in_game():
 		if not _generic_monster_dictionary.has(monster.monster_id):
 			_generic_monster_dictionary[monster.monster_id] = monster
 			_generic_monsters_list.append(monster)
+	print(_init_generic_monsters_in_game, ": finished loading monsters! Loaded ", _generic_monsters_list.size(), " monsters")
 
 func _init_boss_monsters_in_game():
 	var monster_dictionary: Dictionary = _monsters_in_game_dictionary[_BOSS_MONSTER_DICTIONARY_FIELD]

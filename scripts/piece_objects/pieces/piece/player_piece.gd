@@ -35,11 +35,11 @@ func set_deck(player_deck: PlayerDeck ):
 	_deck = player_deck._deck
 	
 # We might have some special deck abilities
-func shuffle_deck(deck: Array[CardResource]):
+func shuffle_deck(deck: Array[CardResourceV2]):
 	deck.shuffle()
 	
-func draw_til_hand_size() -> Array[CardResource]:
-	var new_cards_added: Array[CardResource] = []
+func draw_til_hand_size() -> Array[CardResourceV2]:
+	var new_cards_added: Array[CardResourceV2] = []
 	var start_size: int = cards_in_hand.size()
 	for n in range(start_size, hand_size):
 		var drawn_card = draw_card()
@@ -49,14 +49,14 @@ func draw_til_hand_size() -> Array[CardResource]:
 	return new_cards_added
 		
 ## TODO: I guess if I had to add a draw animation it would be from here
-func draw_card() -> CardResource:
+func draw_card() -> CardResourceV2:
 	if draw_pile.size() <= 0:
 		# put all the cards in the discard pile in the draw pile
 		draw_pile = discard_pile.duplicate()
 		discard_pile = []
 		BattlemapSignals.discard_pile_updated.emit(discard_pile)
 		shuffle_deck(draw_pile)
-	var card_resource: CardResource = draw_pile.pop_front()
+	var card_resource: CardResourceV2 = draw_pile.pop_front()
 	return card_resource
 
 func recover_stamina(stamina = _stamina_recover):
@@ -67,13 +67,13 @@ func _on_battle_start_signal():
 	BattlemapSignals.player_turn_started.emit()
 
 func _on_card_discared_from_hand_signal(index: int):
-	var card: CardResource = cards_in_hand.pop_at(index)
+	var card: CardResourceV2 = cards_in_hand.pop_at(index)
 	current_card_in_hand_size -= 1
 	discard_pile.append(card)
 	BattlemapSignals.discard_pile_updated.emit(discard_pile)
 
 func on_card_removed_from_deck(index: int):
-	var card: CardResource = cards_in_hand.pop_at(index)
+	var card: CardResourceV2 = cards_in_hand.pop_at(index)
 	current_card_in_hand_size -= 1
 
 func _on_squares_attacked_signal(damage: int):

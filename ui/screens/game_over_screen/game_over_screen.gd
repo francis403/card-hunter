@@ -18,7 +18,7 @@ func _on_continue_pressed() -> void:
 	get_tree().paused = false
 	self.get_parent().queue_free()
 
-func add_rewards(card_rewards: Array[CardResource]):
+func add_rewards(card_rewards: Array[CardResourceV2]):
 	reward_component.add_reward_cards(card_rewards)
 
 func prep_loss_screen():

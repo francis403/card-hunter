@@ -100,7 +100,7 @@ func has_any_status() -> bool:
 func has_status(status_id: String) -> bool:
 	return status_effect_container.has_status(status_id)
 
-func get_card_rewards() -> Array[CardResource]:
+func get_card_rewards() -> Array[CardResourceV2]:
 	return reward_manager.get_random_cards(2)
 
 func apply_damage(damage: int):

@@ -40,7 +40,7 @@ func _clean_preview():
 		node.queue_free()
 
 ## TODO: don't love the way I'm doing the animation
-func populate_hand(new_cards: Array[CardResource]):
+func populate_hand(new_cards: Array[CardResourceV2]):
 	var new_instantiated_cards: Array[Card] = []
 	for card_resource in new_cards:
 		var new_card: Card = _instantiate_card(card_resource)
@@ -57,7 +57,7 @@ func populate_hand(new_cards: Array[CardResource]):
 			await tween.finished
 		
 ## TODO: Draw card animation could be done here
-func _instantiate_card(card_resource: CardResource) -> Card:
+func _instantiate_card(card_resource: CardResourceV2) -> Card:
 	if not card_resource:
 		return
 	var card_instance: Card = Constants.card_scene.instantiate()

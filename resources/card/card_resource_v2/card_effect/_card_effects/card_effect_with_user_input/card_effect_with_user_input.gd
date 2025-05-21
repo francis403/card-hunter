@@ -7,12 +7,15 @@ class_name CardEffectWithUserInput
 
 var target_tile: Tile = null
 
-func play_card_effect():
+func play_card_effect() -> bool:
 	var tile_config: TileHighlightConfig = _modify_tile_highlight_config()
 	before_user_input()
-	_get_user_input(tile_config)
+	await _get_user_input(tile_config)
+	if not target_tile:
+		return false
 	card_effect()
 	_after_card_effect()
+	return true
 
 func _get_user_input(config: TileHighlightConfig):
 	var piece_to_move: Piece = get_piece()
@@ -21,7 +24,7 @@ func _get_user_input(config: TileHighlightConfig):
 	BattlemapSignals.awaiting_player_input.emit()
 		
 	# show possible squares and await input
-	BattlemapSignals.highlight_move_tiles.emit(
+	BattlemapSignals.highlight_tiles.emit(
 		piece_to_move._tile,
 		config
 	)

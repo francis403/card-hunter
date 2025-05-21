@@ -3,7 +3,7 @@ extends Node
 ## We need a place with all cards, then we need a way to get them all
 ## TODO: not sure if needed, we can probably just add this to a resource somewhere
 
-const card_resources_folder = "res://resources/card/card_resources"
+const card_resources_folder = "res://resources/card/card_resource_v2/_card_resources_v2"
 
 ## TODO: has an object that contains all the cards and if they have been unlocked or not
 var _card_in_game: Dictionary = {}
@@ -16,14 +16,14 @@ func _init() -> void:
 ## TODO: I'm scared this is going to take a long time
 ## NOT SURE IF THIS IS A GOOD IDEA (THINK ABOUT THIS)
 func _init_cards_in_game_dictionary():
-	print(_init_cards_in_game_dictionary)
+	print(_init_cards_in_game_dictionary, ": started loading cards...")
 	var card_resources_paths: Array[String] = get_all_file_paths(card_resources_folder)
 	for card_path in card_resources_paths:
-		var card_resource: CardResource = load(card_path)
+		var card_resource: CardResourceV2 = load(card_path)
 		_card_in_game[card_resource.id] = card_resource
-	print("finished")
+	print(_init_cards_in_game_dictionary, ": finished loading cards! Loaded: ", _card_in_game.size(), " cards")
 
-func get_card(card_id: String) -> CardResource:
+func get_card(card_id: String) -> CardResourceV2:
 	if _card_in_game.has(card_id):
 		return _card_in_game[card_id]
 	return null

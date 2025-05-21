@@ -16,15 +16,15 @@ signal get_monster_range_tiles(source_tile: Tile, config: TileHighlightConfig)
 signal monster_range_tiles_generated(monster_range_tiles: Array[Tile])
 
 ## deck signals
-signal draw_pile_updated(draw_pile_cards: Array[CardResource])
-signal discard_pile_updated(discard_pile_cards: Array[CardResource])
-signal full_deck_updated(discard_pile_cards: Array[CardResource])
+signal draw_pile_updated(draw_pile_cards: Array[CardResourceV2])
+signal discard_pile_updated(discard_pile_cards: Array[CardResourceV2])
+signal full_deck_updated(discard_pile_cards: Array[CardResourceV2])
 signal show_full_deck
 signal show_draw_pile_deck
 signal show_discard_pile_deck
 
 ## Card signals
-signal card_has_been_played(card_resource: CardResource)
+signal card_has_been_played(card_resource: CardResourceV2)
 signal card_discarded_from_hand(index: int)
 signal card_removed_from_deck(index: int)
 

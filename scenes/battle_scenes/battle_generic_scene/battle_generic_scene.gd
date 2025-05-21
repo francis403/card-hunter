@@ -59,7 +59,7 @@ func _on_player_turn_started_signal():
 
 ## TODO: this is probably better if I do as soon as the battle has started
 func _draw_cards_start_of_turn(player: PlayerPiece):
-	var new_cards: Array[CardResource] = player.draw_til_hand_size()
+	var new_cards: Array[CardResourceV2] = player.draw_til_hand_size()
 	hand.populate_hand(new_cards)
 	if new_cards.size() > 0:
 		BattlemapSignals.draw_pile_updated.emit(player.draw_pile)

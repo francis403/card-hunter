@@ -18,15 +18,26 @@ signal card_finished_playing
 @export_group("Card Audio & animation")
 @export var audio_stream: AudioStream
 
+func _init() -> void:
+	pass
+
+## TODO: need to have a signal of some sort that tells us when all the actions are done
 func play_card() -> bool:
 	if not _is_card_playable():
 		return false
 	for condition in play_conditions:
 		if not condition.is_condition_meet():
 			return false
+	var all_actions_successfull: bool = true
 	for action in play_actions:
-		action.play_card_effect()
-	self._after_card_is_played()
+		var is_current_action_successfull: bool = await action.play_card_effect()
+		if is_current_action_successfull:
+			print("if: ", is_current_action_successfull)
+		else:
+			all_actions_successfull = false
+			break
+	if all_actions_successfull:
+		self._after_card_is_played()
 	return true
 	
 	

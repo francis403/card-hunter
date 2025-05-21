@@ -33,9 +33,9 @@ func apply_status_change(piece: Piece):
 	match stat:
 		Constants.StatType.STAMINA:
 			modified_stat_value = get_changed_value(piece._stamina)
-			piece._stamina = clamp(modified_stat_value, 0, piece._stamina)
+			piece._stamina = clamp(modified_stat_value, 0, piece._max_stamina)
 			if piece is PlayerPiece:
-				BattlemapSignals.player_stamina_changed.emit(piece._health)
+				BattlemapSignals.player_stamina_changed.emit(piece._stamina)
 		Constants.StatType.HEALTH:
 			modified_stat_value = get_changed_value(piece._health)
 			piece._health = clamp(modified_stat_value, 0, piece._max_hp)
