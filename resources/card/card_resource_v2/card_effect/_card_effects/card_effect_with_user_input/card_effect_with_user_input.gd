@@ -17,8 +17,8 @@ func play_card_effect() -> bool:
 	_after_card_effect()
 	return true
 
-func _get_user_input(config: TileHighlightConfig):
-	var piece_to_move: Piece = get_piece()
+func _get_user_input(config: TileHighlightConfig, piece: Piece = null) -> Tile:
+	var piece_to_move: Piece = get_piece() if not piece else piece
 	#config.range = piece_to_move._speed * move_card_category.move_distance
 	# freeze hand
 	BattlemapSignals.awaiting_player_input.emit()
@@ -31,6 +31,7 @@ func _get_user_input(config: TileHighlightConfig):
 	
 	target_tile = await BattlemapSignals.tile_picked_in_battlemap
 	BattlemapSignals.player_input_received.emit()
+	return target_tile
 	
 
 ## Override to define the behaviour before the user is asked for input
