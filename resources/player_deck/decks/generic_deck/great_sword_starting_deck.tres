@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="PlayerDeck" load_steps=8 format=3 uid="uid://c52h8udn2ffm4"]
+[gd_resource type="Resource" script_class="PlayerDeck" load_steps=10 format=3 uid="uid://c52h8udn2ffm4"]
 
 [ext_resource type="Script" path="res://resources/card/card_resource_v2/card_resource_v2.gd" id="1_7i4el"]
 [ext_resource type="Resource" uid="uid://djlopuaxk13fn" path="res://resources/card/card_resource_v2/_card_resources_v2/move_cards/dash_card_1.tres" id="2_qcsn8"]
@@ -6,8 +6,10 @@
 [ext_resource type="Resource" uid="uid://d0tjdvgepml65" path="res://resources/card/card_resource_v2/_card_resources_v2/status_change_cards/health_potion_1.tres" id="4_ep4jm"]
 [ext_resource type="Resource" uid="uid://bnbqi4hpeshi7" path="res://resources/card/card_resource_v2/_card_resources_v2/status_change_cards/breathe_card_1.tres" id="5_p4mx6"]
 [ext_resource type="Resource" uid="uid://y866rrfg7pyy" path="res://resources/card/card_resource_v2/_card_resources_v2/attack_cards/slice_card_1.tres" id="6_jp17i"]
+[ext_resource type="Resource" uid="uid://c7ml1pqlvfib4" path="res://resources/card/card_resource_v2/_card_resources_v2/power_cards/double_strength_power_card_1.tres" id="7_1otrc"]
 [ext_resource type="Script" path="res://resources/player_deck/player_deck.gd" id="8_dnvnh"]
+[ext_resource type="Resource" uid="uid://d37hu1uhqsq3o" path="res://resources/card/card_resource_v2/_card_resources_v2/attack_cards/long_slice_card_1.tres" id="8_l8v4e"]
 
 [resource]
 script = ExtResource("8_dnvnh")
-_deck = Array[ExtResource("1_7i4el")]([ExtResource("2_qcsn8"), ExtResource("3_rwk8a"), ExtResource("3_rwk8a"), ExtResource("3_rwk8a"), ExtResource("4_ep4jm"), ExtResource("5_p4mx6"), ExtResource("6_jp17i"), ExtResource("6_jp17i"), ExtResource("6_jp17i")])
+_deck = Array[ExtResource("1_7i4el")]([ExtResource("2_qcsn8"), ExtResource("3_rwk8a"), ExtResource("3_rwk8a"), ExtResource("4_ep4jm"), ExtResource("5_p4mx6"), ExtResource("6_jp17i"), ExtResource("6_jp17i"), ExtResource("6_jp17i"), ExtResource("7_1otrc"), ExtResource("8_l8v4e")])

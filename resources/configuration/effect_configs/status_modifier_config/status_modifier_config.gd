@@ -53,6 +53,9 @@ func apply_status_change(piece: Piece):
 			piece._health = clamp(modified_stat_value, 0, piece._max_hp)
 			if piece is PlayerPiece:
 				BattlemapSignals.player_health_changed.emit(piece._health)
+		Constants.StatType.STRENGTH:
+			modified_stat_value = get_changed_value(piece._strength)
+			piece._strength = clamp(modified_stat_value, 0, 10)
 		Constants.StatType.SPEED:
 			modified_stat_value = get_changed_value(piece._speed)
 			piece._speed = clamp(modified_stat_value, 0, 10)
@@ -71,6 +74,9 @@ func apply_revert_status_change(piece: Piece):
 			piece._health = clamp(modified_stat_value, 0, piece._max_hp)
 			if piece is PlayerPiece:
 				BattlemapSignals.player_health_changed.emit(piece._health)
+		Constants.StatType.STRENGTH:
+			modified_stat_value = get_revert_changed_value(piece._strength)
+			piece._strength = clamp(modified_stat_value, 0, 10)
 		Constants.StatType.SPEED:
 			modified_stat_value = get_revert_changed_value(piece._speed)
 			piece._speed = clamp(modified_stat_value, 0, 10)
