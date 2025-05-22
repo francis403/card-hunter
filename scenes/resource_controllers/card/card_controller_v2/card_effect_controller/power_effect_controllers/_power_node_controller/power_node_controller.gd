@@ -8,3 +8,6 @@ func add_trigger_effect(
 	base_trigger_effect: BaseTriggerEffectEvent
 ):
 	pass
+
+func discard_power_node():
+	pass

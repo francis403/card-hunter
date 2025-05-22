@@ -26,9 +26,14 @@ const BASE_POWER_NODE_CONTROLLER: PackedScene = preload("res://scenes/resource_c
 @export var trigger_effect_event: Array[TriggerEffectEventResource]
 
 ## TODO: get target piece
-func init_base_power_node() -> BasePowerNodeController:
+func init_base_power_node(target: Piece) -> BasePowerNodeController:
 	var result = base_power_node.instantiate()
+	result.power_effect_resource = self
+	result._max_number_of_turns_active = self.turns_duration
+	result._power_holder_piece = target
 	for trigger_effect in trigger_effect_event:
-		trigger_effect._init_trigger_effect(null)
+		var trigger_effect_node: BaseTriggerEffectEvent =\
+			trigger_effect._init_trigger_effect(target)
+		result.add_child(trigger_effect_node)
 	return result
 	

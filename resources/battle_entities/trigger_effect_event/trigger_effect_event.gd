@@ -17,8 +17,9 @@ enum EventTriggerEffectEnum {
 
 @export var effect_controller: PackedScene
 
-## TODO: target piece
-func _init_trigger_effect(target_piece: Piece) -> BaseTriggerEffectEvent:
+func _init_trigger_effect(target: Piece) -> BaseTriggerEffectEvent:
 	var result = effect_controller.instantiate()
-	result.trigger = effect_trigger
+	result.id = self.id
+	result.trigger = self.effect_trigger
+	result.target_piece = target
 	return result
