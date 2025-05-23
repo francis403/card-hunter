@@ -1,6 +1,4 @@
 extends Node
-
-## TODO: I still need to be able to see the tile effect on the battlemap
 class_name BaseTileEffectController
 
 @onready var texture_rect: TextureRect = $TextureRect
