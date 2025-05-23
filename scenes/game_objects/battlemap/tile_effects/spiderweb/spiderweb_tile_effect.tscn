@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://dt8xbon57aeth"]
 
 [ext_resource type="Script" path="res://scenes/game_objects/battlemap/tile_effects/spiderweb/spiderweb_tile_effect.gd" id="1_p1k5p"]
-[ext_resource type="Texture2D" uid="uid://btbd3n1d3jqn6" path="res://scenes/game_objects/battlemap/tile_effects/spiderweb/spider-web-png-34733.png" id="2_w8oj4"]
+[ext_resource type="Texture2D" uid="uid://btbd3n1d3jqn6" path="res://assets/images/icons/tiles/spider-web-png-34733.png" id="2_w8oj4"]
 
 [node name="SpiderwebTileEffect" type="MarginContainer"]
 anchors_preset = 15

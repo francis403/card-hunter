@@ -10,7 +10,6 @@ class_name PowerCardEffect
 @export var target_piece: Constants.TargetType
 
 func play_card_effect() -> bool:
-	print(play_card_effect, ": TODO")
 	if not power_effect:
 		return false
 	var target: Piece = BattleController.get_player()

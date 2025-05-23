@@ -12,7 +12,7 @@
 [ext_resource type="Script" path="res://resources/card/card_resource_v2/card_resource_v2.gd" id="7_jninh"]
 [ext_resource type="Resource" uid="uid://d0tjdvgepml65" path="res://resources/card/card_resource_v2/_card_resources_v2/status_change_cards/health_potion_1.tres" id="8_ifip4"]
 [ext_resource type="Resource" uid="uid://b7dsj5bdapmyx" path="res://resources/card/card_resource_v2/_card_resources_v2/status_change_cards/poison_potion_1.tres" id="9_ja34g"]
-[ext_resource type="Texture2D" uid="uid://btbd3n1d3jqn6" path="res://scenes/game_objects/battlemap/tile_effects/spiderweb/spider-web-png-34733.png" id="10_rf0dk"]
+[ext_resource type="Texture2D" uid="uid://btbd3n1d3jqn6" path="res://assets/images/icons/tiles/spider-web-png-34733.png" id="10_rf0dk"]
 [ext_resource type="Resource" uid="uid://cdfg8pprgsw28" path="res://resources/monster/state/state_condition/conditions/player_in_range_3.tres" id="13_4dkmf"]
 [ext_resource type="Script" path="res://resources/monster/state/state_change_condition/state_change_condition.gd" id="13_hcas0"]
 [ext_resource type="Script" path="res://resources/monster/state/state_condition/state_condition.gd" id="14_pe6an"]

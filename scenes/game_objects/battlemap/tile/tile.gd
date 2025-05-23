@@ -14,6 +14,7 @@ var piece_in_tile: Piece = null
 @onready var background_button: Button = $BackgroundButton
 @onready var status_label: Label = $StatusLabel
 @onready var attack_rect: ColorRect = $AttackRect
+
 @onready var tile_effects_container: Control = %TileEffectsContainer
 
 
@@ -66,8 +67,15 @@ func hide_attack_background():
 func _on_player_input_signal():
 	self.hide_background()
 
-## TODO: to test
+## TODO: I do believe this will have to be refactored
 func add_tile_effect(tile_effect: TileEffect):
+	tile_effects_container.add_child(tile_effect)
+	
+	## TODO: I should probably read from config
+	if self.piece_in_tile:
+		tile_effect.apply_effect(piece_in_tile)
+
+func add_tile_effect_v2(tile_effect: BaseTileEffectController):
 	tile_effects_container.add_child(tile_effect)
 	
 	## TODO: I should probably read from config
@@ -87,11 +95,11 @@ func _on_background_button_pressed() -> void:
 	BattlemapSignals.tile_picked_in_battlemap.emit(self)
 	hide_background()
 	
-## TODO: need to make imunities and stuff like that
 func trigger_tile_effects(piece: Piece):
-	#print(trigger_tile_effects)
 	for effect in tile_effects_container.get_children():
 		if effect is TileEffect:
+			effect.apply_effect(piece)
+		if effect is BaseTileEffectController:
 			effect.apply_effect(piece)
 	
 func _on_clear_attacked_tiles_signal():

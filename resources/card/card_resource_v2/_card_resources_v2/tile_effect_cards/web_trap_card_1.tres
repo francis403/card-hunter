@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="CardResourceV2" load_steps=6 format=3 uid="uid://cp142jaqew3cw"]
+
+[ext_resource type="Script" path="res://resources/card/card_resource_v2/card_effect/card_effect.gd" id="1_0rq6g"]
+[ext_resource type="Resource" uid="uid://71gsyvywb3eb" path="res://resources/card/card_resource_v2/card_effect/_card_effects/tile_effect_card_effect/_tile_effect_card_effects/spider_web_tile_effect.tres" id="2_2tvq2"]
+[ext_resource type="Script" path="res://resources/card/card_resource_v2/condition/condition.gd" id="6_ap3qq"]
+[ext_resource type="Script" path="res://resources/card/card_resource_v2/card_resource_v2.gd" id="7_7cf2v"]
+[ext_resource type="Script" path="res://resources/card/card_resource_v2/special_card_effect/special_card_effect.gd" id="8_svy8j"]
+
+[resource]
+script = ExtResource("7_7cf2v")
+id = "web_trap_card_1"
+title = "Web Trap"
+description = "Place a web trap on an adjacent tile.
+Any piece that moves into it get's stuck for 2 turns."
+stamina_cost = 20
+tag_array = Array[String](["trap"])
+play_conditions = Array[ExtResource("6_ap3qq")]([])
+play_actions = Array[ExtResource("1_0rq6g")]([ExtResource("2_2tvq2")])
+special_effects = Array[ExtResource("8_svy8j")]([])

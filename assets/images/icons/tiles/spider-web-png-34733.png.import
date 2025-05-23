@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://btbd3n1d3jqn6"
-path="res://.godot/imported/spider-web-png-34733.png-85a178406978a7acc64bc253941a5c66.ctex"
+path="res://.godot/imported/spider-web-png-34733.png-a14cea1b28a824de3f9f2fba2c59da18.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://scenes/game_objects/battlemap/tile_effects/spiderweb/spider-web-png-34733.png"
-dest_files=["res://.godot/imported/spider-web-png-34733.png-85a178406978a7acc64bc253941a5c66.ctex"]
+source_file="res://assets/images/icons/tiles/spider-web-png-34733.png"
+dest_files=["res://.godot/imported/spider-web-png-34733.png-a14cea1b28a824de3f9f2fba2c59da18.ctex"]
 
 [params]
 

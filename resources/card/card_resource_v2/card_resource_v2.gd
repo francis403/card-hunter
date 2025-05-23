@@ -32,7 +32,7 @@ func play_card() -> bool:
 	for action in play_actions:
 		var is_current_action_successfull: bool = await action.play_card_effect()
 		if is_current_action_successfull:
-			print("if: ", is_current_action_successfull)
+			continue
 		else:
 			all_actions_successfull = false
 			break

@@ -8,15 +8,18 @@ enum Operation {
 	ADD,
 	SUBTRACT,
 	MULTIPLY,
-	DIVIDE
+	DIVIDE,
+	SET
 }
 
 @export var stat: Constants.StatType
 @export var operation: Operation
 @export var value: float = 1.0
 
+var old_stat_value: int = 1
 
 func get_changed_value(stat_value: int) -> int:
+	old_stat_value = stat_value
 	match operation:
 		Operation.ADD:
 			return stat_value + value
@@ -26,6 +29,8 @@ func get_changed_value(stat_value: int) -> int:
 			return stat_value * value  
 		Operation.DIVIDE:
 			return stat_value / value 
+		Operation.SET:
+			return value
 	return stat_value
 
 func get_revert_changed_value(stat_value: int) -> int:
@@ -38,6 +43,8 @@ func get_revert_changed_value(stat_value: int) -> int:
 			return stat_value / value  
 		Operation.DIVIDE:
 			return stat_value * value 
+		Operation.SET:
+			return old_stat_value
 	return stat_value
 
 func apply_status_change(piece: Piece):
