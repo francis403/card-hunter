@@ -20,7 +20,7 @@ func has_any_power_effect() -> bool:
 ## TODO: Make it O(1) instead of O(n)
 func has_power_effect(power_effect_id: String) -> bool:
 	for power_effect in self.get_children():
-		if power_effect.id == power_effect_id:
+		if power_effect.get_id() == power_effect_id:
 			return true
 	return false
 

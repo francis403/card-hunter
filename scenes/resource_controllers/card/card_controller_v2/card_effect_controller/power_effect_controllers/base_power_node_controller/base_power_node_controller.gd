@@ -10,6 +10,9 @@ var _max_number_of_turns_active: int = 0
 ## Store the basic info of this card. Hope it doesn't cause a loop
 var power_effect_resource: PowerEffect
 
+func get_id() -> String:
+	return power_effect_resource.id
+
 ## TODO: it's smarter to check the piece itself throwing the signal
 func _ready() -> void:
 	BattlemapSignals.monster_turn_started.connect(_tick_power_timer)
@@ -24,9 +27,6 @@ func discard_power_node():
 		_power_holder_piece.remove_status(power_effect_resource.id)
 	self.queue_free()
 
-
-## TODO: need to clean the indicator as well in the target piece
-## need to call the function definied on end for the specific trigger effect
 func _tick_power_timer():
 	_number_of_turns_active += 1
 	if _number_of_turns_active >= _max_number_of_turns_active:

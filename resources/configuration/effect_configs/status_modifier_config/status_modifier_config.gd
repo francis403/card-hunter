@@ -66,7 +66,9 @@ func apply_status_change(piece: Piece):
 		Constants.StatType.SPEED:
 			modified_stat_value = get_changed_value(piece._speed)
 			piece._speed = clamp(modified_stat_value, 0, 10)
-	return
+		Constants.StatType.DAMAGE_TAKEN_MULTIPLIER:
+			modified_stat_value = get_changed_value(piece._damage_taken_multiplier)
+			piece._damage_taken_multiplier = clamp(modified_stat_value, 0, 10)
 
 func apply_revert_status_change(piece: Piece):
 	var modified_stat_value: int = 0
@@ -87,4 +89,6 @@ func apply_revert_status_change(piece: Piece):
 		Constants.StatType.SPEED:
 			modified_stat_value = get_revert_changed_value(piece._speed)
 			piece._speed = clamp(modified_stat_value, 0, 10)
-	return
+		Constants.StatType.DAMAGE_TAKEN_MULTIPLIER:
+			modified_stat_value = get_revert_changed_value(piece._damage_taken_multiplier)
+			piece._damage_taken_multiplier = clamp(modified_stat_value, 0, 10)

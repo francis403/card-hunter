@@ -1,0 +1,17 @@
+extends Resource
+class_name TileEffectResource
+
+const BASE_TILE_EFFECT_CONTROLLER = preload("res://scenes/resource_controllers/card/card_controller_v2/card_effect_controller/tile_effect_controllers/base_tile_effect_controller/base_tile_effect_controller.tscn")
+
+## TODO: do we need an id?
+@export var id: String
+
+## This is the effect that will be added to the piece when it enters the tile
+@export var power_effect: PowerEffect
+
+## This is the visual change to the tile
+@export var tile_effect_icon: Texture2D
+
+## TODO: Either use something like the TileEffect class or create a BaseTileEffectController class
+## This is what controls what triggers the apply_effect function & adds the power_effect to the piece
+@export var tile_effect_controller: PackedScene = BASE_TILE_EFFECT_CONTROLLER

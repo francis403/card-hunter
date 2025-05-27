@@ -1,12 +1,17 @@
 extends StateWithMovement
 
+## TODO: This will need to shoot a power effect instead
 ## If outside of attack range create some spiderwebs
 class_name ShootSpiderWebsIfWithinRange
 
 @export_category("General State Behaviour")
 @export var range: int = 2
+## Deprecated: do not use
 @export var status_id: String = "stop_next_movement"
 @export var tile_effect_type: Constants.TileEffectTypes = Constants.TileEffectTypes.SPIDER_WEB
+
+## TODO: Update to use this resource
+@export var tile_effect_resource: TileEffectResource
 
 @export_category("State Switch Behaviour")
 @export var maximum_distance_to_player: int = 1
@@ -31,13 +36,23 @@ func do_state_action():
 	print(do_state_action)
 	BattlemapSignals.clear_attack_highlight_tiles.emit()
 	
-	BattlemapSignals.add_effect_type_to_tile.emit(
-		tile_effect_type,
-		target_tile
-	)
+	#BattlemapSignals.add_effect_type_to_tile.emit(
+		#tile_effect_type,
+		#target_tile
+	#)
+	if target_tile and tile_effect_resource.tile_effect_controller:
+		var tile_effect_controller: BaseTileEffectController =\
+			tile_effect_resource.tile_effect_controller.instantiate()
+		tile_effect_controller.tile_effect_resource = self.tile_effect_resource
+		target_tile.add_tile_effect_v2(
+			tile_effect_controller
+		)
 	
-	is_player_hit = target.has_status(status_id)
+	#is_player_hit = target.has_status(status_id)
 	#is_player_hit = false
+	is_player_hit = target.has_status(
+		tile_effect_resource.power_effect.id
+	)
 	
 	## If player is hit, and we want to do something when player is hit
 	if is_player_hit && player_hit_state:

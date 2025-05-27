@@ -97,8 +97,6 @@ func _on_background_button_pressed() -> void:
 	
 func trigger_tile_effects(piece: Piece):
 	for effect in tile_effects_container.get_children():
-		if effect is TileEffect:
-			effect.apply_effect(piece)
 		if effect is BaseTileEffectController:
 			effect.apply_effect(piece)
 	

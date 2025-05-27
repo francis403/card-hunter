@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="CardResourceV2" load_steps=6 format=3 uid="uid://cp142jaqew3cw"]
 
 [ext_resource type="Script" path="res://resources/card/card_resource_v2/card_effect/card_effect.gd" id="1_0rq6g"]
-[ext_resource type="Resource" uid="uid://71gsyvywb3eb" path="res://resources/card/card_resource_v2/card_effect/_card_effects/tile_effect_card_effect/_tile_effect_card_effects/spider_web_tile_effect.tres" id="2_2tvq2"]
+[ext_resource type="Resource" uid="uid://71gsyvywb3eb" path="res://resources/card/card_resource_v2/card_effect/_card_effects/tile_effect_card_effect/_tile_effect_card_effects/spider_web_tile_effect_card_effect.tres" id="2_2tvq2"]
 [ext_resource type="Script" path="res://resources/card/card_resource_v2/condition/condition.gd" id="6_ap3qq"]
 [ext_resource type="Script" path="res://resources/card/card_resource_v2/card_resource_v2.gd" id="7_7cf2v"]
 [ext_resource type="Script" path="res://resources/card/card_resource_v2/special_card_effect/special_card_effect.gd" id="8_svy8j"]
