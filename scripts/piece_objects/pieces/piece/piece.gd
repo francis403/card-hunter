@@ -31,7 +31,8 @@ func set_piece_tile(tile: Tile):
 func apply_damage(damage: int):
 	var damage_dealt_to_piece: int = damage * _damage_dealt_multiplier
 	self._health -= damage_dealt_to_piece
-	BattlemapSignals.player_health_changed.emit(self._health)
+	if self is PlayerPiece:
+		BattlemapSignals.player_health_changed.emit(self._health)
 	piece_took_damage.emit(damage_dealt_to_piece)
 	if _health <= 0:
 		_die()
@@ -43,14 +44,14 @@ func _die():
 func add_power_effect(power_effect: BasePowerNodeController):
 	pass
 	
-func remove_all_status():
+func remove_all_power_effects():
 	pass
 	
-func remove_status(status_id: String):
+func remove_power_effect(status_id: String):
 	pass
 
-func has_any_status() -> bool:
+func has_any_power_effect() -> bool:
 	return false
 
-func has_status(status_id: String) -> bool:
+func has_power_effect(status_id: String) -> bool:
 	return false

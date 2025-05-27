@@ -16,7 +16,7 @@ func get_power_effect_indicator_children() -> Array[Node]:
 	return h_box_container.get_children()
 
 ## TODO: this can be faster
-func remove_status(status_id: String):
+func remove_power_effect(status_id: String):
 	for child in h_box_container.get_children():
 		if child.status_effect.id == status_id:
 			child.queue_free()

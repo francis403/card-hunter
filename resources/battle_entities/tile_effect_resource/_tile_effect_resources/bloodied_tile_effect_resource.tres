@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="TileEffectResource" load_steps=5 format=3 uid="uid://baybdkve7uas6"]
+
+[ext_resource type="Resource" uid="uid://c7l87falpdmsi" path="res://resources/battle_entities/power_effect/power_effects/take_more_damage_on_init_power_effect.tres" id="1_i0cjm"]
+[ext_resource type="Script" path="res://resources/battle_entities/tile_effect_resource/tile_effect_resource.gd" id="2_x2qa6"]
+[ext_resource type="PackedScene" uid="uid://cabbway55or47" path="res://scenes/resource_controllers/card/card_controller_v2/card_effect_controller/tile_effect_controllers/base_tile_effect_controller/base_tile_effect_controller.tscn" id="3_04j00"]
+[ext_resource type="Texture2D" uid="uid://hmj58uofdwme" path="res://assets/images/icons/tiles/Blood-PNG-Background-Image (1).png" id="4_1vyia"]
+
+[resource]
+script = ExtResource("2_x2qa6")
+id = "bloodied_tile_effect"
+power_effect = ExtResource("1_i0cjm")
+tile_effect_icon = ExtResource("4_1vyia")
+tile_effect_controller = ExtResource("3_04j00")

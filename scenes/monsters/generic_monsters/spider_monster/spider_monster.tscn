@@ -21,7 +21,7 @@
 
 [sub_resource type="Resource" id="Resource_mva3q"]
 script = ExtResource("4_axrlo")
-immune_list = Array[String](["stop_next_movement"])
+immune_list = Array[String](["stop_movement_on_init"])
 
 [sub_resource type="Resource" id="Resource_go8gw"]
 script = ExtResource("5_wyrno")

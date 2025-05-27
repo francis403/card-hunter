@@ -24,7 +24,7 @@ func add_trigger_effect(base_trigger_effect: BaseTriggerEffectEvent):
 	
 func discard_power_node():
 	if _power_holder_piece:
-		_power_holder_piece.remove_status(power_effect_resource.id)
+		_power_holder_piece.remove_power_effect(power_effect_resource.id)
 	self.queue_free()
 
 func _tick_power_timer():

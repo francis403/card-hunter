@@ -48,9 +48,9 @@ func do_state_action():
 			tile_effect_controller
 		)
 	
-	#is_player_hit = target.has_status(status_id)
+	#is_player_hit = target.has_power_effect(status_id)
 	#is_player_hit = false
-	is_player_hit = target.has_status(
+	is_player_hit = target.has_power_effect(
 		tile_effect_resource.power_effect.id
 	)
 	
