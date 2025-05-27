@@ -39,9 +39,6 @@ func apply_damage(damage: int):
 func _die():
 	self.queue_free()
 
-## Deprecated: replace with add_power_effect
-func add_status(status: StatusEffect):
-	pass
 	
 func add_power_effect(power_effect: BasePowerNodeController):
 	pass

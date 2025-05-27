@@ -14,22 +14,17 @@ signal card_picked(card_resource: CardResourceV2)
 
 var card_can_be_played: bool = true
 
-var card_category_dictionary: EventCategoryDictionary
-# TODO: this should probably go to the hand_manager
 var _mouse_hovering: bool = false
 var _discard_button_mouse_hovering: bool = false
 
 func _ready() -> void:
 	if card_resource:
 		initialize_card()
-		#if card_resource.card_finished_playing.get_connections().size() == 0:
-			#card_resource.card_finished_playing.connect(_on_card_finished_playing)
 
 func initialize_card():
 	card_title.text = card_resource.title
 	card_description.text = card_resource.description
 	stamina_cost_label.text = str(card_resource.stamina_cost)
-	card_category_dictionary = EventCategoryDictionary.new()
 	
 # TODO: this should probably go to the hand_manager
 func _input(event: InputEvent) -> void:
@@ -42,12 +37,6 @@ func _input(event: InputEvent) -> void:
 func _play_card():
 	if not card_can_be_played:
 		return
-	#var card_controller_instance: CardController = card_resource.card_ability_controller_scene.instantiate()
-	#card_controller_instance.card_finished_playing.connect(_on_card_finished_playing)
-	#card_controller_instance.play_card_action(
-		#card_resource, 
-		#card_category_dictionary
-	#)
 	if card_resource.card_finished_playing.get_connections().size() == 0:
 		card_resource.card_finished_playing.connect(_on_card_finished_playing)
 	card_resource.play_card()

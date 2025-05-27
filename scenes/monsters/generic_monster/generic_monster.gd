@@ -69,13 +69,6 @@ func get_texture() -> Texture2D:
 
 func highlight_attack_action() -> void:
 	state_machine.current_state.highlight_attack_action()
-
-func add_status(status: StatusEffect):
-	## TODO: improve
-	## Check to see if the monster is immune to the specific status
-	if _is_monster_immune_to_status(monster_config, status.id):
-		return
-	#status_effect_container.add_status(status, self)
 	
 func add_power_effect(power_effect: BasePowerNodeController):
 	if _is_monster_immune_to_status(monster_config, power_effect.power_effect_resource.id):
