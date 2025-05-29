@@ -14,6 +14,10 @@ signal add_effect_to_tile(tile_effect: TileEffect, tile: Tile)
 signal add_effect_type_to_tile(tile_effect: Constants.TileEffectTypes, tile: Tile)
 signal get_monster_range_tiles(source_tile: Tile, config: TileHighlightConfig)
 signal monster_range_tiles_generated(monster_range_tiles: Array[Tile])
+# Select/Discard Card UI
+signal awaiting_for_card_selection
+signal input_received_for_card_selected(card: Card)
+signal card_selected_confirmed(card: Card)
 
 ## deck signals
 signal draw_pile_updated(draw_pile_cards: Array[CardResourceV2])

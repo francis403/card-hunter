@@ -12,6 +12,9 @@ const deck_visualizer_scene = preload("res://ui/deck/deck_visualizer/deck_visual
 ## holds all monsters in the battle scene
 @onready var monsters_node: Node = $monsters
 
+@onready var discard_card_ui: DiscardCardUI = $UINodes/DiscardCardUI
+
+
 @export var player: PlayerCharacter
 
 ## Defines the monsters in the battle scene
@@ -111,11 +114,7 @@ func _on_battle_lost_signal():
 	_show_game_over_screen()
 
 func _on_battle_won_signal():
-	#if PlayerController.current_world_node:
-		#PlayerController.current_world_node.clear_monsters()
-	#BattlemapSignals.node_completed.emit(File.progress.current_world_node_id)
 	if _world_node:
-		#BattlemapSignals.reveal_connected_nodes.emit(_world_node)
 		_world_node.reveal_connected_nodes()
 		_world_node.after_world_node_completed_successfully()
 	

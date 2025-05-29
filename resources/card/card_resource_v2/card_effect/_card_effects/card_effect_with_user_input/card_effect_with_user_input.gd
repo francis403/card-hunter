@@ -22,7 +22,7 @@ func _get_user_input(config: TileHighlightConfig, piece: Piece = null) -> Tile:
 	#config.range = piece_to_move._speed * move_card_category.move_distance
 	# freeze hand
 	BattlemapSignals.awaiting_player_input.emit()
-		
+
 	# show possible squares and await input
 	BattlemapSignals.highlight_tiles.emit(
 		piece_to_move._tile,

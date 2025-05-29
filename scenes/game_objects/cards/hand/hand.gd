@@ -66,7 +66,6 @@ func _instantiate_card(card_resource: CardResourceV2) -> Card:
 	card_instance.card_resource = card_resource
 	card_instance.initialize_card()
 	return card_instance
-	#Callable(_play_draw_card_animation).call_deferred(card_instance)
 	
 	
 func _play_draw_card_animation(card: Card) -> Tween:
@@ -90,6 +89,3 @@ func _on_card_discared_from_hand_signal(index: int):
 
 func _on_h_box_container_sort_children() -> void:
 	pass
-	#print("Children need sorting")
-	#for child in h_box_container.get_children():
-		#print(child.position)

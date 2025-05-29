@@ -7,9 +7,9 @@
 [ext_resource type="Resource" uid="uid://d0tjdvgepml65" path="res://resources/card/card_resource_v2/_card_resources_v2/status_change_cards/health_potion_1.tres" id="5_1b6au"]
 [ext_resource type="Resource" uid="uid://bnbqi4hpeshi7" path="res://resources/card/card_resource_v2/_card_resources_v2/status_change_cards/breathe_card_1.tres" id="6_g2xqw"]
 [ext_resource type="Resource" uid="uid://dvk1a1vyglgvc" path="res://resources/card/card_resource_v2/_card_resources_v2/power_cards/double_speed_power_card_1.tres" id="7_moujd"]
-[ext_resource type="Resource" uid="uid://cp142jaqew3cw" path="res://resources/card/card_resource_v2/_card_resources_v2/tile_effect_cards/web_trap_card_1.tres" id="8_25am4"]
 [ext_resource type="Script" path="res://resources/player_deck/player_deck.gd" id="8_jbroi"]
+[ext_resource type="Resource" uid="uid://dl1moktvst0io" path="res://resources/card/card_resource_v2/_card_resources_v2/move_cards/emergency_retreat_1.tres" id="8_rqx4n"]
 
 [resource]
 script = ExtResource("8_jbroi")
-_deck = Array[ExtResource("1_ky8xb")]([ExtResource("2_s2r6x"), ExtResource("2_s2r6x"), ExtResource("2_s2r6x"), ExtResource("3_hoatk"), ExtResource("4_t6g7p"), ExtResource("4_t6g7p"), ExtResource("4_t6g7p"), ExtResource("5_1b6au"), ExtResource("6_g2xqw"), ExtResource("7_moujd"), ExtResource("8_25am4"), ExtResource("8_25am4")])
+_deck = Array[ExtResource("1_ky8xb")]([ExtResource("2_s2r6x"), ExtResource("2_s2r6x"), ExtResource("2_s2r6x"), ExtResource("3_hoatk"), ExtResource("4_t6g7p"), ExtResource("4_t6g7p"), ExtResource("4_t6g7p"), ExtResource("5_1b6au"), ExtResource("6_g2xqw"), ExtResource("7_moujd"), ExtResource("8_rqx4n")])

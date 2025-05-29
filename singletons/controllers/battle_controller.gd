@@ -4,8 +4,14 @@ var battlemap: Battlemap
 
 var turn_counter: int = 0
 
+var player_turn_stats: PlayerTurnStats = PlayerTurnStats.new()
+
+
 func _ready() -> void:
 	BattlemapSignals.battlemap_generated.connect(_on_battlemap_generated_signal)
+	BattlemapSignals.card_discarded_from_hand.connect(_on_card_discarded_from_hand)
+	BattlemapSignals.monster_turn_started.connect(_on_player_turn_ended)
+	BattlemapSignals.card_has_been_played.connect(_on_card_played)
 	
 func _on_battlemap_generated_signal(map: Battlemap):
 	print(_on_battlemap_generated_signal)
@@ -31,3 +37,15 @@ func get_tile(x: int, y: int) -> Tile:
 ## TODO: how can we do this knowing what we already know
 func get_random_tile(center_tile: Tile, config: TileHighlightConfig) -> Tile:
 	return null
+	
+# SIGNALS
+
+func _on_player_turn_ended():
+	player_turn_stats = PlayerTurnStats.new()
+
+func _on_card_discarded_from_hand(index: int):
+	print(_on_card_discarded_from_hand)
+	player_turn_stats.total_number_of_cards_discarded += 1
+
+func _on_card_played(card_resource: CardResourceV2):
+	player_turn_stats.total_number_of_cards_played += 1
