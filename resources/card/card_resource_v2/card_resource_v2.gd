@@ -18,10 +18,9 @@ signal card_finished_playing
 @export_group("Card Audio & animation")
 @export var audio_stream: AudioStream
 
-func _init() -> void:
-	pass
+var _revertable_play_actions: Array[CardEffect] = []
 
-## TODO: need to have a signal of some sort that tells us when all the actions are done
+
 func play_card() -> bool:
 	if not _is_card_playable():
 		return false
@@ -32,14 +31,27 @@ func play_card() -> bool:
 	for action in play_actions:
 		var is_current_action_successfull: bool = await action.play_card_effect()
 		if is_current_action_successfull:
-			continue
+			_revertable_play_actions.append(action)
 		else:
 			all_actions_successfull = false
 			break
 	if all_actions_successfull:
 		self._after_card_is_played()
+		_revertable_play_actions.clear()
 	return true
 	
+## When the card is canceled midway through, 
+## we need to revert all the effects that have been played
+## TODO
+func revert_all_played_card_effects() -> bool:
+	print(revert_all_played_card_effects)
+	if _revertable_play_actions.is_empty():
+		return true
+	while not _revertable_play_actions.is_empty():
+		var action: CardEffect = _revertable_play_actions.pop_front()
+		action.revert_card_effect()
+	return true
+
 	
 func _is_card_playable() -> bool:
 	if not _is_player_stamina_enough():

@@ -22,6 +22,7 @@ func _ready() -> void:
 		initialize_card()
 		BattlemapSignals.awaiting_for_card_selection.connect(on_awaiting_for_card_selection_signal)
 		BattlemapSignals.card_selected_confirmed.connect(on_card_selection_confirmed_signal)
+		BattlemapSignals.canceled_player_input.connect(_revert_played_card)
 
 func initialize_card():
 	card_title.text = card_resource.title
@@ -52,6 +53,9 @@ func _play_card():
 		card_resource.card_finished_playing.connect(_on_card_finished_playing)
 	card_resource.play_card()
 
+func _revert_played_card():
+	card_resource.revert_all_played_card_effects()
+
 func _on_card_finished_playing():
 	if card_resource.tag_array.has("one_use"):
 		BattlemapSignals.card_removed_from_deck.emit(self.get_index())
@@ -59,11 +63,12 @@ func _on_card_finished_playing():
 	else:
 		_discard_card()
 
-func _discard_card():
+func _discard_card() -> bool:
 	if not _can_card_be_discarded():
-		return
+		return false
 	BattlemapSignals.card_discarded_from_hand.emit(self.get_index())
 	self.queue_free()
+	return true
 
 func _on_mouse_entered() -> void:
 	_mouse_hovering = true

@@ -72,6 +72,21 @@ func _on_card_discared_from_hand_signal(index: int):
 	discard_pile.append(card)
 	BattlemapSignals.discard_pile_updated.emit(discard_pile)
 
+func _on_card_discarded_from_hand_reverted_signal(card_resource: CardResourceV2):
+	print(_on_card_discarded_from_hand_reverted_signal)
+	current_card_in_hand_size += 1
+	var index_of_discarded_card: int = _find_index_of_discarded_card(card_resource.id)
+	discard_pile.remove_at(index_of_discarded_card)
+	BattlemapSignals.discard_pile_updated.emit(discard_pile)
+
+func _find_index_of_discarded_card(card_id: String) -> int:
+	for i in range(discard_pile.size() - 1, 0):
+		print(_find_index_of_discarded_card, ": ", i)
+		if discard_pile[i].id == card_id:
+			return i
+	return -1
+	#discard_pile.()
+
 func on_card_removed_from_deck(index: int):
 	var card: CardResourceV2 = cards_in_hand.pop_at(index)
 	current_card_in_hand_size -= 1

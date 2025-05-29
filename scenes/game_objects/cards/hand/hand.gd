@@ -16,6 +16,7 @@ func _ready() -> void:
 	BattlemapSignals.lock_player_input.connect(_on_input_awaiting_signal)
 	BattlemapSignals.unlock_player_input.connect(_on_input_received_signal)
 	BattlemapSignals.card_discarded_from_hand.connect(_on_card_discared_from_hand_signal)
+	BattlemapSignals.card_discarded_from_hand_reverted.connect(_on_card_discared_from_hand_reverted_signal)
 
 ## TODO: need to either push map up or make input go through cards
 func _on_input_awaiting_signal():
@@ -86,6 +87,9 @@ func _play_draw_card_animation(card: Card) -> Tween:
 	
 func _on_card_discared_from_hand_signal(index: int):
 	pass
+
+func _on_card_discared_from_hand_reverted_signal(card_resource: CardResourceV2):
+	var card: Card = self._instantiate_card(card_resource)
 
 func _on_h_box_container_sort_children() -> void:
 	pass
