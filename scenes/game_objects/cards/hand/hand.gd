@@ -88,8 +88,11 @@ func _play_draw_card_animation(card: Card) -> Tween:
 func _on_card_discared_from_hand_signal(index: int):
 	pass
 
+## TODO: Play some sort of animation
 func _on_card_discared_from_hand_reverted_signal(card_resource: CardResourceV2):
-	var card: Card = self._instantiate_card(card_resource)
+	print(_on_card_discared_from_hand_reverted_signal)
+	var card_instance: Card = self._instantiate_card(card_resource)
+	card_instance.modulate.a = 1.0
 
 func _on_h_box_container_sort_children() -> void:
 	pass

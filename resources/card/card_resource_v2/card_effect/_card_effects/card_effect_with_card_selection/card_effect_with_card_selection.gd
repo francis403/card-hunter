@@ -31,7 +31,7 @@ func _get_user_input() -> Card:
 
 ## Override to define the behaviour before the user is asked for input
 func before_user_input():
-	pass
+	selected_cards.clear()
 
 ## Override to define the card_effect after the user input
 func card_effect():

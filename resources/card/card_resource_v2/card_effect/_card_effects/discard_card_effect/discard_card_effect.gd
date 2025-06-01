@@ -5,16 +5,16 @@ extends CardEffectWithCardSelection
 ## Select 1 enemy and deal damage to it
 class_name DiscardCardEffect
 
-var card_resource_array: Array[CardResourceV2]
+var discarded_cards_array: Array[CardResourceV2] = []
 
 func card_effect():
+	discarded_cards_array.reverse()
 	for card in selected_cards:
-		var is_card_discarded: bool = card._discard_card()
-		if is_card_discarded:
-			card_resource_array.append(card.card_resource)
+		card._discard_card()
+		discarded_cards_array.append(card.card_resource)
 			
 ## TODO: revert card being discarded
 func revert_card_effect():
-	for card_resource in card_resource_array:
+	for card_resource in discarded_cards_array:
 		BattlemapSignals.card_discarded_from_hand_reverted.emit(card_resource)
-	card_resource_array.clear()
+	discarded_cards_array.clear()

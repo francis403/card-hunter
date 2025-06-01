@@ -20,6 +20,7 @@ func _ready() -> void:
 	BattlemapSignals.card_removed_from_deck.connect(on_card_removed_from_deck)
 	BattlemapSignals.deal_damage_to_attacked_squares.connect(_on_squares_attacked_signal)
 	#BattlemapSignals.before_player_movement.connect(_before_player_movement_signal)
+	BattlemapSignals.card_discarded_from_hand_reverted.connect(_on_card_discarded_from_hand_reverted_signal)
 	_prepare_deck()
 	
 func _prepare_deck():
@@ -48,7 +49,6 @@ func draw_til_hand_size() -> Array[CardResourceV2]:
 		new_cards_added.append(drawn_card)
 	return new_cards_added
 		
-## TODO: I guess if I had to add a draw animation it would be from here
 func draw_card() -> CardResourceV2:
 	if draw_pile.size() <= 0:
 		# put all the cards in the discard pile in the draw pile
@@ -74,18 +74,20 @@ func _on_card_discared_from_hand_signal(index: int):
 
 func _on_card_discarded_from_hand_reverted_signal(card_resource: CardResourceV2):
 	print(_on_card_discarded_from_hand_reverted_signal)
+	## I should probably make sure we manage to revert first
+	cards_in_hand.append(card_resource)
 	current_card_in_hand_size += 1
 	var index_of_discarded_card: int = _find_index_of_discarded_card(card_resource.id)
-	discard_pile.remove_at(index_of_discarded_card)
-	BattlemapSignals.discard_pile_updated.emit(discard_pile)
+	if index_of_discarded_card >= 0:
+		discard_pile.remove_at(index_of_discarded_card)
+		BattlemapSignals.discard_pile_updated.emit(discard_pile)
 
 func _find_index_of_discarded_card(card_id: String) -> int:
-	for i in range(discard_pile.size() - 1, 0):
+	for i in range(discard_pile.size() - 1, -1, -1):
 		print(_find_index_of_discarded_card, ": ", i)
 		if discard_pile[i].id == card_id:
 			return i
 	return -1
-	#discard_pile.()
 
 func on_card_removed_from_deck(index: int):
 	var card: CardResourceV2 = cards_in_hand.pop_at(index)
@@ -104,4 +106,3 @@ func _die():
 	BattlemapSignals.player_died.emit()
 	BattleSignals.battle_lost.emit()
 	self.queue_free()
-	
