@@ -7,7 +7,7 @@ var turn_counter: int = 0
 var player_turn_stats: PlayerTurnStats = PlayerTurnStats.new()
 
 ## TODO: probably here is not the ideal place
-var _current_card_being_played: CardResourceV2 = null
+var _current_card_being_played: Card = null
 
 func _ready() -> void:
 	BattlemapSignals.battlemap_generated.connect(_on_battlemap_generated_signal)

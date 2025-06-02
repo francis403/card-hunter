@@ -18,7 +18,12 @@ func play_card_effect() -> bool:
 func _get_user_input() -> Card:
 	
 	## Show the Select Card option on the menu
-	BattlemapSignals.awaiting_for_card_selection.emit()
+	var _ignore_card_list: Array[Card] = []
+	if BattleController._current_card_being_played:
+		_ignore_card_list.append(BattleController._current_card_being_played)
+	BattlemapSignals.awaiting_for_card_selection.emit(
+		_ignore_card_list
+	)
 	
 	## TODO: Highlight possible cards
 	

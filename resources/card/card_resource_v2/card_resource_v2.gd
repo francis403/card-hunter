@@ -22,7 +22,6 @@ var _revertable_play_actions: Array[CardEffect] = []
 
 
 func play_card() -> bool:
-	BattleController._current_card_being_played = self
 	if not _is_card_playable():
 		return false
 	for condition in play_conditions:
@@ -39,9 +38,9 @@ func play_card() -> bool:
 	if all_actions_successfull:
 		self._after_card_is_played()
 		_revertable_play_actions.clear()
-		BattleController._current_card_being_played = null
 	return true
 	
+
 ## When the card is canceled midway through, 
 ## we need to revert all the effects that have been played
 ## TODO
@@ -50,9 +49,7 @@ func revert_all_played_card_effects() -> bool:
 	while not _revertable_play_actions.is_empty():
 		var action: CardEffect = _revertable_play_actions.pop_front()
 		action.revert_card_effect()
-	BattleController._current_card_being_played = null
 	return true
-
 	
 func _is_card_playable() -> bool:
 	if not _is_player_stamina_enough():

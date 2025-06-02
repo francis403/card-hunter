@@ -8,7 +8,7 @@ class_name DiscardCardEffect
 var discarded_cards_array: Array[CardResourceV2] = []
 
 func card_effect():
-	discarded_cards_array.reverse()
+	discarded_cards_array.clear()
 	for card in selected_cards:
 		card._discard_card()
 		discarded_cards_array.append(card.card_resource)

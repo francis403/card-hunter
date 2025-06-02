@@ -36,7 +36,7 @@ center_piece = 1
 [resource]
 script = ExtResource("7_h7jtr")
 id = "emergency_retreat_1"
-title = "Emergency Retreat"
+title = "Run Away"
 description = "Move 1 tile away. 
 Before you can play this card you must discard a card."
 stamina_cost = 0

@@ -15,6 +15,8 @@ signal card_picked(card_resource: CardResourceV2)
 var card_can_be_played: bool = true
 var _mouse_hovering: bool = false
 var _discard_button_mouse_hovering: bool = false
+
+## TODO: we can probably do a manager here for this
 var _is_awaiting_card_selection: bool = false
 
 func _ready() -> void:
@@ -49,14 +51,17 @@ func _add_selected_card():
 func _play_card():
 	if not card_can_be_played:
 		return
+	BattleController._current_card_being_played = self
 	if card_resource.card_finished_playing.get_connections().size() == 0:
 		card_resource.card_finished_playing.connect(_on_card_finished_playing)
 	card_resource.play_card()
 
 func _revert_played_card():
 	card_resource.revert_all_played_card_effects()
+	BattleController._current_card_being_played = null
 
 func _on_card_finished_playing():
+	BattleController._current_card_being_played = null
 	if card_resource.tag_array.has("one_use"):
 		BattlemapSignals.card_removed_from_deck.emit(self.get_index())
 		self.queue_free()
@@ -111,7 +116,7 @@ func _on_discard_button_mouse_entered() -> void:
 	_discard_button_mouse_hovering = true
 
 ## SIGNALS
-func on_awaiting_for_card_selection_signal():
+func on_awaiting_for_card_selection_signal(_ignore_card_list: Array[Card]):
 	_is_awaiting_card_selection = true
 	
 func on_card_selection_confirmed_signal(

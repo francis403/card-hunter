@@ -12,4 +12,4 @@
 
 [resource]
 script = ExtResource("8_jbroi")
-_deck = Array[ExtResource("1_ky8xb")]([ExtResource("2_s2r6x"), ExtResource("2_s2r6x"), ExtResource("2_s2r6x"), ExtResource("3_hoatk"), ExtResource("4_t6g7p"), ExtResource("4_t6g7p"), ExtResource("4_t6g7p"), ExtResource("5_1b6au"), ExtResource("6_g2xqw"), ExtResource("7_moujd"), ExtResource("8_rqx4n")])
+_deck = Array[ExtResource("1_ky8xb")]([ExtResource("2_s2r6x"), ExtResource("2_s2r6x"), ExtResource("2_s2r6x"), ExtResource("3_hoatk"), ExtResource("4_t6g7p"), ExtResource("4_t6g7p"), ExtResource("4_t6g7p"), ExtResource("5_1b6au"), ExtResource("6_g2xqw"), ExtResource("7_moujd"), ExtResource("8_rqx4n"), ExtResource("8_rqx4n")])
