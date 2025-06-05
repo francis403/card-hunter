@@ -5,7 +5,7 @@
 [ext_resource type="Script" path="res://resources/card/card_resource_v2/card_effect/_card_effects/power_card_effect/power_card_effect.gd" id="3_lef1c"]
 [ext_resource type="Script" path="res://resources/card/card_resource_v2/condition/condition.gd" id="4_4i5e4"]
 [ext_resource type="Script" path="res://resources/card/card_resource_v2/card_resource_v2.gd" id="5_vxbek"]
-[ext_resource type="Script" path="res://resources/card/card_resource_v2/special_card_effect/special_card_effect.gd" id="6_52qyx"]
+[ext_resource type="Script" path="res://resources/card/card_resource_v2/special_card_effect/special_card_effect_resource.gd" id="6_52qyx"]
 
 [sub_resource type="Resource" id="Resource_0sfss"]
 script = ExtResource("3_lef1c")

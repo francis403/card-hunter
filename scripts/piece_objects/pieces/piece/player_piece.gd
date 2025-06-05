@@ -2,6 +2,7 @@ extends Piece
 class_name PlayerPiece
 
 @export var hand_size: int = 4
+@export var max_hand_size: int = 10
 
 ## Used when we want to replace the deck of the player
 @export var replace_deck: PlayerDeck = null

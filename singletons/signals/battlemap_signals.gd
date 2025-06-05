@@ -18,6 +18,7 @@ signal monster_range_tiles_generated(monster_range_tiles: Array[Tile])
 signal awaiting_for_card_selection(_ignore_card_list: Array[Card])
 signal input_received_for_card_selected(card: Card)
 signal card_selected_confirmed(card: Card)
+signal card_discarded_by_other_card(discarded_card: Card)
 
 ## deck signals
 signal draw_pile_updated(draw_pile_cards: Array[CardResourceV2])
@@ -26,6 +27,7 @@ signal full_deck_updated(discard_pile_cards: Array[CardResourceV2])
 signal show_full_deck
 signal show_draw_pile_deck
 signal show_discard_pile_deck
+signal draw_pile_draw_cards_requested(number_of_cards_to_draw: int)
 
 ## Card signals
 signal card_has_been_played(card_resource: CardResourceV2)

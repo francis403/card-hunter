@@ -55,8 +55,8 @@ script = ExtResource("1_f67w6")
 monster_id = "crab_monster_small"
 monster_texture = ExtResource("1_x8062")
 monster_config = SubResource("Resource_thpje")
-_health = 75
-_max_hp = 100
+_health = 10
+_max_hp = 10
 _strength = 50
 
 [node name="RewardManager" parent="." index="0"]

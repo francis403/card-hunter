@@ -6,7 +6,7 @@
 [ext_resource type="Script" path="res://resources/configuration/tile_highlight_configuration/tile_highlight_configuration.gd" id="4_kibs5"]
 [ext_resource type="Script" path="res://resources/card/card_resource_v2/condition/condition.gd" id="5_mkd7t"]
 [ext_resource type="Script" path="res://resources/card/card_resource_v2/card_resource_v2.gd" id="6_8ihme"]
-[ext_resource type="Script" path="res://resources/card/card_resource_v2/special_card_effect/special_card_effect.gd" id="7_tnh10"]
+[ext_resource type="Script" path="res://resources/card/card_resource_v2/special_card_effect/special_card_effect_resource.gd" id="7_tnh10"]
 
 [sub_resource type="Resource" id="Resource_t863g"]
 script = ExtResource("4_kibs5")

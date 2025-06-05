@@ -57,8 +57,8 @@ script = ExtResource("2_bi3n2")
 monster_id = "spider_monster_small"
 monster_texture = ExtResource("2_kyton")
 monster_config = SubResource("Resource_bbo3v")
-_health = 60
-_max_hp = 60
+_health = 10
+_max_hp = 10
 _strength = 20
 
 [node name="RewardManager" parent="." index="0"]

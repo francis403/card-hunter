@@ -10,8 +10,10 @@ var discarded_cards_array: Array[CardResourceV2] = []
 func card_effect():
 	discarded_cards_array.clear()
 	for card in selected_cards:
-		card._discard_card()
 		discarded_cards_array.append(card.card_resource)
+		BattlemapSignals.card_discarded_by_other_card.emit(card)
+		card.card_discarded_by_effect.emit()
+		card._discard_card()
 			
 ## TODO: revert card being discarded
 func revert_card_effect():

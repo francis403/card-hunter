@@ -20,6 +20,8 @@ offset_bottom = 200.0
 script = ExtResource("1_eebhr")
 card_resource = ExtResource("2_6bt5n")
 
+[node name="SpecialEffectController" type="Node" parent="."]
+
 [node name="BackGroundTextureRect" type="TextureRect" parent="."]
 layout_mode = 2
 texture = ExtResource("3_sxei8")

@@ -2,6 +2,11 @@ extends Node
 
 
 # ENUMS
+enum DeckType {
+	DRAW_DECK,
+	DISCARD_DECK
+}
+
 enum TargetType {
 	INHERIT,
 	SELF,

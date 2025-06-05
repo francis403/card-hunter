@@ -44,9 +44,6 @@ func _die():
 func add_power_effect(power_effect: BasePowerNodeController):
 	pass
 	
-func add_passive_power_effect(power_effect: BasePowerNodeController):
-	pass
-	
 func remove_all_power_effects():
 	pass
 	

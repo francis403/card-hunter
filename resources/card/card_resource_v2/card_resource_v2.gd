@@ -13,7 +13,7 @@ signal card_finished_playing
 @export_group("Card Effects")
 @export var play_conditions: Array[Condition]
 @export var play_actions: Array[CardEffect]
-@export var special_effects: Array[SpecialCardEffect]
+@export var special_effects: Array[SpecialCardEffectResource]
 
 @export_group("Card Audio & animation")
 @export var audio_stream: AudioStream
@@ -43,7 +43,6 @@ func play_card() -> bool:
 
 ## When the card is canceled midway through, 
 ## we need to revert all the effects that have been played
-## TODO
 func revert_all_played_card_effects() -> bool:
 	print(revert_all_played_card_effects)
 	while not _revertable_play_actions.is_empty():
@@ -78,3 +77,20 @@ func _apply_stamina_cost(stamina_cost: int):
 		return
 	player._stamina -= stamina_cost
 	BattlemapSignals.player_stamina_changed.emit(player._stamina)
+
+func subscribe_to_special_effects(
+	card: Card,
+	container_node: Node
+):
+	print(subscribe_to_special_effects)
+	if special_effects.is_empty():
+		return
+	print(subscribe_to_special_effects, ": not empty")
+	for special_effect in special_effects:
+		var controller_instance: BaseSpecialEffect = special_effect.controller.instantiate()
+		controller_instance._init_special_effect(
+			card,
+			special_effect
+		)
+		controller_instance.card = card
+		container_node.add_child(controller_instance)

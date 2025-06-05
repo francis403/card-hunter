@@ -25,7 +25,6 @@ const BASE_POWER_NODE_CONTROLLER: PackedScene = preload("res://scenes/resource_c
 ## Change the function add_to_base_power_node functionality if you wish to modify it
 @export var trigger_effect_event: Array[TriggerEffectEventResource]
 
-## TODO: get target piece
 func init_base_power_node(target: Piece) -> BasePowerNodeController:
 	var result = base_power_node.instantiate()
 	result.power_effect_resource = self

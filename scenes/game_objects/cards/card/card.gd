@@ -2,6 +2,8 @@ extends MarginContainer
 class_name Card
 
 signal card_picked(card_resource: CardResourceV2)
+signal card_played
+signal card_discarded_by_effect
 
 @export var card_resource: CardResourceV2
 @export var card_can_hover: bool = true
@@ -11,6 +13,7 @@ signal card_picked(card_resource: CardResourceV2)
 @onready var card_description: Label = %CardDescription
 @onready var stamina_cost_label: Label = %StaminaCostLabel
 @onready var discard_button: Button = %DiscardButton
+@onready var special_effect_controller: Node = $SpecialEffectController
 
 var card_can_be_played: bool = true
 var _mouse_hovering: bool = false
@@ -22,6 +25,7 @@ var _is_awaiting_card_selection: bool = false
 func _ready() -> void:
 	if card_resource:
 		initialize_card()
+		print(_ready, ": ", self.card_resource.id)
 		BattlemapSignals.awaiting_for_card_selection.connect(on_awaiting_for_card_selection_signal)
 		BattlemapSignals.card_selected_confirmed.connect(on_card_selection_confirmed_signal)
 		BattlemapSignals.canceled_player_input.connect(_revert_played_card)
@@ -30,6 +34,7 @@ func initialize_card():
 	card_title.text = card_resource.title
 	card_description.text = card_resource.description
 	stamina_cost_label.text = str(card_resource.stamina_cost)
+	card_resource.subscribe_to_special_effects(self, special_effect_controller)
 	
 # TODO: this should probably go to the hand_manager
 func _input(event: InputEvent) -> void:
@@ -55,6 +60,7 @@ func _play_card():
 	if card_resource.card_finished_playing.get_connections().size() == 0:
 		card_resource.card_finished_playing.connect(_on_card_finished_playing)
 	card_resource.play_card()
+	self.card_played.emit()
 
 func _revert_played_card():
 	card_resource.revert_all_played_card_effects()

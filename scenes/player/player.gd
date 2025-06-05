@@ -6,6 +6,8 @@ const PLAYER_HIT_1 = preload("res://assets/sound/sound_effects/player_hit_1.mp3"
 @onready var audio_stream_player: AudioStreamPlayer = $AudioStreamPlayer
 
 @onready var power_effect_container: PowerEffectContainer = $PowerEffectContainer
+
+## Shows the player which power effects are applied to him.
 @onready var power_effect_ui: PowerEffectUI = $PowerEffectUI
 
 @onready var sprite_2d: Sprite2D = $Sprite2D

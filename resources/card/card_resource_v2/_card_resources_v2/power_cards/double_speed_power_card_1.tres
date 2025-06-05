@@ -5,7 +5,7 @@
 [ext_resource type="Resource" uid="uid://b8e0uhrdt2uy0" path="res://resources/battle_entities/power_effect/power_effects/double_speed_on_init_power_effect.tres" id="2_h4u14"]
 [ext_resource type="Script" path="res://resources/card/card_resource_v2/condition/condition.gd" id="2_n6siu"]
 [ext_resource type="Script" path="res://resources/card/card_resource_v2/card_resource_v2.gd" id="3_q1u4m"]
-[ext_resource type="Script" path="res://resources/card/card_resource_v2/special_card_effect/special_card_effect.gd" id="4_b5w8q"]
+[ext_resource type="Script" path="res://resources/card/card_resource_v2/special_card_effect/special_card_effect_resource.gd" id="4_b5w8q"]
 
 [sub_resource type="Resource" id="Resource_iwt07"]
 script = ExtResource("2_58x46")

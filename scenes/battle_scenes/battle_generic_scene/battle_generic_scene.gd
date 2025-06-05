@@ -47,6 +47,9 @@ func _ready() -> void:
 	BattlemapSignals.monster_died.connect(_on_monster_died_signal)
 	BattlemapSignals.player_died.connect(_on_battle_lost_signal)
 	BattleSignals.battle_won.connect(_on_battle_won_signal)
+	
+	## Card Signals
+	BattlemapSignals.draw_pile_draw_cards_requested.connect(_draw_pile_draw_cards)
 
 	#_draw_cards_start_of_turn(battlemap.player)
 	_prep_battle_arena_monsters()
@@ -60,12 +63,18 @@ func _on_player_turn_started_signal():
 	player.recover_stamina()
 	BattlemapSignals.unlock_player_input.emit()
 
-## TODO: this is probably better if I do as soon as the battle has started
+## TODO: this draw cards business can probably be done better somewhere else
 func _draw_cards_start_of_turn(player: PlayerPiece):
 	var new_cards: Array[CardResourceV2] = player.draw_til_hand_size()
 	hand.populate_hand(new_cards)
 	if new_cards.size() > 0:
 		BattlemapSignals.draw_pile_updated.emit(player.draw_pile)
+	
+func _draw_card(player: PlayerPiece):
+	var new_cards: Array[CardResourceV2] = []
+	new_cards.append(player.draw_card())
+	hand.populate_hand(new_cards)
+	BattlemapSignals.draw_pile_updated.emit(player.draw_pile)
 	
 func _prep_battle_arena_monsters():
 	if monsters.size() > 0:
@@ -121,12 +130,15 @@ func _on_battle_won_signal():
 	game_over_screen.prep_win_screen()
 	_show_game_over_screen()
 	
-## TODO: add possible rewards
 func _show_game_over_screen():
 	game_over_screen.visible = true
 	get_tree().paused = true
 	game_over_screen.process_mode = Node.PROCESS_MODE_ALWAYS
 
+func _draw_pile_draw_cards(n: int):
+	for _i in range(0, n, 1):
+		if player.current_card_in_hand_size < player.max_hand_size:
+			self._draw_card(player)
 
 func _on_tree_exited() -> void:
 	GameController.is_showing_battle_scene = false
