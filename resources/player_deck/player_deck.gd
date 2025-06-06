@@ -3,16 +3,16 @@ extends Resource
 ## Representation of a deck held by a player
 class_name PlayerDeck
 
-@export var _deck: Array[CardResource] = []
+@export var _deck: Array[CardResourceV2] = []
 
 ## TODO: need to build this for performance sake
 var _deck_dictionary: Dictionary = {}
 
-func add_card(card: CardResource):
+func add_card(card: CardResourceV2):
 	_deck.append(card)
 
 ## TODO: this does not look nice, use the dictionary once done
-func remove_card(card: CardResource):
+func remove_card(card: CardResourceV2):
 	for i in range(_deck.size()):
 		if _deck[i] == card:
 			_deck.remove_at(i)
@@ -37,5 +37,5 @@ func _load(deck_dictionary: Dictionary):
 	_deck.clear()
 	for card_key in deck_dictionary["deck"].keys():
 		var card_id: String = deck_dictionary["deck"][card_key]
-		var card_resource: CardResource = CardResourcesController.get_card(card_id)
+		var card_resource: CardResourceV2 = CardResourcesController.get_card(card_id)
 		_deck.append(card_resource)

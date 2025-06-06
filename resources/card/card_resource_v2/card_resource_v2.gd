@@ -1,0 +1,96 @@
+extends Resource
+class_name CardResourceV2
+
+signal card_finished_playing
+
+@export_group("Basic Card info")
+@export var id: String
+@export var title: String
+@export_multiline var description: String
+@export var stamina_cost: int = 0
+@export var tag_array: Array[String] = []
+
+@export_group("Card Effects")
+@export var play_conditions: Array[Condition]
+@export var play_actions: Array[CardEffect]
+@export var special_effects: Array[SpecialCardEffectResource]
+
+@export_group("Card Audio & animation")
+@export var audio_stream: AudioStream
+
+var _revertable_play_actions: Array[CardEffect] = []
+
+
+func play_card() -> bool:
+	if not _is_card_playable():
+		return false
+	for condition in play_conditions:
+		if not condition.is_condition_meet():
+			return false
+	var all_actions_successfull: bool = true
+	for action in play_actions:
+		var is_current_action_successfull: bool = await action.play_card_effect()
+		if is_current_action_successfull:
+			_revertable_play_actions.append(action)
+		else:
+			all_actions_successfull = false
+			break
+	if all_actions_successfull:
+		self._after_card_is_played()
+		_revertable_play_actions.clear()
+	return true
+	
+
+## When the card is canceled midway through, 
+## we need to revert all the effects that have been played
+func revert_all_played_card_effects() -> bool:
+	print(revert_all_played_card_effects)
+	while not _revertable_play_actions.is_empty():
+		var action: CardEffect = _revertable_play_actions.pop_front()
+		action.revert_card_effect()
+	return true
+	
+func _is_card_playable() -> bool:
+	if not _is_player_stamina_enough():
+		return false
+	for condition in play_conditions:
+		if not condition.is_condition_meet():
+			return false
+	return true
+
+func _is_player_stamina_enough() -> bool:
+	var player: PlayerCharacter = BattleController.get_player()
+	if not player:
+		return false
+	return player._stamina >= self.stamina_cost
+
+func _after_card_is_played():
+	if self.audio_stream:
+		BattlemapSignals.play_card_stream.emit(self.audio_stream)
+	_apply_stamina_cost(self.stamina_cost)
+	card_finished_playing.emit()
+	BattlemapSignals.card_has_been_played.emit(self)
+
+func _apply_stamina_cost(stamina_cost: int):
+	var player: PlayerPiece = BattleController.get_player()
+	if not player:
+		return
+	player._stamina -= stamina_cost
+	BattlemapSignals.player_stamina_changed.emit(player._stamina)
+
+func subscribe_to_special_effects(
+	card: Card,
+	container_node: Node
+):
+	print(subscribe_to_special_effects)
+	if special_effects.is_empty():
+		return
+	print(subscribe_to_special_effects, ": not empty")
+	for special_effect in special_effects:
+		var controller_instance: BaseSpecialEffect = special_effect.controller.instantiate()
+		controller_instance._init_special_effect(
+			card,
+			special_effect
+		)
+		controller_instance.card = card
+		container_node.add_child(controller_instance)

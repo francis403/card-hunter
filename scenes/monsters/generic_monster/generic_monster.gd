@@ -5,8 +5,8 @@ class_name GenericMonster
 @onready var collision_shape_2d: CollisionShape2D = $CollisionShape2D
 @onready var state_machine: StateMachine = $StateMachine
 
-@onready var status_effect_container: StatusEffectContainer = $StatusEffectContainer
-@onready var status_effects_ui: StatusEffectUI = $StatusEffectsUI
+@onready var power_effect_container: PowerEffectContainer = $PowerEffectContainer
+@onready var power_effect_ui: PowerEffectUI = $PowerEffectUI
 
 @onready var move_intent_container: MarginContainer = $StatusControl/MoveIntentContainer
 @onready var reward_manager: RewardManager = $RewardManager
@@ -69,23 +69,20 @@ func get_texture() -> Texture2D:
 
 func highlight_attack_action() -> void:
 	state_machine.current_state.highlight_attack_action()
-
-func add_status(status: StatusEffect):
-	## TODO: improve
-	## Check to see if the monster is immune to the specific status
-	if _is_monster_immune_to_status(monster_config, status.id):
+	
+func add_power_effect(power_effect: BasePowerNodeController):
+	if _is_monster_immune_to_status(power_effect.power_effect_resource.id):
 		return
-	status_effect_container.add_status(status, self)
+	power_effect_container.add_power_effect(power_effect, self)
 
 ## TODO: improve this
-func remove_status(status_id: String):
-	for child in status_effects_ui.get_status_indicator_children():
-		if child.status_effect.id == status_id:
+func remove_power_effect(status_id: String):
+	for child in power_effect_ui.get_power_effect_indicator_children():
+		if child.power_effect.id == status_id:
 			child.queue_free()
 			return
 
 func _is_monster_immune_to_status(
-	monster_config: MonsterConfig,
 	status_id: String
 ) -> bool:
 	if not monster_config:
@@ -94,13 +91,13 @@ func _is_monster_immune_to_status(
 		return false
 	return monster_config.monster_immunity_config.immune_list.has(status_id)
 
-func has_any_status() -> bool:
-	return status_effect_container.has_any_status()
+func has_any_power_effect() -> bool:
+	return power_effect_container.has_any_power_effect()
 
-func has_status(status_id: String) -> bool:
-	return status_effect_container.has_status(status_id)
+func has_power_effect(status_id: String) -> bool:
+	return power_effect_container.has_power_effect(status_id)
 
-func get_card_rewards() -> Array[CardResource]:
+func get_card_rewards() -> Array[CardResourceV2]:
 	return reward_manager.get_random_cards(2)
 
 func apply_damage(damage: int):

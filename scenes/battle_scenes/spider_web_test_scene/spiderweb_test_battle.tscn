@@ -3,7 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://dn1s6gbout3xc" path="res://scenes/battle_scenes/battle_generic_scene/battle_generic_scene.tscn" id="1_lg62d"]
 [ext_resource type="PackedScene" uid="uid://w530cnkei473" path="res://scenes/monsters/generic_monsters/spider_monster/spider_monster.tscn" id="2_27gmh"]
 [ext_resource type="Script" path="res://scenes/battle_scenes/spider_web_test_scene/spiderweb_test_battle.gd" id="2_qppwk"]
-[ext_resource type="Resource" uid="uid://b7u2qx0w0ve5l" path="res://resources/player_deck/decks/test_deck/test_traps_deck.tres" id="3_ee7cp"]
+[ext_resource type="Resource" uid="uid://c2013uvhxp01r" path="res://resources/player_deck/decks/generic_deck/bow_deck.tres" id="3_g2qav"]
 
 [node name="SpiderWebTestScene" instance=ExtResource("1_lg62d")]
 script = ExtResource("2_qppwk")
@@ -12,7 +12,7 @@ script = ExtResource("2_qppwk")
 monsters = [NodePath("../monsters/SpiderMonster")]
 
 [node name="Player" parent="." index="5"]
-replace_deck = ExtResource("3_ee7cp")
+replace_deck = ExtResource("3_g2qav")
 
 [node name="SpiderMonster" parent="monsters" index="0" instance=ExtResource("2_27gmh")]
 position = Vector2(843, 333)

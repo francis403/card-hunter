@@ -1,7 +1,7 @@
 [gd_scene load_steps=11 format=3 uid="uid://d3vhms6yk456c"]
 
 [ext_resource type="Script" path="res://scenes/game_objects/cards/card/card.gd" id="1_eebhr"]
-[ext_resource type="Resource" uid="uid://dild4y4i7lvo5" path="res://resources/card/card_resources/move_card.tres" id="2_iaqf0"]
+[ext_resource type="Resource" uid="uid://cmf6ja37sck5y" path="res://resources/card/card_resource_v2/_card_resources_v2/move_cards/move_card_1.tres" id="2_6bt5n"]
 [ext_resource type="Texture2D" uid="uid://drnrw7pcoujpb" path="res://assets/game_objects/card_parts/background/card_background_stone.tres" id="3_sxei8"]
 [ext_resource type="Texture2D" uid="uid://8yxfilqy8mep" path="res://assets/game_objects/card_parts/title_box/title_box_normal.tres" id="4_1hd5v"]
 [ext_resource type="Texture2D" uid="uid://cgd3bvohnofpn" path="res://assets/game_objects/card_parts/cost_box/cost_box_normal.tres" id="4_chl7y"]
@@ -18,7 +18,9 @@ font_color = Color(0.000693898, 0.000693898, 0.000693898, 1)
 offset_right = 150.0
 offset_bottom = 200.0
 script = ExtResource("1_eebhr")
-card_resource = ExtResource("2_iaqf0")
+card_resource = ExtResource("2_6bt5n")
+
+[node name="SpecialEffectController" type="Node" parent="."]
 
 [node name="BackGroundTextureRect" type="TextureRect" parent="."]
 layout_mode = 2

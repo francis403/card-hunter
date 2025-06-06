@@ -16,6 +16,7 @@ func _ready() -> void:
 	BattlemapSignals.lock_player_input.connect(_on_input_awaiting_signal)
 	BattlemapSignals.unlock_player_input.connect(_on_input_received_signal)
 	BattlemapSignals.card_discarded_from_hand.connect(_on_card_discared_from_hand_signal)
+	BattlemapSignals.card_discarded_from_hand_reverted.connect(_on_card_discared_from_hand_reverted_signal)
 
 ## TODO: need to either push map up or make input go through cards
 func _on_input_awaiting_signal():
@@ -40,7 +41,7 @@ func _clean_preview():
 		node.queue_free()
 
 ## TODO: don't love the way I'm doing the animation
-func populate_hand(new_cards: Array[CardResource]):
+func populate_hand(new_cards: Array[CardResourceV2]):
 	var new_instantiated_cards: Array[Card] = []
 	for card_resource in new_cards:
 		var new_card: Card = _instantiate_card(card_resource)
@@ -57,7 +58,7 @@ func populate_hand(new_cards: Array[CardResource]):
 			await tween.finished
 		
 ## TODO: Draw card animation could be done here
-func _instantiate_card(card_resource: CardResource) -> Card:
+func _instantiate_card(card_resource: CardResourceV2) -> Card:
 	if not card_resource:
 		return
 	var card_instance: Card = Constants.card_scene.instantiate()
@@ -66,7 +67,6 @@ func _instantiate_card(card_resource: CardResource) -> Card:
 	card_instance.card_resource = card_resource
 	card_instance.initialize_card()
 	return card_instance
-	#Callable(_play_draw_card_animation).call_deferred(card_instance)
 	
 	
 func _play_draw_card_animation(card: Card) -> Tween:
@@ -88,8 +88,11 @@ func _play_draw_card_animation(card: Card) -> Tween:
 func _on_card_discared_from_hand_signal(index: int):
 	pass
 
+## TODO: Play some sort of animation
+func _on_card_discared_from_hand_reverted_signal(card_resource: CardResourceV2):
+	print(_on_card_discared_from_hand_reverted_signal)
+	var card_instance: Card = self._instantiate_card(card_resource)
+	card_instance.modulate.a = 1.0
+
 func _on_h_box_container_sort_children() -> void:
 	pass
-	#print("Children need sorting")
-	#for child in h_box_container.get_children():
-		#print(child.position)

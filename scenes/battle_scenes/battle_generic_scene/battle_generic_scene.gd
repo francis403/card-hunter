@@ -12,6 +12,9 @@ const deck_visualizer_scene = preload("res://ui/deck/deck_visualizer/deck_visual
 ## holds all monsters in the battle scene
 @onready var monsters_node: Node = $monsters
 
+@onready var discard_card_ui: DiscardCardUI = $UINodes/DiscardCardUI
+
+
 @export var player: PlayerCharacter
 
 ## Defines the monsters in the battle scene
@@ -44,6 +47,9 @@ func _ready() -> void:
 	BattlemapSignals.monster_died.connect(_on_monster_died_signal)
 	BattlemapSignals.player_died.connect(_on_battle_lost_signal)
 	BattleSignals.battle_won.connect(_on_battle_won_signal)
+	
+	## Card Signals
+	BattlemapSignals.draw_pile_draw_cards_requested.connect(_draw_pile_draw_cards)
 
 	#_draw_cards_start_of_turn(battlemap.player)
 	_prep_battle_arena_monsters()
@@ -57,12 +63,18 @@ func _on_player_turn_started_signal():
 	player.recover_stamina()
 	BattlemapSignals.unlock_player_input.emit()
 
-## TODO: this is probably better if I do as soon as the battle has started
+## TODO: this draw cards business can probably be done better somewhere else
 func _draw_cards_start_of_turn(player: PlayerPiece):
-	var new_cards: Array[CardResource] = player.draw_til_hand_size()
+	var new_cards: Array[CardResourceV2] = player.draw_til_hand_size()
 	hand.populate_hand(new_cards)
 	if new_cards.size() > 0:
 		BattlemapSignals.draw_pile_updated.emit(player.draw_pile)
+	
+func _draw_card(player: PlayerPiece):
+	var new_cards: Array[CardResourceV2] = []
+	new_cards.append(player.draw_card())
+	hand.populate_hand(new_cards)
+	BattlemapSignals.draw_pile_updated.emit(player.draw_pile)
 	
 func _prep_battle_arena_monsters():
 	if monsters.size() > 0:
@@ -111,23 +123,22 @@ func _on_battle_lost_signal():
 	_show_game_over_screen()
 
 func _on_battle_won_signal():
-	#if PlayerController.current_world_node:
-		#PlayerController.current_world_node.clear_monsters()
-	#BattlemapSignals.node_completed.emit(File.progress.current_world_node_id)
 	if _world_node:
-		#BattlemapSignals.reveal_connected_nodes.emit(_world_node)
 		_world_node.reveal_connected_nodes()
 		_world_node.after_world_node_completed_successfully()
 	
 	game_over_screen.prep_win_screen()
 	_show_game_over_screen()
 	
-## TODO: add possible rewards
 func _show_game_over_screen():
 	game_over_screen.visible = true
 	get_tree().paused = true
 	game_over_screen.process_mode = Node.PROCESS_MODE_ALWAYS
 
+func _draw_pile_draw_cards(n: int):
+	for _i in range(0, n, 1):
+		if player.current_card_in_hand_size < player.max_hand_size:
+			self._draw_card(player)
 
 func _on_tree_exited() -> void:
 	GameController.is_showing_battle_scene = false

@@ -31,7 +31,7 @@ func _ready() -> void:
 	#number_of_cards_label.text = str(_deck.size())
 
 func _on_deck_finished_prepping_signal(
-	deck: Array[CardResource]
+	deck: Array[CardResourceV2]
 ):
 	number_of_cards_label.text = str(deck.size())
 

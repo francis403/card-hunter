@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://w530cnkei473"]
+[gd_scene load_steps=24 format=3 uid="uid://w530cnkei473"]
 
 [ext_resource type="PackedScene" uid="uid://b77dqwv8b42lt" path="res://scenes/monsters/generic_monster/generic_monster.tscn" id="1_ayxpp"]
 [ext_resource type="Script" path="res://scenes/monsters/generic_monsters/spider_monster/spider_monster.gd" id="2_bi3n2"]
@@ -7,20 +7,21 @@
 [ext_resource type="Script" path="res://resources/configuration/monster_configurations/monster_config/monster_config.gd" id="5_odyso"]
 [ext_resource type="Script" path="res://resources/configuration/monster_configurations/monster_spawn_config/monster_spawn_config.gd" id="5_wyrno"]
 [ext_resource type="PackedScene" uid="uid://cvfuga8sci420" path="res://scenes/game_objects/states/shoot_with_effect_if_within_range/shoot_with_effect_if_within_range.tscn" id="6_15hyu"]
-[ext_resource type="Script" path="res://resources/card/card_resource.gd" id="6_eq10v"]
 [ext_resource type="PackedScene" uid="uid://by053fy0oimg0" path="res://scenes/game_objects/states/move_and_single_attack_state/move_and_single_attack_state.tscn" id="6_glkbu"]
 [ext_resource type="PackedScene" uid="uid://dlmk5gnkgawp0" path="res://scenes/game_objects/states/create_spider_webs_if_out_of_range/create_spider_webs_if_out_of_range.tscn" id="6_njwvq"]
-[ext_resource type="Resource" uid="uid://c4jdxyuh3hqwd" path="res://resources/card/card_resources/place_spiderweb_trap.tres" id="7_6bfs8"]
-[ext_resource type="Resource" uid="uid://gf0hhocv78vs" path="res://resources/card/card_resources/dash_card.tres" id="8_okrld"]
-[ext_resource type="Texture2D" uid="uid://btbd3n1d3jqn6" path="res://scenes/game_objects/battlemap/tile_effects/spiderweb/spider-web-png-34733.png" id="10_rf0dk"]
+[ext_resource type="Script" path="res://resources/card/card_resource_v2/card_resource_v2.gd" id="7_jninh"]
+[ext_resource type="Resource" uid="uid://d0tjdvgepml65" path="res://resources/card/card_resource_v2/_card_resources_v2/status_change_cards/health_potion_1.tres" id="8_ifip4"]
+[ext_resource type="Resource" uid="uid://b7dsj5bdapmyx" path="res://resources/card/card_resource_v2/_card_resources_v2/status_change_cards/poison_potion_1.tres" id="9_ja34g"]
+[ext_resource type="Texture2D" uid="uid://btbd3n1d3jqn6" path="res://assets/images/icons/tiles/spider-web-png-34733.png" id="10_rf0dk"]
 [ext_resource type="Resource" uid="uid://cdfg8pprgsw28" path="res://resources/monster/state/state_condition/conditions/player_in_range_3.tres" id="13_4dkmf"]
 [ext_resource type="Script" path="res://resources/monster/state/state_change_condition/state_change_condition.gd" id="13_hcas0"]
 [ext_resource type="Script" path="res://resources/monster/state/state_condition/state_condition.gd" id="14_pe6an"]
+[ext_resource type="Resource" uid="uid://b6wwihrdhhm7o" path="res://resources/battle_entities/tile_effect_resource/_tile_effect_resources/spider_web_tile_effect_resource.tres" id="16_3bvni"]
 [ext_resource type="Script" path="res://resources/monster/state/player_range_state_change_condition/player_range_state_change_condition.gd" id="16_v1bxf"]
 
 [sub_resource type="Resource" id="Resource_mva3q"]
 script = ExtResource("4_axrlo")
-immune_list = Array[String](["stop_next_movement"])
+immune_list = Array[String](["stop_movement_on_init"])
 
 [sub_resource type="Resource" id="Resource_go8gw"]
 script = ExtResource("5_wyrno")
@@ -56,22 +57,24 @@ script = ExtResource("2_bi3n2")
 monster_id = "spider_monster_small"
 monster_texture = ExtResource("2_kyton")
 monster_config = SubResource("Resource_bbo3v")
-_health = 60
-_max_hp = 60
+_health = 10
+_max_hp = 10
 _strength = 20
 
 [node name="RewardManager" parent="." index="0"]
-card_rewards = Array[ExtResource("6_eq10v")]([ExtResource("7_6bfs8"), ExtResource("8_okrld")])
+card_rewards = Array[ExtResource("7_jninh")]([ExtResource("8_ifip4"), ExtResource("9_ja34g")])
 
 [node name="StateMachine" parent="." index="2" node_paths=PackedStringArray("initial_state")]
 initial_state = NodePath("CreateSpiderWebsIfOutOfRange")
 
 [node name="CreateSpiderWebsIfOutOfRange" parent="StateMachine" index="0" instance=ExtResource("6_njwvq")]
 maximum_distance_to_player = 3
+tile_effect_resource = ExtResource("16_3bvni")
 state_change_conditions = Array[ExtResource("13_hcas0")]([SubResource("Resource_67v8e")])
 state_icon = ExtResource("10_rf0dk")
 
 [node name="ShootSpiderWebsIfWithinRangeState" parent="StateMachine" index="1" instance=ExtResource("6_15hyu")]
+tile_effect_resource = ExtResource("16_3bvni")
 maximum_distance_to_player = 2
 state_change_conditions = Array[ExtResource("13_hcas0")]([SubResource("Resource_wj8nu")])
 

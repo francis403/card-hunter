@@ -6,6 +6,9 @@ class_name CreateSpiderWebsIfOutsideOfRange
 @export var create_webs_range: int = 2
 @export var maximum_distance_to_player: int = 2
 
+## TODO: Use this one
+@export var tile_effect_resource: TileEffectResource
+
 var target_tile: Tile = null
 
 func _ready() -> void:
@@ -31,10 +34,14 @@ func do_state_action():
 
 	## if we start having a tile to add, add it there
 	if target_tile:
-		BattlemapSignals.add_effect_type_to_tile.emit(
-			Constants.TileEffectTypes.SPIDER_WEB,
-			target_tile
-		)
+		var tile_effect_controller: BaseTileEffectController =\
+			tile_effect_resource.tile_effect_controller.instantiate()
+		tile_effect_controller.tile_effect_resource = tile_effect_resource
+		target_tile.add_tile_effect_v2(tile_effect_controller)
+		#BattlemapSignals.add_effect_type_to_tile.emit(
+			#Constants.TileEffectTypes.SPIDER_WEB,
+			#target_tile
+		#)
 
 	## if we are in range do something else
 	var is_state_changed: bool = self.check_and_apply_state_change_action()

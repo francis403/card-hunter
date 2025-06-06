@@ -26,12 +26,9 @@ func end_monster_turn():
 	BattlemapSignals.player_turn_started.emit()
 
 func apply_damage(damage: int):
-	self._health -= damage
+	super.apply_damage(damage)
 	BattlemapSignals.monster_hp_changed.emit(self._health, self._max_hp)
-	if _health <= 0:
-		_die()
-		
-		
+
 func _die():
 	self._tile.piece_in_tile = null
 	BattlemapSignals.monster_died.emit()

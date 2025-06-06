@@ -1,0 +1,32 @@
+[gd_resource type="Resource" script_class="CardResourceV2" load_steps=10 format=3 uid="uid://d0tjdvgepml65"]
+
+[ext_resource type="AudioStream" uid="uid://mdol2aev84gr" path="res://assets/sound/sound_effects/drinking_potion.mp3" id="1_6q8rp"]
+[ext_resource type="Script" path="res://resources/card/card_resource_v2/card_effect/card_effect.gd" id="2_grq01"]
+[ext_resource type="Script" path="res://resources/card/card_resource_v2/card_effect/_card_effects/status_change_card_effect/status_change_card_effect.gd" id="3_2fk6h"]
+[ext_resource type="Script" path="res://resources/configuration/effect_configs/status_modifier_config/status_modifier_config.gd" id="4_11vpw"]
+[ext_resource type="Script" path="res://resources/card/card_resource_v2/condition/condition.gd" id="5_xpgh1"]
+[ext_resource type="Script" path="res://resources/card/card_resource_v2/card_resource_v2.gd" id="6_8yhy6"]
+[ext_resource type="Script" path="res://resources/card/card_resource_v2/special_card_effect/special_card_effect_resource.gd" id="7_vvv15"]
+
+[sub_resource type="Resource" id="Resource_lxwx0"]
+script = ExtResource("4_11vpw")
+stat = 3
+operation = 0
+value = 50.0
+
+[sub_resource type="Resource" id="Resource_1uxtb"]
+script = ExtResource("3_2fk6h")
+status_modifier_config = SubResource("Resource_lxwx0")
+
+[resource]
+script = ExtResource("6_8yhy6")
+id = "health_potion_1"
+title = "Health Potion"
+description = "Drink a health potion and recover 50 hp.
+One use."
+stamina_cost = 0
+tag_array = Array[String](["one_use", "status_change", "item"])
+play_conditions = Array[ExtResource("5_xpgh1")]([])
+play_actions = Array[ExtResource("2_grq01")]([SubResource("Resource_1uxtb")])
+special_effects = Array[ExtResource("7_vvv15")]([])
+audio_stream = ExtResource("1_6q8rp")

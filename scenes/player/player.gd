@@ -4,8 +4,12 @@ class_name PlayerCharacter
 const PLAYER_HIT_1 = preload("res://assets/sound/sound_effects/player_hit_1.mp3")
 
 @onready var audio_stream_player: AudioStreamPlayer = $AudioStreamPlayer
-@onready var status_effect_container: StatusEffectContainer = $StatusEffectContainer
-@onready var status_effects_ui: StatusEffectUI = $StatusEffectsUI
+
+@onready var power_effect_container: PowerEffectContainer = $PowerEffectContainer
+
+## Shows the player which power effects are applied to him.
+@onready var power_effect_ui: PowerEffectUI = $PowerEffectUI
+
 @onready var sprite_2d: Sprite2D = $Sprite2D
 
 func _ready() -> void:
@@ -19,22 +23,22 @@ func _ready() -> void:
 func _on_play_card_sound_signal(audio_stream: AudioStream):
 	audio_stream_player.stream = audio_stream
 	audio_stream_player.play()
-	
-func add_status(status: StatusEffect):
-	status_effect_container.add_status(status, self)
 
-func has_any_status() -> bool:
-	return status_effect_container.has_any_status()
+func add_power_effect(power_effect: BasePowerNodeController):
+	power_effect_container.add_power_effect(power_effect, self)
 
-func has_status(status_id: String) -> bool:
-	return status_effect_container.has_status(status_id)
+func has_any_power_effect() -> bool:
+	return power_effect_container.has_any_power_effect()
 
-func remove_all_status():
-	status_effect_container.remove_all_status()
+func has_power_effect(status_id: String) -> bool:
+	return power_effect_container.has_power_effect(status_id)
+
+func remove_all_power_effects():
+	power_effect_container.remove_all_power_effects()
 
 ## TODO: improve this
-func remove_status(status_id: String):
-	status_effect_container.remove_status(status_id)
+func remove_power_effect(status_id: String):
+	power_effect_container.remove_power_effect(status_id)
 
 func apply_damage(damage: int):
 	_play_hit_flash()

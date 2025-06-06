@@ -1,14 +1,15 @@
-[gd_resource type="Resource" script_class="PlayerDeck" load_steps=9 format=3 uid="uid://c52h8udn2ffm4"]
+[gd_resource type="Resource" script_class="PlayerDeck" load_steps=10 format=3 uid="uid://c52h8udn2ffm4"]
 
-[ext_resource type="Script" path="res://resources/card/card_resource.gd" id="1_o1t47"]
-[ext_resource type="Resource" uid="uid://dild4y4i7lvo5" path="res://resources/card/card_resources/move_card.tres" id="2_0m5q7"]
-[ext_resource type="Resource" uid="uid://2it5k6b3esfs" path="res://resources/card/card_resources/slice_card.tres" id="3_g2b0g"]
-[ext_resource type="Resource" uid="uid://gf0hhocv78vs" path="res://resources/card/card_resources/dash_card.tres" id="4_t2lki"]
-[ext_resource type="Resource" uid="uid://bh6wol8b68puf" path="res://resources/card/card_resources/health_potion.tres" id="6_o8xc6"]
-[ext_resource type="Resource" uid="uid://diasqdd0iallv" path="res://resources/card/card_resources/breathe_card.tres" id="7_8xa8n"]
-[ext_resource type="Resource" uid="uid://betuhlkqwxesg" path="res://resources/card/card_resources/double_strength_power_card.tres" id="7_g15qi"]
+[ext_resource type="Script" path="res://resources/card/card_resource_v2/card_resource_v2.gd" id="1_7i4el"]
+[ext_resource type="Resource" uid="uid://djlopuaxk13fn" path="res://resources/card/card_resource_v2/_card_resources_v2/move_cards/dash_card_1.tres" id="2_qcsn8"]
+[ext_resource type="Resource" uid="uid://cmf6ja37sck5y" path="res://resources/card/card_resource_v2/_card_resources_v2/move_cards/move_card_1.tres" id="3_rwk8a"]
+[ext_resource type="Resource" uid="uid://d0tjdvgepml65" path="res://resources/card/card_resource_v2/_card_resources_v2/status_change_cards/health_potion_1.tres" id="4_ep4jm"]
+[ext_resource type="Resource" uid="uid://bnbqi4hpeshi7" path="res://resources/card/card_resource_v2/_card_resources_v2/status_change_cards/breathe_card_1.tres" id="5_p4mx6"]
+[ext_resource type="Resource" uid="uid://y866rrfg7pyy" path="res://resources/card/card_resource_v2/_card_resources_v2/attack_cards/slice_card_1.tres" id="6_jp17i"]
+[ext_resource type="Resource" uid="uid://c7ml1pqlvfib4" path="res://resources/card/card_resource_v2/_card_resources_v2/power_cards/double_strength_power_card_1.tres" id="7_1otrc"]
 [ext_resource type="Script" path="res://resources/player_deck/player_deck.gd" id="8_dnvnh"]
+[ext_resource type="Resource" uid="uid://d37hu1uhqsq3o" path="res://resources/card/card_resource_v2/_card_resources_v2/attack_cards/long_slice_card_1.tres" id="8_l8v4e"]
 
 [resource]
 script = ExtResource("8_dnvnh")
-_deck = Array[ExtResource("1_o1t47")]([ExtResource("2_0m5q7"), ExtResource("2_0m5q7"), ExtResource("3_g2b0g"), ExtResource("3_g2b0g"), ExtResource("3_g2b0g"), ExtResource("4_t2lki"), ExtResource("6_o8xc6"), ExtResource("7_8xa8n"), ExtResource("3_g2b0g"), ExtResource("7_g15qi"), ExtResource("7_g15qi")])
+_deck = Array[ExtResource("1_7i4el")]([ExtResource("2_qcsn8"), ExtResource("3_rwk8a"), ExtResource("3_rwk8a"), ExtResource("4_ep4jm"), ExtResource("5_p4mx6"), ExtResource("6_jp17i"), ExtResource("6_jp17i"), ExtResource("6_jp17i"), ExtResource("7_1otrc"), ExtResource("8_l8v4e")])
