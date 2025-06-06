@@ -34,5 +34,7 @@ func remove_power_effect(status_id: String):
 			return
 
 func remove_all_power_effects():
-	for child in power_effect_ui.get_power_effect_indicator_children():
-		child.queue_free()
+	for power_effect_node in self.get_children():
+		power_effect_node.queue_free()
+	for power_effect_ui_node in power_effect_ui.get_power_effect_indicator_children():
+		power_effect_ui_node.queue_free()
