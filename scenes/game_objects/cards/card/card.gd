@@ -78,8 +78,19 @@ func _discard_card() -> bool:
 	if not _can_card_be_discarded():
 		return false
 	BattlemapSignals.card_discarded_from_hand.emit(self.get_index())
-	self.queue_free()
+	## Play discard animation
+	## Don't love this
+	_play_discard_animation()
+	#self.queue_free()
 	return true
+
+func _play_discard_animation():
+	## Don't love this
+	if not BattlemapSignals.player_initiated_card_discard.get_connections().is_empty():
+		BattlemapSignals.player_initiated_card_discard.emit(self)
+		#await BattlemapSignals.discard_card_animation_finished
+	else:
+		self.queue_free()
 
 func _on_mouse_entered() -> void:
 	_mouse_hovering = true

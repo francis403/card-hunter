@@ -34,6 +34,11 @@ func get_player() -> PlayerPiece:
 		return null
 	return battlemap.player
 	
+func get_player_hand() -> Hand:
+	if not battlemap:
+		return null
+	return battlemap.get_ha
+	
 func get_monster() -> MonsterPiece:
 	if not battlemap or not battlemap.monsters or battlemap.monsters.is_empty():
 		return null

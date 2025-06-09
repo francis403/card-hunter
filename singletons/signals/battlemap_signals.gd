@@ -31,6 +31,8 @@ signal draw_pile_draw_cards_requested(number_of_cards_to_draw: int)
 
 ## Card signals
 signal card_has_been_played(card_resource: CardResourceV2)
+signal player_initiated_card_discard(card: Card)
+signal discard_card_animation_finished(is_success: bool)
 signal card_discarded_from_hand(index: int)
 signal card_discarded_from_hand_reverted(card_resource: CardResourceV2)
 signal card_removed_from_deck(index: int)

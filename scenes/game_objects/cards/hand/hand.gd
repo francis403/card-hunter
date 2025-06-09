@@ -17,6 +17,7 @@ func _ready() -> void:
 	BattlemapSignals.unlock_player_input.connect(_on_input_received_signal)
 	BattlemapSignals.card_discarded_from_hand.connect(_on_card_discared_from_hand_signal)
 	BattlemapSignals.card_discarded_from_hand_reverted.connect(_on_card_discared_from_hand_reverted_signal)
+	BattlemapSignals.player_initiated_card_discard.connect(_on_player_initiated_card_discard_signal)
 
 ## TODO: need to either push map up or make input go through cards
 func _on_input_awaiting_signal():
@@ -56,7 +57,8 @@ func populate_hand(new_cards: Array[CardResourceV2]):
 		var tween = _play_draw_card_animation(child)
 		if tween:
 			await tween.finished
-		
+
+
 ## TODO: Draw card animation could be done here
 func _instantiate_card(card_resource: CardResourceV2) -> Card:
 	if not card_resource:
@@ -83,6 +85,44 @@ func _play_draw_card_animation(card: Card) -> Tween:
 	#tween.tween_property(card, "scale", Vector2(0, 0), 0).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 	#tween.tween_property(card, "scale", Vector2(1, 1), 0.4).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 	
+	return tween
+	
+func _on_player_initiated_card_discard_signal(card: Card):
+	var tween: Tween = _play_discard_card_animation(card)
+	if tween:
+		await tween.finished
+	card.queue_free()
+	BattlemapSignals.discard_card_animation_finished.emit(true)
+	
+func _play_discard_card_animation(
+	card: Card
+) -> Tween:
+	if not discard_pile_marker || not card:
+		return null
+	var initial_card_position: Vector2 = card.global_position
+	var tween = create_tween()
+	tween.set_parallel(true)
+	var target_position = discard_pile_marker.global_position
+	target_position.x -= card.size.x / 2  
+	target_position.y -= card.size.y / 2
+	
+	print("card.size = ", card.size)
+	
+	var duration: float = 0.4
+
+	tween.tween_property(card, "global_position", target_position, duration)
+	tween.tween_property(card, "scale", Vector2(0.5, 0.5), duration)
+	tween.tween_property(card, "rotation_degrees", randf_range(-15, 15), duration)
+	tween.tween_property(card, "modulate:a", 0.8, duration)
+	tween.set_ease(Tween.EASE_IN_OUT)
+	tween.set_trans(Tween.TRANS_CUBIC)
+
+	#tween.parallel()
+	#tween.tween_property(card, "modulate:a", 1.0, 0)
+	#tween.parallel().tween_property(card, "scale", Vector2(1, 1), 0).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	#tween.parallel().tween_property(card, "global_position", initial_card_position, 0).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	#tween.parallel().tween_property(card, "scale", Vector2(0.3, 0.3), 1.0).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	#tween.parallel().tween_property(card, "global_position", discard_pile_marker.global_position, 0.6).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
 	return tween
 	
 func _on_card_discared_from_hand_signal(index: int):

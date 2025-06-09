@@ -15,8 +15,8 @@ line_spacing = 1.0
 font_color = Color(0.000693898, 0.000693898, 0.000693898, 1)
 
 [node name="Card" type="MarginContainer"]
-offset_right = 150.0
-offset_bottom = 200.0
+offset_right = 171.0
+offset_bottom = 225.0
 script = ExtResource("1_eebhr")
 card_resource = ExtResource("2_6bt5n")
 

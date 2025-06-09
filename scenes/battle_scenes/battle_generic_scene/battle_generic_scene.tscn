@@ -48,9 +48,10 @@ scale = Vector2(3, 3)
 
 [node name="monsters" type="Node" parent="."]
 
-[node name="Hand" parent="." node_paths=PackedStringArray("draw_pile_marker") instance=ExtResource("7_q21cd")]
+[node name="Hand" parent="." node_paths=PackedStringArray("draw_pile_marker", "discard_pile_marker") instance=ExtResource("7_q21cd")]
 size_flags_horizontal = 4
 draw_pile_marker = NodePath("../DrawPileMarker")
+discard_pile_marker = NodePath("../DiscardPileMarker")
 
 [node name="UINodes" type="Control" parent="."]
 layout_mode = 3
@@ -93,5 +94,8 @@ visible = false
 
 [node name="DrawPileMarker" type="Marker2D" parent="."]
 position = Vector2(49, 583)
+
+[node name="DiscardPileMarker" type="Marker2D" parent="."]
+position = Vector2(1102, 583)
 
 [connection signal="tree_exited" from="." to="." method="_on_tree_exited"]
