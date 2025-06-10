@@ -23,14 +23,19 @@ func _ready() -> void:
 func _on_input_awaiting_signal():
 	h_box_container.modulate.a = .33
 	h_box_container.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	h_box_container.set_process_input(false)
 	self.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	self.process_mode = Node.PROCESS_MODE_DISABLED
+	self.set_process_input(false)
+	h_box_container.propagate_call("set_mouse_filter", [Control.MOUSE_FILTER_IGNORE])
 
 func _on_input_received_signal():
 	h_box_container.modulate.a = 1
 	h_box_container.mouse_filter = Control.MOUSE_FILTER_PASS
 	self.mouse_filter = Control.MOUSE_FILTER_STOP
 	self.process_mode = Node.PROCESS_MODE_INHERIT
+	self.set_process_input(true)
+	h_box_container.propagate_call("set_mouse_filter", [Control.MOUSE_FILTER_PASS])
 
 func _on_player_canceled_input_signal():
 	h_box_container.modulate.a = 1

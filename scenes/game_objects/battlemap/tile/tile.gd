@@ -51,10 +51,12 @@ func initialize_tile(
 
 func show_background():
 	background_button.visible = true
+	self.z_index = 1
 
 
 func hide_background():
 	background_button.visible = false
+	self.z_index = 0
 	
 func show_attack_background():
 	attack_rect.visible = true
@@ -66,14 +68,6 @@ func hide_attack_background():
 
 func _on_player_input_signal():
 	self.hide_background()
-
-## TODO: I do believe this will have to be refactored
-func add_tile_effect(tile_effect: TileEffect):
-	tile_effects_container.add_child(tile_effect)
-	
-	## TODO: I should probably read from config
-	if self.piece_in_tile:
-		tile_effect.apply_effect(piece_in_tile)
 
 func add_tile_effect_v2(tile_effect: BaseTileEffectController):
 	tile_effects_container.add_child(tile_effect)
@@ -88,7 +82,6 @@ func remove_tile_effects():
 
 func has_effect() -> bool:
 	return tile_effects_container.get_children().size() > 0
-
 
 
 func _on_background_button_pressed() -> void:

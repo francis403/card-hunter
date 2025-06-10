@@ -29,7 +29,7 @@ remove_specific_status_effects = Array[String]([])
 script = ExtResource("7_toj4q")
 id = "healing_salve_1"
 title = "Healing Salve"
-description = "Apply Healing Salve to remove all status conditions & heal 10hp.
+description = "Remove all status conditions & heal 10hp.
 One use."
 stamina_cost = 0
 tag_array = Array[String](["one_use", "status_change", "item"])

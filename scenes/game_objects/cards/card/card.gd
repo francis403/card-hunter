@@ -14,6 +14,8 @@ signal card_discarded_by_effect
 @onready var stamina_cost_label: Label = %StaminaCostLabel
 @onready var discard_button: Button = %DiscardButton
 @onready var special_effect_controller: Node = $SpecialEffectController
+@onready var full_card_container: MarginContainer = $FullCardContainer
+@onready var back_ground_texture_rect: TextureRect = $BackGroundTextureRect
 
 var card_can_be_played: bool = true
 var _mouse_hovering: bool = false
@@ -25,7 +27,6 @@ var _is_awaiting_card_selection: bool = false
 func _ready() -> void:
 	if card_resource:
 		initialize_card()
-		print(_ready, ": ", self.card_resource.id)
 		BattlemapSignals.awaiting_for_card_selection.connect(on_awaiting_for_card_selection_signal)
 		BattlemapSignals.card_selected_confirmed.connect(on_card_selection_confirmed_signal)
 		BattlemapSignals.canceled_player_input.connect(_revert_played_card)
@@ -35,13 +36,16 @@ func initialize_card():
 	card_description.text = card_resource.description
 	stamina_cost_label.text = str(card_resource.stamina_cost)
 	card_resource.subscribe_to_special_effects(self, special_effect_controller)
-	
-# TODO: this should probably go to the hand_manager
-func _input(event: InputEvent) -> void:
+
+
+func _on_gui_input(event: InputEvent) -> void:
 	if _discard_button_mouse_hovering:
 		return
 	if _mouse_hovering and event.is_action_pressed("left_click"):
 		_card_clicked()
+
+func _is_awaiting_player_input() -> bool:
+	return self.modulate.a <= 0.5
 
 func _card_clicked():
 	if _is_awaiting_card_selection:
@@ -94,12 +98,14 @@ func _play_discard_animation():
 
 func _on_mouse_entered() -> void:
 	_mouse_hovering = true
+	_play_hover_animation()
+
+func _play_hover_animation():
 	if not _card_can_hover():
 		return
 	var tween = create_tween()
 	tween.tween_property(self, "position:y", -50, .4)\
 		.set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_BACK)
-
 
 func _on_mouse_exited() -> void:
 	_mouse_hovering = false
