@@ -1,6 +1,7 @@
 extends Piece
 class_name MonsterPiece
 
+
 var next_move: Tile = null
 
 func _ready() -> void:
@@ -25,8 +26,11 @@ func on_monster_moved_by_player(new_tile: Tile) -> void:
 func end_monster_turn():
 	BattlemapSignals.player_turn_started.emit()
 
-func apply_damage(damage: int):
-	super.apply_damage(damage)
+func apply_damage(
+	damage: int,
+	_origin_tile: Tile
+):
+	super.apply_damage(damage, _origin_tile)
 	BattlemapSignals.monster_hp_changed.emit(self._health, self._max_hp)
 
 func _die():

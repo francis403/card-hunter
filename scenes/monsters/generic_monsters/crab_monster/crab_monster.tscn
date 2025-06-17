@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://cvlh0ir1dbn8k"]
+[gd_scene load_steps=23 format=3 uid="uid://cvlh0ir1dbn8k"]
 
 [ext_resource type="Script" path="res://scenes/monsters/generic_monsters/crab_monster/crab_monster.gd" id="1_f67w6"]
 [ext_resource type="PackedScene" uid="uid://b77dqwv8b42lt" path="res://scenes/monsters/generic_monster/generic_monster.tscn" id="1_jxbo4"]
@@ -13,6 +13,8 @@
 [ext_resource type="Resource" uid="uid://d0tjdvgepml65" path="res://resources/card/card_resource_v2/_card_resources_v2/status_change_cards/health_potion_1.tres" id="9_56dmi"]
 [ext_resource type="Script" path="res://resources/monster/state/state_change_condition/state_change_condition.gd" id="12_s4wg8"]
 [ext_resource type="Script" path="res://resources/monster/state/state_condition/state_condition.gd" id="13_i5s67"]
+[ext_resource type="PackedScene" uid="uid://c7xqpe3snou7" path="res://scenes/monsters/monster_body_parts/body_parts/head_body_part/head_body_part.tscn" id="14_netfg"]
+[ext_resource type="PackedScene" uid="uid://cje0q5xds21f7" path="res://scenes/monsters/monster_body_parts/body_parts/back_body_part/back_body_part.tscn" id="15_gyvj4"]
 
 [sub_resource type="Resource" id="Resource_328e3"]
 script = ExtResource("4_3773e")
@@ -71,5 +73,13 @@ state_change_conditions = Array[ExtResource("12_s4wg8")]([SubResource("Resource_
 [node name="StayAwayAndAttackFromRange" parent="StateMachine" index="1" instance=ExtResource("4_e5dvf")]
 state_change_conditions = Array[ExtResource("12_s4wg8")]([SubResource("Resource_in7xo")])
 
-[node name="Sprite2D" parent="." index="4"]
+[node name="HeadBodyPart" parent="MonsterBodyPartContainer" index="0" instance=ExtResource("14_netfg")]
+min_angle = 45.0
+max_angle = 135.0
+
+[node name="BackBodyPart" parent="MonsterBodyPartContainer" index="1" instance=ExtResource("15_gyvj4")]
+min_angle = 230.0
+max_angle = 320.0
+
+[node name="Sprite2D" parent="." index="5"]
 texture = ExtResource("1_x8062")

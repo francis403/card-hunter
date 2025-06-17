@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://o81mljexnsx4"]
+
+[ext_resource type="Script" path="res://scripts/monster/layer_effects/eyes_effects/glowing_eyes_layer_effect.gd" id="1_876mt"]
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_duhxs"]
+particle_flag_disable_z = true
+gravity = Vector3(0, 98, 0)
+
+[node name="GlowingEyes" type="GPUParticles2D"]
+process_material = SubResource("ParticleProcessMaterial_duhxs")
+script = ExtResource("1_876mt")

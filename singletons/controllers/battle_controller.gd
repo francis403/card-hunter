@@ -57,7 +57,6 @@ func _on_player_turn_ended():
 	player_turn_stats = PlayerTurnStats.new()
 
 func _on_card_discarded_from_hand(index: int):
-	print(_on_card_discarded_from_hand)
 	player_turn_stats.total_number_of_cards_discarded += 1
 
 func _on_card_played(card_resource: CardResourceV2):

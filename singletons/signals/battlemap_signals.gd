@@ -57,7 +57,7 @@ signal after_player_movement
 
 ## Monster signals
 signal monster_turn_started
-signal deal_damage_to_attacked_squares(damage: int)
+signal deal_damage_to_attacked_squares(origin_tile: Tile, damage: int)
 signal monster_hp_changed(new_hp: int, max_hp: int)
 signal monster_prepared_move(tile: Tile)
 signal monster_prepared_attack(attacked_tiles: Array[Tile])

@@ -16,6 +16,7 @@ func enter_state():
 func do_state_action():
 	super.do_state_action()
 	BattlemapSignals.deal_damage_to_attacked_squares.emit(
+		monster._tile,
 		monster._strength
 	)
 	self.do_movement()

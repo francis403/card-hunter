@@ -1,0 +1,41 @@
+[gd_resource type="Resource" script_class="CardResourceV2" load_steps=10 format=3 uid="uid://bu7gcqxkp3gqp"]
+
+[ext_resource type="AudioStream" uid="uid://d1mjkdbshat6f" path="res://assets/sound/sound_effects/footstep09.ogg" id="1_40wop"]
+[ext_resource type="Script" path="res://resources/card/card_resource_v2/card_effect/card_effect.gd" id="2_4areh"]
+[ext_resource type="Script" path="res://resources/card/card_resource_v2/card_effect/_card_effects/move_self_card_effect/move_self_card_effect.gd" id="3_gcenl"]
+[ext_resource type="Script" path="res://resources/configuration/tile_highlight_configuration/tile_highlight_configuration.gd" id="4_urc70"]
+[ext_resource type="Script" path="res://resources/card/card_resource_v2/condition/condition.gd" id="5_cw0su"]
+[ext_resource type="Script" path="res://resources/card/card_resource_v2/card_resource_v2.gd" id="6_qngvf"]
+[ext_resource type="Script" path="res://resources/card/card_resource_v2/special_card_effect/special_card_effect_resource.gd" id="7_8e6qw"]
+
+[sub_resource type="Resource" id="Resource_ea8i2"]
+script = ExtResource("4_urc70")
+range = 10
+min_range = 0.0
+area_type = 4
+ignore_occupied_tiles = true
+ignore_origin = true
+ignore_corners = false
+ignore_non_corners = false
+ignore_tiles_with_effects = false
+ignore_north_tiles = false
+ignore_south_tiles = false
+ignore_east_tiles = false
+ignore_west_tiles = false
+
+[sub_resource type="Resource" id="Resource_4egt0"]
+script = ExtResource("3_gcenl")
+tile_highlight_config = SubResource("Resource_ea8i2")
+center_piece = 1
+
+[resource]
+script = ExtResource("6_qngvf")
+id = "teleport_1"
+title = "Teleport"
+description = "Teleport to any square on the map"
+stamina_cost = 0
+tag_array = Array[String](["move"])
+play_conditions = Array[ExtResource("5_cw0su")]([])
+play_actions = Array[ExtResource("2_4areh")]([SubResource("Resource_4egt0")])
+special_effects = Array[ExtResource("7_8e6qw")]([])
+audio_stream = ExtResource("1_40wop")

@@ -93,14 +93,15 @@ func _play_draw_card_animation(card: Card) -> Tween:
 	return tween
 	
 func _on_player_initiated_card_discard_signal(card: Card):
-	var tween: Tween = _play_discard_card_animation(card)
+	var tween: Tween = _play_discard_card_animation(card, 0.2)
 	if tween:
 		await tween.finished
 	card.queue_free()
 	BattlemapSignals.discard_card_animation_finished.emit(true)
 	
 func _play_discard_card_animation(
-	card: Card
+	card: Card,
+	duration: float = 0.4
 ) -> Tween:
 	if not discard_pile_marker || not card:
 		return null
@@ -110,10 +111,6 @@ func _play_discard_card_animation(
 	var target_position = discard_pile_marker.global_position
 	target_position.x -= card.size.x / 2  
 	target_position.y -= card.size.y / 2
-	
-	print("card.size = ", card.size)
-	
-	var duration: float = 0.4
 
 	tween.tween_property(card, "global_position", target_position, duration)
 	tween.tween_property(card, "scale", Vector2(0.5, 0.5), duration)

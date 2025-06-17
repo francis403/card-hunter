@@ -53,7 +53,6 @@ func monster_health_comparison(
 	monster: GenericMonster
 ) -> bool:
 	var value: float = (float (monster._health) / float(monster._max_hp)) * 100
-	print(monster_health_comparison, " : ", value)
 	return logical_operation_comparison(value)
 
 func logical_operation_comparison(y: int) -> bool:

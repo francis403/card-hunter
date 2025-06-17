@@ -1,6 +1,7 @@
 extends Piece
 class_name PlayerPiece
 
+@export var is_player_damageable: bool = true
 @export var hand_size: int = 4
 @export var max_hand_size: int = 10
 
@@ -94,10 +95,12 @@ func on_card_removed_from_deck(index: int):
 	var card: CardResourceV2 = cards_in_hand.pop_at(index)
 	current_card_in_hand_size -= 1
 
-func _on_squares_attacked_signal(damage: int):
-	#print(_on_squares_attacked_signal)
+func _on_squares_attacked_signal(
+	origin_tile,
+	damage: int
+):
 	if self._tile.is_tile_attacked:
-		self.apply_damage(damage)
+		self.apply_damage(damage, origin_tile)
 
 ## TODO: this is not smart, need to improve this
 func _before_player_movement_signal():

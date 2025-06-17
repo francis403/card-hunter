@@ -28,7 +28,10 @@ func set_piece_tile(tile: Tile):
 	_tile = tile
 
 
-func apply_damage(damage: int):
+func apply_damage(
+	damage: int,
+	_origin_tile: Tile
+):
 	var damage_dealt_to_piece: int = damage * _damage_dealt_multiplier
 	self._health -= damage_dealt_to_piece
 	if self is PlayerPiece:

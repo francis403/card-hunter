@@ -43,8 +43,8 @@ func play_card() -> bool:
 
 ## When the card is canceled midway through, 
 ## we need to revert all the effects that have been played
+## TODO: this seems to be called for every card on the deck on init. 
 func revert_all_played_card_effects() -> bool:
-	print(revert_all_played_card_effects)
 	while not _revertable_play_actions.is_empty():
 		var action: CardEffect = _revertable_play_actions.pop_front()
 		action.revert_card_effect()
@@ -82,10 +82,10 @@ func subscribe_to_special_effects(
 	card: Card,
 	container_node: Node
 ):
-	print(subscribe_to_special_effects)
+	#print(subscribe_to_special_effects)
 	if special_effects.is_empty():
 		return
-	print(subscribe_to_special_effects, ": not empty")
+	#print(subscribe_to_special_effects, ": not empty")
 	for special_effect in special_effects:
 		var controller_instance: BaseSpecialEffect = special_effect.controller.instantiate()
 		controller_instance._init_special_effect(

@@ -51,12 +51,10 @@ func initialize_tile(
 
 func show_background():
 	background_button.visible = true
-	self.z_index = 1
 
 
 func hide_background():
 	background_button.visible = false
-	self.z_index = 0
 	
 func show_attack_background():
 	attack_rect.visible = true
@@ -96,3 +94,9 @@ func trigger_tile_effects(piece: Piece):
 func _on_clear_attacked_tiles_signal():
 	if self.is_tile_attacked:
 		hide_attack_background()
+
+func get_center() -> Vector2:
+	return Vector2(
+		self.position.x - (_x_size/2),
+		self.position.y - (_y_size/2)
+	)

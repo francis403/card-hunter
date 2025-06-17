@@ -3,6 +3,7 @@
 [ext_resource type="Script" path="res://scenes/game_objects/cards/hand/hand.gd" id="1_0n70x"]
 
 [node name="Hand" type="Control"]
+z_index = 1
 custom_minimum_size = Vector2(0, 220)
 layout_mode = 3
 anchors_preset = 7
