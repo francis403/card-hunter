@@ -16,3 +16,4 @@ replace_deck = ExtResource("3_g2qav")
 
 [node name="SpiderMonster" parent="monsters" index="0" instance=ExtResource("2_27gmh")]
 position = Vector2(843, 333)
+debug_mode = true

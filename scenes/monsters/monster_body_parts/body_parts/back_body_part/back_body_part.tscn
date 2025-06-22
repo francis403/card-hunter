@@ -5,6 +5,6 @@
 [node name="BackBodyPart" type="Node"]
 script = ExtResource("1_xh4mv")
 part_name = "Back"
-body_part_type = 4
+body_part_type = 5
 min_angle = -89.0
 max_angle = 89.0

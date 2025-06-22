@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://b7euo8lhu61np"]
+[gd_scene load_steps=20 format=3 uid="uid://b7euo8lhu61np"]
 
 [ext_resource type="PackedScene" uid="uid://b77dqwv8b42lt" path="res://scenes/monsters/generic_monster/generic_monster.tscn" id="1_40ijh"]
 [ext_resource type="Script" path="res://scenes/monsters/boss_monsters/giant_bat_monster/giant_bat_monster.gd" id="2_ufmgn"]
@@ -13,6 +13,8 @@
 [ext_resource type="Script" path="res://resources/monster/state/state_change_condition/state_change_condition.gd" id="10_fobs6"]
 [ext_resource type="Script" path="res://resources/monster/state/state_condition/state_condition.gd" id="11_ia0wh"]
 [ext_resource type="PackedScene" uid="uid://bm3s6jrsg6gan" path="res://scenes/game_objects/states/charge_state/charge_state.tscn" id="11_mp3qu"]
+[ext_resource type="PackedScene" uid="uid://c7xqpe3snou7" path="res://scenes/monsters/monster_body_parts/body_parts/head_body_part/head_body_part.tscn" id="14_nhk3f"]
+[ext_resource type="PackedScene" uid="uid://cje0q5xds21f7" path="res://scenes/monsters/monster_body_parts/body_parts/back_body_part/back_body_part.tscn" id="15_2sfwy"]
 
 [sub_resource type="Resource" id="Resource_gkbj6"]
 script = ExtResource("4_tyoqa")
@@ -42,6 +44,7 @@ extra_size = 1
 monster_id = "giant_bat_monster"
 monster_texture = ExtResource("3_lcpgw")
 monster_config = SubResource("Resource_g6vab")
+debug_mode = true
 _health = 200
 _max_hp = 200
 _speed = 2
@@ -73,5 +76,13 @@ state_after_charging = "MoveSpeedToPlayerAndDoAttack"
 [node name="FlyAwayState" parent="StateMachine" index="3" instance=ExtResource("9_4qrvu")]
 state_after_flying = "ShootBloodIfWithinRangeState"
 
-[node name="Sprite2D" parent="." index="4"]
+[node name="HeadBodyPart" parent="MonsterBodyPartContainer" index="0" instance=ExtResource("14_nhk3f")]
+min_angle = 45.0
+max_angle = 135.0
+
+[node name="BackBodyPart" parent="MonsterBodyPartContainer" index="1" instance=ExtResource("15_2sfwy")]
+min_angle = 230.0
+max_angle = 320.0
+
+[node name="Sprite2D" parent="." index="5"]
 texture = ExtResource("3_lcpgw")
