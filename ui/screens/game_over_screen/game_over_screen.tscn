@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://nirklpiw6yaf" path="res://ui/screen_components/reward_component/reward_ui_component.tscn" id="4_i0xc4"]
 
 [node name="GameOverScreen" type="MarginContainer"]
+z_index = 2
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5

@@ -42,6 +42,7 @@ script = ExtResource("2_ks82x")
 move_other_highlight_config = SubResource("Resource_8lcq5")
 tile_highlight_config = SubResource("Resource_axsjv")
 center_piece = 0
+update_next_card_effect_data = true
 
 [resource]
 script = ExtResource("3_ae2bu")

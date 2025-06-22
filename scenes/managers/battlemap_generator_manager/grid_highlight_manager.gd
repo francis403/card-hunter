@@ -51,6 +51,8 @@ func highlight_tiles(
 	source_tile: Tile,
 	config: TileHighlightConfig
 ) -> Array[Tile]:
+	if not config:
+		return []
 	var highlighted_tiles: Array[Tile] = []
 	var area_type: Constants.AreaType = config.area_type
 	if area_type == Constants.AreaType.RADIUS:

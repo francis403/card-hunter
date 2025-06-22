@@ -20,6 +20,8 @@ signal card_finished_playing
 
 var _revertable_play_actions: Array[CardEffect] = []
 
+## TODO: for some reason the card effect data
+## of the other card who is the exact same type is also being updated
 
 func play_card() -> bool:
 	if not _is_card_playable():
@@ -27,19 +29,39 @@ func play_card() -> bool:
 	for condition in play_conditions:
 		if not condition.is_condition_meet():
 			return false
-	var all_actions_successfull: bool = true
+	var previous_action_data: CardEffectData = null
+	var should_update_card_effect_data: bool = true
+	var response: CardEffectResponse = CardEffectResponse.new()
 	for action in play_actions:
-		var is_current_action_successfull: bool = await action.play_card_effect()
-		if is_current_action_successfull:
+		if not previous_action_data:
+			## this will get updated during the action, the first one should always be null
+			action.card_effect_data = null
+		if should_update_card_effect_data and previous_action_data:
+			action.card_effect_data = _get_effect_data_with_input_udpated(
+				action.card_effect_data,
+				previous_action_data
+			)
+		response = await action.play_card_effect()
+		if response.is_ok():
 			_revertable_play_actions.append(action)
+			previous_action_data = action.card_effect_data
+			should_update_card_effect_data = action.update_next_card_effect_data
 		else:
-			all_actions_successfull = false
 			break
-	if all_actions_successfull:
+	if not response.should_rollback():
 		self._after_card_is_played()
 		_revertable_play_actions.clear()
 	return true
 	
+
+func _get_effect_data_with_input_udpated(
+	current_action_data: CardEffectData,
+	previous_action_data: CardEffectData
+) -> CardEffectData:
+	var result: CardEffectData = previous_action_data
+	if not current_action_data:
+		return result
+	return result
 
 ## When the card is canceled midway through, 
 ## we need to revert all the effects that have been played
@@ -82,10 +104,8 @@ func subscribe_to_special_effects(
 	card: Card,
 	container_node: Node
 ):
-	#print(subscribe_to_special_effects)
 	if special_effects.is_empty():
 		return
-	#print(subscribe_to_special_effects, ": not empty")
 	for special_effect in special_effects:
 		var controller_instance: BaseSpecialEffect = special_effect.controller.instantiate()
 		controller_instance._init_special_effect(

@@ -38,4 +38,5 @@ func _load(deck_dictionary: Dictionary):
 	for card_key in deck_dictionary["deck"].keys():
 		var card_id: String = deck_dictionary["deck"][card_key]
 		var card_resource: CardResourceV2 = CardResourcesController.get_card(card_id)
+		card_resource.resource_local_to_scene = true
 		_deck.append(card_resource)

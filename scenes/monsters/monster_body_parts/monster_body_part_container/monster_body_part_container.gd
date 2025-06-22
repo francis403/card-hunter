@@ -3,6 +3,8 @@ extends Node2D
 ## Holds all body parts as children
 class_name MonsterBodyPartContainer
 
+signal monster_body_part_hit(body_part: BodyPart)
+
 @export var debug_mode: bool = false
 
 ## TODO: in the future I will need more than one tile
@@ -16,10 +18,9 @@ func check_if_body_parts_attacked(
 ):
 	## TODO: need to check if the tile attacked is actually where the body part is
 	for child: BodyPart in self.get_children():
-		child.body_part_attacked(
-			angle,
-			damage
-		)
+		if child.is_body_part_hit(angle):
+			child.hit_body_part(damage)
+			self.monster_body_part_hit.emit(child)
 
 ## TODO: need to improve this for when there are monsters with more than one tile
 func _rotate_body_parts(

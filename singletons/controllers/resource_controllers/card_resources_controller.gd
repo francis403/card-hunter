@@ -25,7 +25,7 @@ func _init_cards_in_game_dictionary():
 
 func get_card(card_id: String) -> CardResourceV2:
 	if _card_in_game.has(card_id):
-		return _card_in_game[card_id]
+		return _card_in_game[card_id].duplicate()
 	return null
 	
 func has_card(card_id: String) -> bool:

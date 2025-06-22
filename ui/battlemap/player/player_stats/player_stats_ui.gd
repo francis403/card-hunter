@@ -17,6 +17,7 @@ func _ready() -> void:
 	_initialize_player_stats()
 
 func _on_player_stamina_changed(current_stamina: int):
+	print("stamina updated to: ", current_stamina)
 	player_stamina_label.text = "Stamina: " + str(current_stamina)
 
 func _on_player_health_changed(current_health: int):

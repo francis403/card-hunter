@@ -1,6 +1,9 @@
 extends MonsterPiece
 class_name GenericMonster
 
+signal monster_hit
+signal body_part_hit(body_part: BodyPart)
+
 @onready var sprite_2d: Sprite2D = $Sprite2D
 @onready var collision_shape_2d: CollisionShape2D = $CollisionShape2D
 @onready var state_machine: StateMachine = $StateMachine
@@ -29,6 +32,7 @@ func _ready() -> void:
 		sprite_2d.texture = monster_texture
 	self.set_state_icon()
 	self.set_debug_mode()
+	self.subscribe_to_events()
 
 ## Play the monster turn
 func play_monster_turn():
@@ -97,6 +101,14 @@ func set_debug_mode():
 		return
 	monster_body_part_container.debug_mode = self.debug_mode
 	
+func subscribe_to_events():
+	monster_body_part_container.monster_body_part_hit.connect(_on_monster_body_part_hit)
+	
+func _on_monster_body_part_hit(body_part: BodyPart):
+	print(_on_monster_body_part_hit, ": ", body_part.part_name)
+	#BattlemapSignals.monster_body_part_attacked.emit(self, body_part)
+	self.body_part_hit.emit(body_part)
+	
 ## TODO: I don't think I need this function
 func get_sprite() -> Sprite2D:
 	return sprite_2d
@@ -147,8 +159,8 @@ func apply_damage(
 ):
 	_play_hit_flash()
 	var angle: float = rad_to_deg(
-		_origin_tile.get_center().angle_to_point(
-			_tile.get_center()
+		_tile.get_center().angle_to_point(
+			_origin_tile.get_center()
 		)
 	)
 	monster_body_part_container.check_if_body_parts_attacked(fmod(angle + 360, 360), damage)

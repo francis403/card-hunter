@@ -7,17 +7,26 @@ class_name CardEffectWithUserInput
 
 var target_tile: Tile = null
 
-func play_card_effect() -> bool:
+func play_card_effect() -> CardEffectResponse:
+	var response: CardEffectResponse = CardEffectResponse.new()
 	var tile_config: TileHighlightConfig = _modify_tile_highlight_config()
 	before_user_input()
 	await _get_user_input(tile_config)
 	if not target_tile:
-		return false
+		response.set_failure()
+		return response
 	card_effect()
 	_after_card_effect()
-	return true
+	response.set_ok()
+	return response
 
 func _get_user_input(config: TileHighlightConfig, piece: Piece = null) -> Tile:
+	
+	## check if we want to use a previous selected tile
+	target_tile = get_previous_select_tile()
+	if target_tile:
+		return target_tile
+	
 	var piece_to_move: Piece = get_piece() if not piece else piece
 	#config.range = piece_to_move._speed * move_card_category.move_distance
 	# freeze hand
@@ -32,7 +41,12 @@ func _get_user_input(config: TileHighlightConfig, piece: Piece = null) -> Tile:
 	target_tile = await BattlemapSignals.tile_picked_in_battlemap
 	BattlemapSignals.player_input_received.emit()
 	return target_tile
-	
+
+## null if none or we don't want to use it
+func get_previous_select_tile() -> Tile:
+	if card_effect_data:
+		return card_effect_data.get_previous_selected_tile_if_enabled()
+	return null
 
 ## Override to define the behaviour before the user is asked for input
 func before_user_input():
@@ -50,7 +64,16 @@ func card_effect():
 
 ## Override to define what happens after the card effect is played
 func _after_card_effect():
-	pass
+	update_data_after_card_is_played()
+
+func update_data_after_card_is_played():
+	super.update_data_after_card_is_played()
+	if target_tile:
+		self.card_effect_data.last_selected_tile = Vector2(
+			target_tile._x_position,
+			target_tile._y_position
+		)
+	
 
 func get_piece() -> Piece:
 	match center_piece:

@@ -4,6 +4,7 @@ extends Node
 class_name BodyPart
 
 enum BodyPartType {
+	NONE,
 	HEAD,
 	TAIL,
 	WING,
@@ -49,12 +50,10 @@ func _ready() -> void:
 	current_min_angle = min_angle
 	current_max_angle = max_angle
 
-func body_part_attacked(
-	angle: float,
-	damage: int
-):
-	if not is_angle_in_range(angle):
-		return
+func is_body_part_hit(angle: float) -> bool:
+	return is_angle_in_range(angle)
+
+func hit_body_part(damage: int):
 	_deal_damage(damage)
 
 func rotate_body_part(rotation: float):

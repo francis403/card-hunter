@@ -6,14 +6,17 @@ class_name CardEffectWithCardSelection
 
 var selected_cards: Array[Card] = []
 
-func play_card_effect() -> bool:
+func play_card_effect() -> CardEffectResponse:
+	var response: CardEffectResponse = CardEffectResponse.new()
 	before_user_input()
 	var selected_card: Card = await _get_user_input()
 	if not selected_card:
-		return false
+		response.set_failure()
+		return response
 	card_effect()
 	_after_card_effect()
-	return true
+	response.set_ok()
+	return response
 
 func _get_user_input() -> Card:
 	

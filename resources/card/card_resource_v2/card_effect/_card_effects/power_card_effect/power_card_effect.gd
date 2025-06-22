@@ -9,17 +9,20 @@ class_name PowerCardEffect
 ## TODO: if Monster target type let the player pick a tile first
 @export var target_piece: Constants.TargetType
 
-func play_card_effect() -> bool:
+func play_card_effect() -> CardEffectResponse:
+	var response: CardEffectResponse = CardEffectResponse.new()
 	if not power_effect:
-		return false
+		response.set_failure()
+		return response
 	var target: Piece = BattleController.get_player()
 	if not target:
-		return false
+		response.set_failure()
+		return response
 	
 	## TODO: What we have to do now is add this to the power_effect_container of the piece
 	target.add_power_effect(
 		power_effect.init_base_power_node(target)
 	)
-	
-	return true
+	response.set_ok()
+	return response
 	

@@ -27,6 +27,7 @@ ignore_west_tiles = false
 script = ExtResource("3_ga4h3")
 tile_highlight_config = SubResource("Resource_j6ydy")
 center_piece = 1
+update_next_card_effect_data = true
 
 [resource]
 script = ExtResource("6_0j3b1")

@@ -57,13 +57,14 @@ func _card_clicked():
 func _add_selected_card():
 	BattlemapSignals.input_received_for_card_selected.emit(self)
 
+## TODO: I can just call discard_card here
 func _play_card():
 	if not card_can_be_played:
 		return
 	BattleController._current_card_being_played = self
 	if card_resource.card_finished_playing.get_connections().size() == 0:
 		card_resource.card_finished_playing.connect(_on_card_finished_playing)
-	card_resource.play_card()
+	await card_resource.play_card()
 	self.card_played.emit()
 
 func _revert_played_card():

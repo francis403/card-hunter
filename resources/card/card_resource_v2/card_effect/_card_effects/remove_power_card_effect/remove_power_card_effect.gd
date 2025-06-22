@@ -6,13 +6,16 @@ class_name RemovePowerCardEffect
 @export var remove_specific_status_effects: Array[String] = []
 
 ## TODO: do way of targeting monster
-func play_card_effect() -> bool:
+func play_card_effect() -> CardEffectResponse:
+	var response: CardEffectResponse = CardEffectResponse.new()
 	var target: Piece = BattleController.get_player()
 	if not target:
-		return false
+		response.set_failure()
+		return response
 	if self.remove_all_negative_effects:
 		target.remove_all_power_effects()
 	elif not remove_specific_status_effects.is_empty():
 		for status_effect_id in remove_specific_status_effects:
 			target.remove_power_effect(status_effect_id)
-	return true
+	response.set_ok()
+	return response
