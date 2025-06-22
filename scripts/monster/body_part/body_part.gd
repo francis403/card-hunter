@@ -53,6 +53,13 @@ func _ready() -> void:
 func is_body_part_hit(angle: float) -> bool:
 	return is_angle_in_range(angle)
 
+func is_angle_in_range(angle: float) -> bool:
+	var round_down_angle: float = snappedf(angle, 0)
+	if current_min_angle <= current_max_angle:
+		return round_down_angle >= current_min_angle and round_down_angle <= current_max_angle
+	else:
+		return round_down_angle >= current_min_angle or round_down_angle <= current_max_angle
+
 func hit_body_part(damage: int):
 	_deal_damage(damage)
 
@@ -68,15 +75,6 @@ func _sum_rotation(current_angle: float, rotation: float) -> float:
 	elif result > 360:
 		return temp_result
 	return result
-
-func is_angle_in_range(angle: float) -> bool:
-	# Normalize angle to 0-360
-	#angle = fmod(angle + 360.0, 360.0)
-	# Handle wrap-around cases (e.g., 350-30 degrees)
-	if current_min_angle <= current_max_angle:
-		return angle >= current_min_angle and angle <= current_max_angle
-	else:
-		return angle >= current_min_angle or angle <= current_max_angle
 
 func _deal_damage(damage: int):
 	if is_broken:

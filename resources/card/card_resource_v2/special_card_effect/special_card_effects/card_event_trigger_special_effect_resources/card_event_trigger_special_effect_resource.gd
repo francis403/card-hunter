@@ -21,4 +21,4 @@ func subscribe_to_trigger(card: Card):
 
 func trigger_card_effects():
 	for card_effect in card_effects:
-		await card_effect.play_card_effect()
+		await card_effect.process_card_effect()

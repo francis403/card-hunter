@@ -18,12 +18,14 @@ value = 10.0
 [sub_resource type="Resource" id="Resource_dnpy0"]
 script = ExtResource("3_x8udd")
 status_modifier_config = SubResource("Resource_lxwx0")
+update_next_card_effect_data = true
 
 [sub_resource type="Resource" id="Resource_tf8h7"]
 script = ExtResource("5_75njc")
 remove_all_negative_effects = true
 remove_all_positive_effects = false
 remove_specific_status_effects = Array[String]([])
+update_next_card_effect_data = true
 
 [resource]
 script = ExtResource("7_toj4q")

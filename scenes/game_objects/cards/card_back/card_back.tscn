@@ -16,4 +16,5 @@ texture = ExtResource("3_7efeg")
 [node name="CardBackTextureRect" type="TextureRect" parent="."]
 layout_mode = 2
 texture = ExtResource("4_7sdw8")
+expand_mode = 5
 stretch_mode = 5

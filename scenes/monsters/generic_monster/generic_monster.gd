@@ -105,7 +105,8 @@ func subscribe_to_events():
 	monster_body_part_container.monster_body_part_hit.connect(_on_monster_body_part_hit)
 	
 func _on_monster_body_part_hit(body_part: BodyPart):
-	print(_on_monster_body_part_hit, ": ", body_part.part_name)
+	if debug_mode:
+		print(_on_monster_body_part_hit, ": ", body_part.part_name)
 	#BattlemapSignals.monster_body_part_attacked.emit(self, body_part)
 	self.body_part_hit.emit(body_part)
 	
@@ -163,7 +164,14 @@ func apply_damage(
 			_origin_tile.get_center()
 		)
 	)
-	monster_body_part_container.check_if_body_parts_attacked(fmod(angle + 360, 360), damage)
+	
+	monster_body_part_container.get_and_hit_body_parts(
+		fmod(angle + 360, 360), 
+		damage
+	)
+	
+	await monster_body_part_container.monster_body_part_hit
+		
 	super.apply_damage(damage, _origin_tile)
 
 ## TODO: set this two functions in a common class

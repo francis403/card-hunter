@@ -14,6 +14,13 @@ var card_effect_data: CardEffectData
 ## Update the next card effect with the data gathered from the last
 @export var update_next_card_effect_data: bool = true
 
+func process_card_effect() -> CardEffectResponse:
+	var response = await play_card_effect()
+	if not response.should_rollback():
+		clean_card_effect()
+	return response
+	
+
 ## Says if the card effect has been played successfully
 ## Only continues to next effect if so
 func play_card_effect() -> CardEffectResponse:
@@ -31,3 +38,6 @@ func update_data_after_card_is_played():
 		self.card_effect_data = CardEffectData.new()
 	if not self.card_effect_data.monster_effect_data:
 		self.card_effect_data.monster_effect_data = MonsterEffectData.new()
+
+func clean_card_effect() -> void:
+	pass

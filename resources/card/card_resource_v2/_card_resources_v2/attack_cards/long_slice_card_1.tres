@@ -28,6 +28,7 @@ script = ExtResource("2_t0gwf")
 damage = 25
 tile_highlight_config = SubResource("Resource_qnmcf")
 center_piece = 0
+update_next_card_effect_data = true
 
 [resource]
 script = ExtResource("3_po1p0")

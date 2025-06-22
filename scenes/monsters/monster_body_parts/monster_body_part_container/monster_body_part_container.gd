@@ -12,15 +12,33 @@ func init_body_parts(tile: Tile):
 	for child: BodyPart in self.get_children():
 		child.body_part_tile_location = tile
 
-func check_if_body_parts_attacked(
+func get_and_hit_body_parts(
 	angle: float,
 	damage: int
-):
+) -> Array[BodyPart]:
+	if debug_mode:
+		print(get_and_hit_body_parts, ": angle = ", angle)
+	var result: Array[BodyPart] = []
 	## TODO: need to check if the tile attacked is actually where the body part is
 	for child: BodyPart in self.get_children():
 		if child.is_body_part_hit(angle):
+			if debug_mode:
+				print(get_and_hit_body_parts, ": ", child.body_part_type, " hit!")
+			result.append(child)
 			child.hit_body_part(damage)
 			self.monster_body_part_hit.emit(child)
+		else:
+			if debug_mode:
+				print(get_and_hit_body_parts, ": ", child.body_part_type, " missed")
+	if result.is_empty():
+		_emit_none_body_part()
+		
+	return result
+
+func _emit_none_body_part() -> void:
+	var none_body_part = BodyPart.new()
+	none_body_part.body_part_type = BodyPart.BodyPartType.NONE
+	self.monster_body_part_hit.emit(none_body_part)
 
 ## TODO: need to improve this for when there are monsters with more than one tile
 func _rotate_body_parts(

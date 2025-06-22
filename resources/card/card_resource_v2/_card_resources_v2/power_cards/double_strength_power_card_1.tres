@@ -11,6 +11,7 @@
 script = ExtResource("3_lef1c")
 power_effect = ExtResource("2_sa3ye")
 target_piece = 0
+update_next_card_effect_data = true
 
 [resource]
 script = ExtResource("5_vxbek")

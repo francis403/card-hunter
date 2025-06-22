@@ -41,7 +41,7 @@ func play_card() -> bool:
 				action.card_effect_data,
 				previous_action_data
 			)
-		response = await action.play_card_effect()
+		response = await action.process_card_effect()
 		if response.is_ok():
 			_revertable_play_actions.append(action)
 			previous_action_data = action.card_effect_data

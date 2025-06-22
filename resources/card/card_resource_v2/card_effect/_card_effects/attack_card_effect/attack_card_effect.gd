@@ -8,6 +8,8 @@ class_name AttackCardEffect
 var damage_dealt: int = 0
 var body_part_hit: BodyPart.BodyPartType
 
+var piece_attacked: Piece 
+
 func card_effect():
 	if not target_tile:
 		return
@@ -26,7 +28,8 @@ func card_effect():
 
 func _subscribe_if_monster(piece: Piece):
 	if piece is GenericMonster:
-		if piece.body_part_hit.get_connections().size() == 0:
+		piece_attacked = piece
+		if not piece.is_connected("body_part_hit", _on_monster_body_part_hit):
 			piece.body_part_hit.connect(_on_monster_body_part_hit)
 
 ## TODO: not sure if this is smart, what if we get it afterwards?
@@ -38,4 +41,10 @@ func update_data_after_card_is_played():
 	super.update_data_after_card_is_played()
 	self.card_effect_data.monster_effect_data.damage_dealt_to_monster_last_effect = damage_dealt
 	self.card_effect_data.monster_effect_data.monster_targetted_last_effect = damage_dealt > 0
+	print("current_body_part_hit: ", body_part_hit)
 	self.card_effect_data.monster_effect_data.monster_body_part_last_hit = body_part_hit
+
+func clean_card_effect() -> void:
+	super.clean_card_effect()
+	if piece_attacked.is_connected("body_part_hit", _on_monster_body_part_hit):
+		piece_attacked.disconnect("body_part_hit", _on_monster_body_part_hit)
