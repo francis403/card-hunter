@@ -32,6 +32,7 @@ MonsterResourcesController="*res://singletons/controllers/resource_controllers/m
 
 [display]
 
+window/size/mode=3
 window/stretch/mode="viewport"
 
 [input]

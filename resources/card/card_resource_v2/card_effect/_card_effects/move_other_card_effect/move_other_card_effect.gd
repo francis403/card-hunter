@@ -13,7 +13,9 @@ func card_effect():
 	if not player: 
 		return
 	
-	var move_tile: Tile
+	move_other_highlight_config.origin_tile = player._tile
+	move_other_highlight_config.target_tile = piece_to_move._tile
+	var move_tile: Tile = null
 	move_tile = await self._get_user_input(move_other_highlight_config, piece_to_move)
 	
 	if not target_tile:

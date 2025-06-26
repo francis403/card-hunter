@@ -110,6 +110,8 @@ func highligh_tiles_radius(
 				continue 
 			if config.ignore_tiles_with_effects and tile.has_effect():
 				continue
+			if config._specific_tile_location_config_match(tile):
+				continue
 			highlighted_tiles.append(tile)
 			_make_tile_clickable(tile_x, tile_y, config)
 	return highlighted_tiles
