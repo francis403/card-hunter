@@ -3,7 +3,7 @@ extends Node
 class_name WorldState
 
 const WORLD_DICTIONARY_FIELD: String = "world"
-const WORLD_NODE_SCENE = preload("res://scenes/game_objects/world/monster_hunt_world_node/monster_hunt_world_node.tscn")
+const WORLD_NODE_SCENE = preload("res://scenes/game_objects/world/world_node/monster_hunt_world_node/monster_hunt_world_node.tscn")
 
 ## Represents the world state in a dictionary. 
 ## This is what is saved/loaded to file

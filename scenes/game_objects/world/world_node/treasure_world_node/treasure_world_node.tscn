@@ -1,0 +1,8 @@
+[gd_scene load_steps=3 format=3 uid="uid://blf6uu6ap5ht3"]
+
+[ext_resource type="PackedScene" uid="uid://djh35o5nfx5et" path="res://scenes/game_objects/world/world_node/generic_world_node/generic_world_node.tscn" id="1_8jvt3"]
+[ext_resource type="Script" path="res://scenes/game_objects/world/world_node/treasure_world_node/treasure_world_node.gd" id="2_pahh1"]
+
+[node name="TreasureWorldNode" instance=ExtResource("1_8jvt3")]
+script = ExtResource("2_pahh1")
+world_node_id = "treasure_world_node"

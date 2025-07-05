@@ -17,6 +17,7 @@ update_next_card_effect_data = true
 script = ExtResource("5_vxbek")
 id = "double_strength_power_1"
 title = "Twice the power"
+rarity = 0
 description = "For the next two turns deals twice as much damage."
 stamina_cost = 25
 tag_array = Array[String](["power"])

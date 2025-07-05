@@ -36,6 +36,8 @@ func apply_damage(
 	self._health -= damage_dealt_to_piece
 	if self is PlayerPiece:
 		BattlemapSignals.player_health_changed.emit(self._health)
+	if self is MonsterPiece:
+		BattlemapSignals.monster_hp_changed.emit(self._health, self._max_hp)
 	piece_took_damage.emit(damage_dealt_to_piece)
 	if _health <= 0:
 		_die()

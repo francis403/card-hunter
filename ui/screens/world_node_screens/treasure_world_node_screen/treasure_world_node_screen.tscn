@@ -1,0 +1,58 @@
+[gd_scene load_steps=10 format=3 uid="uid://c72jcvtvjr4ci"]
+
+[ext_resource type="Script" path="res://ui/screens/world_node_screens/treasure_world_node_screen/treasure_world_node_screen.gd" id="1_8gno4"]
+[ext_resource type="Texture2D" uid="uid://d0sjr0hkie86e" path="res://assets/images/background/background_forest.png" id="1_yvjkk"]
+[ext_resource type="Texture2D" uid="uid://dtcdnex30jxgd" path="res://assets/game_objects/world/treasure/chest.png" id="2_blbcy"]
+[ext_resource type="Script" path="res://resources/card/card_resource_v2/card_resource_v2.gd" id="2_wgq7x"]
+[ext_resource type="Resource" uid="uid://c7ml1pqlvfib4" path="res://resources/card/card_resource_v2/_card_resources_v2/power_cards/double_strength_power_card_1.tres" id="3_66bjw"]
+[ext_resource type="PackedScene" uid="uid://qcu3ip6nb1i3" path="res://ui/screens/game_over_screen/game_over_screen.tscn" id="4_36ayo"]
+[ext_resource type="Resource" uid="uid://dvk1a1vyglgvc" path="res://resources/card/card_resource_v2/_card_resources_v2/power_cards/double_speed_power_card_1.tres" id="4_sq06j"]
+[ext_resource type="Resource" uid="uid://bu7gcqxkp3gqp" path="res://resources/card/card_resource_v2/_card_resources_v2/move_cards/teleport_card_1.tres" id="5_f1g44"]
+[ext_resource type="Resource" uid="uid://c5evsapdpvc2b" path="res://resources/card/card_resource_v2/_card_resources_v2/attack_cards/sneak_attack_1.tres" id="6_2gqt6"]
+
+[node name="TreasureWorldNodeScreen" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_8gno4")
+treasure_content = Array[ExtResource("2_wgq7x")]([ExtResource("3_66bjw"), ExtResource("4_sq06j"), ExtResource("5_f1g44"), ExtResource("6_2gqt6")])
+
+[node name="background" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_yvjkk")
+
+[node name="Treasure" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -107.0
+offset_top = -43.0
+offset_right = -66.9999
+offset_bottom = -2.99997
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(5, 5)
+texture = ExtResource("2_blbcy")
+
+[node name="RewardScreen" parent="." instance=ExtResource("4_36ayo")]
+visible = false
+layout_mode = 1
+offset_top = -227.0
+offset_bottom = 227.0
+title_text = "Rewards!"
+left_button_text = "skip"
+reward_component_title = "Choose up to 2 rewards"
+max_number_of_picks = 2
+
+[connection signal="gui_input" from="Treasure" to="." method="_on_treasure_gui_input"]

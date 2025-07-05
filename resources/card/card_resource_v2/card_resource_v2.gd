@@ -3,9 +3,18 @@ class_name CardResourceV2
 
 signal card_finished_playing
 
+enum CardRaririty {
+	COMMON,
+	UNCOMMON,
+	RARE,
+	LEGENDARY,
+	UNIQUE
+}
+
 @export_group("Basic Card info")
 @export var id: String
 @export var title: String
+@export var rarity: CardRaririty
 @export_multiline var description: String
 @export var stamina_cost: int = 0
 @export var tag_array: Array[String] = []

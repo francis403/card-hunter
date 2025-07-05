@@ -58,7 +58,8 @@ monster_id = "crab_monster_small"
 monster_texture = ExtResource("1_x8062")
 monster_config = SubResource("Resource_thpje")
 debug_mode = true
-_max_hp = 100
+_health = 50
+_max_hp = 50
 _strength = 50
 
 [node name="RewardManager" parent="." index="0"]

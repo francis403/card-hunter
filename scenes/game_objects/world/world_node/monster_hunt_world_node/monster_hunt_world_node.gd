@@ -12,7 +12,7 @@ const MONSTERS_DICTIONARY_FIELD: String = "monsters"
 
 ## -------- OVERRIDE IMNPORTANT FUNCTIONS --------
 func set_world_scene():
-	my_node_scene_path = "res://scenes/game_objects/world/monster_hunt_world_node/monster_hunt_world_node.tscn"
+	my_node_scene_path = "res://scenes/game_objects/world/world_node/monster_hunt_world_node/monster_hunt_world_node.tscn"
 
 func reveal_node_effect():
 	show_monster()
@@ -38,6 +38,7 @@ func after_node_is_ready():
 		world_node_sprite.texture = UNKOWN_NODE_SPRITE
 		
 func after_world_node_completed_successfully():
+	super.after_world_node_completed_successfully()
 	clear_monsters()
 	
 ## -------- FINISH OVERRIDING IMNPORTANT FUNCTIONS --------

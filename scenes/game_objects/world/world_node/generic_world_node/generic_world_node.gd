@@ -29,8 +29,8 @@ const CONNECTIONS_DICTIONARY_FIELD: String = "connections"
 @export var generate_random_monsters: bool = true
 @export var maximum_number_of_monster_to_generate: int = 1
 @export var quest_scene: PackedScene
+@export var world_node_id: String
 
-var world_node_id: String
 var is_showing_player_sprite: bool = false
 var is_revealed: bool = false
 var is_reachable: bool = false
@@ -78,7 +78,7 @@ func on_node_click_event():
 	
 ## Function that has to be overwritten
 func set_world_scene():
-	my_node_scene_path = "res://scenes/game_objects/world/generic_world_node/generic_world_node.tscn"
+	my_node_scene_path = "res://scenes/game_objects/world/world_node/generic_world_node/generic_world_node.tscn"
 	
 ## Function that has to be overwritten
 ## occurres at the end of the Ready Function
@@ -93,7 +93,7 @@ func _is_click_event_processable() -> bool:
 ## Function that can be overwritten
 ## Occurs after the world node is completed
 func after_world_node_completed_successfully():
-	pass
+	BattlemapSignals.node_completed.emit(self.world_node_id)
 
 func _on_area_2d_input_event(viewport: Node, event: InputEvent, shape_idx: int) -> void:
 	if event.is_pressed():

@@ -1,6 +1,8 @@
 extends Node
 
 ## TODO: figure out a way to distribute monsters semi-equally
+## TODO: need to add some basic logic for monster-weights
+##   Probably going to have to change the way we are generatic the monsters that are available
 
 const _GENERIC_MONSTER_DICTIONARY_FIELD = "generic_monsters"
 const _BOSS_MONSTER_DICTIONARY_FIELD = "boss_monsters"
@@ -48,7 +50,6 @@ func _init_boss_monsters_in_game():
 
 func get_specific_monster(monster_id: String) -> GenericMonster:
 	if not _monsters_in_game_dictionary[_GENERIC_MONSTER_DICTIONARY_FIELD].has(monster_id):
-		print()
 		return null
 	return _monsters_in_game_dictionary[_GENERIC_MONSTER_DICTIONARY_FIELD][monster_id]
 

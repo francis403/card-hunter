@@ -9,6 +9,10 @@ signal on_reward_card_picked
 @export var title: String = "Choose 1 reward"
 @export var hide_if_empty: bool = true
 
+## THis will only be used for Cards
+@export var max_number_of_picks: int = 1
+@export var min_number_of_picks: int = 0
+
 var number_of_reward_cards: int = 0
 	
 func _ready() -> void:

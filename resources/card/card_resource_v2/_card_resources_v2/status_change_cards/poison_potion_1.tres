@@ -23,6 +23,7 @@ update_next_card_effect_data = true
 script = ExtResource("6_6efw8")
 id = "poison_potion_1"
 title = "Poison Potion"
+rarity = 0
 description = "Drink the poison. Take 20 points of damage."
 stamina_cost = 0
 tag_array = Array[String](["one_use", "status_change", "item"])

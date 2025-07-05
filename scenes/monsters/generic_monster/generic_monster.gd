@@ -170,7 +170,7 @@ func apply_damage(
 		damage
 	)
 	
-	await monster_body_part_container.monster_body_part_hit
+	## await monster_body_part_container.monster_body_part_hit
 		
 	super.apply_damage(damage, _origin_tile)
 

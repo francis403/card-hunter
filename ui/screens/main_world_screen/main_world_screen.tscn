@@ -1,10 +1,40 @@
-[gd_scene load_steps=6 format=3 uid="uid://baqwuitia2ptv"]
+[gd_scene load_steps=14 format=3 uid="uid://baqwuitia2ptv"]
 
 [ext_resource type="Script" path="res://ui/screens/main_world_screen/main_world_screen.gd" id="1_3wacw"]
 [ext_resource type="PackedScene" uid="uid://dqlmwbtf0bya2" path="res://ui/screens/generic_screen/generic_screen.tscn" id="1_eplf0"]
 [ext_resource type="PackedScene" uid="uid://4hdqldcrtvn0" path="res://scenes/managers/world_generator_manager/world_generator_manager.tscn" id="1_f2eca"]
 [ext_resource type="PackedScene" uid="uid://bfnifkcvaye6" path="res://scenes/managers/world_manager/world_manager.tscn" id="4_m1ip7"]
+[ext_resource type="Script" path="res://resources/configuration/world/world_node_generator_config/world_node_generator_config.gd" id="5_1g7sa"]
+[ext_resource type="Script" path="res://resources/configuration/world/world_monster_generator_config/world_monster_generator_config.gd" id="5_bnbis"]
 [ext_resource type="PackedScene" uid="uid://b3x2sadw27m6s" path="res://ui/deck/draw_pile/deck_ui.tscn" id="5_yl1ki"]
+[ext_resource type="PackedScene" uid="uid://bd1e36axykjhr" path="res://scenes/game_objects/world/world_node/monster_hunt_world_node/monster_hunt_world_node.tscn" id="6_jj6yq"]
+[ext_resource type="Script" path="res://resources/configuration/world/world_generator_config/world_generator_config.gd" id="7_44hfg"]
+[ext_resource type="PackedScene" uid="uid://blf6uu6ap5ht3" path="res://scenes/game_objects/world/world_node/treasure_world_node/treasure_world_node.tscn" id="8_a4yq4"]
+
+[sub_resource type="Resource" id="Resource_3cfuq"]
+script = ExtResource("5_1g7sa")
+node_scene = ExtResource("6_jj6yq")
+weight = 30
+min_ocurrences = 0
+max_ocurrences = 100
+minimum_distance_to_root = 0
+maximimum_distance_to_root = 100
+
+[sub_resource type="Resource" id="Resource_koipt"]
+script = ExtResource("5_1g7sa")
+node_scene = ExtResource("8_a4yq4")
+weight = 10
+min_ocurrences = 1
+max_ocurrences = 1
+minimum_distance_to_root = 2
+maximimum_distance_to_root = 100
+
+[sub_resource type="Resource" id="Resource_r4qll"]
+script = ExtResource("7_44hfg")
+available_world_nodes = Array[ExtResource("5_1g7sa")]([SubResource("Resource_3cfuq"), SubResource("Resource_koipt")])
+available_generic_monsters = Array[ExtResource("5_bnbis")]([])
+max_distance_to_village = 1
+max_number_of_child_nodes = 3
 
 [node name="MainWorldScreen" instance=ExtResource("1_eplf0")]
 script = ExtResource("1_3wacw")
@@ -13,6 +43,7 @@ script = ExtResource("1_3wacw")
 
 [node name="WorldGeneratorManager" parent="." index="2" node_paths=PackedStringArray("world_node_container", "village_node_marker") instance=ExtResource("1_f2eca")]
 position = Vector2(-1, 0)
+world_generator_config = SubResource("Resource_r4qll")
 world_node_container = NodePath("../WorldNodes")
 village_node_marker = NodePath("../VillageNodeMarker")
 

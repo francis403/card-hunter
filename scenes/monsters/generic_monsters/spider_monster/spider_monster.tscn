@@ -59,6 +59,7 @@ script = ExtResource("2_bi3n2")
 monster_id = "spider_monster_small"
 monster_texture = ExtResource("2_kyton")
 monster_config = SubResource("Resource_bbo3v")
+debug_mode = true
 _health = 10
 _max_hp = 10
 _strength = 20
@@ -84,12 +85,10 @@ state_change_conditions = Array[ExtResource("13_hcas0")]([SubResource("Resource_
 state_if_higher_than_max_range = "ShootSpiderWebsIfWithinRangeState"
 
 [node name="BackBodyPart" parent="MonsterBodyPartContainer" index="0" instance=ExtResource("19_6e4ta")]
-body_part_type = 5
 min_angle = 230.0
 max_angle = 320.0
 
 [node name="HeadBodyPart" parent="MonsterBodyPartContainer" index="1" instance=ExtResource("20_b80na")]
-body_part_type = 1
 min_angle = 45.0
 max_angle = 135.0
 

@@ -22,6 +22,10 @@ ignore_north_tiles = false
 ignore_south_tiles = false
 ignore_east_tiles = false
 ignore_west_tiles = false
+use_specific_tile_location_config = false
+ignore_tiles_close_to_origin = false
+ignore_tiles_away_from_origin = false
+ignore_tiles_same_distance_from_origin = false
 
 [sub_resource type="Resource" id="Resource_0ftra"]
 script = ExtResource("3_vypvt")
@@ -34,7 +38,9 @@ update_next_card_effect_data = true
 script = ExtResource("6_icl8p")
 id = "sneak_attack_1"
 title = "Sneak Attack"
-description = "On Discard: Draw 1 Card"
+rarity = 0
+description = "Deal 10 damage
+On Discard: Draw 1 Card"
 stamina_cost = 10
 tag_array = Array[String](["attack"])
 play_conditions = Array[ExtResource("5_nogop")]([])

@@ -73,4 +73,5 @@ signal reveal_connected_nodes(world_node: GenericWorldNode)
 signal reveal_node(world_node_id: String)
 signal node_finished_revealing(world_node_id: String)
 signal node_completed(world_node_id: String)
+signal node_completed_and_freed(world_node_id: String)
 signal world_updated
