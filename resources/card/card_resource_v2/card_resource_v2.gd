@@ -42,9 +42,7 @@ func play_card() -> bool:
 	var should_update_card_effect_data: bool = true
 	var response: CardEffectResponse = CardEffectResponse.new()
 	for action in play_actions:
-		if not previous_action_data:
-			## this will get updated during the action, the first one should always be null
-			action.card_effect_data = null
+		action.card_effect_data = null
 		if should_update_card_effect_data and previous_action_data:
 			action.card_effect_data = _get_effect_data_with_input_udpated(
 				action.card_effect_data,
