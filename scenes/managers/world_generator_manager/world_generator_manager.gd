@@ -20,7 +20,7 @@ const RADIUS = 30
 @export var village_node_marker: Marker2D
 
 var total_number_of_nodes_generated: int = 0
-var max_distance_to_village: int = 1
+var max_distance_to_village: int = 2
 var maximum_number_of_child_nodes: int = 3
 
 ## TODO: need to urgenlty improve this, this is not a smart way to check for node overllaping
@@ -69,7 +69,11 @@ func _generate_world():
 	if not world_generator_config:
 		return
 	_generate_village()
-	_generate_adjacent_nodes(village_node, maximum_number_of_child_nodes, 1)
+	_generate_adjacent_nodes(
+		village_node,
+		world_generator_config.max_number_of_child_nodes,
+		1
+	)
 	village_node.reveal_connected_nodes()
 	_save_world_state()
 	
@@ -92,7 +96,9 @@ func _generate_village():
 	world_node_container.add_child(village_node)
 	PlayerController.current_world_node = village_node
 
-## TODO: use the world_generator_config
+## TODO: What if we add the position first, 
+## and then go through all of them to add the minimum and maximum
+## We count the number of nodes total and then actually gneerate them
 func _generate_adjacent_nodes(
 	base_node: GenericWorldNode,
 	number_of_children: int = self.maximum_number_of_child_nodes,
@@ -100,13 +106,12 @@ func _generate_adjacent_nodes(
 ):
 	for i in range(base_node.connections.size(), number_of_children):
 		var generated_position: Vector2 = get_node_iteration_position(base_node, i)
-		var overllaping_node: MonsterHuntWorldNode = get_overlapping_node(generated_position)
+		var overllaping_node: GenericWorldNode = get_overlapping_node(generated_position)
 		if overllaping_node:
 			base_node.connections.append(overllaping_node)
 			_draw_line_between_nodes(base_node, overllaping_node)
 			continue
 		var generated_node: GenericWorldNode = world_generator_config.generate_node(current_build_depth)
-		#var generated_node: MonsterHuntWorldNode = _generate_monster_hunt_node(generated_position)
 		generated_node.global_position = generated_position
 		generated_node.world_node_id = str(total_number_of_nodes_generated)
 		base_node.connections.append(generated_node)
@@ -114,39 +119,16 @@ func _generate_adjacent_nodes(
 		_generated_nodes.append(generated_node)
 		total_number_of_nodes_generated += 1
 		_draw_line_between_nodes(base_node, generated_node)
-		if current_build_depth <= max_distance_to_village:
+		if current_build_depth < max_distance_to_village:
 			_generate_adjacent_nodes(
 				generated_node,
 				2,
 				current_build_depth + 1
 			)
 
-func _generate_monster_hunt_node(global_position: Vector2) -> MonsterHuntWorldNode:
-	var generated_node: MonsterHuntWorldNode = WORLD_NODE_SCENE.instantiate().duplicate()
-	generated_node.global_position = global_position
-	generated_node.world_node_id = str(total_number_of_nodes_generated)
-	generated_node.monsters_in_node.append_array(_generate_random_monsters())
-	return generated_node
-
-## TODO: need to give monsters some weight
-func _generate_random_monsters(max_number: int = 1) -> Array[GenericMonster]:
-	var result: Array[GenericMonster] = []
-	for i in max_number:
-		var random_number: int = randi() % 2
-		var monster: GenericMonster = MonsterResourcesController.get_random_generic_monster()
-		#if random_number == 0:
-			#monster = CRAB_MONSTER_SCENE.instantiate()
-		#elif random_number == 1:
-			#monster = SPIDER_MONSTER_SCENE.instantiate()
-		#else:
-			#monster = CRAB_MONSTER_SCENE.instantiate()
-		result.append(monster)
-	return result
-	
-
 ## Get the first overlapping node
-func get_overlapping_node(world_node_global_position: Vector2) -> MonsterHuntWorldNode:
-	var overlapping_nodes: Array[MonsterHuntWorldNode] = []
+func get_overlapping_node(world_node_global_position: Vector2) -> GenericWorldNode:
+	var overlapping_nodes: Array[GenericWorldNode] = []
 	for generated_node in _generated_nodes:
 		if world_node_global_position.distance_to(generated_node.global_position) < _min_position_difference:
 			return generated_node
