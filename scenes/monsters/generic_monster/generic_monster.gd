@@ -7,6 +7,7 @@ signal body_part_hit(body_part: BodyPart)
 @onready var sprite_2d: Sprite2D = $Sprite2D
 @onready var collision_shape_2d: CollisionShape2D = $CollisionShape2D
 @onready var state_machine: StateMachine = $StateMachine
+@onready var hurtbox_component: HurtboxComponent = $HurtboxComponent
 @onready var monster_body_part_container: MonsterBodyPartContainer = $MonsterBodyPartContainer
 
 @onready var power_effect_container: PowerEffectContainer = $PowerEffectContainer
@@ -24,7 +25,6 @@ signal body_part_hit(body_part: BodyPart)
 @export var debug_mode: bool = false
 
 var my_scene: PackedScene = null
-
 
 func _ready() -> void:
 	super._ready()
@@ -158,7 +158,6 @@ func apply_damage(
 	damage: int,
 	_origin_tile: Tile
 ):
-	_play_hit_flash()
 	var angle: float = rad_to_deg(
 		_tile.get_center().angle_to_point(
 			_origin_tile.get_center()
@@ -169,22 +168,5 @@ func apply_damage(
 		fmod(angle + 360, 360), 
 		damage
 	)
-	
-	## await monster_body_part_container.monster_body_part_hit
-		
+	hurtbox_component.trigger(str(damage))
 	super.apply_damage(damage, _origin_tile)
-
-## TODO: set this two functions in a common class
-func _play_hit_flash():
-	if sprite_2d.material:
-		var tween = create_tween()
-		tween.tween_method(
-			set_flash_modifier,
-			1.0,
-			0.0,
-			0.2
-		)
-
-func set_flash_modifier(value: float) -> void:
-	if sprite_2d.material:
-		sprite_2d.material.set_shader_parameter("flash_modifier", value)

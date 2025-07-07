@@ -22,10 +22,14 @@ ignore_north_tiles = false
 ignore_south_tiles = false
 ignore_east_tiles = false
 ignore_west_tiles = false
+use_specific_tile_location_config = false
+ignore_tiles_close_to_origin = false
+ignore_tiles_away_from_origin = false
+ignore_tiles_same_distance_from_origin = false
 
 [sub_resource type="Resource" id="Resource_vgnqe"]
 script = ExtResource("2_tm6qh")
-damage = 10
+damage = 15
 tile_highlight_config = SubResource("Resource_4wk8k")
 center_piece = 0
 update_next_card_effect_data = true
@@ -34,6 +38,7 @@ update_next_card_effect_data = true
 script = ExtResource("3_hrt2r")
 id = "slice_1"
 title = "Slice"
+rarity = 0
 description = "Slice at the monster at close range. Deal 15 damage."
 stamina_cost = 10
 tag_array = Array[String](["attack"])

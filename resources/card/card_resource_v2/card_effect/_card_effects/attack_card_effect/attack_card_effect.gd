@@ -46,5 +46,5 @@ func update_data_after_card_is_played():
 
 func clean_card_effect() -> void:
 	super.clean_card_effect()
-	if piece_attacked.is_connected("body_part_hit", _on_monster_body_part_hit):
+	if piece_attacked and piece_attacked.is_connected("body_part_hit", _on_monster_body_part_hit):
 		piece_attacked.disconnect("body_part_hit", _on_monster_body_part_hit)
