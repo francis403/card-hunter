@@ -23,6 +23,8 @@ func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("right_click"):
 		BattlemapSignals.canceled_player_input.emit()
 		_handle_current_card_being_played_canceled()
+	elif event.is_action_pressed("v_pressed"):
+		BattlemapSignals.button_pressed_to_toggle_view_monster_parts.emit()
 
 func _handle_current_card_being_played_canceled():
 	if not _current_card_being_played:

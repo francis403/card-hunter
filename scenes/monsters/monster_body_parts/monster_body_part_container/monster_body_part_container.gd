@@ -12,6 +12,9 @@ func init_body_parts(tile: Tile):
 	for child: BodyPart in self.get_children():
 		child.body_part_tile_location = tile
 
+func _ready() -> void:
+	BattlemapSignals.button_pressed_to_toggle_view_monster_parts.connect(_on_button_pressed_to_toggle_view_monster_parts)
+
 func get_and_hit_body_parts(
 	angle: float,
 	damage: int
@@ -53,6 +56,9 @@ func _rotate_body_parts(
 		child.rotate_body_part(angle_dif)
 	queue_redraw()
 	
+
+func _on_button_pressed_to_toggle_view_monster_parts():
+	self.visible = not self.visible
 
 # Debug function to visualize body part angles
 func _draw():

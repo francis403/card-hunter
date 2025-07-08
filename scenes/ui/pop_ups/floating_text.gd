@@ -1,5 +1,7 @@
 extends Node2D
 
+var push_label: Vector2 = Vector2(0, 0)
+
 func start(text: String):
 	$Label.text = text
 	
@@ -8,11 +10,11 @@ func start(text: String):
 	var tween = create_tween()
 	tween.set_parallel()
 	
-	tween.tween_property(self, "global_position", global_position + (Vector2.UP * 16), .3)\
+	tween.tween_property(self, "global_position", global_position + push_label + (Vector2.UP * 16), .3)\
 		.set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_CUBIC)
 	tween.chain()
 	
-	tween.tween_property(self, "global_position", global_position + (Vector2.UP) * 48, .5)\
+	tween.tween_property(self, "global_position", global_position + push_label + (Vector2.UP) * 48, .5)\
 		.set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_CUBIC)
 	tween.tween_property(self, "scale", Vector2.ZERO, .5)\
 		.set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_CUBIC)
