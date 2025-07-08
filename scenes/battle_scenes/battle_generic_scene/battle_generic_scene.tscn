@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://dn1s6gbout3xc"]
+[gd_scene load_steps=12 format=3 uid="uid://dn1s6gbout3xc"]
 
 [ext_resource type="Script" path="res://scenes/battle_scenes/battle_generic_scene/battle_generic_scene.gd" id="1_6gf8r"]
 [ext_resource type="AudioStream" uid="uid://dwcjod037iqrj" path="res://assets/sound/background_music/One Man Symphony - Collateral Damage (Free) - 15 CyberRace Theme 02.mp3" id="2_ugrlm"]
@@ -10,6 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://b3x2sadw27m6s" path="res://ui/deck/draw_pile/deck_ui.tscn" id="9_a3gj4"]
 [ext_resource type="PackedScene" uid="uid://qcu3ip6nb1i3" path="res://ui/screens/game_over_screen/game_over_screen.tscn" id="9_bw6p8"]
 [ext_resource type="PackedScene" uid="uid://cksvi3r0uyp0o" path="res://scenes/managers/battle_scene_rewards_manager/battle_scene_rewards_manager.tscn" id="10_66p06"]
+[ext_resource type="PackedScene" uid="uid://dyhe2vn3fiuv5" path="res://ui/battlemap/player/discard_card_ui/discard_card_ui.tscn" id="10_muclq"]
 
 [node name="BattleGenericScene" type="Node" node_paths=PackedStringArray("player")]
 script = ExtResource("1_6gf8r")
@@ -47,9 +48,10 @@ scale = Vector2(3, 3)
 
 [node name="monsters" type="Node" parent="."]
 
-[node name="Hand" parent="." node_paths=PackedStringArray("draw_pile_marker") instance=ExtResource("7_q21cd")]
+[node name="Hand" parent="." node_paths=PackedStringArray("draw_pile_marker", "discard_pile_marker") instance=ExtResource("7_q21cd")]
 size_flags_horizontal = 4
 draw_pile_marker = NodePath("../DrawPileMarker")
+discard_pile_marker = NodePath("../DiscardPileMarker")
 
 [node name="UINodes" type="Control" parent="."]
 layout_mode = 3
@@ -79,10 +81,21 @@ grow_horizontal = 0
 title = "Discard"
 deck_type = 2
 
+[node name="DiscardCardUI" parent="UINodes" instance=ExtResource("10_muclq")]
+visible = false
+layout_mode = 1
+offset_left = -85.0
+offset_top = -224.0
+offset_right = 85.0
+offset_bottom = 3.0
+
 [node name="GameOverScreen" parent="." instance=ExtResource("9_bw6p8")]
 visible = false
 
 [node name="DrawPileMarker" type="Marker2D" parent="."]
 position = Vector2(49, 583)
+
+[node name="DiscardPileMarker" type="Marker2D" parent="."]
+position = Vector2(1102, 583)
 
 [connection signal="tree_exited" from="." to="." method="_on_tree_exited"]

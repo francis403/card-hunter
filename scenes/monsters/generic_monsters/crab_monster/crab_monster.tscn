@@ -1,0 +1,86 @@
+[gd_scene load_steps=23 format=3 uid="uid://cvlh0ir1dbn8k"]
+
+[ext_resource type="Script" path="res://scenes/monsters/generic_monsters/crab_monster/crab_monster.gd" id="1_f67w6"]
+[ext_resource type="PackedScene" uid="uid://b77dqwv8b42lt" path="res://scenes/monsters/generic_monster/generic_monster.tscn" id="1_jxbo4"]
+[ext_resource type="Texture2D" uid="uid://y720kc3pkme0" path="res://scenes/monsters/generic_monsters/crab_monster/tile_0110.png" id="1_x8062"]
+[ext_resource type="Script" path="res://resources/configuration/monster_configurations/monster_immunities_config/monster_immunitie_config.gd" id="4_3773e"]
+[ext_resource type="PackedScene" uid="uid://oalssska7u76" path="res://scenes/game_objects/states/stay_away_and_attack_from_range/stay_away_and_attack_from_range.tscn" id="4_e5dvf"]
+[ext_resource type="PackedScene" uid="uid://dmrgvn8lav1xo" path="res://scenes/game_objects/states/move_speed_to_player_and_do_radius_attack/move_speed_to_player_and_do_radius_attack.tscn" id="4_r160r"]
+[ext_resource type="Script" path="res://resources/configuration/monster_configurations/monster_spawn_config/monster_spawn_config.gd" id="4_s6gm4"]
+[ext_resource type="Script" path="res://resources/configuration/monster_configurations/monster_config/monster_config.gd" id="5_k7sue"]
+[ext_resource type="Script" path="res://resources/card/card_resource_v2/card_resource_v2.gd" id="7_qhp46"]
+[ext_resource type="Resource" uid="uid://dj70btw21vyx3" path="res://resources/card/card_resource_v2/_card_resources_v2/move_cards/crab_walk_1.tres" id="8_hhtw6"]
+[ext_resource type="Resource" uid="uid://d0tjdvgepml65" path="res://resources/card/card_resource_v2/_card_resources_v2/status_change_cards/health_potion_1.tres" id="9_56dmi"]
+[ext_resource type="Script" path="res://resources/monster/state/state_change_condition/state_change_condition.gd" id="12_s4wg8"]
+[ext_resource type="Script" path="res://resources/monster/state/state_condition/state_condition.gd" id="13_i5s67"]
+[ext_resource type="PackedScene" uid="uid://c7xqpe3snou7" path="res://scenes/monsters/monster_body_parts/body_parts/head_body_part/head_body_part.tscn" id="14_netfg"]
+[ext_resource type="PackedScene" uid="uid://cje0q5xds21f7" path="res://scenes/monsters/monster_body_parts/body_parts/back_body_part/back_body_part.tscn" id="15_gyvj4"]
+
+[sub_resource type="Resource" id="Resource_328e3"]
+script = ExtResource("4_3773e")
+immune_list = Array[String]([])
+
+[sub_resource type="Resource" id="Resource_b286i"]
+script = ExtResource("4_s6gm4")
+_min_number_of_days_passed = 0
+_min_number_boss_fights = 0
+
+[sub_resource type="Resource" id="Resource_thpje"]
+script = ExtResource("5_k7sue")
+monster_immunity_config = SubResource("Resource_328e3")
+monster_spawn_config = SubResource("Resource_b286i")
+
+[sub_resource type="Resource" id="Resource_ycima"]
+script = ExtResource("13_i5s67")
+state_condition = 2
+logical_operation = 3
+x = 50
+
+[sub_resource type="Resource" id="Resource_3gpk2"]
+script = ExtResource("12_s4wg8")
+conditions = Array[ExtResource("13_i5s67")]([SubResource("Resource_ycima")])
+state_name = "StayAwayAndAttackFromRange"
+
+[sub_resource type="Resource" id="Resource_5yixl"]
+script = ExtResource("13_i5s67")
+state_condition = 0
+logical_operation = 0
+x = 0
+
+[sub_resource type="Resource" id="Resource_in7xo"]
+script = ExtResource("12_s4wg8")
+conditions = Array[ExtResource("13_i5s67")]([SubResource("Resource_5yixl")])
+state_name = "MoveSpeedToPlayerAndDoRadiusAttack"
+
+[node name="CrabMonster" instance=ExtResource("1_jxbo4")]
+script = ExtResource("1_f67w6")
+monster_id = "crab_monster_small"
+monster_texture = ExtResource("1_x8062")
+monster_config = SubResource("Resource_thpje")
+debug_mode = true
+_health = 50
+_max_hp = 50
+_strength = 50
+
+[node name="RewardManager" parent="." index="0"]
+card_rewards = Array[ExtResource("7_qhp46")]([ExtResource("8_hhtw6"), ExtResource("9_56dmi")])
+
+[node name="StateMachine" parent="." index="2" node_paths=PackedStringArray("initial_state")]
+initial_state = NodePath("MoveSpeedToPlayerAndDoRadiusAttack")
+
+[node name="MoveSpeedToPlayerAndDoRadiusAttack" parent="StateMachine" index="0" instance=ExtResource("4_r160r")]
+state_change_conditions = Array[ExtResource("12_s4wg8")]([SubResource("Resource_3gpk2")])
+
+[node name="StayAwayAndAttackFromRange" parent="StateMachine" index="1" instance=ExtResource("4_e5dvf")]
+state_change_conditions = Array[ExtResource("12_s4wg8")]([SubResource("Resource_in7xo")])
+
+[node name="HeadBodyPart" parent="MonsterBodyPartContainer" index="0" instance=ExtResource("14_netfg")]
+min_angle = 45.0
+max_angle = 136.0
+
+[node name="BackBodyPart" parent="MonsterBodyPartContainer" index="1" instance=ExtResource("15_gyvj4")]
+min_angle = 224.0
+max_angle = 320.0
+
+[node name="Sprite2D" parent="." index="5"]
+texture = ExtResource("1_x8062")

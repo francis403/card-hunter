@@ -11,18 +11,18 @@ class_name BattleSceneRewardsManager
 	#BattleSignals.battle_start.connect(_set_rewards_to_reward_screen)
 
 func set_rewards_to_reward_screen():
-	var reward_cards: Array[CardResource] = []
+	var reward_cards: Array[CardResourceV2] = []
 	for monster in monsters_container.get_children():
 		if not monster is GenericMonster:
 			return
-		var card_array: Array[CardResource] = monster.get_card_rewards()
+		var card_array: Array[CardResourceV2] = monster.get_card_rewards()
 		reward_cards.append_array(card_array)
 		game_over_screen.add_rewards(card_array)
 		for card_resource in card_array:
 			_instantiate_card(card_resource)
 		#possible_rewards.add_child(monster.get_card_rewards())
 
-func _instantiate_card(card_resource: CardResource):
+func _instantiate_card(card_resource: CardResourceV2):
 	if not card_resource:
 		return
 	var card_instance: Card = Constants.card_scene.instantiate()

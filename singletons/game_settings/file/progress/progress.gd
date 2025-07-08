@@ -5,7 +5,7 @@ var current_health: int
 var current_world_node_id: String 
 
 ## Already loaded world
-var village_node: WorldNode
+var village_node: VillageWorldNode
 
 ## Dictionary representation of the world
 var world_state: WorldState
@@ -21,7 +21,9 @@ func _init() -> void:
 	current_player_deck = PlayerDeck.new()
 	world_state = WorldState.new()
 
-func update_player_position(current_world_node: WorldNode):
+func update_player_position(current_world_node: GenericWorldNode):
+	if not PlayerController.current_world_node:
+		PlayerController.current_world_node = current_world_node
 	PlayerController.current_world_node.hide_player()
 	File.progress.current_world_node_id = current_world_node.world_node_id
 	PlayerController.current_world_node = current_world_node

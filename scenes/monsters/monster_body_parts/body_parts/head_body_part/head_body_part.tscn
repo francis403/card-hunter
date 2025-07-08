@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://c7xqpe3snou7"]
+
+[ext_resource type="Script" path="res://scenes/monsters/monster_body_parts/body_parts/head_body_part/head_body_part.gd" id="1_pt475"]
+
+[node name="HeadBodyPart" type="Node"]
+script = ExtResource("1_pt475")
+part_name = "Head"
+body_part_type = 1
+min_angle = 90.0
+max_angle = 270.0

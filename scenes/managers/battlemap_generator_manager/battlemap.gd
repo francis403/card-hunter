@@ -39,7 +39,7 @@ func _populate_grid():
 		grid_array.append([])
 		for grid_x in _number_of_columns:
 			var tile: Tile = tile_scene.instantiate()
-			tile.show_status = true
+			tile.show_status = false
 			grid_container.add_child(tile)
 			tile.initialize_tile(
 				Color.BLACK,

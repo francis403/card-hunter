@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="StateCondition" load_steps=2 format=3 uid="uid://cdfg8pprgsw28"]
+
+[ext_resource type="Script" path="res://resources/monster/state/state_condition/state_condition.gd" id="1_p4fh4"]
+
+[resource]
+resource_name = "PlayerInRange3"
+script = ExtResource("1_p4fh4")
+state_condition = 1
+logical_operation = 4
+x = 3

@@ -2,6 +2,11 @@ extends Node
 
 
 # ENUMS
+enum DeckType {
+	DRAW_DECK,
+	DISCARD_DECK
+}
+
 enum TargetType {
 	INHERIT,
 	SELF,
@@ -28,6 +33,8 @@ enum StatType {
 	MAX_SPEED,
 	SPEED,
 	STRENGTH,
+	DAMAGE_TAKEN_MULTIPLIER,
+	DAMAGE_DEALT_MULTIPLER,
 	DAMAGE
 }
 

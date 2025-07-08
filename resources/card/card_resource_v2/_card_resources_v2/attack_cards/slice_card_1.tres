@@ -1,0 +1,48 @@
+[gd_resource type="Resource" script_class="CardResourceV2" load_steps=10 format=3 uid="uid://y866rrfg7pyy"]
+
+[ext_resource type="Script" path="res://resources/card/card_resource_v2/card_effect/card_effect.gd" id="1_tdiyw"]
+[ext_resource type="AudioStream" uid="uid://d4nqs2kfg56mh" path="res://assets/sound/sound_effects/knifeSlice.ogg" id="1_yvbse"]
+[ext_resource type="Script" path="res://resources/card/card_resource_v2/condition/condition.gd" id="2_qrcph"]
+[ext_resource type="Script" path="res://resources/card/card_resource_v2/card_effect/_card_effects/attack_card_effect/attack_card_effect.gd" id="2_tm6qh"]
+[ext_resource type="Script" path="res://resources/card/card_resource_v2/card_resource_v2.gd" id="3_hrt2r"]
+[ext_resource type="Script" path="res://resources/configuration/tile_highlight_configuration/tile_highlight_configuration.gd" id="3_uhxd6"]
+[ext_resource type="Script" path="res://resources/card/card_resource_v2/special_card_effect/special_card_effect_resource.gd" id="4_pd5gj"]
+
+[sub_resource type="Resource" id="Resource_4wk8k"]
+script = ExtResource("3_uhxd6")
+range = 1
+min_range = 0.0
+area_type = 4
+ignore_occupied_tiles = false
+ignore_origin = true
+ignore_corners = false
+ignore_non_corners = false
+ignore_tiles_with_effects = false
+ignore_north_tiles = false
+ignore_south_tiles = false
+ignore_east_tiles = false
+ignore_west_tiles = false
+use_specific_tile_location_config = false
+ignore_tiles_close_to_origin = false
+ignore_tiles_away_from_origin = false
+ignore_tiles_same_distance_from_origin = false
+
+[sub_resource type="Resource" id="Resource_vgnqe"]
+script = ExtResource("2_tm6qh")
+damage = 15
+tile_highlight_config = SubResource("Resource_4wk8k")
+center_piece = 0
+update_next_card_effect_data = true
+
+[resource]
+script = ExtResource("3_hrt2r")
+id = "slice_1"
+title = "Slice"
+rarity = 0
+description = "Slice at the monster at close range. Deal 15 damage."
+stamina_cost = 10
+tag_array = Array[String](["attack"])
+play_conditions = Array[ExtResource("2_qrcph")]([])
+play_actions = Array[ExtResource("1_tdiyw")]([SubResource("Resource_vgnqe")])
+special_effects = Array[ExtResource("4_pd5gj")]([])
+audio_stream = ExtResource("1_yvbse")

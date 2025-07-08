@@ -9,23 +9,34 @@ signal clear_player_highlighted_tiles
 signal clear_attack_highlight_tiles
 signal clear_highlighted_tiles
 signal tile_picked_in_battlemap(tile: Tile)
+signal button_pressed_to_toggle_view_monster_parts
+
 # TODO: signals should be a response to something, not to tell the game to do something
 signal add_effect_to_tile(tile_effect: TileEffect, tile: Tile)
 signal add_effect_type_to_tile(tile_effect: Constants.TileEffectTypes, tile: Tile)
 signal get_monster_range_tiles(source_tile: Tile, config: TileHighlightConfig)
 signal monster_range_tiles_generated(monster_range_tiles: Array[Tile])
+# Select/Discard Card UI
+signal awaiting_for_card_selection(_ignore_card_list: Array[Card])
+signal input_received_for_card_selected(card: Card)
+signal card_selected_confirmed(card: Card)
+signal card_discarded_by_other_card(discarded_card: Card)
 
 ## deck signals
-signal draw_pile_updated(draw_pile_cards: Array[CardResource])
-signal discard_pile_updated(discard_pile_cards: Array[CardResource])
-signal full_deck_updated(discard_pile_cards: Array[CardResource])
+signal draw_pile_updated(draw_pile_cards: Array[CardResourceV2])
+signal discard_pile_updated(discard_pile_cards: Array[CardResourceV2])
+signal full_deck_updated(discard_pile_cards: Array[CardResourceV2])
 signal show_full_deck
 signal show_draw_pile_deck
 signal show_discard_pile_deck
+signal draw_pile_draw_cards_requested(number_of_cards_to_draw: int)
 
 ## Card signals
-signal card_has_been_played(card_resource: CardResource)
+signal card_has_been_played(card_resource: CardResourceV2)
+signal player_initiated_card_discard(card: Card)
+signal discard_card_animation_finished(is_success: bool)
 signal card_discarded_from_hand(index: int)
+signal card_discarded_from_hand_reverted(card_resource: CardResourceV2)
 signal card_removed_from_deck(index: int)
 
 ## Player signals
@@ -48,21 +59,21 @@ signal after_player_movement
 
 ## Monster signals
 signal monster_turn_started
-signal deal_damage_to_attacked_squares(damage: int)
+signal deal_damage_to_attacked_squares(origin_tile: Tile, damage: int)
 signal monster_hp_changed(new_hp: int, max_hp: int)
 signal monster_prepared_move(tile: Tile)
 signal monster_prepared_attack(attacked_tiles: Array[Tile])
 signal monster_died
 signal monster_moved_by_player(new_tile: Tile)
+signal monster_body_part_attacked(monster: MonsterPiece, bodyPart: BodyPart)
 
 
 ## WorldMap Signals
-signal player_world_state_updated(world_node: WorldNode)
+signal player_world_state_updated(world_node: GenericWorldNode)
 signal hide_player_in_other_node(world_node_id: String)
-signal reveal_connected_nodes(world_node: WorldNode)
+signal reveal_connected_nodes(world_node: GenericWorldNode)
 signal reveal_node(world_node_id: String)
 signal node_finished_revealing(world_node_id: String)
 signal node_completed(world_node_id: String)
+signal node_completed_and_freed(world_node_id: String)
 signal world_updated
-# TODO: if we want some sort of fog of war
-signal generate_world_node_children(world_node: WorldNode)

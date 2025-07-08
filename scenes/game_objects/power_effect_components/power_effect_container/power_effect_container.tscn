@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://dckrxrqyssly2"]
+
+[ext_resource type="Script" path="res://scenes/game_objects/power_effect_components/power_effect_container/power_effect_container.gd" id="1_2o0tr"]
+
+[node name="PowerEffectContainer" type="Node"]
+script = ExtResource("1_2o0tr")

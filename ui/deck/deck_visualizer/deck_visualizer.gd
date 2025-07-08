@@ -3,7 +3,7 @@ class_name DeckVisualizer
 
 const card_scene: PackedScene = preload("res://scenes/game_objects/cards/card/card.tscn")
 
-@export var deck: Array[CardResource] = []
+@export var deck: Array[CardResourceV2] = []
 
 @onready var grid_container: GridContainer = %GridContainer
 
@@ -16,7 +16,7 @@ func _add_cards_to_grid():
 		_instantiate_card(card_resource)
 
 
-func _instantiate_card(card_resource: CardResource):
+func _instantiate_card(card_resource: CardResourceV2):
 	if not card_resource:
 		return
 	var card_instance: Card = card_scene.instantiate()

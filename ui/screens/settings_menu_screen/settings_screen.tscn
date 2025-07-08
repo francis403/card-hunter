@@ -3,6 +3,7 @@
 [ext_resource type="Script" path="res://ui/screens/settings_menu_screen/settings_screen.gd" id="1_6uece"]
 
 [node name="SettingsScreen" type="PanelContainer"]
+z_index = 100
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5

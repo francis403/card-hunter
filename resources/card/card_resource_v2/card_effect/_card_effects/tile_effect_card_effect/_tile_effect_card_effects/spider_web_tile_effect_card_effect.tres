@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="TileEffectCardEffect" load_steps=5 format=3 uid="uid://71gsyvywb3eb"]
+
+[ext_resource type="Script" path="res://resources/card/card_resource_v2/card_effect/_card_effects/tile_effect_card_effect/tile_effect_card_effect.gd" id="1_4iawh"]
+[ext_resource type="Resource" uid="uid://b6wwihrdhhm7o" path="res://resources/battle_entities/tile_effect_resource/_tile_effect_resources/spider_web_tile_effect_resource.tres" id="2_waieh"]
+[ext_resource type="Script" path="res://resources/configuration/tile_highlight_configuration/tile_highlight_configuration.gd" id="3_l17xs"]
+
+[sub_resource type="Resource" id="Resource_a5a0w"]
+script = ExtResource("3_l17xs")
+range = 1
+min_range = 0.0
+area_type = 4
+ignore_occupied_tiles = false
+ignore_origin = true
+ignore_corners = false
+ignore_non_corners = false
+ignore_tiles_with_effects = false
+ignore_north_tiles = false
+ignore_south_tiles = false
+ignore_east_tiles = false
+ignore_west_tiles = false
+
+[resource]
+script = ExtResource("1_4iawh")
+tile_effect_resource = ExtResource("2_waieh")
+tile_highlight_config = SubResource("Resource_a5a0w")
+center_piece = 0

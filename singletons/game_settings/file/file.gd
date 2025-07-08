@@ -58,7 +58,11 @@ func _load_world_state():
 	if save_data["progress"]["world_state"].has("days_left"):
 		GameController.days_till_attack = save_data["progress"]["world_state"]["days_left"]
 	self.progress.world_state._world_state = save_data["progress"]["world_state"]
-	self.progress.village_node = self.progress.world_state.convert_world_state_to_node()
+	var world_state_to_node = self.progress.world_state.convert_world_state_to_node()
+	#var world_state_instantiated = world_state_to_node.my_node_scene.instantiate()
+	#world_state_to_node.copy_into_node(world_state_instantiated, true)
+	#self.progress.village_node = world_state_instantiated
+	self.progress.village_node = world_state_to_node
 
 ## TODO: this can probably be done a lot better
 func _load_player_info():
@@ -71,6 +75,6 @@ func _load_player_info():
 
 ## SIGNALS
 ## TODO: do we want to save as soon as the player clicks there? 
-func _on_player_world_state_updated_signal(world_node: WorldNode):
+func _on_player_world_state_updated_signal(world_node: GenericWorldNode):
 	progress.world_state.convert_node_to_world_state(progress.village_node)
 	change_progress()

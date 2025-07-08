@@ -32,8 +32,8 @@ func _on_end_turn_button_pressed() -> void:
 	BattlemapSignals.monster_turn_started.emit()
 
 func _on_monster_health_changed(new_hp: int, max_hp: int):
-	var progess_bar_value: float = float (new_hp) / float(max_hp)
-	monster_hp_progress_bar.value = progess_bar_value
+	var progress_bar_value: float = float (new_hp) / float(max_hp)
+	monster_hp_progress_bar.value = progress_bar_value
 
 func _initialize_player_stats():
 	player_health_label.text = "HP: " + str(PlayerController.current_player_health)

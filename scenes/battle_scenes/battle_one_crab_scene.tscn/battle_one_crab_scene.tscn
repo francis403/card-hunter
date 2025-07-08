@@ -1,13 +1,20 @@
-[gd_scene load_steps=3 format=3 uid="uid://yvxphgobi3lv"]
+[gd_scene load_steps=4 format=3 uid="uid://yvxphgobi3lv"]
 
 [ext_resource type="PackedScene" uid="uid://dn1s6gbout3xc" path="res://scenes/battle_scenes/battle_generic_scene/battle_generic_scene.tscn" id="1_w4lpb"]
-[ext_resource type="PackedScene" uid="uid://cvlh0ir1dbn8k" path="res://scenes/monsters/CrabMonster/crab_monster.tscn" id="2_aicp5"]
+[ext_resource type="PackedScene" uid="uid://cvlh0ir1dbn8k" path="res://scenes/monsters/generic_monsters/crab_monster/crab_monster.tscn" id="2_aicp5"]
+[ext_resource type="Resource" uid="uid://c2013uvhxp01r" path="res://resources/player_deck/decks/generic_deck/bow_deck.tres" id="2_sb8aw"]
 
-[node name="BattleGenericScene" instance=ExtResource("1_w4lpb")]
+[node name="BattleOneCrabTestScene" instance=ExtResource("1_w4lpb")]
 
 [node name="Battlemap" parent="." index="4" node_paths=PackedStringArray("monsters")]
 monsters = [NodePath("../CrabMonster")]
 
-[node name="CrabMonster" parent="." index="5" instance=ExtResource("2_aicp5")]
-position = Vector2(778, 352)
-_max_hp = 1
+[node name="Player" parent="." index="5"]
+is_player_damageable = false
+hand_size = 5
+replace_deck = ExtResource("2_sb8aw")
+
+[node name="CrabMonster" parent="." index="11" instance=ExtResource("2_aicp5")]
+debug_mode = true
+_health = 100
+_max_hp = 100

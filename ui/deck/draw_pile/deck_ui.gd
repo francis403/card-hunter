@@ -31,7 +31,7 @@ func _ready() -> void:
 	#number_of_cards_label.text = str(_deck.size())
 
 func _on_deck_finished_prepping_signal(
-	deck: Array[CardResource]
+	deck: Array[CardResourceV2]
 ):
 	number_of_cards_label.text = str(deck.size())
 
@@ -51,3 +51,9 @@ func _show_full_deck():
 	var deck_visualizer_instance: DeckVisualizer = Constants.deck_visualizer_scene.instantiate()
 	deck_visualizer_instance.deck = PlayerController.get_deck()._deck
 	get_tree().root.add_child(deck_visualizer_instance)
+
+func _update_deck_label():
+	print(_update_deck_label)
+	match deck_type:
+		Deck_Type_Enum.FULL_DECK:
+			number_of_cards_label.text = str(PlayerController.get_deck().get_size())

@@ -51,6 +51,8 @@ func highlight_tiles(
 	source_tile: Tile,
 	config: TileHighlightConfig
 ) -> Array[Tile]:
+	if not config:
+		return []
 	var highlighted_tiles: Array[Tile] = []
 	var area_type: Constants.AreaType = config.area_type
 	if area_type == Constants.AreaType.RADIUS:
@@ -107,6 +109,8 @@ func highligh_tiles_radius(
 			if config.ignore_non_corners and abs(radius_x) != abs(radius_y):
 				continue 
 			if config.ignore_tiles_with_effects and tile.has_effect():
+				continue
+			if config._specific_tile_location_config_match(tile):
 				continue
 			highlighted_tiles.append(tile)
 			_make_tile_clickable(tile_x, tile_y, config)

@@ -1,0 +1,30 @@
+[gd_resource type="Resource" script_class="CardResourceV2" load_steps=9 format=3 uid="uid://bnbqi4hpeshi7"]
+
+[ext_resource type="Script" path="res://resources/card/card_resource_v2/card_effect/card_effect.gd" id="1_8t6g6"]
+[ext_resource type="Script" path="res://resources/card/card_resource_v2/condition/condition.gd" id="2_7flai"]
+[ext_resource type="Script" path="res://resources/card/card_resource_v2/card_effect/_card_effects/status_change_card_effect/status_change_card_effect.gd" id="2_f1s3t"]
+[ext_resource type="Script" path="res://resources/configuration/effect_configs/status_modifier_config/status_modifier_config.gd" id="3_8m86n"]
+[ext_resource type="Script" path="res://resources/card/card_resource_v2/card_resource_v2.gd" id="3_o0hed"]
+[ext_resource type="Script" path="res://resources/card/card_resource_v2/special_card_effect/special_card_effect_resource.gd" id="4_urash"]
+
+[sub_resource type="Resource" id="Resource_i15xq"]
+script = ExtResource("3_8m86n")
+stat = 1
+operation = 0
+value = 15.0
+
+[sub_resource type="Resource" id="Resource_ma60m"]
+script = ExtResource("2_f1s3t")
+status_modifier_config = SubResource("Resource_i15xq")
+update_next_card_effect_data = true
+
+[resource]
+script = ExtResource("3_o0hed")
+id = "breathe_1"
+title = "Breathe"
+description = "Take a moment to breathe. Recover 15 points of stamina."
+stamina_cost = 0
+tag_array = Array[String](["status_change", "breath"])
+play_conditions = Array[ExtResource("2_7flai")]([])
+play_actions = Array[ExtResource("1_8t6g6")]([SubResource("Resource_ma60m")])
+special_effects = Array[ExtResource("4_urash")]([])

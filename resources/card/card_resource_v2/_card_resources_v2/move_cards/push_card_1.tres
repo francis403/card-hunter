@@ -1,0 +1,64 @@
+[gd_resource type="Resource" script_class="CardResourceV2" load_steps=10 format=3 uid="uid://bnds0fxs33yqg"]
+
+[ext_resource type="Script" path="res://resources/card/card_resource_v2/card_effect/card_effect.gd" id="1_05pe8"]
+[ext_resource type="Script" path="res://resources/card/card_resource_v2/card_effect/_card_effects/move_other_card_effect/move_other_card_effect.gd" id="2_ks82x"]
+[ext_resource type="Script" path="res://resources/card/card_resource_v2/condition/condition.gd" id="2_uhw8q"]
+[ext_resource type="Script" path="res://resources/card/card_resource_v2/card_resource_v2.gd" id="3_ae2bu"]
+[ext_resource type="Script" path="res://resources/configuration/tile_highlight_configuration/tile_highlight_configuration.gd" id="3_wl1p5"]
+[ext_resource type="Script" path="res://resources/card/card_resource_v2/special_card_effect/special_card_effect_resource.gd" id="4_sgafs"]
+
+[sub_resource type="Resource" id="Resource_8lcq5"]
+script = ExtResource("3_wl1p5")
+range = 1
+min_range = 0.0
+area_type = 4
+ignore_occupied_tiles = true
+ignore_origin = true
+ignore_corners = false
+ignore_non_corners = false
+ignore_tiles_with_effects = false
+use_player_based_specificaions = false
+ignore_tiles_right_of_player = false
+ignore_tiles_center_of_player = false
+ignore_tiles_left_of_player = false
+ignore_north_tiles = false
+ignore_south_tiles = false
+ignore_east_tiles = false
+ignore_west_tiles = false
+
+[sub_resource type="Resource" id="Resource_axsjv"]
+script = ExtResource("3_wl1p5")
+range = 1
+min_range = 0.0
+area_type = 4
+ignore_occupied_tiles = false
+ignore_origin = true
+ignore_corners = false
+ignore_non_corners = false
+ignore_tiles_with_effects = false
+use_player_based_specificaions = false
+ignore_tiles_right_of_player = false
+ignore_tiles_center_of_player = false
+ignore_tiles_left_of_player = false
+ignore_north_tiles = false
+ignore_south_tiles = false
+ignore_east_tiles = false
+ignore_west_tiles = false
+
+[sub_resource type="Resource" id="Resource_oui2g"]
+script = ExtResource("2_ks82x")
+move_other_highlight_config = SubResource("Resource_8lcq5")
+tile_highlight_config = SubResource("Resource_axsjv")
+center_piece = 0
+update_next_card_effect_data = true
+
+[resource]
+script = ExtResource("3_ae2bu")
+id = "push_card_1"
+title = "Push"
+description = "Push the monster 1 tile away."
+stamina_cost = 0
+tag_array = Array[String](["move"])
+play_conditions = Array[ExtResource("2_uhw8q")]([])
+play_actions = Array[ExtResource("1_05pe8")]([SubResource("Resource_oui2g")])
+special_effects = Array[ExtResource("4_sgafs")]([])

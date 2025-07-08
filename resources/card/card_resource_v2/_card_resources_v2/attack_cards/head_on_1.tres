@@ -1,0 +1,71 @@
+[gd_resource type="Resource" script_class="CardResourceV2" load_steps=14 format=3 uid="uid://b8medpnffy1sh"]
+
+[ext_resource type="Script" path="res://resources/card/card_resource_v2/card_effect/card_effect.gd" id="1_o2f8x"]
+[ext_resource type="Script" path="res://resources/card/card_resource_v2/condition/condition.gd" id="2_2bn0t"]
+[ext_resource type="Script" path="res://resources/card/card_resource_v2/card_effect/_card_effects/attack_card_effect/attack_card_effect.gd" id="2_lxbru"]
+[ext_resource type="Script" path="res://resources/card/card_resource_v2/card_effect/_card_effects/condition_card_effect/condition_card_effect.gd" id="3_nmtij"]
+[ext_resource type="Script" path="res://resources/card/card_resource_v2/card_resource_v2.gd" id="3_pj1s6"]
+[ext_resource type="Script" path="res://resources/configuration/tile_highlight_configuration/tile_highlight_configuration.gd" id="3_tmsrc"]
+[ext_resource type="Script" path="res://resources/card/card_resource_v2/special_card_effect/special_card_effect_resource.gd" id="4_a6ucl"]
+[ext_resource type="Script" path="res://resources/card/card_resource_v2/card_effect/_card_effects/move_self_card_effect/move_self_card_effect.gd" id="4_wdm7u"]
+
+[sub_resource type="Resource" id="Resource_pllf8"]
+script = ExtResource("3_tmsrc")
+range = 1
+min_range = 0.0
+area_type = 4
+ignore_occupied_tiles = false
+ignore_origin = true
+ignore_corners = false
+ignore_non_corners = false
+ignore_tiles_with_effects = false
+ignore_north_tiles = false
+ignore_south_tiles = false
+ignore_east_tiles = false
+ignore_west_tiles = false
+
+[sub_resource type="Resource" id="Resource_3pgcl"]
+script = ExtResource("2_lxbru")
+damage = 10
+tile_highlight_config = SubResource("Resource_pllf8")
+center_piece = 1
+update_next_card_effect_data = true
+
+[sub_resource type="Resource" id="Resource_cd86t"]
+script = ExtResource("3_nmtij")
+condition = 1
+specific_monster_body_part = 1
+update_next_card_effect_data = false
+
+[sub_resource type="Resource" id="Resource_gxuwc"]
+script = ExtResource("3_tmsrc")
+range = 1
+min_range = 0.0
+area_type = 4
+ignore_occupied_tiles = false
+ignore_origin = true
+ignore_corners = false
+ignore_non_corners = false
+ignore_tiles_with_effects = false
+ignore_north_tiles = false
+ignore_south_tiles = false
+ignore_east_tiles = false
+ignore_west_tiles = false
+
+[sub_resource type="Resource" id="Resource_0tl3y"]
+script = ExtResource("4_wdm7u")
+tile_highlight_config = SubResource("Resource_gxuwc")
+center_piece = 1
+update_next_card_effect_data = true
+
+[resource]
+script = ExtResource("3_pj1s6")
+id = "head_on_1"
+title = "Head On"
+description = "Deal 10 damage. 
+On Head hit move up to your speed."
+stamina_cost = 10
+tag_array = Array[String](["attack"])
+play_conditions = Array[ExtResource("2_2bn0t")]([])
+play_actions = Array[ExtResource("1_o2f8x")]([SubResource("Resource_3pgcl"), SubResource("Resource_cd86t"), SubResource("Resource_0tl3y")])
+special_effects = Array[ExtResource("4_a6ucl")]([])

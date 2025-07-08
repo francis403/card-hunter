@@ -1,0 +1,2 @@
+extends BodyPart
+class_name BackBodyPart

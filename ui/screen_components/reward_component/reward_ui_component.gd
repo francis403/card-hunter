@@ -9,6 +9,10 @@ signal on_reward_card_picked
 @export var title: String = "Choose 1 reward"
 @export var hide_if_empty: bool = true
 
+## THis will only be used for Cards
+@export var max_number_of_picks: int = 1
+@export var min_number_of_picks: int = 0
+
 var number_of_reward_cards: int = 0
 	
 func _ready() -> void:
@@ -31,13 +35,13 @@ func _hide_if_no_rewards():
 	if number_of_reward_cards <= 0:
 		self.visible = false
 
-func add_reward_cards(reward_cards: Array[CardResource]):
+func add_reward_cards(reward_cards: Array[CardResourceV2]):
 	for reward_card in reward_cards:
 		_instantiate_card(reward_card)
 		number_of_reward_cards += 1
 
 
-func _instantiate_card(card_resource: CardResource):
+func _instantiate_card(card_resource: CardResourceV2):
 	if not card_resource:
 		return
 	var card_instance: Card = Constants.card_scene.instantiate()
@@ -49,6 +53,6 @@ func _instantiate_card(card_resource: CardResource):
 	card_instance.initialize_card()
 	card_instance.card_picked.connect(_on_card_picked_signal)
 
-func _on_card_picked_signal(card_resource: CardResource):
+func _on_card_picked_signal(card_resource: CardResourceV2):
 	PlayerController._deck.add_card(card_resource.duplicate())
 	on_reward_card_picked.emit()

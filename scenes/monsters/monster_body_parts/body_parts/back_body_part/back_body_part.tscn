@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://cje0q5xds21f7"]
+
+[ext_resource type="Script" path="res://scenes/monsters/monster_body_parts/body_parts/back_body_part/back_body_part.gd" id="1_xh4mv"]
+
+[node name="BackBodyPart" type="Node"]
+script = ExtResource("1_xh4mv")
+part_name = "Back"
+body_part_type = 5
+min_angle = -89.0
+max_angle = 89.0
