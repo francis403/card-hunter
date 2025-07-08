@@ -25,7 +25,6 @@ func on_node_click_event():
 	if not _is_click_event_processable():
 		return
 	if !GameController.is_showing_battle_scene:
-		print(_process_on_world_node_click, " id = ", world_node_id)
 		var battle_scene: BattleGenericScene = generate_battle_scene()
 		get_tree().root.add_child(battle_scene)
 	else:

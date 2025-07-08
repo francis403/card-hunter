@@ -17,7 +17,6 @@ func reveal_node_effect():
 func on_node_click_event():
 	if self.has_node_been_activated:
 		return
-	print(_process_on_world_node_click, " id = ", world_node_id)
 	self.has_node_been_activated = true
 	var treasure_scene: TreasureWorldNodeScreen  = generate_treasure_scene()
 	get_tree().root.add_child(treasure_scene)
