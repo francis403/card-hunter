@@ -1,32 +1,12 @@
 extends Control
 class_name DeckVisualizer
 
-const card_scene: PackedScene = preload("res://scenes/game_objects/cards/card/card.tscn")
+@onready var deck_container_component: DeckContainerComponent = $MarginContainer/VBoxContainer/DeckContainerComponent
 
 @export var deck: Array[CardResourceV2] = []
 
-@onready var grid_container: GridContainer = %GridContainer
-
 func _ready() -> void:
-	_add_cards_to_grid()
-	
-
-func _add_cards_to_grid():
-	for card_resource in deck:
-		_instantiate_card(card_resource)
-
-
-func _instantiate_card(card_resource: CardResourceV2):
-	if not card_resource:
-		return
-	var card_instance: Card = card_scene.instantiate()
-	card_instance.card_can_be_discarded = false
-	card_instance.card_can_hover = false
-	card_instance.card_can_be_played = false
-	grid_container.add_child(card_instance)
-	card_instance.card_resource = card_resource
-	card_instance.initialize_card()
-
+	deck_container_component.init_deck_container_component(deck)
 
 func _on_back_button_pressed() -> void:
 	self.queue_free()

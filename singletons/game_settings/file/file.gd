@@ -40,7 +40,18 @@ func change_progress():
 	save_data["progress"]["world_state"]["days_left"] = GameController.days_till_attack
 	save_data["progress"]["player"] = PlayerController.get_deck().save()
 	save_data["progress"]["player"]["hp"] = PlayerController.current_player_health
+	save_data["progress"]["player"]["card_modules"] = convert_player_card_modules_to_dictionary()
 	save()
+
+## TODO: I probably need to add an actual CardModule class,
+## that can be either a CardEffect or SpecialCardEffect
+func convert_player_card_modules_to_dictionary() -> Dictionary:
+	var result: Dictionary = {}
+	var index: int = 0
+	for module: CardEffect in PlayerController.get_card_modules():
+		result[index] = module.to_dictionary()
+		index += 1
+	return result
 
 func load_settings():
 	if save_data["settings"].has("volume"):
@@ -68,10 +79,22 @@ func _load_world_state():
 func _load_player_info():
 	var player_deck_info: Dictionary = save_data["progress"]["player"]
 	progress.current_player_deck._load(player_deck_info)
-	#progress.current_health = save_data["progress"]["player"]["hp"]
 	progress.current_health = save_data["progress"]["player"]["hp"]
 	PlayerController.current_player_health = progress.current_health
-	#PlayerController._deck = save_data["progress"]["player"]["deck"]
+	
+	if player_deck_info.has("card_modules"):
+		_load_player_card_modules(
+			player_deck_info["card_modules"]
+		)
+	
+## TODO: ideally we could just add/remove the cards that are different
+func _load_player_card_modules(_player_card_modules_dict: Dictionary):
+	PlayerController._available_card_modules.clear()
+	for key: int in _player_card_modules_dict.keys():
+		var card_module: CardEffect = CardEffect.new()
+		card_module.from_dictionary(_player_card_modules_dict[key])
+		PlayerController.add_card_module(card_module)
+		
 
 ## SIGNALS
 ## TODO: do we want to save as soon as the player clicks there? 

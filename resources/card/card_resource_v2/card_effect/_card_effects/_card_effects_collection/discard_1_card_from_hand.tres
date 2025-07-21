@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="DiscardCardEffect" load_steps=2 format=3 uid="uid://dwihnll5qw26v"]
+
+[ext_resource type="Script" path="res://resources/card/card_resource_v2/card_effect/_card_effects/discard_card_effect/discard_card_effect.gd" id="1_2kf64"]
+
+[resource]
+script = ExtResource("1_2kf64")
+number_of_cards_to_select = 1
+update_next_card_effect_data = true
+title = "Discard Card From Hand"
+stamina_cost = -5

@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="RemovePowerCardEffect" load_steps=2 format=3 uid="uid://do7j7611bxoix"]
+
+[ext_resource type="Script" path="res://resources/card/card_resource_v2/card_effect/_card_effects/remove_power_card_effect/remove_power_card_effect.gd" id="1_7iwpt"]
+
+[resource]
+script = ExtResource("1_7iwpt")
+remove_all_negative_effects = true
+remove_all_positive_effects = false
+remove_specific_status_effects = Array[String]([])
+update_next_card_effect_data = true
+title = "Remove all all status conditions"
+stamina_cost = 15

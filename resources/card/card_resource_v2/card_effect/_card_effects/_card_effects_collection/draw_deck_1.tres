@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="DeckManipulationCardEffect" load_steps=4 format=3 uid="uid://dkhu115vlnw26"]
+
+[ext_resource type="Script" path="res://resources/configuration/effect_configs/deck_manipulation_config/deck_manipulation_config.gd" id="1_w3lo7"]
+[ext_resource type="Script" path="res://resources/card/card_resource_v2/card_effect/_card_effects/deck_manipulation_card_effect/deck_manipulation_card_effect.gd" id="2_8jik7"]
+
+[sub_resource type="Resource" id="Resource_aq6b3"]
+script = ExtResource("1_w3lo7")
+deck_effect = 0
+n = 1
+specific_card_id = Array[String]([])
+deck = 0
+
+[resource]
+script = ExtResource("2_8jik7")
+deck_manipulation_config = SubResource("Resource_aq6b3")
+update_next_card_effect_data = true
+title = "Draw 1 random card from deck"
+stamina_cost = 10

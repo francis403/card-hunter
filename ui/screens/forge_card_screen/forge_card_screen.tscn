@@ -1,0 +1,85 @@
+[gd_scene load_steps=5 format=3 uid="uid://chi4whjeqmkui"]
+
+[ext_resource type="Script" path="res://ui/screens/forge_card_screen/forge_card_screen.gd" id="1_m7f0i"]
+[ext_resource type="PackedScene" uid="uid://d3vhms6yk456c" path="res://scenes/game_objects/cards/card/card.tscn" id="2_8v2wh"]
+[ext_resource type="PackedScene" uid="uid://c88o0llv6xfgp" path="res://ui/screen_components/card_module/card_modules_container_component/card_modules_container_component.tscn" id="2_qj0og"]
+[ext_resource type="PackedScene" uid="uid://hked8dt7umpy" path="res://ui/screen_components/_general_componets/buttons/sound_button/sound_button.tscn" id="4_sy17u"]
+
+[node name="ForgeCardScreen" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_m7f0i")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="PageTitle" type="Label" parent="MarginContainer/VBoxContainer/PanelContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Card Forge"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+alignment = 1
+
+[node name="PanelContainer" type="PanelContainer" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 7.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/PanelContainer"]
+layout_mode = 2
+
+[node name="SoundButton" parent="MarginContainer/VBoxContainer/HBoxContainer/PanelContainer/VBoxContainer" instance=ExtResource("4_sy17u")]
+layout_mode = 2
+size_flags_horizontal = 0
+text = "Back
+"
+
+[node name="Title" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/PanelContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+text = "Available Card Modules"
+
+[node name="CardModulesContainerComponent" parent="MarginContainer/VBoxContainer/HBoxContainer/PanelContainer/VBoxContainer" instance=ExtResource("2_qj0og")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="PanelContainer2" type="PanelContainer" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 4.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/PanelContainer2"]
+layout_mode = 2
+alignment = 1
+
+[node name="Card" parent="MarginContainer/VBoxContainer/HBoxContainer/PanelContainer2/VBoxContainer" instance=ExtResource("2_8v2wh")]
+layout_mode = 2
+size_flags_horizontal = 4
+card_can_hover = false
+card_can_be_discarded = false
+
+[node name="SoundButton" parent="MarginContainer/VBoxContainer/HBoxContainer/PanelContainer2/VBoxContainer" instance=ExtResource("4_sy17u")]
+layout_mode = 2
+text = "Forge"
+
+[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/PanelContainer/VBoxContainer/SoundButton" to="." method="_on_back_button_pressed"]

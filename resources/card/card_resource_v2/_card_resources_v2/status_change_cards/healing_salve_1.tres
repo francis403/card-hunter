@@ -1,41 +1,23 @@
-[gd_resource type="Resource" script_class="CardResourceV2" load_steps=12 format=3 uid="uid://bw75c328o26mj"]
+[gd_resource type="Resource" script_class="CardResourceV2" load_steps=8 format=3 uid="uid://bw75c328o26mj"]
 
 [ext_resource type="AudioStream" uid="uid://mdol2aev84gr" path="res://assets/sound/sound_effects/drinking_potion.mp3" id="1_1s75b"]
 [ext_resource type="Script" path="res://resources/card/card_resource_v2/card_effect/card_effect.gd" id="2_nvt4n"]
-[ext_resource type="Script" path="res://resources/card/card_resource_v2/card_effect/_card_effects/status_change_card_effect/status_change_card_effect.gd" id="3_x8udd"]
-[ext_resource type="Script" path="res://resources/configuration/effect_configs/status_modifier_config/status_modifier_config.gd" id="4_mbvl6"]
-[ext_resource type="Script" path="res://resources/card/card_resource_v2/card_effect/_card_effects/remove_power_card_effect/remove_power_card_effect.gd" id="5_75njc"]
+[ext_resource type="Resource" uid="uid://dwf8cmfbfbupv" path="res://resources/card/card_resource_v2/card_effect/_card_effects/_card_effects_collection/status_heal_10_hp.tres" id="3_naxq7"]
+[ext_resource type="Resource" uid="uid://do7j7611bxoix" path="res://resources/card/card_resource_v2/card_effect/_card_effects/_card_effects_collection/status_remove_all_status.tres" id="5_5ret8"]
 [ext_resource type="Script" path="res://resources/card/card_resource_v2/condition/condition.gd" id="6_opsg1"]
 [ext_resource type="Script" path="res://resources/card/card_resource_v2/card_resource_v2.gd" id="7_toj4q"]
 [ext_resource type="Script" path="res://resources/card/card_resource_v2/special_card_effect/special_card_effect_resource.gd" id="8_ixpmy"]
-
-[sub_resource type="Resource" id="Resource_lxwx0"]
-script = ExtResource("4_mbvl6")
-stat = 3
-operation = 0
-value = 10.0
-
-[sub_resource type="Resource" id="Resource_dnpy0"]
-script = ExtResource("3_x8udd")
-status_modifier_config = SubResource("Resource_lxwx0")
-update_next_card_effect_data = true
-
-[sub_resource type="Resource" id="Resource_tf8h7"]
-script = ExtResource("5_75njc")
-remove_all_negative_effects = true
-remove_all_positive_effects = false
-remove_specific_status_effects = Array[String]([])
-update_next_card_effect_data = true
 
 [resource]
 script = ExtResource("7_toj4q")
 id = "healing_salve_1"
 title = "Healing Salve"
+rarity = 0
 description = "Remove all status conditions & heal 10hp.
 One use."
 stamina_cost = 0
 tag_array = Array[String](["one_use", "status_change", "item"])
 play_conditions = Array[ExtResource("6_opsg1")]([])
-play_actions = Array[ExtResource("2_nvt4n")]([SubResource("Resource_dnpy0"), SubResource("Resource_tf8h7")])
+play_actions = Array[ExtResource("2_nvt4n")]([ExtResource("3_naxq7"), ExtResource("5_5ret8")])
 special_effects = Array[ExtResource("8_ixpmy")]([])
 audio_stream = ExtResource("1_1s75b")

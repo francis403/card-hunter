@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="StatusChangeCardEffect" load_steps=4 format=3 uid="uid://cjoxs5lk0f0qg"]
+
+[ext_resource type="Script" path="res://resources/card/card_resource_v2/card_effect/_card_effects/status_change_card_effect/status_change_card_effect.gd" id="1_3nqg0"]
+[ext_resource type="Script" path="res://resources/configuration/effect_configs/status_modifier_config/status_modifier_config.gd" id="2_267v8"]
+
+[sub_resource type="Resource" id="Resource_md5ji"]
+script = ExtResource("2_267v8")
+stat = 3
+operation = 1
+value = 20.0
+
+[resource]
+script = ExtResource("1_3nqg0")
+status_modifier_config = SubResource("Resource_md5ji")
+update_next_card_effect_data = true
+title = "Take 20 damage"
+stamina_cost = -5

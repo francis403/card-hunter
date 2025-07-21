@@ -10,6 +10,7 @@
 script = ExtResource("7_7cf2v")
 id = "web_trap_card_1"
 title = "Web Trap"
+rarity = 0
 description = "Place a web trap on an adjacent tile.
 Any piece that moves into it get's stuck for 2 turns."
 stamina_cost = 20

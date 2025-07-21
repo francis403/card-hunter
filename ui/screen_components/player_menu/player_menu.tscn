@@ -26,6 +26,16 @@ text = "World View"
 layout_mode = 2
 text = "Change Weapon"
 
+[node name="DeforgeCardButton" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "Deforge Card"
+
+[node name="ForgeCardButton" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "Forge Card"
+
 [connection signal="pressed" from="VBoxContainer/QuestPickerButton" to="." method="_on_quest_picker_button_pressed"]
 [connection signal="pressed" from="VBoxContainer/WorldViewButton" to="." method="_on_world_view_button_pressed"]
 [connection signal="pressed" from="VBoxContainer/ChangeWeaponButton" to="." method="_on_change_weapon_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/DeforgeCardButton" to="." method="_on_deforge_card_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/ForgeCardButton" to="." method="_on_forge_card_button_pressed"]

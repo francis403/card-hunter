@@ -22,6 +22,10 @@ ignore_north_tiles = false
 ignore_south_tiles = false
 ignore_east_tiles = false
 ignore_west_tiles = false
+use_specific_tile_location_config = false
+ignore_tiles_close_to_origin = false
+ignore_tiles_away_from_origin = false
+ignore_tiles_same_distance_from_origin = false
 
 [sub_resource type="Resource" id="Resource_wpiia"]
 script = ExtResource("2_t0gwf")
@@ -29,11 +33,14 @@ damage = 25
 tile_highlight_config = SubResource("Resource_qnmcf")
 center_piece = 0
 update_next_card_effect_data = true
+title = "Long Melee Attack - 25 damage"
+stamina_cost = 15
 
 [resource]
 script = ExtResource("3_po1p0")
 id = "long_slice_1"
 title = "Long Slice"
+rarity = 0
 description = "Do a long slash. Deal 25 damage."
 stamina_cost = 15
 tag_array = Array[String](["attack"])

@@ -46,6 +46,7 @@ func prep_win_screen():
 
 func _on_reward_card_picked_signal():
 	current_number_of_picks += 1
+	
 	if current_number_of_picks >= max_number_of_picks:
 		_on_continue_pressed()
 		return

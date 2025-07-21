@@ -9,6 +9,8 @@ var _deck: PlayerDeck = STARTING_DECK
 
 var _player_class: PlayerClass
 
+var _available_card_modules: Array[CardEffect] = []
+
 ## Represents the current player health
 var current_player_health: int = -1:
 	set(value):
@@ -36,3 +38,14 @@ func replace_deck(other_deck: PlayerDeck):
 func get_deck():
 	return _deck
 	
+func get_card_modules() -> Array[CardEffect]:
+	return _available_card_modules
+
+func add_card_module(_card_module: CardEffect):
+	_available_card_modules.append(_card_module)
+
+func add_card_modules(_card_modules: Array[CardEffect]):
+	_available_card_modules.append_array(_card_modules)
+
+func remove_card_from_deck(card_id: String):
+	_deck.remove_card(card_id)

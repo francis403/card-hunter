@@ -1,0 +1,39 @@
+[gd_scene load_steps=3 format=3 uid="uid://c88o0llv6xfgp"]
+
+[ext_resource type="Script" path="res://ui/screen_components/card_module/card_modules_container_component/card_modules_container_component.gd" id="1_i7aol"]
+[ext_resource type="PackedScene" uid="uid://dc4by8f6o5utt" path="res://ui/screen_components/card_module/card_module_component/card_module_component.tscn" id="2_5x6p3"]
+
+[node name="CardModulesContainerComponent" type="ScrollContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_i7aol")
+card_module_component = ExtResource("2_5x6p3")
+
+[node name="GridContainer" type="GridContainer" parent="."]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 6
+theme_override_constants/h_separation = 0
+theme_override_constants/v_separation = 0
+columns = 3
+
+[node name="CardModuleComponent" parent="GridContainer" instance=ExtResource("2_5x6p3")]
+layout_mode = 2
+
+[node name="CardModuleComponent2" parent="GridContainer" instance=ExtResource("2_5x6p3")]
+layout_mode = 2
+
+[node name="CardModuleComponent3" parent="GridContainer" instance=ExtResource("2_5x6p3")]
+layout_mode = 2
+
+[node name="CardModuleComponent4" parent="GridContainer" instance=ExtResource("2_5x6p3")]
+layout_mode = 2
+
+[node name="CardModuleComponent5" parent="GridContainer" instance=ExtResource("2_5x6p3")]
+layout_mode = 2
+
+[node name="CardModuleComponent6" parent="GridContainer" instance=ExtResource("2_5x6p3")]
+layout_mode = 2

@@ -52,7 +52,7 @@ maximimum_distance_to_root = 100
 [sub_resource type="Resource" id="Resource_r4qll"]
 script = ExtResource("7_44hfg")
 available_world_nodes = Array[ExtResource("6_f2ehu")]([SubResource("Resource_mixv6"), SubResource("Resource_5upvb")])
-available_generic_monsters = Array[SubResource("GDScript_o11dp")]([SubResource("Resource_qam74"), SubResource("Resource_jb2wl")])
+available_generic_monsters = Array[ExtResource("6_f2ehu")]([SubResource("Resource_qam74"), SubResource("Resource_jb2wl")])
 max_distance_to_village = 2
 max_number_of_child_nodes = 3
 number_of_village_children_node = 3

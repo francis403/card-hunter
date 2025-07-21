@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="StatusModifierConfig" load_steps=2 format=3 uid="uid://rjylrmcltplf"]
+
+[ext_resource type="Script" path="res://resources/configuration/effect_configs/status_modifier_config/status_modifier_config.gd" id="1_wskjg"]
+
+[resource]
+script = ExtResource("1_wskjg")
+stat = 1
+operation = 0
+value = 15.0

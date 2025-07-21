@@ -1,23 +1,11 @@
-[gd_resource type="Resource" script_class="CardResourceV2" load_steps=10 format=3 uid="uid://b7dsj5bdapmyx"]
+[gd_resource type="Resource" script_class="CardResourceV2" load_steps=7 format=3 uid="uid://b7dsj5bdapmyx"]
 
 [ext_resource type="AudioStream" uid="uid://mdol2aev84gr" path="res://assets/sound/sound_effects/drinking_potion.mp3" id="1_sojj0"]
 [ext_resource type="Script" path="res://resources/card/card_resource_v2/card_effect/card_effect.gd" id="2_ab47b"]
-[ext_resource type="Script" path="res://resources/card/card_resource_v2/card_effect/_card_effects/status_change_card_effect/status_change_card_effect.gd" id="3_eribr"]
-[ext_resource type="Script" path="res://resources/configuration/effect_configs/status_modifier_config/status_modifier_config.gd" id="4_vlq0p"]
+[ext_resource type="Resource" uid="uid://cjoxs5lk0f0qg" path="res://resources/card/card_resource_v2/card_effect/_card_effects/_card_effects_collection/status_health_minus_20.tres" id="3_rf113"]
 [ext_resource type="Script" path="res://resources/card/card_resource_v2/condition/condition.gd" id="5_j3xg2"]
 [ext_resource type="Script" path="res://resources/card/card_resource_v2/card_resource_v2.gd" id="6_6efw8"]
 [ext_resource type="Script" path="res://resources/card/card_resource_v2/special_card_effect/special_card_effect_resource.gd" id="7_qppgu"]
-
-[sub_resource type="Resource" id="Resource_md5ji"]
-script = ExtResource("4_vlq0p")
-stat = 3
-operation = 1
-value = 20.0
-
-[sub_resource type="Resource" id="Resource_aylit"]
-script = ExtResource("3_eribr")
-status_modifier_config = SubResource("Resource_md5ji")
-update_next_card_effect_data = true
 
 [resource]
 script = ExtResource("6_6efw8")
@@ -28,6 +16,6 @@ description = "Drink the poison. Take 20 points of damage."
 stamina_cost = 0
 tag_array = Array[String](["one_use", "status_change", "item"])
 play_conditions = Array[ExtResource("5_j3xg2")]([])
-play_actions = Array[ExtResource("2_ab47b")]([SubResource("Resource_aylit")])
+play_actions = Array[ExtResource("2_ab47b")]([ExtResource("3_rf113")])
 special_effects = Array[ExtResource("7_qppgu")]([])
 audio_stream = ExtResource("1_sojj0")

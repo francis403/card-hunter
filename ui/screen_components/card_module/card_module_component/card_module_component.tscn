@@ -1,0 +1,72 @@
+[gd_scene load_steps=7 format=3 uid="uid://dc4by8f6o5utt"]
+
+[ext_resource type="Script" path="res://ui/screen_components/card_module/card_module_component/card_module_component.gd" id="1_xyiq6"]
+
+[sub_resource type="Theme" id="Theme_bxcna"]
+MarginContainer/constants/margin_bottom = 0
+MarginContainer/constants/margin_left = 0
+MarginContainer/constants/margin_right = 0
+MarginContainer/constants/margin_top = 0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8quhs"]
+bg_color = Color(0.123686, 0.150087, 0.152654, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+shadow_color = Color(0, 0, 0, 0.505882)
+shadow_size = 2
+
+[sub_resource type="Theme" id="Theme_nu7g3"]
+PanelContainer/styles/panel = SubResource("StyleBoxFlat_8quhs")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qw3n3"]
+bg_color = Color(0.123686, 0.150087, 0.152654, 1)
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+expand_margin_top = 5.0
+shadow_color = Color(0, 0, 0, 0.505882)
+shadow_size = 2
+shadow_offset = Vector2(0, 2)
+
+[sub_resource type="Theme" id="Theme_e4ngk"]
+PanelContainer/styles/panel = SubResource("StyleBoxFlat_qw3n3")
+
+[node name="CardModuleComponent" type="MarginContainer"]
+custom_minimum_size = Vector2(200, 75)
+offset_right = 126.0
+offset_bottom = 50.0
+size_flags_vertical = 3
+theme = SubResource("Theme_bxcna")
+script = ExtResource("1_xyiq6")
+title = "Test Title etc etc"
+
+[node name="HBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="PanelContainer2" type="PanelContainer" parent="HBoxContainer"]
+custom_minimum_size = Vector2(25, 0)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 3
+theme = SubResource("Theme_nu7g3")
+
+[node name="StaminaCostLabel" type="Label" parent="HBoxContainer/PanelContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "5"
+horizontal_alignment = 1
+
+[node name="PanelContainer" type="PanelContainer" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme = SubResource("Theme_e4ngk")
+
+[node name="HBoxContainer" type="VBoxContainer" parent="HBoxContainer/PanelContainer"]
+layout_mode = 2
+
+[node name="CardModuleTitle" type="Label" parent="HBoxContainer/PanelContainer/HBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 50)
+layout_mode = 2
+text = "Test Test test etc"
+autowrap_mode = 2

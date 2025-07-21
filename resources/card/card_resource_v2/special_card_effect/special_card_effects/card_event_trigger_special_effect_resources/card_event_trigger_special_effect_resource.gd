@@ -6,6 +6,8 @@ enum CardEventTriggerEnum {
 	CARD_DISCARDED
 }
 
+
+
 @export var card_event_trigger: CardEventTriggerEnum
 
 ## By default, on card_event_trigger do PowerEffect

@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="StatusChangeCardEffect" load_steps=4 format=3 uid="uid://dwf8cmfbfbupv"]
+
+[ext_resource type="Script" path="res://resources/card/card_resource_v2/card_effect/_card_effects/status_change_card_effect/status_change_card_effect.gd" id="1_onl87"]
+[ext_resource type="Script" path="res://resources/configuration/effect_configs/status_modifier_config/status_modifier_config.gd" id="2_lebb0"]
+
+[sub_resource type="Resource" id="Resource_lxwx0"]
+script = ExtResource("2_lebb0")
+stat = 3
+operation = 0
+value = 10.0
+
+[resource]
+script = ExtResource("1_onl87")
+status_modifier_config = SubResource("Resource_lxwx0")
+update_next_card_effect_data = true
+title = "Heal 10 hp"
+stamina_cost = 5

@@ -21,6 +21,8 @@ var card_can_be_played: bool = true
 var _mouse_hovering: bool = false
 var _discard_button_mouse_hovering: bool = false
 
+var _is_enabled: bool = true
+
 ## TODO: we can probably do a manager here for this
 var _is_awaiting_card_selection: bool = false
 
@@ -147,3 +149,7 @@ func on_card_selection_confirmed_signal(
 	_card: Card
 ):
 	_is_awaiting_card_selection = false
+
+func toggle_enabled():
+	self._is_enabled = not self._is_enabled
+	self.modulate.a = 255 if self._is_enabled else 100

@@ -12,10 +12,11 @@ func add_card(card: CardResourceV2):
 	_deck.append(card)
 
 ## TODO: this does not look nice, use the dictionary once done
-func remove_card(card: CardResourceV2):
+func remove_card(card_id: String):
 	for i in range(_deck.size()):
-		if _deck[i] == card:
+		if _deck[i].id == card_id:
 			_deck.remove_at(i)
+			return
 
 func get_size() -> int:
 	return _deck.size()

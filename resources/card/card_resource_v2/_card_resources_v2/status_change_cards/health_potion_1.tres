@@ -18,11 +18,14 @@ value = 50.0
 script = ExtResource("3_2fk6h")
 status_modifier_config = SubResource("Resource_lxwx0")
 update_next_card_effect_data = true
+title = "Recover 50 hp. (one use)"
+stamina_cost = 0
 
 [resource]
 script = ExtResource("6_8yhy6")
 id = "health_potion_1"
 title = "Health Potion"
+rarity = 0
 description = "Drink a health potion and recover 50 hp.
 One use."
 stamina_cost = 0

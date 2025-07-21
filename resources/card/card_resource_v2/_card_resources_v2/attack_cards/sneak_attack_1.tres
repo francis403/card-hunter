@@ -1,38 +1,20 @@
-[gd_resource type="Resource" script_class="CardResourceV2" load_steps=10 format=3 uid="uid://c5evsapdpvc2b"]
+[gd_resource type="Resource" script_class="CardResourceV2" load_steps=11 format=3 uid="uid://c5evsapdpvc2b"]
 
 [ext_resource type="AudioStream" uid="uid://d4nqs2kfg56mh" path="res://assets/sound/sound_effects/knifeSlice.ogg" id="1_7p1qy"]
 [ext_resource type="Script" path="res://resources/card/card_resource_v2/card_effect/card_effect.gd" id="2_lcxss"]
-[ext_resource type="Script" path="res://resources/card/card_resource_v2/card_effect/_card_effects/attack_card_effect/attack_card_effect.gd" id="3_vypvt"]
-[ext_resource type="Script" path="res://resources/configuration/tile_highlight_configuration/tile_highlight_configuration.gd" id="4_eghon"]
+[ext_resource type="Resource" uid="uid://b7jfi626r7lu0" path="res://resources/card/card_resource_v2/card_effect/_card_effects/_card_effects_collection/melee_attack_10.tres" id="3_ugcko"]
 [ext_resource type="Script" path="res://resources/card/card_resource_v2/condition/condition.gd" id="5_nogop"]
 [ext_resource type="Script" path="res://resources/card/card_resource_v2/card_resource_v2.gd" id="6_icl8p"]
 [ext_resource type="Script" path="res://resources/card/card_resource_v2/special_card_effect/special_card_effect_resource.gd" id="7_vhu86"]
+[ext_resource type="Resource" uid="uid://dkhu115vlnw26" path="res://resources/card/card_resource_v2/card_effect/_card_effects/_card_effects_collection/draw_deck_1.tres" id="8_ldwfi"]
+[ext_resource type="Script" path="res://resources/card/card_resource_v2/special_card_effect/special_card_effects/card_event_trigger_special_effect_resources/card_event_trigger_special_effect_resource.gd" id="10_1cxxx"]
+[ext_resource type="PackedScene" uid="uid://qmda63q2dbw" path="res://scenes/resource_controllers/battle_entities/special_effect/_base_special_effect/card_event_trigger_special_effect/card_event_trigger_special_effect.tscn" id="10_rmlow"]
 
-[sub_resource type="Resource" id="Resource_4wk8k"]
-script = ExtResource("4_eghon")
-range = 1
-min_range = 0.0
-area_type = 4
-ignore_occupied_tiles = false
-ignore_origin = true
-ignore_corners = false
-ignore_non_corners = false
-ignore_tiles_with_effects = false
-ignore_north_tiles = false
-ignore_south_tiles = false
-ignore_east_tiles = false
-ignore_west_tiles = false
-use_specific_tile_location_config = false
-ignore_tiles_close_to_origin = false
-ignore_tiles_away_from_origin = false
-ignore_tiles_same_distance_from_origin = false
-
-[sub_resource type="Resource" id="Resource_0ftra"]
-script = ExtResource("3_vypvt")
-damage = 10
-tile_highlight_config = SubResource("Resource_4wk8k")
-center_piece = 0
-update_next_card_effect_data = true
+[sub_resource type="Resource" id="Resource_q2pfs"]
+script = ExtResource("10_1cxxx")
+card_event_trigger = 1
+card_effects = Array[ExtResource("2_lcxss")]([ExtResource("8_ldwfi")])
+controller = ExtResource("10_rmlow")
 
 [resource]
 script = ExtResource("6_icl8p")
@@ -44,6 +26,6 @@ On Discard: Draw 1 Card"
 stamina_cost = 10
 tag_array = Array[String](["attack"])
 play_conditions = Array[ExtResource("5_nogop")]([])
-play_actions = Array[ExtResource("2_lcxss")]([SubResource("Resource_0ftra")])
-special_effects = Array[ExtResource("7_vhu86")]([])
+play_actions = Array[ExtResource("2_lcxss")]([ExtResource("3_ugcko")])
+special_effects = Array[ExtResource("7_vhu86")]([SubResource("Resource_q2pfs")])
 audio_stream = ExtResource("1_7p1qy")

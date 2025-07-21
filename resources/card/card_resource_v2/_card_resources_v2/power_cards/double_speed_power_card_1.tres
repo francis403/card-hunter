@@ -1,17 +1,10 @@
-[gd_resource type="Resource" script_class="CardResourceV2" load_steps=8 format=3 uid="uid://dvk1a1vyglgvc"]
+[gd_resource type="Resource" script_class="CardResourceV2" load_steps=6 format=3 uid="uid://dvk1a1vyglgvc"]
 
 [ext_resource type="Script" path="res://resources/card/card_resource_v2/card_effect/card_effect.gd" id="1_nxy4l"]
-[ext_resource type="Script" path="res://resources/card/card_resource_v2/card_effect/_card_effects/power_card_effect/power_card_effect.gd" id="2_58x46"]
-[ext_resource type="Resource" uid="uid://b8e0uhrdt2uy0" path="res://resources/battle_entities/power_effect/power_effects/double_speed_on_init_power_effect.tres" id="2_h4u14"]
 [ext_resource type="Script" path="res://resources/card/card_resource_v2/condition/condition.gd" id="2_n6siu"]
+[ext_resource type="Resource" uid="uid://c0bpds8prbbmo" path="res://resources/card/card_resource_v2/card_effect/_card_effects/_card_effects_collection/power_double_speed_2.tres" id="2_wjbuj"]
 [ext_resource type="Script" path="res://resources/card/card_resource_v2/card_resource_v2.gd" id="3_q1u4m"]
 [ext_resource type="Script" path="res://resources/card/card_resource_v2/special_card_effect/special_card_effect_resource.gd" id="4_b5w8q"]
-
-[sub_resource type="Resource" id="Resource_iwt07"]
-script = ExtResource("2_58x46")
-power_effect = ExtResource("2_h4u14")
-target_piece = 0
-update_next_card_effect_data = true
 
 [resource]
 script = ExtResource("3_q1u4m")
@@ -22,5 +15,5 @@ description = "For the next two turns move twice as far."
 stamina_cost = 25
 tag_array = Array[String](["power"])
 play_conditions = Array[ExtResource("2_n6siu")]([])
-play_actions = Array[ExtResource("1_nxy4l")]([SubResource("Resource_iwt07")])
+play_actions = Array[ExtResource("1_nxy4l")]([ExtResource("2_wjbuj")])
 special_effects = Array[ExtResource("4_b5w8q")]([])
