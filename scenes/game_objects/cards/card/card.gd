@@ -153,3 +153,8 @@ func on_card_selection_confirmed_signal(
 func toggle_enabled():
 	self._is_enabled = not self._is_enabled
 	self.modulate.a = 255 if self._is_enabled else 100
+
+func add_stamina_cost(stamina_cost: int):
+	if not card_resource:
+		return
+	card_resource.stamina_cost += stamina_cost

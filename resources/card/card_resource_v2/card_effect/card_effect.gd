@@ -55,3 +55,7 @@ func to_dictionary() -> Dictionary:
 func from_dictionary(dictionary: Dictionary):
 	self.title = dictionary["title"]
 	self.stamina_cost = dictionary["stamina_cost"]
+
+func equals(other: CardEffect) -> bool:
+	return self.title == other.title\
+		and self.stamina_cost == other.stamina_cost

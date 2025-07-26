@@ -1,6 +1,6 @@
 extends Resource
 
-## TODO: when the data is being updated in one card,
+## When the data is being updated in one card,
 ## it's also being updated in another card of the same type
 ## Meant for communiction between card effects
 class_name CardEffectData

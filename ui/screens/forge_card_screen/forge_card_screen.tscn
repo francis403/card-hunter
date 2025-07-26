@@ -1,9 +1,25 @@
-[gd_scene load_steps=5 format=3 uid="uid://chi4whjeqmkui"]
+[gd_scene load_steps=10 format=3 uid="uid://chi4whjeqmkui"]
 
 [ext_resource type="Script" path="res://ui/screens/forge_card_screen/forge_card_screen.gd" id="1_m7f0i"]
 [ext_resource type="PackedScene" uid="uid://d3vhms6yk456c" path="res://scenes/game_objects/cards/card/card.tscn" id="2_8v2wh"]
 [ext_resource type="PackedScene" uid="uid://c88o0llv6xfgp" path="res://ui/screen_components/card_module/card_modules_container_component/card_modules_container_component.tscn" id="2_qj0og"]
 [ext_resource type="PackedScene" uid="uid://hked8dt7umpy" path="res://ui/screen_components/_general_componets/buttons/sound_button/sound_button.tscn" id="4_sy17u"]
+[ext_resource type="Script" path="res://resources/card/card_resource_v2/card_effect/card_effect.gd" id="5_bmwru"]
+[ext_resource type="Script" path="res://resources/card/card_resource_v2/condition/condition.gd" id="6_ggtjb"]
+[ext_resource type="Script" path="res://resources/card/card_resource_v2/card_resource_v2.gd" id="7_2y4kb"]
+[ext_resource type="Script" path="res://resources/card/card_resource_v2/special_card_effect/special_card_effect_resource.gd" id="8_ivn8g"]
+
+[sub_resource type="Resource" id="Resource_e1um6"]
+script = ExtResource("7_2y4kb")
+id = ""
+title = ""
+rarity = 0
+description = ""
+stamina_cost = 0
+tag_array = Array[String]([])
+play_conditions = Array[ExtResource("6_ggtjb")]([])
+play_actions = Array[ExtResource("5_bmwru")]([])
+special_effects = Array[ExtResource("8_ivn8g")]([])
 
 [node name="ForgeCardScreen" type="Control"]
 layout_mode = 3
@@ -41,7 +57,7 @@ alignment = 1
 [node name="PanelContainer" type="PanelContainer" parent="MarginContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
-size_flags_stretch_ratio = 7.0
+size_flags_stretch_ratio = 5.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/PanelContainer"]
 layout_mode = 2
@@ -72,14 +88,41 @@ size_flags_stretch_ratio = 4.0
 layout_mode = 2
 alignment = 1
 
-[node name="Card" parent="MarginContainer/VBoxContainer/HBoxContainer/PanelContainer2/VBoxContainer" instance=ExtResource("2_8v2wh")]
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/PanelContainer2/VBoxContainer"]
+layout_mode = 2
+
+[node name="Card" parent="MarginContainer/VBoxContainer/HBoxContainer/PanelContainer2/VBoxContainer/MarginContainer" instance=ExtResource("2_8v2wh")]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
+card_resource = SubResource("Resource_e1um6")
 card_can_hover = false
 card_can_be_discarded = false
 
-[node name="SoundButton" parent="MarginContainer/VBoxContainer/HBoxContainer/PanelContainer2/VBoxContainer" instance=ExtResource("4_sy17u")]
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/PanelContainer2/VBoxContainer/MarginContainer/Card"]
 layout_mode = 2
-text = "Forge"
+theme_override_constants/margin_left = 35
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 5
+
+[node name="CardTitleInput" type="LineEdit" parent="MarginContainer/VBoxContainer/HBoxContainer/PanelContainer2/VBoxContainer/MarginContainer/Card/MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="ForgeButton" parent="MarginContainer/VBoxContainer/HBoxContainer/PanelContainer2/VBoxContainer" instance=ExtResource("4_sy17u")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Forge Card"
+
+[node name="AddedCardModules" parent="MarginContainer/VBoxContainer/HBoxContainer/PanelContainer2/VBoxContainer" instance=ExtResource("2_qj0og")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+columns = 2
 
 [connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/PanelContainer/VBoxContainer/SoundButton" to="." method="_on_back_button_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/PanelContainer2/VBoxContainer/ForgeButton" to="." method="_on_forge_button_pressed"]

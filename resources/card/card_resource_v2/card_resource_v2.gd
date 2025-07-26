@@ -29,9 +29,6 @@ enum CardRaririty {
 
 var _revertable_play_actions: Array[CardEffect] = []
 
-## TODO: for some reason the card effect data
-## of the other card who is the exact same type is also being updated
-
 func play_card() -> bool:
 	if not _is_card_playable():
 		return false
@@ -121,3 +118,25 @@ func subscribe_to_special_effects(
 		)
 		controller_instance.card = card
 		container_node.add_child(controller_instance)
+
+func add_play_card_effect(card_effect: CardEffect) -> void:
+	if not card_effect:
+		print(add_play_card_effect, ": error, card_effect is null")
+		return
+	if not play_actions:
+		play_actions = []
+	play_actions.append(card_effect)
+	
+func remove_play_card_effect(card_effect: CardEffect):
+	var index: int = -1
+	var i: int = 0
+	for play_action in play_actions:
+		if play_action.title == card_effect.title\
+			and play_action.stamina_cost == card_effect.stamina_cost:
+			index = i
+			break
+		i += 1
+	if index < 0:
+		return
+	print(remove_play_card_effect, " removing at ", index)
+	play_actions.remove_at(index)

@@ -44,8 +44,19 @@ func get_card_modules() -> Array[CardEffect]:
 func add_card_module(_card_module: CardEffect):
 	_available_card_modules.append(_card_module)
 
+func remove_card_module(_card_module: CardEffect):
+	var i: int = 0
+	for _card_effect: CardEffect in _available_card_modules:
+		if _card_module.equals(_card_effect):
+			_available_card_modules.remove_at(i)
+			return
+		i += 1
+
 func add_card_modules(_card_modules: Array[CardEffect]):
 	_available_card_modules.append_array(_card_modules)
+
+func add_card_to_deck(_card_resource: CardResourceV2):
+	_deck.add_card(_card_resource)
 
 func remove_card_from_deck(card_id: String):
 	_deck.remove_card(card_id)

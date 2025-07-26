@@ -9,15 +9,16 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 0
 script = ExtResource("1_i7aol")
-card_module_component = ExtResource("2_5x6p3")
+v_separation = 50
 
 [node name="GridContainer" type="GridContainer" parent="."]
 layout_mode = 2
 size_flags_horizontal = 6
 size_flags_vertical = 6
-theme_override_constants/h_separation = 0
-theme_override_constants/v_separation = 0
+theme_override_constants/h_separation = 20
+theme_override_constants/v_separation = 50
 columns = 3
 
 [node name="CardModuleComponent" parent="GridContainer" instance=ExtResource("2_5x6p3")]

@@ -74,7 +74,7 @@ update_next_card_effect_data = true
 title = "Recover 5 stamina"
 stamina_cost = 0
 
-[sub_resource type="Resource" id="Resource_clp6g"]
+[sub_resource type="Resource" id="Resource_3s0mf"]
 resource_local_to_scene = true
 script = ExtResource("3_jpurv")
 id = "back_stab_1"
@@ -135,7 +135,7 @@ size_flags_stretch_ratio = 3.0
 unique_name_in_owner = true
 layout_mode = 2
 listen_for_card_clicks = true
-deck = Array[ExtResource("3_jpurv")]([SubResource("Resource_clp6g"), ExtResource("5_k6nq3")])
+deck = Array[ExtResource("3_jpurv")]([SubResource("Resource_3s0mf"), ExtResource("5_k6nq3")])
 grid_column_size = 2
 
 [node name="CardToDeforge" type="MarginContainer" parent="PanelContainer/VBoxContainer/HBoxContainer"]
