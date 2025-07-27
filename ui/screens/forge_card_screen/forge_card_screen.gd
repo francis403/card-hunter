@@ -43,9 +43,8 @@ func _on_available_card_module_clicked_signal(
 	display_card.card_resource.add_play_card_effect(
 		_card_module
 	)
-	## update stamina cost
 	display_card.add_stamina_cost(_card_module.stamina_cost)
-	display_card.card_resource.description = "TODO"
+	display_card.card_resource.description = _generate_card_description()
 	display_card.initialize_card()
 	
 func _add_card_module_to_new_card(
@@ -58,6 +57,8 @@ func _add_card_module_to_new_card(
 	)
 	_add_signals_when_clicked(_added_module, _on_click_remove_from_new_card)
 
+func _on_click_remove_from_new_card(card_module: CardModuleComponent):
+	_add_card_module_to_available_options(card_module, card_module.card_effect)
 
 func _add_card_module_to_available_options(
 	_card_module_component: CardModuleComponent,
@@ -72,12 +73,8 @@ func _add_card_module_to_available_options(
 		_card_module
 	)
 	display_card.add_stamina_cost( -1 * _card_module.stamina_cost)
-	## TODO: remove card description
+	display_card.card_resource.description = _generate_card_description()
 	display_card.initialize_card()
-
-func _on_click_remove_from_new_card(card_module: CardModuleComponent):
-	print(_on_click_remove_from_new_card)
-	_add_card_module_to_available_options(card_module, card_module.card_effect)
 	
 func _on_back_button_pressed() -> void:
 	self.queue_free()
@@ -93,7 +90,6 @@ func _on_forge_button_pressed() -> void:
 	for _module: CardModuleComponent in added_card_modules.get_children_nodes():
 		PlayerController.remove_card_module(_module.card_effect)
 	_on_back_button_pressed()
-	
 
 func _is_valid_card_forge() -> bool:
 	var title: String = card_title_input.text
@@ -103,3 +99,10 @@ func _is_valid_card_forge() -> bool:
 	if not _forged_card_resource:
 		return false
 	return true
+
+func _generate_card_description() -> String:
+	var result: String = ""
+	var _card_resource: CardResourceV2 = display_card.card_resource
+	for play_action in _card_resource.play_actions:
+		result += play_action.title + " "
+	return result
