@@ -6,8 +6,6 @@ enum CardEventTriggerEnum {
 	CARD_DISCARDED
 }
 
-
-
 @export var card_event_trigger: CardEventTriggerEnum
 
 ## By default, on card_event_trigger do PowerEffect
@@ -17,9 +15,11 @@ enum CardEventTriggerEnum {
 func subscribe_to_trigger(card: Card):
 	match card_event_trigger:
 		CardEventTriggerEnum.CARD_PLAYED:
-			card.card_played.connect(trigger_card_effects)
+			if not card.card_discarded_by_effect.is_connected(trigger_card_effects):
+				card.card_played.connect(trigger_card_effects)
 		CardEventTriggerEnum.CARD_DISCARDED:
-			card.card_discarded_by_effect.connect(trigger_card_effects)
+			if not card.card_discarded_by_effect.is_connected(trigger_card_effects):
+				card.card_discarded_by_effect.connect(trigger_card_effects)
 
 func trigger_card_effects():
 	for card_effect in card_effects:

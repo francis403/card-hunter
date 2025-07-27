@@ -1,22 +1,14 @@
-[gd_resource type="Resource" script_class="CardResourceV2" load_steps=11 format=3 uid="uid://dj308nae7q8c7"]
+[gd_resource type="Resource" script_class="CardResourceV2" load_steps=10 format=3 uid="uid://dj308nae7q8c7"]
 
 [ext_resource type="Script" path="res://resources/card/card_resource_v2/card_effect/card_effect.gd" id="1_3jyfw"]
 [ext_resource type="AudioStream" uid="uid://d4nqs2kfg56mh" path="res://assets/sound/sound_effects/knifeSlice.ogg" id="1_8hogi"]
 [ext_resource type="Script" path="res://resources/card/card_resource_v2/condition/condition.gd" id="2_0jvh3"]
 [ext_resource type="Script" path="res://resources/card/card_resource_v2/card_resource_v2.gd" id="3_b0cyg"]
 [ext_resource type="Resource" uid="uid://dovy4j1ecl36j" path="res://resources/card/card_resource_v2/card_effect/_card_effects/_card_effects_collection/melee_attack_5.tres" id="3_imbbo"]
-[ext_resource type="Script" path="res://resources/card/card_resource_v2/card_effect/_card_effects/attack_card_effect/attack_card_effect.gd" id="3_kbgg0"]
 [ext_resource type="Script" path="res://resources/card/card_resource_v2/special_card_effect/special_card_effect_resource.gd" id="4_en81f"]
 [ext_resource type="Resource" uid="uid://kx5ai2e6lffg" path="res://resources/card/card_resource_v2/card_effect/_card_effects/_card_effects_collection/on_back_attack.tres" id="4_wsbpw"]
+[ext_resource type="Resource" uid="uid://b7jfi626r7lu0" path="res://resources/card/card_resource_v2/card_effect/_card_effects/_card_effects_collection/melee_attack_10.tres" id="5_ilddh"]
 [ext_resource type="Resource" uid="uid://dby2wtmwjwbp1" path="res://resources/card/card_resource_v2/card_effect/_card_effects/_card_effects_collection/recover_5_stamina.tres" id="6_e4cl7"]
-
-[sub_resource type="Resource" id="Resource_dnakk"]
-script = ExtResource("3_kbgg0")
-damage = 10
-center_piece = 0
-update_next_card_effect_data = true
-title = "Deal 10 damage to previous attacked monster"
-stamina_cost = 10
 
 [resource]
 resource_local_to_scene = true
@@ -29,6 +21,6 @@ On Back attacked: Deal another 10, and recover 5 stamina. "
 stamina_cost = 10
 tag_array = Array[String](["attack"])
 play_conditions = Array[ExtResource("2_0jvh3")]([])
-play_actions = Array[ExtResource("1_3jyfw")]([ExtResource("3_imbbo"), ExtResource("4_wsbpw"), SubResource("Resource_dnakk"), ExtResource("6_e4cl7")])
+play_actions = Array[ExtResource("1_3jyfw")]([ExtResource("3_imbbo"), ExtResource("4_wsbpw"), ExtResource("5_ilddh"), ExtResource("6_e4cl7")])
 special_effects = Array[ExtResource("4_en81f")]([])
 audio_stream = ExtResource("1_8hogi")
