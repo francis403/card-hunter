@@ -153,11 +153,10 @@ func from_dictionary(dict: Dictionary):
 
 func _card_effects_from_dictionary(dict: Dictionary) -> Array[CardEffect]:
 	var result: Array[CardEffect] = []
-	if not dict.has("play_actions"):
-		return result
-	for key in dict["play_actions"].keys():
-		var _card_effect: CardEffect = CardEffect.new()
-		_card_effect.from_dictionary(dict[key])
+	for key in dict.keys():
+		var _card_effect: CardEffect = CardModuleController.get_card_module(key)
+		if not _card_effect:
+			_card_effect.from_dictionary(dict[key])
 		result.append(_card_effect)
 	return result
 
