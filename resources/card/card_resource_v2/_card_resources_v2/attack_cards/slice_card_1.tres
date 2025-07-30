@@ -33,6 +33,7 @@ damage = 15
 tile_highlight_config = SubResource("Resource_4wk8k")
 center_piece = 0
 update_next_card_effect_data = true
+id = ""
 title = "Slice Melee Attack 15 Damage"
 stamina_cost = 10
 

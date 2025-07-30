@@ -6,5 +6,6 @@
 script = ExtResource("1_2kf64")
 number_of_cards_to_select = 1
 update_next_card_effect_data = true
+id = "discard_1_card_from_hand"
 title = "Discard Card From Hand"
 stamina_cost = -5

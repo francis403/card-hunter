@@ -28,5 +28,6 @@ damage = 10
 tile_highlight_config = SubResource("Resource_xjk7e")
 center_piece = 1
 update_next_card_effect_data = true
+id = "melee_attack_10"
 title = "10 Melee damage"
 stamina_cost = 10

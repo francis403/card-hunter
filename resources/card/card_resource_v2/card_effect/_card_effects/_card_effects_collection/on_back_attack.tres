@@ -7,5 +7,6 @@ script = ExtResource("1_cdid0")
 condition = 1
 specific_monster_body_part = 5
 update_next_card_effect_data = true
+id = "on_back_attack"
 title = "On Back Attack"
 stamina_cost = -5

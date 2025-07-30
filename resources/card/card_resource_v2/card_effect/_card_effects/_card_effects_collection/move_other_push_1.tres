@@ -47,5 +47,6 @@ move_other_highlight_config = SubResource("Resource_8lcq5")
 tile_highlight_config = SubResource("Resource_axsjv")
 center_piece = 0
 update_next_card_effect_data = true
+id = "move_other_push_1"
 title = "Push other 1 tile away"
 stamina_cost = 15

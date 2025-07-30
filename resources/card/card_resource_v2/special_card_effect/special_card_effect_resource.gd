@@ -1,4 +1,4 @@
-extends Resource
+extends CardModule
 
 ## Triggers special effect 
 class_name SpecialCardEffectResource

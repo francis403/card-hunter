@@ -47,4 +47,6 @@ func _on_deforge_button_pressed() -> void:
 	PlayerController.remove_card_from_deck(
 		card.card_resource.id
 	)
+	if card.card_resource.is_forged:
+		PlayerController.remove_forged_card(card.card_resource.id)
 	self.queue_free()

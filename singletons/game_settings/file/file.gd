@@ -41,14 +41,13 @@ func change_progress():
 	save_data["progress"]["player"] = PlayerController.get_deck().save()
 	save_data["progress"]["player"]["hp"] = PlayerController.current_player_health
 	save_data["progress"]["player"]["card_modules"] = convert_player_card_modules_to_dictionary()
+	save_data["progress"]["player"]["forged_cards"] = PlayerController._forged_cards
 	save()
 
-## TODO: I probably need to add an actual CardModule class,
-## that can be either a CardEffect or SpecialCardEffect
 func convert_player_card_modules_to_dictionary() -> Dictionary:
 	var result: Dictionary = {}
 	var index: int = 0
-	for module: CardEffect in PlayerController.get_card_modules():
+	for module: CardModule in PlayerController.get_card_modules():
 		result[index] = module.to_dictionary()
 		index += 1
 	return result
@@ -78,23 +77,32 @@ func _load_world_state():
 ## TODO: this can probably be done a lot better
 func _load_player_info():
 	var player_deck_info: Dictionary = save_data["progress"]["player"]
-	progress.current_player_deck._load(player_deck_info)
 	progress.current_health = save_data["progress"]["player"]["hp"]
 	PlayerController.current_player_health = progress.current_health
-	
 	if player_deck_info.has("card_modules"):
 		_load_player_card_modules(
 			player_deck_info["card_modules"]
 		)
+	if player_deck_info.has("forged_cards"):
+		_load_player_forged_cards(
+			player_deck_info["forged_cards"]
+		)
+	progress.current_player_deck._load(player_deck_info)
 	
 ## TODO: ideally we could just add/remove the cards that are different
 func _load_player_card_modules(_player_card_modules_dict: Dictionary):
 	PlayerController._available_card_modules.clear()
 	for key: int in _player_card_modules_dict.keys():
-		var card_module: CardEffect = CardEffect.new()
+		var card_module: CardModule = CardEffect.new()
 		card_module.from_dictionary(_player_card_modules_dict[key])
 		PlayerController.add_card_module(card_module)
-		
+
+func _load_player_forged_cards(_dict: Dictionary):
+	PlayerController._forged_cards.clear()
+	for key: String in _dict.keys():
+		var card_resource: CardResourceV2 = CardResourceV2.new()
+		card_resource.from_dictionary(_dict[key])
+		PlayerController.add_forged_card(card_resource)
 
 ## SIGNALS
 ## TODO: do we want to save as soon as the player clicks there? 

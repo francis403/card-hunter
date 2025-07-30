@@ -8,5 +8,6 @@ remove_all_negative_effects = true
 remove_all_positive_effects = false
 remove_specific_status_effects = Array[String]([])
 update_next_card_effect_data = true
+id = "status_remove_all_status"
 title = "Remove all all status conditions"
 stamina_cost = 15

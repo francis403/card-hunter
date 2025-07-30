@@ -28,5 +28,6 @@ damage = 5
 tile_highlight_config = SubResource("Resource_2wypg")
 center_piece = 0
 update_next_card_effect_data = true
+id = "melee_attack_5"
 title = "Deal 5 Melee damage"
 stamina_cost = 5

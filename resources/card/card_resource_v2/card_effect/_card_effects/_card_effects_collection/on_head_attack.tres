@@ -7,5 +7,6 @@ script = ExtResource("1_q3tin")
 condition = 1
 specific_monster_body_part = 1
 update_next_card_effect_data = false
+id = "on_head_attack"
 title = "On Head Attack"
 stamina_cost = -5

@@ -28,5 +28,6 @@ damage = 10
 tile_highlight_config = SubResource("Resource_uvdvd")
 center_piece = 0
 update_next_card_effect_data = true
+id = "range_attack_10"
 title = "Deal 10 ranged damaged."
 stamina_cost = 10

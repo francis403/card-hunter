@@ -7,26 +7,28 @@ signal clicked(card_module: CardModuleComponent)
 
 @onready var card_module_title: Label = %CardModuleTitle
 @onready var stamina_cost_label: Label = %StaminaCostLabel
+@onready var description: RichTextLabel = %MainDescription
 
 @export var title: String = "Test Title test"
 @export var stamina_cost: int = 5
 @export var _is_clickable: bool = false
 
-var card_effect: CardEffect
+## TODO: A card module also needs to have some limitations
+
+var card_module: CardModule
 
 func _ready() -> void:
-	set_card_effect(card_effect)
-	#if not self.gui_input.is_connected(_on_gui_input):
-		#self.gui_input.connect(_on_gui_input)
+	set_card_module(card_module)
+	self.pressed.connect(_on_pressed)
 	
-func set_card_effect(
-	_card_effect: CardEffect
+func set_card_module(
+	_card_module: CardModule
 ):
-	if not _card_effect:
+	if not _card_module:
 		return
-	card_module_title.text = _card_effect.title
-	stamina_cost_label.text = str(_card_effect.stamina_cost)
-	self.card_effect = _card_effect.duplicate()
+	card_module_title.text = _card_module.title
+	stamina_cost_label.text = str(_card_module.stamina_cost)
+	self.card_module = _card_module.duplicate()
 
 func enable_clicking():
 	_is_clickable = true
@@ -39,7 +41,6 @@ func disable_clicking():
 func _on_gui_input(event: InputEvent) -> void:
 	if _is_clickable and event.is_pressed():
 		clicked.emit(self)
-
 
 func _on_pressed() -> void:
 	if _is_clickable:

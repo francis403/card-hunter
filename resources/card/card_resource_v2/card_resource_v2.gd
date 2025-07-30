@@ -29,6 +29,9 @@ enum CardRaririty {
 
 var _revertable_play_actions: Array[CardEffect] = []
 
+## Was this card_resource_forged by the user
+var is_forged: bool = false
+
 func play_card() -> bool:
 	if not _is_card_playable():
 		return false
@@ -121,7 +124,7 @@ func subscribe_to_special_effects(
 
 func add_play_card_effect(card_effect: CardEffect) -> void:
 	if not card_effect:
-		print(add_play_card_effect, ": error, card_effect is null")
+		push_error(add_play_card_effect, ": Error: card_effect is null")
 		return
 	if not play_actions:
 		play_actions = []
@@ -138,5 +141,40 @@ func remove_play_card_effect(card_effect: CardEffect):
 		i += 1
 	if index < 0:
 		return
-	print(remove_play_card_effect, " removing at ", index)
 	play_actions.remove_at(index)
+
+func from_dictionary(dict: Dictionary):
+	self.id = dict["id"]
+	self.title = dict["title"]
+	self.rarity = dict["rarity"]
+	self.description = dict["description"]
+	self.stamina_cost = dict["stamina_cost"]
+	self.play_actions = _card_effects_from_dictionary(dict["play_actions"])
+
+func _card_effects_from_dictionary(dict: Dictionary) -> Array[CardEffect]:
+	var result: Array[CardEffect] = []
+	if not dict.has("play_actions"):
+		return result
+	for key in dict["play_actions"].keys():
+		var _card_effect: CardEffect = CardEffect.new()
+		_card_effect.from_dictionary(dict[key])
+		result.append(_card_effect)
+	return result
+
+func to_dictionary() -> Dictionary:
+	var result: Dictionary = {}
+	result["id"] = self.id
+	result["title"] = self.title
+	result["rarity"] = self.rarity
+	result["description"] = self.description
+	result["stamina_cost"] = self.stamina_cost
+	result["play_actions"] = _card_effects_to_dictionary(play_actions)
+	return result
+
+func _card_effects_to_dictionary(
+	card_module_array: Array[CardEffect]
+) -> Dictionary:
+	var result: Dictionary = {}
+	for card_module: CardModule in card_module_array:
+		result[card_module.id] = card_module.to_dictionary()
+	return result

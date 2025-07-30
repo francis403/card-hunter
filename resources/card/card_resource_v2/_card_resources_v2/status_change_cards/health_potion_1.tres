@@ -18,6 +18,7 @@ value = 50.0
 script = ExtResource("3_2fk6h")
 status_modifier_config = SubResource("Resource_lxwx0")
 update_next_card_effect_data = true
+id = ""
 title = "Recover 50 hp. (one use)"
 stamina_cost = 0
 

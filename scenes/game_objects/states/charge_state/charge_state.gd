@@ -1,7 +1,7 @@
 extends StateWithMovement
 class_name ChargeState
 
-@export var range: int = 6
+@export var _range: int = 6
 @export var state_after_charging: String
 
 var has_highleted_charge_tiles: bool = false
@@ -27,7 +27,7 @@ func _highlight_charge_tiles():
 	var source_tile: Tile = monster._tile
 	var config: TileHighlightConfig = TileHighlightConfig.new()
 	config.area_type = Constants.AreaType.CROSS
-	config.range = range
+	config.range = _range
 	
 	if target._tile._x_position < monster._tile._x_position:
 		config.ignore_east_tiles = true
@@ -44,7 +44,7 @@ func _highlight_charge_tiles():
 	next_turn_move_tile = MovementUtils.get_movement_tile(
 		monster._tile,
 		target._tile,
-		range
+		_range
 	)
 	
 	BattlemapSignals.highlight_attack_tiles.emit(

@@ -35,7 +35,7 @@ func condition_matched(card_effect_data: CardEffectData) -> bool:
 	return false
 
 func _was_monster_hit() -> bool:
-	if not card_effect_data.monster_effect_data:
+	if not card_effect_data || not card_effect_data.monster_effect_data:
 		return false
 	return card_effect_data.monster_effect_data.monster_targetted_last_effect
 	

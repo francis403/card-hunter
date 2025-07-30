@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://resources/card/card_resource_v2/card_effect/card_effect.gd" id="1_8t6g6"]
 [ext_resource type="Script" path="res://resources/card/card_resource_v2/condition/condition.gd" id="2_7flai"]
 [ext_resource type="Script" path="res://resources/card/card_resource_v2/card_effect/_card_effects/status_change_card_effect/status_change_card_effect.gd" id="2_f1s3t"]
-[ext_resource type="Resource" uid="uid://rjylrmcltplf" path="res://resources/card/card_resource_v2/card_effect/_card_effects/_card_effects_collection/status_stamina_recover_15.tres" id="3_6wfj5"]
+[ext_resource type="Resource" uid="uid://rjylrmcltplf" path="res://resources/card/card_resource_v2/card_effect/_card_effects/status_change_card_effect/status_modifier_config_collection/status_stamina_recover_15.tres" id="3_6wfj5"]
 [ext_resource type="Script" path="res://resources/card/card_resource_v2/card_resource_v2.gd" id="3_o0hed"]
 [ext_resource type="Script" path="res://resources/card/card_resource_v2/special_card_effect/special_card_effect_resource.gd" id="4_urash"]
 
@@ -11,6 +11,7 @@
 script = ExtResource("2_f1s3t")
 status_modifier_config = ExtResource("3_6wfj5")
 update_next_card_effect_data = true
+id = ""
 title = "Recover 15 stamina points"
 stamina_cost = 10
 

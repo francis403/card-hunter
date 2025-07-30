@@ -31,13 +31,22 @@ func save() -> Dictionary:
 		i += 1
 	return save_date
 	
+## TODO: load forged cards
 func _load(deck_dictionary: Dictionary):
 	if not deck_dictionary.has("deck"):
-		print("Deck dictionary does not have deck property")
+		push_error("Deck dictionary does not have deck property")
 		return
 	_deck.clear()
 	for card_key in deck_dictionary["deck"].keys():
 		var card_id: String = deck_dictionary["deck"][card_key]
 		var card_resource: CardResourceV2 = CardResourcesController.get_card(card_id)
+		if not card_resource:
+			if not PlayerController._forged_cards.has(card_id):
+				push_error("ERROR: Error while loading card: " + card_id)
+				continue
+			card_resource = CardResourceV2.new()
+			card_resource.from_dictionary(
+				PlayerController._forged_cards[card_id]
+			)
 		card_resource.resource_local_to_scene = true
 		_deck.append(card_resource)

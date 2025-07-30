@@ -8,5 +8,6 @@ script = ExtResource("2_wdl14")
 power_effect = ExtResource("1_q1kt1")
 target_piece = 0
 update_next_card_effect_data = true
+id = "power_double_damage"
 title = "Double damage for 2 turns"
 stamina_cost = 25

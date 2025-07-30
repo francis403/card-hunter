@@ -29,5 +29,6 @@ tile_effect_resource = ExtResource("2_7s5fn")
 tile_highlight_config = SubResource("Resource_a5a0w")
 center_piece = 0
 update_next_card_effect_data = true
+id = "tile_effect_spider_web"
 title = "Put a webtrap on an adjacent tile"
 stamina_cost = 20

@@ -1,7 +1,6 @@
-extends Resource
+extends CardModule
 
 ## Represents one possible effect a card can have
-## TODO: CardEffects within the same card should have a way to transmit info between each other
 class_name CardEffect
 
 @export_group("Card Effect Data config")
@@ -12,10 +11,6 @@ class_name CardEffect
 var card_effect_data: CardEffectData
 ## Update the next card effect with the data gathered from the last
 @export var update_next_card_effect_data: bool = true
-
-@export_group("Card Effect Data Module Details")
-@export var title: String = ""
-@export var stamina_cost: int = 5
 
 func process_card_effect() -> CardEffectResponse:
 	var response = await play_card_effect()
@@ -44,18 +39,3 @@ func update_data_after_card_is_played():
 
 func clean_card_effect() -> void:
 	pass
-	
-func to_dictionary() -> Dictionary:
-	var result: Dictionary = {
-		"title": self.title,
-		"stamina_cost": self.stamina_cost
-	}
-	return result
-	
-func from_dictionary(dictionary: Dictionary):
-	self.title = dictionary["title"]
-	self.stamina_cost = dictionary["stamina_cost"]
-
-func equals(other: CardEffect) -> bool:
-	return self.title == other.title\
-		and self.stamina_cost == other.stamina_cost

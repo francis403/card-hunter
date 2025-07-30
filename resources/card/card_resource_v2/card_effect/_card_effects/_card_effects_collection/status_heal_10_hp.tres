@@ -13,5 +13,6 @@ value = 10.0
 script = ExtResource("1_onl87")
 status_modifier_config = SubResource("Resource_lxwx0")
 update_next_card_effect_data = true
+id = "status_health_10"
 title = "Heal 10 hp"
 stamina_cost = 5

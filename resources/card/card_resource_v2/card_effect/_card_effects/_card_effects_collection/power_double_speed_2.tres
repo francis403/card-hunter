@@ -8,5 +8,6 @@ script = ExtResource("2_8w0e8")
 power_effect = ExtResource("1_t8k0v")
 target_piece = 0
 update_next_card_effect_data = true
+id = "power_double_speed"
 title = "Double movement for 2 turns"
 stamina_cost = 25

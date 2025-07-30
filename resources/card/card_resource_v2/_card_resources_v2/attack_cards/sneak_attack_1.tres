@@ -15,6 +15,9 @@ script = ExtResource("10_1cxxx")
 card_event_trigger = 1
 card_effects = Array[ExtResource("2_lcxss")]([ExtResource("8_ldwfi")])
 controller = ExtResource("10_rmlow")
+id = ""
+title = ""
+stamina_cost = 5
 
 [resource]
 script = ExtResource("6_icl8p")

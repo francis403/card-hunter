@@ -13,5 +13,6 @@ value = 5.0
 script = ExtResource("1_0lb6k")
 status_modifier_config = SubResource("Resource_6t15t")
 update_next_card_effect_data = true
+id = "status_recover_5_stamina"
 title = "Recover 5 stamina"
 stamina_cost = 0

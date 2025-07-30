@@ -1,42 +1,37 @@
-[gd_scene load_steps=7 format=3 uid="uid://dc4by8f6o5utt"]
+[gd_scene load_steps=8 format=3 uid="uid://dc4by8f6o5utt"]
 
+[ext_resource type="Theme" uid="uid://ebc7crnb0uq7" path="res://assets/themes/small_panel_container.tres" id="1_dcov4"]
 [ext_resource type="Script" path="res://ui/screen_components/card_module/card_module_component/card_module_component.gd" id="1_xyiq6"]
 
-[sub_resource type="Theme" id="Theme_bxcna"]
-MarginContainer/constants/margin_bottom = 0
-MarginContainer/constants/margin_left = 0
-MarginContainer/constants/margin_right = 0
-MarginContainer/constants/margin_top = 0
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ul75y"]
+bg_color = Color(0.952941, 0.611765, 0.0705882, 1)
+corner_radius_top_left = 15
+corner_radius_top_right = 15
+corner_radius_bottom_right = 15
+corner_radius_bottom_left = 15
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8quhs"]
-bg_color = Color(0.123686, 0.150087, 0.152654, 1)
-corner_radius_top_left = 10
-corner_radius_top_right = 10
-shadow_color = Color(0, 0, 0, 0.505882)
-shadow_size = 2
+[sub_resource type="Theme" id="Theme_k5w5k"]
+PanelContainer/styles/panel = SubResource("StyleBoxFlat_ul75y")
 
-[sub_resource type="Theme" id="Theme_nu7g3"]
-PanelContainer/styles/panel = SubResource("StyleBoxFlat_8quhs")
+[sub_resource type="FontVariation" id="FontVariation_huae7"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qw3n3"]
-bg_color = Color(0.123686, 0.150087, 0.152654, 1)
-corner_radius_top_right = 10
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mm6ic"]
+bg_color = Color(0.383597, 0.383597, 0.383597, 1)
 corner_radius_bottom_right = 10
 corner_radius_bottom_left = 10
 expand_margin_top = 5.0
-shadow_color = Color(0, 0, 0, 0.505882)
-shadow_size = 2
-shadow_offset = Vector2(0, 2)
 
-[sub_resource type="Theme" id="Theme_e4ngk"]
-PanelContainer/styles/panel = SubResource("StyleBoxFlat_qw3n3")
+[sub_resource type="Theme" id="Theme_n007g"]
+PanelContainer/styles/panel = SubResource("StyleBoxFlat_mm6ic")
 
 [node name="CardModuleComponent" type="Button"]
 custom_minimum_size = Vector2(200, 75)
-offset_right = 200.0
-offset_bottom = 106.0
+offset_right = 243.0
+offset_bottom = 112.0
+size_flags_horizontal = 3
 size_flags_vertical = 3
-theme = SubResource("Theme_bxcna")
+mouse_filter = 1
+theme = ExtResource("1_dcov4")
 theme_type_variation = &"FlatButton"
 script = ExtResource("1_xyiq6")
 title = "Test Title etc etc"
@@ -44,49 +39,102 @@ title = "Test Title etc etc"
 [node name="MarginContainer" type="MarginContainer" parent="."]
 custom_minimum_size = Vector2(200, 75)
 layout_mode = 0
-offset_right = 200.0
-offset_bottom = 106.0
+offset_right = 243.0
+offset_bottom = 112.0
+size_flags_horizontal = 3
 size_flags_vertical = 3
-theme = SubResource("Theme_bxcna")
+theme = ExtResource("1_dcov4")
+theme_type_variation = &"FlatButton"
 
-[node name="HBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
 layout_mode = 2
 
-[node name="PanelContainer2" type="PanelContainer" parent="MarginContainer/HBoxContainer"]
-custom_minimum_size = Vector2(25, 0)
+[node name="TopSection" type="PanelContainer" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 3
 mouse_filter = 1
-theme = SubResource("Theme_nu7g3")
+theme = ExtResource("1_dcov4")
 
-[node name="StaminaCostLabel" type="Label" parent="MarginContainer/HBoxContainer/PanelContainer2"]
+[node name="TopSection" type="HBoxContainer" parent="MarginContainer/VBoxContainer/TopSection"]
+layout_mode = 2
+
+[node name="LeftSide" type="HBoxContainer" parent="MarginContainer/VBoxContainer/TopSection/TopSection"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/TopSection/TopSection/LeftSide"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 15
+
+[node name="CostIcon" type="PanelContainer" parent="MarginContainer/VBoxContainer/TopSection/TopSection/LeftSide/MarginContainer"]
+layout_mode = 2
+mouse_filter = 1
+theme = SubResource("Theme_k5w5k")
+
+[node name="StaminaCostLabel" type="Label" parent="MarginContainer/VBoxContainer/TopSection/TopSection/LeftSide/MarginContainer/CostIcon"]
 unique_name_in_owner = true
 layout_mode = 2
-text = "5"
+text = "50"
 horizontal_alignment = 1
 
-[node name="PanelContainer" type="PanelContainer" parent="MarginContainer/HBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 3
-mouse_filter = 1
-theme = SubResource("Theme_e4ngk")
-
-[node name="HBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer/PanelContainer"]
-layout_mode = 2
-
-[node name="CardModuleTitle" type="Label" parent="MarginContainer/HBoxContainer/PanelContainer/HBoxContainer"]
+[node name="CardModuleTitle" type="Label" parent="MarginContainer/VBoxContainer/TopSection/TopSection/LeftSide"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(200, 50)
 layout_mode = 2
+size_flags_horizontal = 6
+theme_override_constants/outline_size = 10
+theme_override_fonts/font = SubResource("FontVariation_huae7")
+theme_override_font_sizes/font_size = 18
 text = "Title"
+vertical_alignment = 1
 autowrap_mode = 2
 
-[node name="Description" type="Label" parent="MarginContainer/HBoxContainer/PanelContainer/HBoxContainer"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(200, 25)
+[node name="BottomSection" type="PanelContainer" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
-text = "Description"
-autowrap_mode = 2
+size_flags_vertical = 3
+mouse_filter = 1
+theme = SubResource("Theme_n007g")
 
-[connection signal="pressed" from="." to="." method="_on_pressed"]
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/BottomSection"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 5
+
+[node name="DescriptionSection" type="VBoxContainer" parent="MarginContainer/VBoxContainer/BottomSection/MarginContainer"]
+layout_mode = 2
+
+[node name="MainDescription" type="RichTextLabel" parent="MarginContainer/VBoxContainer/BottomSection/MarginContainer/DescriptionSection"]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 1
+text = "Description Description"
+fit_content = true
+scroll_active = false
+
+[node name="CriticalDescription" type="RichTextLabel" parent="MarginContainer/VBoxContainer/BottomSection/MarginContainer/DescriptionSection"]
+layout_mode = 2
+mouse_filter = 1
+text = "Critical Text"
+fit_content = true
+
+[node name="TagsSection" type="HBoxContainer" parent="MarginContainer/VBoxContainer/BottomSection"]
+layout_mode = 2
+
+[node name="ValueIcon" type="Control" parent="MarginContainer/VBoxContainer/BottomSection/TagsSection"]
+layout_mode = 2
+
+[node name="ValueLabel" type="Label" parent="MarginContainer/VBoxContainer/BottomSection/TagsSection/ValueIcon"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+
+[node name="ReachIcon" type="Control" parent="MarginContainer/VBoxContainer/BottomSection/TagsSection"]
+layout_mode = 2
+
+[node name="ReachLabel" type="Label" parent="MarginContainer/VBoxContainer/BottomSection/TagsSection/ReachIcon"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0

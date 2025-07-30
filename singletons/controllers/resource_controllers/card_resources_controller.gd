@@ -17,11 +17,13 @@ func _init() -> void:
 ## NOT SURE IF THIS IS A GOOD IDEA (THINK ABOUT THIS)
 func _init_cards_in_game_dictionary():
 	print(_init_cards_in_game_dictionary, ": started loading cards...")
+	var _time_start = Time.get_ticks_msec()
 	var card_resources_paths: Array[String] = get_all_file_paths(card_resources_folder)
 	for card_path in card_resources_paths:
 		var card_resource: CardResourceV2 = load(card_path)
 		_card_in_game[card_resource.id] = card_resource
-	print(_init_cards_in_game_dictionary, ": finished loading cards! Loaded: ", _card_in_game.size(), " cards")
+	var _elapsed_time = Time.get_ticks_msec() - _time_start
+	print(_init_cards_in_game_dictionary, ": finished loading cards in ", _elapsed_time ,"ms! Loaded: ", _card_in_game.size(), " cards")
 
 func get_card(card_id: String) -> CardResourceV2:
 	if _card_in_game.has(card_id):

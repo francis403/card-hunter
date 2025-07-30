@@ -27,5 +27,6 @@ script = ExtResource("1_yfied")
 tile_highlight_config = SubResource("Resource_ea8i2")
 center_piece = 1
 update_next_card_effect_data = true
+id = "move_self_teleport"
 title = "teleport"
 stamina_cost = 30

@@ -2,6 +2,7 @@
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8quhs"]
 bg_color = Color(0.123686, 0.150087, 0.152654, 1)
+border_color = Color(0.227451, 0.227451, 0.227451, 1)
 corner_radius_top_left = 10
 corner_radius_top_right = 10
 shadow_color = Color(0, 0, 0, 0.505882)

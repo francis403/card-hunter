@@ -13,5 +13,6 @@ value = 20.0
 script = ExtResource("1_3nqg0")
 status_modifier_config = SubResource("Resource_md5ji")
 update_next_card_effect_data = true
+id = "status_health_minus_10"
 title = "Take 20 damage"
 stamina_cost = -5
