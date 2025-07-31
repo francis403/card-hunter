@@ -54,6 +54,7 @@ draw_pile_marker = NodePath("../DrawPileMarker")
 discard_pile_marker = NodePath("../DiscardPileMarker")
 
 [node name="UINodes" type="Control" parent="."]
+z_index = 2
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0

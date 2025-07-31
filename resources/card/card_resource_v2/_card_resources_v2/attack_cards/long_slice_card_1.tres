@@ -33,6 +33,7 @@ damage = 25
 tile_highlight_config = SubResource("Resource_qnmcf")
 center_piece = 0
 update_next_card_effect_data = true
+id = ""
 title = "Long Melee Attack - 25 damage"
 stamina_cost = 15
 

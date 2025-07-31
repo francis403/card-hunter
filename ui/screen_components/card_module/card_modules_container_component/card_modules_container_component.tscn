@@ -29,18 +29,24 @@ columns = 3
 
 [node name="CardModuleComponent" parent="ScrollContainer/GridContainer" instance=ExtResource("2_5x6p3")]
 layout_mode = 2
+flat = true
 
 [node name="CardModuleComponent2" parent="ScrollContainer/GridContainer" instance=ExtResource("2_5x6p3")]
 layout_mode = 2
+flat = true
 
 [node name="CardModuleComponent3" parent="ScrollContainer/GridContainer" instance=ExtResource("2_5x6p3")]
 layout_mode = 2
+flat = true
 
 [node name="CardModuleComponent4" parent="ScrollContainer/GridContainer" instance=ExtResource("2_5x6p3")]
 layout_mode = 2
+flat = true
 
 [node name="CardModuleComponent5" parent="ScrollContainer/GridContainer" instance=ExtResource("2_5x6p3")]
 layout_mode = 2
+flat = true
 
 [node name="CardModuleComponent6" parent="ScrollContainer/GridContainer" instance=ExtResource("2_5x6p3")]
 layout_mode = 2
+flat = true

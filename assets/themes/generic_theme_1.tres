@@ -1,0 +1,23 @@
+[gd_resource type="Theme" load_steps=3 format=3 uid="uid://bxlatu18hbfeu"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ugeck"]
+bg_color = Color(0.630731, 0.493405, 0.0737071, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+expand_margin_left = 5.0
+expand_margin_right = 5.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ipkt1"]
+bg_color = Color(0.733333, 0.580392, 0.411765, 1)
+border_color = Color(0, 0, 0, 1)
+
+[resource]
+Button/styles/normal = SubResource("StyleBoxFlat_ugeck")
+PanelContainer/styles/panel = SubResource("StyleBoxFlat_ipkt1")

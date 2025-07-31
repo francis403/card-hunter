@@ -10,13 +10,14 @@ signal back_button_pressed
 @onready var deck_container_component: DeckContainerComponent = %DeckContainerComponent
 @onready var card_modules_container_component: CardModulesContainerComponent = %CardModulesContainerComponent
 @onready var card: Card = %Card
-@onready var deforge_button: Button = %DeforgeButton
+@onready var deforge_button: SoundButton = $PanelContainer/VBoxContainer/HBoxContainer/CardToDeforge/VBoxContainer/DeforgeButton
 @onready var back_button: SoundButton = %BackButton
 
 
 func _ready() -> void:
 	deck_container_component.card_clicked.connect(_on_card_selected_for_deforge)
 	back_button.pressed.connect(_on_back_button_pressed)
+	deforge_button.pressed.connect(_on_deforge_button_pressed)
 	_remove_preview()
 
 

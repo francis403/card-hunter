@@ -50,6 +50,7 @@ func _on_gui_input(event: InputEvent) -> void:
 func _show_full_deck():
 	var deck_visualizer_instance: DeckVisualizer = Constants.deck_visualizer_scene.instantiate()
 	deck_visualizer_instance.deck = PlayerController.get_deck()._deck
+	deck_visualizer_instance.z_index = 2
 	get_tree().root.add_child(deck_visualizer_instance)
 
 func _update_deck_label():

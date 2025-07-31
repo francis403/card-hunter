@@ -95,7 +95,6 @@ func _on_forge_button_pressed() -> void:
 	_built_card.card_resource.is_forged = true
 	PlayerController.add_card_to_deck(_built_card.card_resource)
 	PlayerController.add_forged_card(_built_card.card_resource)
-	## TODO: need to remove them from the available modules as well
 	for _module: CardModuleComponent in added_card_modules.get_children_nodes():
 		PlayerController.remove_card_module(_module.card_module)
 	_on_back_button_pressed()

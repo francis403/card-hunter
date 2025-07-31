@@ -1,9 +1,10 @@
-[gd_scene load_steps=24 format=3 uid="uid://c8t61ybgmkahs"]
+[gd_scene load_steps=25 format=3 uid="uid://c8t61ybgmkahs"]
 
 [ext_resource type="Script" path="res://ui/screens/deforge_card_screen/deforge_card_screen.gd" id="1_nfouu"]
 [ext_resource type="PackedScene" uid="uid://hked8dt7umpy" path="res://ui/screen_components/_general_componets/buttons/sound_button/sound_button.tscn" id="2_4dcgl"]
 [ext_resource type="PackedScene" uid="uid://dv0qtkor6s0de" path="res://ui/screen_components/deck_container_component/deck_container_component.tscn" id="2_6t7sd"]
 [ext_resource type="PackedScene" uid="uid://d3vhms6yk456c" path="res://scenes/game_objects/cards/card/card.tscn" id="2_lj3tc"]
+[ext_resource type="Theme" uid="uid://bxlatu18hbfeu" path="res://assets/themes/generic_theme_1.tres" id="2_r2luk"]
 [ext_resource type="Script" path="res://resources/card/card_resource_v2/card_resource_v2.gd" id="3_jpurv"]
 [ext_resource type="AudioStream" uid="uid://d4nqs2kfg56mh" path="res://assets/sound/sound_effects/knifeSlice.ogg" id="4_ggqec"]
 [ext_resource type="Resource" uid="uid://d37hu1uhqsq3o" path="res://resources/card/card_resource_v2/_card_resources_v2/attack_cards/long_slice_card_1.tres" id="5_k6nq3"]
@@ -42,6 +43,7 @@ damage = 5
 tile_highlight_config = SubResource("Resource_eaid7")
 center_piece = 0
 update_next_card_effect_data = true
+id = ""
 title = "Deal 5 damage"
 stamina_cost = 5
 
@@ -50,6 +52,7 @@ script = ExtResource("8_0cvub")
 condition = 1
 specific_monster_body_part = 5
 update_next_card_effect_data = true
+id = ""
 title = "On Back Hit"
 stamina_cost = -5
 
@@ -58,6 +61,7 @@ script = ExtResource("6_wn2vl")
 damage = 10
 center_piece = 0
 update_next_card_effect_data = true
+id = ""
 title = "Deal 10 Melee Damage"
 stamina_cost = 10
 
@@ -71,10 +75,11 @@ value = 5.0
 script = ExtResource("9_mynou")
 status_modifier_config = SubResource("Resource_te4mr")
 update_next_card_effect_data = true
+id = ""
 title = "Recover 5 stamina"
 stamina_cost = 0
 
-[sub_resource type="Resource" id="Resource_3s0mf"]
+[sub_resource type="Resource" id="Resource_8ua7e"]
 resource_local_to_scene = true
 script = ExtResource("3_jpurv")
 id = "back_stab_1"
@@ -105,6 +110,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("2_r2luk")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer"]
 layout_mode = 2
@@ -135,7 +141,7 @@ size_flags_stretch_ratio = 3.0
 unique_name_in_owner = true
 layout_mode = 2
 listen_for_card_clicks = true
-deck = Array[ExtResource("3_jpurv")]([SubResource("Resource_3s0mf"), ExtResource("5_k6nq3")])
+deck = Array[ExtResource("3_jpurv")]([SubResource("Resource_8ua7e"), ExtResource("5_k6nq3")])
 grid_column_size = 2
 
 [node name="CardToDeforge" type="MarginContainer" parent="PanelContainer/VBoxContainer/HBoxContainer"]
@@ -154,16 +160,15 @@ card_resource = null
 card_can_hover = false
 card_can_be_discarded = false
 
-[node name="DeforgeButton" type="Button" parent="PanelContainer/VBoxContainer/HBoxContainer/CardToDeforge/VBoxContainer"]
-unique_name_in_owner = true
+[node name="DeforgeButton" parent="PanelContainer/VBoxContainer/HBoxContainer/CardToDeforge/VBoxContainer" instance=ExtResource("2_4dcgl")]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-text = "Deconstruct"
+text = "Deforge"
 
 [node name="CardModulesContainerComponent" parent="PanelContainer/VBoxContainer/HBoxContainer/CardToDeforge/VBoxContainer" instance=ExtResource("15_u7acp")]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
-
-[connection signal="pressed" from="PanelContainer/VBoxContainer/HBoxContainer/CardToDeforge/VBoxContainer/DeforgeButton" to="." method="_on_deforge_button_pressed"]
+columns = 2
+h_separation = 50

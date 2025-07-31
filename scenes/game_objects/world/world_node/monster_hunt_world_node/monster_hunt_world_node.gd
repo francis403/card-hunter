@@ -56,7 +56,6 @@ func generate_battle_scene() -> BattleGenericScene:
 	return battle_scene
 
 
-## TODO: show monster that is there
 func show_monster():
 	if monsters_in_node.size() > 0:
 		monster_texture_rect.texture = monsters_in_node[0].get_texture()
@@ -75,14 +74,13 @@ func convert_node_to_dictionary() -> Dictionary:
 	return result
 	
 func load_node_from_dictionary(node_state: Dictionary):
-	print(load_node_from_dictionary)
 	super.load_node_from_dictionary(node_state)
 	self.monsters_in_node = []
 	for monster_id in node_state[MONSTERS_DICTIONARY_FIELD].keys():
 		var actual_monster_id: String = node_state[MONSTERS_DICTIONARY_FIELD][monster_id]
 		var monster: GenericMonster = MonsterResourcesController.get_specific_monster(actual_monster_id)
 		if monster == null:
-			print("ERROR!!")
+			push_error(load_node_from_dictionary, ": ERROR while loading monster ", monster_id)
 			continue
 		var monster_scene: PackedScene = load(monster.scene_file_path)
 		self.monsters_in_node.append(monster_scene.instantiate())

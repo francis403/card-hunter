@@ -36,8 +36,9 @@ func add_grid_elem(
 	card_module: CardModule,
 ) -> CardModuleComponent:
 	if not card_module:
-		print(set_grid_elems_by_card, " ERROR null card_module provided")
+		print(set_grid_elems_by_card, " ERROR: null card_module provided")
 	var card_module_instance: CardModuleComponent = CARD_MODULE_COMPONENT_SCENE.instantiate()
+	card_module_instance.flat = true
 	grid_container.add_child(card_module_instance)
 	_card_modules_displayed.append(card_module)
 	if card_module_instance.has_method("set_card_module"):

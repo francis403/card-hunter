@@ -1,7 +1,7 @@
 [gd_scene load_steps=9 format=3 uid="uid://hked8dt7umpy"]
 
 [ext_resource type="Script" path="res://ui/screen_components/_general_componets/buttons/sound_button/sound_button.gd" id="1_fm1fo"]
-[ext_resource type="Theme" uid="uid://ebc7crnb0uq7" path="res://assets/themes/small_panel_container.tres" id="1_ygpfh"]
+[ext_resource type="Theme" uid="uid://bxlatu18hbfeu" path="res://assets/themes/generic_theme_1.tres" id="1_vms7a"]
 [ext_resource type="PackedScene" uid="uid://bqbkuxajm2kpy" path="res://scenes/components/random_stream_player_component/random_stream_player_component.tscn" id="3_pwy3k"]
 [ext_resource type="AudioStream" uid="uid://ckg42r8jter10" path="res://assets/sound/sound_effects/button_clicks/click1.ogg" id="4_qrkw0"]
 [ext_resource type="AudioStream" uid="uid://cap1uck6d7dbr" path="res://assets/sound/sound_effects/button_clicks/click2.ogg" id="5_h44f4"]
@@ -10,7 +10,7 @@
 [ext_resource type="AudioStream" uid="uid://2dk82vkfonp7" path="res://assets/sound/sound_effects/button_clicks/click5.ogg" id="8_80x6g"]
 
 [node name="SoundButton" type="Button"]
-theme = ExtResource("1_ygpfh")
+theme = ExtResource("1_vms7a")
 text = "Button"
 script = ExtResource("1_fm1fo")
 
