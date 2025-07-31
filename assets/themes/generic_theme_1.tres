@@ -1,7 +1,7 @@
 [gd_resource type="Theme" load_steps=3 format=3 uid="uid://bxlatu18hbfeu"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ugeck"]
-bg_color = Color(0.630731, 0.493405, 0.0737071, 1)
+bg_color = Color(0.388165, 0.299732, 0.0318751, 1)
 border_width_left = 2
 border_width_top = 2
 border_width_right = 2
@@ -15,7 +15,7 @@ expand_margin_left = 5.0
 expand_margin_right = 5.0
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ipkt1"]
-bg_color = Color(0.733333, 0.580392, 0.411765, 1)
+bg_color = Color(0.733333, 0.580392, 0.411765, 0.713726)
 border_color = Color(0, 0, 0, 1)
 
 [resource]

@@ -13,7 +13,7 @@ const CARD_MODULE_COMPONENT_SCENE: PackedScene = preload("res://ui/screen_compon
 @export var enable_v_scrolling: bool = false
 
 @onready var grid_container: GridContainer = %GridContainer
-@onready var scroll_container: ScrollContainer = $ScrollContainer
+#@onready var scroll_container: ScrollContainer = $ScrollContainer
 
 var _card_modules_displayed: Array[CardModule] = []
 
