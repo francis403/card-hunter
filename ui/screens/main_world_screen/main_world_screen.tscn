@@ -45,15 +45,15 @@ maximimum_distance_to_root = 100
 [sub_resource type="Resource" id="Resource_5upvb"]
 script = ExtResource("6_f2ehu")
 node_scene = ExtResource("8_a4yq4")
-weight = 30
+weight = 90
 max_ocurrences = 1
-minimum_distance_to_root = 2
+minimum_distance_to_root = 1
 maximimum_distance_to_root = 100
 
 [sub_resource type="Resource" id="Resource_4cwlo"]
 script = ExtResource("6_f2ehu")
 node_scene = ExtResource("10_lov3o")
-weight = 90
+weight = 30
 max_ocurrences = 1
 minimum_distance_to_root = 2
 maximimum_distance_to_root = 100

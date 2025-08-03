@@ -1,8 +1,12 @@
-[gd_scene load_steps=3 format=3 uid="uid://blf6uu6ap5ht3"]
+[gd_scene load_steps=5 format=3 uid="uid://blf6uu6ap5ht3"]
 
 [ext_resource type="PackedScene" uid="uid://djh35o5nfx5et" path="res://scenes/game_objects/world/world_node/generic_world_node/generic_world_node.tscn" id="1_8jvt3"]
 [ext_resource type="Script" path="res://scenes/game_objects/world/world_node/treasure_world_node/treasure_world_node.gd" id="2_pahh1"]
+[ext_resource type="Texture2D" uid="uid://n26ait07rrq5" path="res://assets/images/nodes/chest_nodet.png" id="3_hugyp"]
+[ext_resource type="PackedScene" uid="uid://c72jcvtvjr4ci" path="res://ui/screens/world_node_screens/treasure_world_node_screen/treasure_world_node_screen.tscn" id="4_ri1v2"]
 
 [node name="TreasureWorldNode" instance=ExtResource("1_8jvt3")]
 script = ExtResource("2_pahh1")
 world_node_id = "treasure_world_node"
+revealed_texture = ExtResource("3_hugyp")
+on_click_scene = ExtResource("4_ri1v2")

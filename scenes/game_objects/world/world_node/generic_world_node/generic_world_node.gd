@@ -4,8 +4,6 @@ extends Node2D
 ## Represents a location in the world
 class_name GenericWorldNode
 
-const EVENT_NODE_ICON_SPRITE = preload("res://assets/images/nodes/event_node_icon.png")
-
 const ID_DICTIONARY_FIELD: String = "id"
 const IS_REVEALED_DICTIONARY_FIELD: String = "is_revealed"
 const IS_REACHABLE_DICTIONARY_FIELD: String = "is_reachable"
@@ -22,7 +20,7 @@ const CONNECTIONS_DICTIONARY_FIELD: String = "connections"
 @onready var monster_texture_rect: TextureRect = $HBoxContainer/MonsterTextureRect
 @onready var area_2d: Area2D = $Area2D
 
-@export var connections: Array[GenericWorldNode] = []
+var connections: Array[GenericWorldNode] = []
 
 @export_group("Basic configs")
 @export var world_node_id: String
@@ -54,7 +52,6 @@ func _ready() -> void:
 	BattlemapSignals.hide_player_in_other_node.connect(_on_hide_player_in_other_node_signal)
 	_prepare_world_node()
 	after_node_is_ready()
-	
 
 func _prepare_world_node():
 	_prepare_world_node_sprite()
