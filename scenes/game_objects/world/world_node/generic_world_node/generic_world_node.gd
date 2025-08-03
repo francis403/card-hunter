@@ -22,14 +22,16 @@ const CONNECTIONS_DICTIONARY_FIELD: String = "connections"
 
 @export var connections: Array[GenericWorldNode] = []
 
-## TODO: A world node might have a monster, an event, or a treasure
+@export_group("Basic configs")
+@export var world_node_id: String
+@export var revealed_texture: Texture2D
+@export var on_click_scene: PackedScene
 
+@export_group("Extra world node configs")
 ## Generates random monsters.
 ## Will add to the monsters_in_node array by default
 @export var generate_random_monsters: bool = true
 @export var maximum_number_of_monster_to_generate: int = 1
-@export var quest_scene: PackedScene
-@export var world_node_id: String
 
 var is_showing_player_sprite: bool = false
 var is_revealed: bool = false
@@ -70,11 +72,15 @@ func reveal_connected_nodes():
 
 ## Function to be overwritten by the different types of nodes
 func reveal_node_effect():
-	pass
+	if revealed_texture:
+		world_node_sprite.texture = revealed_texture
 	
 ## Function to be overwritten that defines what happens when a node is clicked
 func on_node_click_event():
-	pass
+	if not _is_click_event_processable():
+		return
+	var scene = on_click_scene.instantiate()
+	get_tree().root.add_child(scene)
 	
 ## Function that has to be overwritten
 func set_world_scene():
@@ -88,7 +94,7 @@ func after_node_is_ready():
 ## Function that can be overwritten
 ## Checks if the node can be clicked
 func _is_click_event_processable() -> bool:
-	return false
+	return on_click_scene != null and on_click_scene.can_instantiate()
 
 ## Function that can be overwritten
 ## Occurs after the world node is completed
