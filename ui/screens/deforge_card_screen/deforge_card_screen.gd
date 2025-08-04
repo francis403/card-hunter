@@ -27,7 +27,8 @@ func _remove_preview():
 			PlayerController.get_deck()._deck
 		)
 
-func _on_card_selected_for_deforge(card_resource: CardResourceV2):
+func _on_card_selected_for_deforge(_card: Card):
+	var card_resource: CardResourceV2 = _card.card_resource
 	print(_on_card_selected_for_deforge, ": ", card_resource.id)
 	card.card_resource = card_resource.duplicate()
 	card.initialize_card()

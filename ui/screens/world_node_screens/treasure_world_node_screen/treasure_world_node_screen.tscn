@@ -51,8 +51,8 @@ layout_mode = 1
 offset_top = -227.0
 offset_bottom = 227.0
 title_text = "Rewards!"
-left_button_text = "skip"
 reward_component_title = "Choose up to 2 rewards"
 max_number_of_picks = 2
+override_default_on_reward_card_picked = true
 
 [connection signal="gui_input" from="Treasure" to="." method="_on_treasure_gui_input"]

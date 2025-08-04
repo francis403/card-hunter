@@ -1,13 +1,17 @@
 extends MarginContainer
 class_name Card
 
-signal card_picked(card_resource: CardResourceV2)
+signal card_picked(card: Card)
 signal card_played
 signal card_discarded_by_effect
+
+const DISABLED_CARD_COLOR = Color(0.502, 0.502, 0.502, 0.463)
+const NORMAL_CARD_COLOR = Color(1, 1, 1)
 
 @export var card_resource: CardResourceV2
 @export var card_can_hover: bool = true
 @export var card_can_be_discarded: bool = true
+@export var is_disabled: bool = false
 
 @onready var card_title: Label = %CardTitle
 @onready var card_description: Label = %CardDescription
@@ -54,7 +58,7 @@ func _card_clicked():
 		_add_selected_card()
 	else:
 		_play_card()
-	card_picked.emit(self.card_resource)
+	card_picked.emit(self)
 
 func _add_selected_card():
 	BattlemapSignals.input_received_for_card_selected.emit(self)
@@ -158,3 +162,15 @@ func add_stamina_cost(stamina_cost: int):
 	if not card_resource:
 		return
 	card_resource.stamina_cost += stamina_cost
+
+func toggle_disable_card():
+	if self.modulate == DISABLED_CARD_COLOR:
+		undisable_card()
+	else:
+		disable_card()
+
+func disable_card():
+	self.modulate = DISABLED_CARD_COLOR
+	
+func undisable_card():
+	self.modulate = NORMAL_CARD_COLOR

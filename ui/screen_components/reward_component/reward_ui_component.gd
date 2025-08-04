@@ -1,7 +1,7 @@
 extends VBoxContainer
 class_name RewardUIComponent
 
-signal on_reward_card_picked
+signal on_reward_card_picked(card: Card)
 
 @onready var card_container: HBoxContainer = %CardContainer
 @onready var title_label: Label = $Title
@@ -9,9 +9,11 @@ signal on_reward_card_picked
 @export var title: String = "Choose 1 reward"
 @export var hide_if_empty: bool = true
 
-## THis will only be used for Cards
+## This will only be used for Cards
 @export var max_number_of_picks: int = 1
 @export var min_number_of_picks: int = 0
+
+@export var override_default_on_reward_card_picked: bool = false
 
 var number_of_reward_cards: int = 0
 	
@@ -24,7 +26,6 @@ func _ready() -> void:
 func _delete_preview():
 	for preview_item in card_container.get_children():
 		preview_item.queue_free()
-
 
 func _initialize_fields():
 	title_label.text = title
@@ -53,6 +54,9 @@ func _instantiate_card(card_resource: CardResourceV2):
 	card_instance.initialize_card()
 	card_instance.card_picked.connect(_on_card_picked_signal)
 
-func _on_card_picked_signal(card_resource: CardResourceV2):
-	PlayerController._deck.add_card(card_resource.duplicate())
-	on_reward_card_picked.emit()
+## TODO: We can't just add them to the deck as soon as we clicked them
+func _on_card_picked_signal(card: Card):
+	on_reward_card_picked.emit(card)
+	if not override_default_on_reward_card_picked:
+		var card_resource: CardResourceV2 = card.card_resource
+		PlayerController._deck.add_card(card_resource.duplicate())

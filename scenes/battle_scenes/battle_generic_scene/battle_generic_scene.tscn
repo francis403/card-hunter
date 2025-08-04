@@ -92,6 +92,7 @@ offset_bottom = 3.0
 
 [node name="GameOverScreen" parent="." instance=ExtResource("9_bw6p8")]
 visible = false
+continue_as_soon_as_rewards_picked = true
 
 [node name="DrawPileMarker" type="Marker2D" parent="."]
 position = Vector2(49, 583)

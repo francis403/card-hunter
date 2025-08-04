@@ -1,7 +1,7 @@
 extends ScrollContainer
 class_name DeckContainerComponent
 
-signal card_clicked(card_resource: CardResourceV2)
+signal card_clicked(card: Card)
 
 const card_scene: PackedScene = preload("res://scenes/game_objects/cards/card/card.tscn")
 
@@ -41,5 +41,5 @@ func _instantiate_card(card_resource: CardResourceV2):
 		card_instance.card_picked.connect(_on_card_picked_signal)
 
 
-func _on_card_picked_signal(card_resource: CardResourceV2):
-	self.card_clicked.emit(card_resource)
+func _on_card_picked_signal(card: Card):
+	self.card_clicked.emit(card)

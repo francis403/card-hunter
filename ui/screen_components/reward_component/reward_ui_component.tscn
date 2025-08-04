@@ -19,7 +19,9 @@ layout_mode = 2
 alignment = 1
 
 [node name="Card" parent="CardContainer" instance=ExtResource("2_e72e4")]
+modulate = Color(0.501961, 0.501961, 0.501961, 0.462745)
 layout_mode = 2
 
 [node name="Card2" parent="CardContainer" instance=ExtResource("2_e72e4")]
+modulate = Color(0.501961, 0.501961, 0.501961, 0.462745)
 layout_mode = 2
