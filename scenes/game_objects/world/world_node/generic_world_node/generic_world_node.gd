@@ -81,9 +81,18 @@ func on_node_click_event():
 	if not _is_click_event_processable():
 		return
 	var scene = on_click_scene.instantiate()
+	var scene_signal: String = "world_node_screen_completed"
+	if scene.has_signal(scene_signal) and\
+		not scene.is_connected(scene_signal, _on_world_node_screen_completed_signal):
+			scene.connect(scene_signal, _on_world_node_screen_completed_signal)
 	get_tree().root.add_child(scene)
 	self._is_already_clicked = true
 	
+func _on_world_node_screen_completed_signal(_advance_day: bool):
+	if _advance_day:
+		GameController.decrease_days_till_next_attack()
+	self.reveal_connected_nodes()
+
 ## Function that has to be overwritten
 func set_world_scene():
 	my_node_scene_path = "res://scenes/game_objects/world/world_node/generic_world_node/generic_world_node.tscn"

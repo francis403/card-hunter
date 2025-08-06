@@ -119,7 +119,7 @@ func _on_monster_died_signal():
 
 func _on_battle_lost_signal():
 	#game_over_screen.title_label.text = "You Lost"
-	game_over_screen.prep_loss_screen()
+	_prep_loss_screen()
 	_show_game_over_screen()
 
 func _on_battle_won_signal():
@@ -127,9 +127,17 @@ func _on_battle_won_signal():
 		_world_node.reveal_connected_nodes()
 		_world_node.after_world_node_completed_successfully()
 	
-	game_over_screen.prep_win_screen()
+	_prep_win_screen()
 	_show_game_over_screen()
-	
+
+func _prep_loss_screen():
+	game_over_screen.title_label.text = "You Lose"
+	game_over_screen.reward_component.visible = false
+
+func _prep_win_screen():
+	game_over_screen.title_label.text = "You Win"
+	game_over_screen.reward_component.visible = true
+
 func _show_game_over_screen():
 	game_over_screen.visible = true
 	get_tree().paused = true

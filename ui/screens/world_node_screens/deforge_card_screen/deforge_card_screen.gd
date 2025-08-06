@@ -1,4 +1,4 @@
-extends Control
+extends WorldNodeScreen
 ## Show a list of cards
 ## Player picks a card and then the modules appear.
 ## The player then picks the module(s) that he wants and gets added to their available inventory
@@ -51,4 +51,5 @@ func _on_deforge_button_pressed() -> void:
 	)
 	if card.card_resource.is_forged:
 		PlayerController.remove_forged_card(card.card_resource.id)
+	self.world_node_screen_completed.emit(true)
 	self.queue_free()

@@ -7,9 +7,9 @@ signal right_button_pressed
 
 @onready var title_label: Label = %TitleLabel
 @onready var reward_component: RewardUIComponent = %RewardComponent
-@onready var h_box_container: HBoxContainer = $MarginContainer/VBoxContainer/HBoxContainer
-@onready var continue_button: Button = $MarginContainer/VBoxContainer/HBoxContainer/Continue
-@onready var exit_button: Button = $MarginContainer/VBoxContainer/HBoxContainer/Exit
+@onready var bottom_h_container: HBoxContainer = %BottomHContainer
+@onready var continue_button: Button = $MarginContainer/VBoxContainer/BottomHContainer/Continue
+@onready var exit_button: Button = $MarginContainer/VBoxContainer/BottomHContainer/Exit
 
 @export_group("General Screen configuration")
 @export var title_text: String = "You Win"
@@ -62,18 +62,6 @@ func _on_continue_pressed() -> void:
 
 func add_rewards(card_rewards: Array[CardResourceV2]):
 	reward_component.add_reward_cards(card_rewards)
-
-func prep_loss_screen():
-	title_text = "You Lose"
-	title_label.text = title_text
-	reward_component.visible = false
-	h_box_container.visible = true
-
-func prep_win_screen():
-	title_text = "You Win"
-	title_label.text = title_text
-	reward_component.visible = true
-	h_box_container.visible = false
 
 func _on_reward_card_picked_signal(card: Card):
 	current_number_of_picks += 1

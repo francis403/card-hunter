@@ -1,9 +1,15 @@
 extends Node
 
+signal days_till_attack_modified(days: int)
+
 var GIANT_BAT_BATTLE_TEST_SCENE = load("res://scenes/battle_scenes/giant_bat_test_scene/giant_bat_battle_test_scene.tscn")
 
 ## days till the boss
-var days_till_attack: int = 5
+var days_till_attack: int = 5:
+	set(value):
+		days_till_attack = value
+		days_till_attack_modified.emit(days_till_attack)
+		
 var is_showing_battle_scene: bool = false
 
 func _ready() -> void:

@@ -1,8 +1,7 @@
-extends Control
+extends WorldNodeScreen
 
 ## TODO: will need to have some config that can be changed during the game to have multiple choices
 class_name TreasureWorldNodeScreen
-
 
 @onready var treasure_texture_rect: TextureRect = $Treasure
 @onready var reward_screen: GameOverScreen = $RewardScreen
@@ -52,3 +51,6 @@ func _on_reward_screen_left_button_pressed_signal():
 		var _card: Card = picked_rewards[key]
 		var card_resource: CardResourceV2 = _card.card_resource
 		PlayerController._deck.add_card(card_resource.duplicate())
+	self.world_node_screen_completed.emit(true)
+	#get_tree().paused = false
+	#self.get_parent().queue_free()

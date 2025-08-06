@@ -50,21 +50,22 @@ text = "You Win"
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+[node name="BottomHContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 10
 theme_override_constants/separation = 100
 
-[node name="Continue" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="Continue" type="Button" parent="MarginContainer/VBoxContainer/BottomHContainer"]
 layout_mode = 2
 theme = ExtResource("3_1177m")
 text = "Continue"
 
-[node name="Exit" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="Exit" type="Button" parent="MarginContainer/VBoxContainer/BottomHContainer"]
 layout_mode = 2
 theme = ExtResource("3_1177m")
 text = "Exit"
 
-[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/Continue" to="." method="_on_continue_pressed"]
-[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/Exit" to="." method="_on_exit_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/BottomHContainer/Continue" to="." method="_on_continue_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/BottomHContainer/Exit" to="." method="_on_exit_pressed"]

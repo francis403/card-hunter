@@ -54,5 +54,6 @@ title_text = "Rewards!"
 reward_component_title = "Choose up to 2 rewards"
 max_number_of_picks = 2
 override_default_on_reward_card_picked = true
+show_right_button = false
 
 [connection signal="gui_input" from="Treasure" to="." method="_on_treasure_gui_input"]
