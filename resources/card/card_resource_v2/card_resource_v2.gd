@@ -182,6 +182,8 @@ func from_dictionary(dict: Dictionary):
 	self.description = dict["description"]
 	self.stamina_cost = dict["stamina_cost"]
 	_read_card_modules_from_dictionary(dict["play_actions"])
+	_read_card_modules_from_dictionary(dict["special_effects"])
+	_read_card_modules_from_dictionary(dict["play_conditions"])
 
 func _read_card_modules_from_dictionary(dict: Dictionary):
 	for key in dict.keys():
@@ -207,13 +209,16 @@ func to_dictionary() -> Dictionary:
 	result["rarity"] = self.rarity
 	result["description"] = self.description
 	result["stamina_cost"] = self.stamina_cost
-	result["play_actions"] = _card_effects_to_dictionary(play_actions)
+	result["play_actions"] = _card_modules_to_dictionary(play_actions)
+	result["special_effects"] = _card_modules_to_dictionary(special_effects)
+	result["play_conditions"] = _card_modules_to_dictionary(play_conditions)
 	return result
 
-func _card_effects_to_dictionary(
-	card_module_array: Array[CardEffect]
+func _card_modules_to_dictionary(
+	card_module_array: Array
 ) -> Dictionary:
 	var result: Dictionary = {}
 	for card_module: CardModule in card_module_array:
 		result[card_module.id] = card_module.to_dictionary()
 	return result
+	
