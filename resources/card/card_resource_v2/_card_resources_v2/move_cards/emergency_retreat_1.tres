@@ -1,23 +1,21 @@
-[gd_resource type="Resource" script_class="CardResourceV2" load_steps=8 format=3 uid="uid://dl1moktvst0io"]
+[gd_resource type="Resource" script_class="CardResourceV2" load_steps=6 format=3 uid="uid://dl1moktvst0io"]
 
 [ext_resource type="AudioStream" uid="uid://d1mjkdbshat6f" path="res://assets/sound/sound_effects/footstep09.ogg" id="1_vijq0"]
 [ext_resource type="Script" path="res://resources/card/card_resource_v2/card_effect/card_effect.gd" id="2_w7d0r"]
 [ext_resource type="Resource" uid="uid://dwihnll5qw26v" path="res://resources/card/card_resource_v2/card_effect/_card_effects/_card_effects_collection/discard_1_card_from_hand.tres" id="3_vu5as"]
 [ext_resource type="Resource" uid="uid://dk0gj3lsmtif8" path="res://resources/card/card_resource_v2/card_effect/_card_effects/_card_effects_collection/move_1.tres" id="4_r2ls2"]
-[ext_resource type="Script" path="res://resources/card/card_resource_v2/condition/condition.gd" id="5_v6d1m"]
 [ext_resource type="Script" path="res://resources/card/card_resource_v2/card_resource_v2.gd" id="7_h7jtr"]
-[ext_resource type="Script" path="res://resources/card/card_resource_v2/special_card_effect/special_card_effect_resource.gd" id="8_i3ncc"]
 
 [resource]
 script = ExtResource("7_h7jtr")
 id = "emergency_retreat_1"
 title = "Run Away"
-rarity = 0
+rarity = null
 description = "Move 1 tile away. 
 Before you can play this card you must discard a card."
-stamina_cost = 0
+stamina_cost = null
 tag_array = Array[String](["move"])
-play_conditions = Array[ExtResource("5_v6d1m")]([])
+play_conditions = Array[Object]([])
 play_actions = Array[ExtResource("2_w7d0r")]([ExtResource("3_vu5as"), ExtResource("4_r2ls2")])
-special_effects = Array[ExtResource("8_i3ncc")]([])
+special_effects = Array[Object]([])
 audio_stream = ExtResource("1_vijq0")

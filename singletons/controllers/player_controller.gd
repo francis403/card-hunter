@@ -49,8 +49,8 @@ func add_card_module(_card_module: CardModule):
 
 func remove_card_module(_card_module: CardModule):
 	var i: int = 0
-	for _card_effect: CardEffect in _available_card_modules:
-		if _card_module.equals(_card_effect):
+	for _module: CardModule in _available_card_modules:
+		if _card_module.equals(_module):
 			_available_card_modules.remove_at(i)
 			return
 		i += 1

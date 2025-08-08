@@ -32,6 +32,15 @@ func _clean_current_grid_elems():
 	for child in grid_container.get_children():
 		child.queue_free()
 
+func add_grim_elems(
+	card_modules: Array[CardModule]
+) -> Array[CardModuleComponent]:
+	var result: Array[CardModuleComponent] = []
+	for card_module in card_modules:
+		var card_module_component: CardModuleComponent = add_grid_elem(card_module)
+		result.append(card_module_component)
+	return result
+
 func add_grid_elem(
 	card_module: CardModule,
 ) -> CardModuleComponent:
@@ -56,8 +65,9 @@ func set_grid_elems_by_card(
 	_card_resource: CardResourceV2
 ):
 	self._clean_current_grid_elems()
-	for card_module: CardModule in _card_resource.play_actions:
-		add_grid_elem(card_module)
+	add_grim_elems(
+		_card_resource.get_card_modules()
+	)
 	
 func get_displayed_card_modules() -> Array[CardModule]:
 	return _card_modules_displayed

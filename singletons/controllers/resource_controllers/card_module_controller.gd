@@ -1,6 +1,7 @@
 extends Node
 
-const _CARD_MODULES_FILE_PATH = "res://resources/card/card_resource_v2/card_effect/_card_effects/_card_effects_collection/"
+const _PLAY_EFFECT_CARD_MODULES_FILE_PATH = "res://resources/card/card_resource_v2/card_effect/_card_effects/_card_effects_collection/"
+const _SPECIAL_EFFECT_CARD_MODULES_FILE_PATH = "res://resources/card/card_resource_v2/special_card_effect/_special_card_effects_collection/"
 
 var _card_modules_in_game: Dictionary = {}
 
@@ -14,7 +15,13 @@ func _init() -> void:
 func _init_card_modules_in_game_dictionary():
 	print(_init_card_modules_in_game_dictionary, ": started loading card_modules...")
 	var _time_start = Time.get_ticks_msec()
-	var card_modules_resources_paths: Array[String] = get_all_file_paths(_CARD_MODULES_FILE_PATH)
+	var card_modules_resources_paths: Array[String] = []
+	var play_effect_card_module_paths: Array[String] = get_all_file_paths(_PLAY_EFFECT_CARD_MODULES_FILE_PATH)
+	var special_effect_card_module_paths: Array[String] = get_all_file_paths(_SPECIAL_EFFECT_CARD_MODULES_FILE_PATH)
+	var condition_card_module_paths: Array[String] = []
+	card_modules_resources_paths.append_array(play_effect_card_module_paths)
+	card_modules_resources_paths.append_array(special_effect_card_module_paths)
+	card_modules_resources_paths.append_array(condition_card_module_paths)
 	for card_module_path in card_modules_resources_paths:
 		var card_module: CardModule = load(card_module_path)
 		_card_modules_in_game[card_module.id] = card_module

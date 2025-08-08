@@ -122,20 +122,27 @@ func subscribe_to_special_effects(
 		controller_instance.card = card
 		container_node.add_child(controller_instance)
 
-func add_play_card_effect(card_effect: CardEffect) -> void:
-	if not card_effect:
-		push_error(add_play_card_effect, ": Error: card_effect is null")
+func add_card_module(_card_module: CardModule) -> void:
+	if not _card_module:
+		push_error(add_card_module, ": Error: _card_module is null")
 		return
-	if not play_actions:
-		play_actions = []
-	play_actions.append(card_effect)
+	_append_card_module(_card_module)
 	
+func remove_card_module(_card_module: CardModule):
+	if not _card_module:
+		return
+	if _card_module is CardEffect:
+		remove_module_from_array(_card_module, play_actions)
+	elif _card_module is SpecialCardEffectResource:
+		remove_module_from_array(_card_module, special_effects)
+	elif _card_module is SpecialCardEffectResource:
+		remove_module_from_array(_card_module, play_conditions)
+
 func remove_play_card_effect(card_effect: CardEffect):
 	var index: int = -1
 	var i: int = 0
 	for play_action in play_actions:
-		if play_action.title == card_effect.title\
-			and play_action.stamina_cost == card_effect.stamina_cost:
+		if play_action.equals(card_effect):
 			index = i
 			break
 		i += 1
@@ -143,22 +150,55 @@ func remove_play_card_effect(card_effect: CardEffect):
 		return
 	play_actions.remove_at(index)
 
+func remove_module_from_array(
+	_card_module: CardModule,
+	_array: Array
+):
+	var index: int = -1
+	var i: int = 0
+	for module in _array:
+		if _card_module.equals(module):
+			index = i
+			break
+		i += 1
+	if index < 0:
+		return
+	_array.remove_at(index)
+
+func get_card_modules() -> Array[CardModule]:
+	var result: Array[CardModule] = []
+	for play_action in self.play_actions:
+		result.append(play_action)
+	for special_card_effect in self.special_effects:
+		result.append(special_card_effect)
+	for condition in self.play_conditions:
+		result.append(condition)
+	return result
+
 func from_dictionary(dict: Dictionary):
 	self.id = dict["id"]
 	self.title = dict["title"]
 	self.rarity = dict["rarity"]
 	self.description = dict["description"]
 	self.stamina_cost = dict["stamina_cost"]
-	self.play_actions = _card_effects_from_dictionary(dict["play_actions"])
+	_read_card_modules_from_dictionary(dict["play_actions"])
 
-func _card_effects_from_dictionary(dict: Dictionary) -> Array[CardEffect]:
-	var result: Array[CardEffect] = []
+func _read_card_modules_from_dictionary(dict: Dictionary):
 	for key in dict.keys():
-		var _card_effect: CardEffect = CardModuleController.get_card_module(key)
-		if not _card_effect:
-			_card_effect.from_dictionary(dict[key])
-		result.append(_card_effect)
-	return result
+		var _card_module: CardModule = CardModuleController.get_card_module(key)
+		if not _card_module:
+			_card_module.from_dictionary(dict[key])
+		_append_card_module(_card_module)
+		
+func _append_card_module(_card_module: CardModule) -> void:
+	if not _card_module:
+		return
+	if _card_module is CardEffect:
+		self.play_actions.append(_card_module)
+	elif _card_module is SpecialCardEffectResource:
+		self.special_effects.append(_card_module)
+	elif _card_module is Condition:
+		self.play_conditions.append(_card_module)
 
 func to_dictionary() -> Dictionary:
 	var result: Dictionary = {}
