@@ -5,7 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://d3vhms6yk456c" path="res://scenes/game_objects/cards/card/card.tscn" id="2_8v2wh"]
 [ext_resource type="PackedScene" uid="uid://c88o0llv6xfgp" path="res://ui/screen_components/card_module/card_modules_container_component/card_modules_container_component.tscn" id="2_qj0og"]
 [ext_resource type="Theme" uid="uid://dmot8ul1c5l3n" path="res://assets/themes/theme_1.tres" id="3_1hwil"]
-[ext_resource type="Theme" uid="uid://claw0rj3hsc2r" path="res://ui/screens/forge_card_screen/sub_panel_generic_theme_1.tres" id="3_wre6q"]
+[ext_resource type="Theme" uid="uid://claw0rj3hsc2r" path="res://assets/themes/sub_panel_generic_theme_1.tres" id="3_wre6q"]
 [ext_resource type="PackedScene" uid="uid://hked8dt7umpy" path="res://ui/screen_components/_general_componets/buttons/sound_button/sound_button.tscn" id="4_sy17u"]
 [ext_resource type="Script" path="res://resources/card/card_resource_v2/card_effect/card_effect.gd" id="5_bmwru"]
 [ext_resource type="Script" path="res://resources/card/card_resource_v2/condition/condition.gd" id="6_ggtjb"]

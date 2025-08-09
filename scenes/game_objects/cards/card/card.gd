@@ -12,6 +12,7 @@ const NORMAL_CARD_COLOR = Color(1, 1, 1)
 @export var card_can_hover: bool = true
 @export var card_can_be_discarded: bool = true
 @export var is_disabled: bool = false
+@export var _card_can_be_played: bool = true
 
 @onready var card_title: Label = %CardTitle
 @onready var card_description: Label = %CardDescription
@@ -36,6 +37,7 @@ func _ready() -> void:
 		BattlemapSignals.awaiting_for_card_selection.connect(on_awaiting_for_card_selection_signal)
 		BattlemapSignals.card_selected_confirmed.connect(on_card_selection_confirmed_signal)
 		BattlemapSignals.canceled_player_input.connect(_revert_played_card)
+	self.card_can_be_played = _card_can_be_played
 
 func initialize_card():
 	card_title.text = card_resource.title

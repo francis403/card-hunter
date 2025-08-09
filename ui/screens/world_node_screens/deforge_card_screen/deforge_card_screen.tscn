@@ -43,27 +43,39 @@ damage = 5
 tile_highlight_config = SubResource("Resource_eaid7")
 center_piece = 0
 update_next_card_effect_data = true
+top_section_background_color = Color(0.124, 0.15, 0.153, 1)
+bottom_section_background_color = Color(0.384, 0.384, 0.384, 1)
 id = ""
 title = "Deal 5 damage"
 stamina_cost = 5
+default_top_section_background_color = Color(0.124, 0.15, 0.153, 1)
+default_bottom_section_background_color = Color(0.384, 0.384, 0.384, 1)
 
 [sub_resource type="Resource" id="Resource_x7swj"]
 script = ExtResource("8_0cvub")
 condition = 1
 specific_monster_body_part = 5
 update_next_card_effect_data = true
+top_section_background_color = Color(0.124, 0.15, 0.153, 1)
+bottom_section_background_color = Color(0.384, 0.384, 0.384, 1)
 id = ""
 title = "On Back Hit"
 stamina_cost = -5
+default_top_section_background_color = Color(0.124, 0.15, 0.153, 1)
+default_bottom_section_background_color = Color(0.384, 0.384, 0.384, 1)
 
 [sub_resource type="Resource" id="Resource_1dtx7"]
 script = ExtResource("6_wn2vl")
 damage = 10
 center_piece = 0
 update_next_card_effect_data = true
+top_section_background_color = Color(0.124, 0.15, 0.153, 1)
+bottom_section_background_color = Color(0.384, 0.384, 0.384, 1)
 id = ""
 title = "Deal 10 Melee Damage"
 stamina_cost = 10
+default_top_section_background_color = Color(0.124, 0.15, 0.153, 1)
+default_bottom_section_background_color = Color(0.384, 0.384, 0.384, 1)
 
 [sub_resource type="Resource" id="Resource_te4mr"]
 script = ExtResource("10_ka3ih")
@@ -75,11 +87,15 @@ value = 5.0
 script = ExtResource("9_mynou")
 status_modifier_config = SubResource("Resource_te4mr")
 update_next_card_effect_data = true
+top_section_background_color = Color(0.124, 0.15, 0.153, 1)
+bottom_section_background_color = Color(0.384, 0.384, 0.384, 1)
 id = ""
 title = "Recover 5 stamina"
 stamina_cost = 0
+default_top_section_background_color = Color(0.124, 0.15, 0.153, 1)
+default_bottom_section_background_color = Color(0.384, 0.384, 0.384, 1)
 
-[sub_resource type="Resource" id="Resource_xxaau"]
+[sub_resource type="Resource" id="Resource_jqagr"]
 resource_local_to_scene = true
 script = ExtResource("3_jpurv")
 id = "back_stab_1"
@@ -141,7 +157,7 @@ size_flags_stretch_ratio = 3.0
 unique_name_in_owner = true
 layout_mode = 2
 listen_for_card_clicks = true
-deck = Array[ExtResource("3_jpurv")]([SubResource("Resource_xxaau"), ExtResource("5_k6nq3")])
+deck = Array[ExtResource("3_jpurv")]([SubResource("Resource_jqagr"), ExtResource("5_k6nq3")])
 grid_column_size = 2
 
 [node name="CardToDeforge" type="MarginContainer" parent="PanelContainer/VBoxContainer/HBoxContainer"]
@@ -159,6 +175,7 @@ size_flags_horizontal = 4
 card_resource = null
 card_can_hover = false
 card_can_be_discarded = false
+_card_can_be_played = false
 
 [node name="DeforgeButton" parent="PanelContainer/VBoxContainer/HBoxContainer/CardToDeforge/VBoxContainer" instance=ExtResource("2_4dcgl")]
 layout_mode = 2

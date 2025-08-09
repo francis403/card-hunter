@@ -94,6 +94,8 @@ func _load_player_card_modules(_player_card_modules_dict: Dictionary):
 	PlayerController._available_card_modules.clear()
 	for key: int in _player_card_modules_dict.keys():
 		var card_module: CardModule = CardEffect.new()
+		if _player_card_modules_dict[key].has("scene_path"):
+			card_module = ResourceLoader.load(_player_card_modules_dict[key]["scene_path"]).new()
 		card_module.from_dictionary(_player_card_modules_dict[key])
 		PlayerController.add_card_module(card_module)
 

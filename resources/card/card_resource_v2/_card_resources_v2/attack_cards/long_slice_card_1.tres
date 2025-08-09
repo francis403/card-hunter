@@ -33,9 +33,13 @@ damage = 25
 tile_highlight_config = SubResource("Resource_qnmcf")
 center_piece = 0
 update_next_card_effect_data = true
+top_section_background_color = Color(0.124, 0.15, 0.153, 1)
+bottom_section_background_color = Color(0.384, 0.384, 0.384, 1)
 id = ""
 title = "Long Melee Attack - 25 damage"
 stamina_cost = 15
+default_top_section_background_color = Color(0.124, 0.15, 0.153, 1)
+default_bottom_section_background_color = Color(0.384, 0.384, 0.384, 1)
 
 [resource]
 script = ExtResource("3_po1p0")

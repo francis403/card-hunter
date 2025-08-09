@@ -12,6 +12,10 @@ var card_effect_data: CardEffectData
 ## Update the next card effect with the data gathered from the last
 @export var update_next_card_effect_data: bool = true
 
+@export_group("Card Module Color Configuration")
+@export var top_section_background_color: Color = Color(0.124, 0.15, 0.153)
+@export var bottom_section_background_color: Color = Color(0.384, 0.384, 0.384)
+
 func process_card_effect() -> CardEffectResponse:
 	var response = await play_card_effect()
 	if not response.should_rollback():
@@ -39,3 +43,6 @@ func update_data_after_card_is_played():
 
 func clean_card_effect() -> void:
 	pass
+
+func _get_my_node_scene_path() -> String:
+	return "res://resources/card/card_resource_v2/card_effect/card_effect.gd"

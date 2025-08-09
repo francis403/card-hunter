@@ -1,7 +1,8 @@
-[gd_scene load_steps=8 format=3 uid="uid://dc4by8f6o5utt"]
+[gd_scene load_steps=7 format=3 uid="uid://dc4by8f6o5utt"]
 
 [ext_resource type="Theme" uid="uid://ebc7crnb0uq7" path="res://assets/themes/small_panel_container.tres" id="1_dcov4"]
 [ext_resource type="Script" path="res://ui/screen_components/card_module/card_module_component/card_module_component.gd" id="1_xyiq6"]
+[ext_resource type="Theme" uid="uid://dkm7yyycmoi00" path="res://assets/themes/sub_small_panel_container.tres" id="3_dw7hv"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ul75y"]
 bg_color = Color(0.952941, 0.611765, 0.0705882, 1)
@@ -14,15 +15,6 @@ corner_radius_bottom_left = 15
 PanelContainer/styles/panel = SubResource("StyleBoxFlat_ul75y")
 
 [sub_resource type="FontVariation" id="FontVariation_huae7"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mm6ic"]
-bg_color = Color(0.383597, 0.383597, 0.383597, 1)
-corner_radius_bottom_right = 10
-corner_radius_bottom_left = 10
-expand_margin_top = 5.0
-
-[sub_resource type="Theme" id="Theme_n007g"]
-PanelContainer/styles/panel = SubResource("StyleBoxFlat_mm6ic")
 
 [node name="CardModuleComponent" type="Button"]
 custom_minimum_size = Vector2(200, 75)
@@ -50,6 +42,7 @@ theme_type_variation = &"FlatButton"
 layout_mode = 2
 
 [node name="TopSection" type="PanelContainer" parent="MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 mouse_filter = 1
 theme = ExtResource("1_dcov4")
@@ -92,10 +85,11 @@ vertical_alignment = 1
 autowrap_mode = 2
 
 [node name="BottomSection" type="PanelContainer" parent="MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
 mouse_filter = 1
-theme = SubResource("Theme_n007g")
+theme = ExtResource("3_dw7hv")
 
 [node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/BottomSection"]
 layout_mode = 2

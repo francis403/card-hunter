@@ -11,9 +11,13 @@
 script = ExtResource("2_f1s3t")
 status_modifier_config = ExtResource("3_6wfj5")
 update_next_card_effect_data = true
+top_section_background_color = Color(0.124, 0.15, 0.153, 1)
+bottom_section_background_color = Color(0.384, 0.384, 0.384, 1)
 id = ""
 title = "Recover 15 stamina points"
 stamina_cost = 10
+default_top_section_background_color = Color(0.124, 0.15, 0.153, 1)
+default_bottom_section_background_color = Color(0.384, 0.384, 0.384, 1)
 
 [resource]
 script = ExtResource("3_o0hed")
