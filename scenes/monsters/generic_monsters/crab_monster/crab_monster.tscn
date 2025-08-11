@@ -82,5 +82,5 @@ max_angle = 136.0
 min_angle = 224.0
 max_angle = 320.0
 
-[node name="Sprite2D" parent="." index="5"]
+[node name="Sprite2D" parent="." index="6"]
 texture = ExtResource("1_x8062")

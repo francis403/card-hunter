@@ -6,6 +6,7 @@ class_name WorldGeneratorConfig
 
 @export var available_world_nodes: Array[WorldEntityGeneratorConfig] = []
 @export var available_generic_monsters: Array[WorldEntityGeneratorConfig] = []
+@export var available_boss_monsters: Array[WorldEntityGeneratorConfig] = []
 @export var max_distance_to_village = 2
 @export var max_number_of_child_nodes = 3
 @export var number_of_village_children_node = 3
@@ -15,6 +16,8 @@ var _possible_node_configs_by_distance: Dictionary = {
 	0: WeightedTable.new()
 }
 var _inserted_min_distances: Array[int] = [0]
+
+var _possible_boss_monsters_configs: WeightedTable = WeightedTable.new()
 
 var _possible_monsters_configs_by_distance: Dictionary = {
 	0: WeightedTable.new()
@@ -35,6 +38,7 @@ func initialize_config():
 		_initialize_world_entity_config(available_world_nodes, _inserted_min_distances)
 	_possible_monsters_configs_by_distance =\
 		_initialize_world_entity_config(available_generic_monsters, _inserted_monsters_min_distances)
+	_possible_boss_monsters_configs = _initialize_boss_monsters_config()
 
 ## TODO: we need to generate the nodes
 ## Maybe it would be smarter to not try to determine which nodes we should add straight from the start,
@@ -65,6 +69,21 @@ func _initialize_world_entity_config(
 			inserted_distances.append(min_dist)
 	inserted_distances.sort()
 	return result
+
+func _initialize_boss_monsters_config() -> WeightedTable:
+	var result: WeightedTable = WeightedTable.new()
+	for boss_monster_config in available_boss_monsters:
+		result.add_item(
+			boss_monster_config, 
+			boss_monster_config.weight
+		)
+	return result
+
+func generate_random_boss_monster_scene() -> PackedScene:
+	var boss_monster_config: WorldEntityGeneratorConfig = _possible_boss_monsters_configs.pick_item()
+	if boss_monster_config:
+		return boss_monster_config.node_scene
+	return null
 
 ## TODO: need to think of some logic to have min-max number of nodes
 ## Maybe a possible solution would be to start by making them all MonsterHuntNode, and then move through the list of required nodes

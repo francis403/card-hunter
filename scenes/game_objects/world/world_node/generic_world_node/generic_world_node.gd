@@ -89,8 +89,7 @@ func on_node_click_event():
 	self._is_already_clicked = true
 	
 func _on_world_node_screen_completed_signal(_advance_day: bool):
-	if _advance_day:
-		GameController.decrease_days_till_next_attack()
+	BattlemapSignals.world_node_screen_completed.emit(_advance_day)
 	self.reveal_connected_nodes()
 
 ## Function that has to be overwritten

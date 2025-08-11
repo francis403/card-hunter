@@ -161,6 +161,11 @@ func get_node_iteration_position(center_node: GenericWorldNode, iteration: int) 
 	var position_offset: Vector2 = Vector2(seperation, 0).rotated(angle)
 	return center_node.global_position + position_offset
 
+func get_random_world_boss_scene() -> PackedScene:
+	if not world_generator_config:
+		return null
+	return world_generator_config.generate_random_boss_monster_scene()
+
 func _save_world_state():
 	print(_save_world_state)
 	File.progress.village_node = village_node

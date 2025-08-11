@@ -24,6 +24,7 @@ func _init() -> void:
 
 func _init_monsters_in_game_dictionary():
 	_init_generic_monsters_in_game()
+	_init_boss_monsters_in_game()
 	
 func _init_generic_monsters_in_game():
 	print(_init_generic_monsters_in_game, ": loading monsters...")
@@ -31,23 +32,40 @@ func _init_generic_monsters_in_game():
 	var _generic_monster_dictionary: Dictionary = _monsters_in_game_dictionary[_GENERIC_MONSTER_DICTIONARY_FIELD]
 	var generic_monsters_file_path_list: Array[String] = get_all_scene_file_paths(_generic_monsters_folder_path)
 	
-	for generic_monster_path in generic_monsters_file_path_list:
-		var monster: GenericMonster = load(generic_monster_path).instantiate()
-		if not _generic_monster_dictionary.has(monster.monster_id):
-			_generic_monster_dictionary[monster.monster_id] = monster
-			_generic_monsters_list.append(monster)
+	_load_monsters_from_files(
+		generic_monsters_file_path_list,
+		_generic_monster_dictionary,
+		_generic_monsters_list
+	)
+	
 	var _elapsed_time = Time.get_ticks_msec() - _time_start
 	print(_init_generic_monsters_in_game, ": finished loading monsters ", _elapsed_time ,"ms! Loaded ", _generic_monsters_list.size(), " monsters")
 
 func _init_boss_monsters_in_game():
+	print(_init_boss_monsters_in_game, ": loading boss monsters...")
+	var _time_start = Time.get_ticks_msec()
 	var monster_dictionary: Dictionary = _monsters_in_game_dictionary[_BOSS_MONSTER_DICTIONARY_FIELD]
 	var boss_monsters_file_path_list: Array[String] = get_all_scene_file_paths(_boss_monsters_folder_path)
 	
-	for monster_path in boss_monsters_file_path_list:
+	_load_monsters_from_files(
+		boss_monsters_file_path_list,
+		monster_dictionary,
+		_boss_monsters_list
+	)
+	
+	var _elapsed_time = Time.get_ticks_msec() - _time_start
+	print(_init_boss_monsters_in_game, ": finished loading boss monsters ", _elapsed_time ,"ms! Loaded ", monster_dictionary.size(), " monsters")
+
+func _load_monsters_from_files(
+	file_paths: Array[String],
+	_dictionary_to_append: Dictionary,
+	_array_to_append: Array[GenericMonster]
+):
+	for monster_path in file_paths:
 		var monster: GenericMonster = load(monster_path).instantiate()
-		if not monster_dictionary.has(monster.monster_id):
-			monster_dictionary[monster.monster_id] = monster
-			_boss_monsters_list.append(monster)
+		if not _dictionary_to_append.has(monster.monster_id):
+			_dictionary_to_append[monster.monster_id] = monster
+			_array_to_append.append(monster)
 
 func get_specific_monster(monster_id: String) -> GenericMonster:
 	if not _monsters_in_game_dictionary[_GENERIC_MONSTER_DICTIONARY_FIELD].has(monster_id):
