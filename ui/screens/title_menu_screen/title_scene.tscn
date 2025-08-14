@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://csbkict33rdjb"]
+[gd_scene load_steps=8 format=3 uid="uid://csbkict33rdjb"]
 
 [ext_resource type="Script" path="res://scripts/ui/menu/menu.gd" id="1_6syln"]
 [ext_resource type="Script" path="res://ui/screens/title_menu_screen/title_scene.gd" id="1_53urg"]
@@ -6,6 +6,7 @@
 [ext_resource type="Theme" uid="uid://dmot8ul1c5l3n" path="res://assets/themes/theme_1.tres" id="2_a7ane"]
 [ext_resource type="AudioStream" uid="uid://dwcjod037iqrj" path="res://assets/sound/background_music/One Man Symphony - Collateral Damage (Free) - 15 CyberRace Theme 02.mp3" id="2_uom3r"]
 [ext_resource type="PackedScene" uid="uid://calade5jh8fy3" path="res://ui/screens/settings_menu_screen/settings_screen.tscn" id="5_rcdra"]
+[ext_resource type="PackedScene" uid="uid://hked8dt7umpy" path="res://ui/screen_components/_general_componets/buttons/sound_button/sound_button.tscn" id="7_uacp8"]
 
 [node name="TitleScreenScene" type="Control"]
 layout_mode = 3
@@ -62,34 +63,29 @@ grow_vertical = 2
 theme_override_constants/separation = 15
 script = ExtResource("1_6syln")
 
-[node name="NewGame" type="Button" parent="MenuContainer"]
+[node name="NewGame" parent="MenuContainer" instance=ExtResource("7_uacp8")]
 unique_name_in_owner = true
 layout_mode = 2
-theme = ExtResource("2_a7ane")
-text = " New Game"
+text = "New Game"
 
-[node name="Continue" type="Button" parent="MenuContainer"]
+[node name="Continue" parent="MenuContainer" instance=ExtResource("7_uacp8")]
 unique_name_in_owner = true
 layout_mode = 2
-theme = ExtResource("2_a7ane")
 text = "Continue"
 
-[node name="Settings" type="Button" parent="MenuContainer"]
+[node name="Settings" parent="MenuContainer" instance=ExtResource("7_uacp8")]
 unique_name_in_owner = true
 layout_mode = 2
-theme = ExtResource("2_a7ane")
-text = "Settings"
+text = "Settings
+"
 
-[node name="Credits" type="Button" parent="MenuContainer"]
+[node name="Credits" parent="MenuContainer" instance=ExtResource("7_uacp8")]
 unique_name_in_owner = true
 layout_mode = 2
-theme = ExtResource("2_a7ane")
 text = "Credits"
 
-[node name="Exit" type="Button" parent="MenuContainer"]
-unique_name_in_owner = true
+[node name="Exit" parent="MenuContainer" instance=ExtResource("7_uacp8")]
 layout_mode = 2
-theme = ExtResource("2_a7ane")
 text = "Exit"
 
 [node name="SettingsScreen" parent="." instance=ExtResource("5_rcdra")]
@@ -100,7 +96,8 @@ offset_top = -25.0
 offset_right = 81.5
 offset_bottom = 25.0
 
-[connection signal="pressed" from="MenuContainer/NewGame" to="." method="_on_new_game_pressed"]
-[connection signal="pressed" from="MenuContainer/Continue" to="." method="_on_continue_pressed"]
-[connection signal="pressed" from="MenuContainer/Settings" to="." method="_on_settings_pressed"]
-[connection signal="pressed" from="MenuContainer/Exit" to="." method="_on_exit_pressed"]
+[connection signal="pressed_and_sound_played" from="MenuContainer/NewGame" to="." method="_on_new_game_pressed"]
+[connection signal="pressed_and_sound_played" from="MenuContainer/Continue" to="." method="_on_continue_pressed"]
+[connection signal="pressed_and_sound_played" from="MenuContainer/Settings" to="." method="_on_settings_pressed"]
+[connection signal="pressed_and_sound_played" from="MenuContainer/Credits" to="." method="_on_credits_pressed"]
+[connection signal="pressed_and_sound_played" from="MenuContainer/Exit" to="." method="_on_exit_pressed"]

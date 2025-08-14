@@ -22,3 +22,6 @@ func _on_exit_pressed() -> void:
 func _on_continue_pressed() -> void:
 	File.load_save_file()
 	get_tree().change_scene_to_packed(Constants.main_world_scroll_scene)
+
+func _on_credits_pressed() -> void:
+	pass # Replace with function body.
