@@ -9,11 +9,8 @@ const CARD_MODULE_COMPONENT_SCENE: PackedScene = preload("res://ui/screen_compon
 @export var columns: int = 3
 @export var h_separation: int = 15
 @export var v_separation: int = 15
-@export var enable_h_scrolling: bool = false
-@export var enable_v_scrolling: bool = false
 
 @onready var grid_container: GridContainer = %GridContainer
-#@onready var scroll_container: ScrollContainer = $ScrollContainer
 
 var _card_modules_displayed: Array[CardModule] = []
 
@@ -22,10 +19,6 @@ func _ready() -> void:
 	grid_container.columns = self.columns
 	grid_container.add_theme_constant_override("h_separation", h_separation)
 	grid_container.add_theme_constant_override("v_separation", v_separation)
-	#if enable_h_scrolling:
-		#self.scroll_container.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_AUTO
-	#if enable_v_scrolling:
-		#self.scroll_container.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_AUTO
 
 func _clean_current_grid_elems():
 	_card_modules_displayed.clear()

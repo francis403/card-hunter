@@ -17,11 +17,20 @@ PanelContainer/styles/panel = SubResource("StyleBoxFlat_ul75y")
 [sub_resource type="FontVariation" id="FontVariation_huae7"]
 
 [node name="CardModuleComponent" type="Button"]
-custom_minimum_size = Vector2(200, 75)
-offset_right = 243.0
-offset_bottom = 112.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
+custom_minimum_size = Vector2(245, 110)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -4.0
+offset_top = -4.0
+offset_right = 4.0
+offset_bottom = 4.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 6
+size_flags_vertical = 6
 mouse_filter = 1
 theme = ExtResource("1_dcov4")
 theme_type_variation = &"FlatButton"
@@ -30,7 +39,6 @@ title = "Test Title etc etc"
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 custom_minimum_size = Vector2(200, 75)
-layout_mode = 0
 offset_right = 243.0
 offset_bottom = 112.0
 size_flags_horizontal = 3

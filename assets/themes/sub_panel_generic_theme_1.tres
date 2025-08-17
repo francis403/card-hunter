@@ -1,4 +1,6 @@
-[gd_resource type="Theme" load_steps=2 format=3 uid="uid://claw0rj3hsc2r"]
+[gd_resource type="Theme" load_steps=3 format=3 uid="uid://claw0rj3hsc2r"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_j50qg"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fklk4"]
 bg_color = Color(0.145098, 0.145098, 0.145098, 0.678431)
@@ -13,4 +15,5 @@ corner_radius_bottom_right = 5
 corner_radius_bottom_left = 5
 
 [resource]
+Button/styles/pressed = SubResource("StyleBoxEmpty_j50qg")
 PanelContainer/styles/panel = SubResource("StyleBoxFlat_fklk4")
