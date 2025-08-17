@@ -10,7 +10,7 @@
 
 [sub_resource type="Resource" id="Resource_qnmcf"]
 script = ExtResource("4_xy4rf")
-range = 2
+_range = 2
 min_range = 0.0
 area_type = 5
 ignore_occupied_tiles = false
@@ -35,7 +35,7 @@ center_piece = 0
 update_next_card_effect_data = true
 top_section_background_color = Color(0.124, 0.15, 0.153, 1)
 bottom_section_background_color = Color(0.384, 0.384, 0.384, 1)
-id = ""
+id = "long_melee_attack"
 title = "Long Melee Attack - 25 damage"
 stamina_cost = 15
 default_top_section_background_color = Color(0.124, 0.15, 0.153, 1)

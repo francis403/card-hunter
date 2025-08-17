@@ -1,7 +1,7 @@
 extends StateWithMovement
 class_name StayAwayAndAttackFromRangeState
 
-@export var range: int = 2
+@export var _range: int = 2
 
 
 func exit_state():
@@ -15,7 +15,7 @@ func do_state_action():
 		target._tile
 	)
 	# only show when able to attack player
-	if distance_to_player > range:
+	if distance_to_player > _range:
 		BattlemapSignals.clear_attack_highlight_tiles.emit()
 		return
 		
@@ -31,7 +31,7 @@ func do_movement():
 		monster._tile,
 		target._tile,
 		monster._speed,
-		range
+		_range
 	)
 	
 	BattlemapSignals.monster_prepared_move.emit(
@@ -59,7 +59,7 @@ func highlight_attack_tiles(source_tile: Tile):
 	BattlemapSignals.clear_attack_highlight_tiles.emit()
 	var config: TileHighlightConfig = TileHighlightConfig.new()
 	config.area_type = Constants.AreaType.CROSS
-	config.range = range
+	config._range = _range
 	BattlemapSignals.highlight_attack_tiles.emit(
 		source_tile,
 		config

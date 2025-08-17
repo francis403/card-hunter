@@ -27,7 +27,7 @@ func _highlight_charge_tiles():
 	var source_tile: Tile = monster._tile
 	var config: TileHighlightConfig = TileHighlightConfig.new()
 	config.area_type = Constants.AreaType.CROSS
-	config.range = _range
+	config._range = _range
 	
 	if target._tile._x_position < monster._tile._x_position:
 		config.ignore_east_tiles = true

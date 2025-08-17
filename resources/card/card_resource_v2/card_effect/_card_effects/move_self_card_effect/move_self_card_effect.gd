@@ -7,7 +7,7 @@ func _modify_tile_highlight_config() -> TileHighlightConfig:
 	if not player: 
 		return tile_highlight_config
 	var new_config: TileHighlightConfig = tile_highlight_config.duplicate()
-	new_config.range = tile_highlight_config.range * player._speed
+	new_config._range = tile_highlight_config._range * player._speed
 	return new_config
 
 func card_effect():

@@ -3,7 +3,7 @@ extends Resource
 ## Configuration class that determines which tile's should be highlighted based
 class_name TileHighlightConfig
 
-@export var range: int = 1
+@export var _range: int = 1
 @export var min_range: float = 0
 @export var area_type: Constants.AreaType = Constants.AreaType.INHERIT
 @export var ignore_occupied_tiles: bool = false

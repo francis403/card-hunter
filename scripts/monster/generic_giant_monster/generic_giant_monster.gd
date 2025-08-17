@@ -34,8 +34,6 @@ func _set_up_radius_tiles():
 		for radius_y in range(-radius, radius + 1):
 			var tile_x = x + radius_x
 			var tile_y = y + radius_y
-			var radius_distance: int = abs(radius_x) + abs(radius_y)
-			var furthest_square_distance: int = max(abs(radius_x), abs(radius_y))
 			var tile: Tile = BattleController.get_tile(tile_x, tile_y)
 			if not tile:
 				continue

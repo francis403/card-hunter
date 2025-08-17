@@ -49,8 +49,7 @@ func get_monster() -> MonsterPiece:
 func get_tile(x: int, y: int) -> Tile:
 	return battlemap.get_tile(x, y)
 
-## TODO: how can we do this knowing what we already know
-func get_random_tile(center_tile: Tile, config: TileHighlightConfig) -> Tile:
+func get_random_tile(_center_tile: Tile, _config: TileHighlightConfig) -> Tile:
 	return null
 	
 # SIGNALS
@@ -58,8 +57,8 @@ func get_random_tile(center_tile: Tile, config: TileHighlightConfig) -> Tile:
 func _on_player_turn_ended():
 	player_turn_stats = PlayerTurnStats.new()
 
-func _on_card_discarded_from_hand(index: int):
+func _on_card_discarded_from_hand(_index: int):
 	player_turn_stats.total_number_of_cards_discarded += 1
 
-func _on_card_played(card_resource: CardResourceV2):
+func _on_card_played(_card_resource: CardResourceV2):
 	player_turn_stats.total_number_of_cards_played += 1

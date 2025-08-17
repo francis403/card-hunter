@@ -55,7 +55,7 @@ func do_state_action():
 func _get_next_random_tile() -> Tile:
 	var tile_hightlight_configuration: TileHighlightConfig = TileHighlightConfig.new()
 	tile_hightlight_configuration.area_type = Constants.AreaType.RADIUS
-	tile_hightlight_configuration.range = create_webs_range
+	tile_hightlight_configuration._range = create_webs_range
 	tile_hightlight_configuration.ignore_tiles_with_effects = true
 	BattlemapSignals.get_monster_range_tiles.emit(monster._tile, tile_hightlight_configuration)
 	var tiles: Array[Tile] = await BattlemapSignals.monster_range_tiles_generated

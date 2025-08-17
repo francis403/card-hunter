@@ -3,7 +3,7 @@ class_name MoveSpeedToPlayerAndDoAttack
 
 ## If 
 @export var state_if_outside_range: String = "StayAwayAndAttackFromRange"
-@export var range: int = 1
+@export var _range: int = 1
 	
 ## Defines which tiles to highlight for the attack
 @export var tile_highlight_config: TileHighlightConfig

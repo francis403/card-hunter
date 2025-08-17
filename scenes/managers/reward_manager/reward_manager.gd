@@ -5,7 +5,7 @@ class_name RewardManager
 
 @export var card_rewards: Array[CardResourceV2] = []
 
-func get_random_cards(number_of_cards: int = 2) -> Array[CardResourceV2]:
+func get_random_cards(_number_of_cards: int = 2) -> Array[CardResourceV2]:
 	if card_rewards.size() == 0:
 		return []
 		

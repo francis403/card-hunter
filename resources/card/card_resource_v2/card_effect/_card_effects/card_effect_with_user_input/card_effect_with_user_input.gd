@@ -28,7 +28,6 @@ func _get_user_input(config: TileHighlightConfig, piece: Piece = null) -> Tile:
 		return target_tile
 	
 	var piece_to_move: Piece = get_piece() if not piece else piece
-	#config.range = piece_to_move._speed * move_card_category.move_distance
 	# freeze hand
 	BattlemapSignals.awaiting_player_input.emit()
 

@@ -6,7 +6,7 @@ var card: Card = null
 
 func _init_special_effect(
 	_card: Card,
-	special_card_effect_resource: SpecialCardEffectResource
+	_special_card_effect_resource: SpecialCardEffectResource
 ):
 	pass
 

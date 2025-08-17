@@ -108,6 +108,6 @@ func _load_player_forged_cards(_dict: Dictionary):
 
 ## SIGNALS
 ## TODO: do we want to save as soon as the player clicks there? 
-func _on_player_world_state_updated_signal(world_node: GenericWorldNode):
+func _on_player_world_state_updated_signal(_world_node: GenericWorldNode):
 	progress.world_state.convert_node_to_world_state(progress.village_node)
 	change_progress()

@@ -16,10 +16,10 @@ func _ready() -> void:
 		_add_cards_to_grid()
 	grid_container.columns = grid_column_size
 
-func init_deck_container_component(deck: Array[CardResourceV2]):
+func init_deck_container_component(_deck: Array[CardResourceV2]):
 	for child in grid_container.get_children():
 		child.queue_free()
-	self.deck = deck
+	self.deck = _deck
 	_add_cards_to_grid()
 
 func _add_cards_to_grid():

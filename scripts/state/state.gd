@@ -21,5 +21,5 @@ func do_state_action():
 func highlight_attack_action():
 	pass
 
-func do_preview_action(recalculate_move: bool = false) -> void:
+func do_preview_action(_recalculate_move: bool = false) -> void:
 	pass

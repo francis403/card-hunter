@@ -5,7 +5,7 @@ extends StateWithMovement
 class_name ShootSpiderWebsIfWithinRange
 
 @export_category("General State Behaviour")
-@export var range: int = 2
+@export var _range: int = 2
 ## Deprecated: do not use
 @export var status_id: String = "stop_next_movement"
 @export var tile_effect_type: Constants.TileEffectTypes = Constants.TileEffectTypes.SPIDER_WEB

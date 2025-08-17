@@ -33,7 +33,11 @@ MonsterResourcesController="*res://singletons/controllers/resource_controllers/m
 
 [debug]
 
+gdscript/warnings/unused_private_class_variable=0
 gdscript/warnings/unused_signal=0
+gdscript/warnings/redundant_await=0
+gdscript/warnings/integer_division=0
+gdscript/warnings/narrowing_conversion=0
 
 [display]
 

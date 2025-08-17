@@ -19,7 +19,7 @@ func on_battle_start_signal():
 func _on_monster_prepared_move_signal(tile: Tile):
 	next_move = tile
 
-func on_monster_moved_by_player(new_tile: Tile) -> void:
+func on_monster_moved_by_player(_new_tile: Tile) -> void:
 	pass
 
 ## PLayed at the end of the monster turn

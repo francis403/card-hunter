@@ -54,7 +54,6 @@ func on_monster_moved() -> void:
 ## TODO: improve the function
 func _on_monster_prepared_move_signal(tile: Tile):
 	super._on_monster_prepared_move_signal(tile)
-	var monster_rotation_angle: float = 0 
 	
 	if self.next_move:
 		move_intent_container.visible = true

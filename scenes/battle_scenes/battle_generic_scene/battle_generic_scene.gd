@@ -58,23 +58,22 @@ func _ready() -> void:
 
 func _on_player_turn_started_signal():
 	is_player_turn = true
-	var player: PlayerPiece = BattleController.get_player()
 	_draw_cards_start_of_turn(player)
 	player.recover_stamina()
 	BattlemapSignals.unlock_player_input.emit()
 
 ## TODO: this draw cards business can probably be done better somewhere else
-func _draw_cards_start_of_turn(player: PlayerPiece):
-	var new_cards: Array[CardResourceV2] = player.draw_til_hand_size()
+func _draw_cards_start_of_turn(_player: PlayerPiece):
+	var new_cards: Array[CardResourceV2] = _player.draw_til_hand_size()
 	hand.populate_hand(new_cards)
 	if new_cards.size() > 0:
-		BattlemapSignals.draw_pile_updated.emit(player.draw_pile)
+		BattlemapSignals.draw_pile_updated.emit(_player.draw_pile)
 	
-func _draw_card(player: PlayerPiece):
+func _draw_card(_player: PlayerPiece):
 	var new_cards: Array[CardResourceV2] = []
-	new_cards.append(player.draw_card())
+	new_cards.append(_player.draw_card())
 	hand.populate_hand(new_cards)
-	BattlemapSignals.draw_pile_updated.emit(player.draw_pile)
+	BattlemapSignals.draw_pile_updated.emit(_player.draw_pile)
 	
 func _prep_battle_arena_monsters():
 	if monsters.size() > 0:

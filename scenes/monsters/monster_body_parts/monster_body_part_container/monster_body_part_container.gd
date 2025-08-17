@@ -45,7 +45,7 @@ func _emit_none_body_part() -> void:
 
 ## TODO: need to improve this for when there are monsters with more than one tile
 func _rotate_body_parts(
-	center_tile: Tile,
+	_center_tile: Tile,
 	initial_angle_rad: float,
 	new_angle_rad: float
 ):

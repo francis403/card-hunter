@@ -100,11 +100,11 @@ func _after_card_is_played():
 	card_finished_playing.emit()
 	BattlemapSignals.card_has_been_played.emit(self)
 
-func _apply_stamina_cost(stamina_cost: int):
+func _apply_stamina_cost(_stamina_cost: int):
 	var player: PlayerPiece = BattleController.get_player()
 	if not player:
 		return
-	player._stamina -= stamina_cost
+	player._stamina -= _stamina_cost
 	BattlemapSignals.player_stamina_changed.emit(player._stamina)
 
 func subscribe_to_special_effects(

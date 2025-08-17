@@ -2,7 +2,7 @@ extends StateWithMovement
 class_name MoveSpeedToPlayerAndDoRadiusAttack
 
 @export var change_state: String = "StayAwayAndAttackFromRange"
-@export var range: int = 1
+@export var _range: int = 1
 
 var melee_attack_icon = self.state_icon
 	

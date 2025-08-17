@@ -90,7 +90,7 @@ func highligh_tiles_radius(
 	var highlighted_tiles: Array[Tile] = []
 	var x: int = source_tile._x_position
 	var y: int = source_tile._y_position
-	var radius = config.range
+	var radius = config._range
 	for radius_x in range(-radius, radius + 1):
 		for radius_y in range(-radius, radius + 1):
 			var tile_x = x + radius_x
@@ -122,7 +122,7 @@ func highligh_tiles_cross(
 ):
 	var x = source_tile._x_position
 	var y = source_tile._y_position
-	var line_length: int = config.range
+	var line_length: int = config._range
 	for i in range(1, line_length + 1):
 		if not config.ignore_north_tiles:
 			_make_tile_clickable(x, y - i, config)
@@ -140,7 +140,7 @@ func highligh_tiles_line(
 ):
 	var x = source_tile._x_position
 	var y = source_tile._y_position
-	var line_length = config.range
+	var line_length = config._range
 	for i in range(1, line_length + 1):
 		_make_tile_clickable(x + i, y, config)
 

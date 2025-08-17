@@ -112,8 +112,8 @@ func _is_click_event_processable() -> bool:
 func after_world_node_completed_successfully():
 	BattlemapSignals.node_completed.emit(self.world_node_id)
 
-func _on_area_2d_input_event(viewport: Node, event: InputEvent, shape_idx: int) -> void:
-	if event.is_pressed():
+func _on_area_2d_input_event(_viewport: Node, _event: InputEvent, _shape_idx: int) -> void:
+	if _event.is_pressed():
 		_process_on_world_node_click()
 
 func _process_on_world_node_click():

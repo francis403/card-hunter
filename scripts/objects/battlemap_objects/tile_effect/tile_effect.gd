@@ -7,5 +7,5 @@ class_name TileEffect
 
 var id: String
 
-func apply_effect(piece: Piece):
+func apply_effect(_piece: Piece):
 	pass

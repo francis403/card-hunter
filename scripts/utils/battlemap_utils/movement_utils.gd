@@ -4,7 +4,7 @@ func get_movement_tile(
 	start_tile: Tile,
 	target_tile: Tile,
 	speed: int,
-	range: int = 1 
+	_range: int = 1 
 ) -> Tile:
 	var x = start_tile._x_position
 	var y = start_tile._y_position
@@ -14,10 +14,10 @@ func get_movement_tile(
 		target_tile
 	)
 	
-	if distance_to_player <= range:
+	if distance_to_player <= _range:
 		return null
 	
-	while (moved_tiles < speed && distance_to_player > range):
+	while (moved_tiles < speed && distance_to_player > _range):
 		if target_tile._x_position > x:
 			x += 1
 			distance_to_player -= 1

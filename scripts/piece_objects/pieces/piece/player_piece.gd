@@ -92,7 +92,7 @@ func _find_index_of_discarded_card(card_id: String) -> int:
 	return -1
 
 func on_card_removed_from_deck(index: int):
-	var card: CardResourceV2 = cards_in_hand.pop_at(index)
+	cards_in_hand.pop_at(index)
 	current_card_in_hand_size -= 1
 
 func _on_squares_attacked_signal(

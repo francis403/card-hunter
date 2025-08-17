@@ -12,7 +12,6 @@ const RADIUS = 30
 @export var world_generator_config: WorldGeneratorConfig
 
 @export_category("World Generation Specification")
-@export var seed: String = ""
 
 @export_category("World Generation UI")
 @export var seperation: int = 100
@@ -128,7 +127,6 @@ func _generate_adjacent_nodes(
 
 ## Get the first overlapping node
 func get_overlapping_node(world_node_global_position: Vector2) -> GenericWorldNode:
-	var overlapping_nodes: Array[GenericWorldNode] = []
 	for generated_node in _generated_nodes:
 		if world_node_global_position.distance_to(generated_node.global_position) < _min_position_difference:
 			return generated_node

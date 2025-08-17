@@ -126,7 +126,7 @@ func _play_discard_card_animation(
 	#tween.parallel().tween_property(card, "global_position", discard_pile_marker.global_position, 0.6).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
 	return tween
 	
-func _on_card_discared_from_hand_signal(index: int):
+func _on_card_discared_from_hand_signal(_index: int):
 	pass
 
 ## TODO: Play some sort of animation

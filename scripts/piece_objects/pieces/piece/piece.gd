@@ -46,17 +46,17 @@ func _die():
 	self.queue_free()
 
 	
-func add_power_effect(power_effect: BasePowerNodeController):
+func add_power_effect(_power_effect: BasePowerNodeController):
 	pass
 	
 func remove_all_power_effects():
 	pass
 	
-func remove_power_effect(status_id: String):
+func remove_power_effect(_status_id: String):
 	pass
 
 func has_any_power_effect() -> bool:
 	return false
 
-func has_power_effect(status_id: String) -> bool:
+func has_power_effect(_status_id: String) -> bool:
 	return false

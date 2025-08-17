@@ -20,7 +20,7 @@
 
 [sub_resource type="Resource" id="Resource_eaid7"]
 script = ExtResource("7_44w0f")
-range = 1
+_range = 1
 min_range = 0.0
 area_type = 4
 ignore_occupied_tiles = false
