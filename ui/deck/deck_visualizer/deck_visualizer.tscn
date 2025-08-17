@@ -2,7 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://1lwus3xnrrcy" path="res://ui/screens/quest_picker/scroll_background.jpg" id="1_10fyn"]
 [ext_resource type="Script" path="res://ui/deck/deck_visualizer/deck_visualizer.gd" id="1_hh88s"]
-[ext_resource type="Theme" uid="uid://dmot8ul1c5l3n" path="res://assets/themes/theme_1.tres" id="3_1l8wu"]
+[ext_resource type="PackedScene" uid="uid://hked8dt7umpy" path="res://ui/screen_components/_general_componets/buttons/sound_button/sound_button.tscn" id="3_68y84"]
 [ext_resource type="PackedScene" uid="uid://dv0qtkor6s0de" path="res://ui/screen_components/deck_container_component/deck_container_component.tscn" id="4_1lb5t"]
 
 [node name="DeckVisualizer" type="TextureRect"]
@@ -28,14 +28,10 @@ theme_override_constants/margin_bottom = 20
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
 layout_mode = 2
 
-[node name="BackButton" type="Button" parent="MarginContainer/VBoxContainer"]
+[node name="BackButton" parent="MarginContainer/VBoxContainer" instance=ExtResource("3_68y84")]
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
-theme = ExtResource("3_1l8wu")
-text = "Back"
 
 [node name="DeckContainerComponent" parent="MarginContainer/VBoxContainer" instance=ExtResource("4_1lb5t")]
 layout_mode = 2
-
-[connection signal="pressed" from="MarginContainer/VBoxContainer/BackButton" to="." method="_on_back_button_pressed"]

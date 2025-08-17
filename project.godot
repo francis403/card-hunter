@@ -31,6 +31,10 @@ CardModuleController="*res://singletons/controllers/resource_controllers/card_mo
 CardResourcesController="*res://singletons/controllers/resource_controllers/card_resources_controller.gd"
 MonsterResourcesController="*res://singletons/controllers/resource_controllers/monster_resources_controller.gd"
 
+[debug]
+
+gdscript/warnings/unused_signal=0
+
 [display]
 
 window/size/mode=3

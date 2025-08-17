@@ -23,14 +23,14 @@ func play_card_effect() -> CardEffectResponse:
 	return response
 
 ## TODO
-func condition_matched(card_effect_data: CardEffectData) -> bool:
+func condition_matched(_card_effect_data: CardEffectData) -> bool:
 	match condition:
 		ConditionEnum.MONSTER_HIT_BY_PLAYER:
 			return _was_monster_hit()
 		ConditionEnum.MONSTER_BODY_PART_HIT_BY_PLAYER:
 			if not _was_monster_hit():
 				return false
-			var hit_body_part = card_effect_data.monster_effect_data.monster_body_part_last_hit
+			var hit_body_part = _card_effect_data.monster_effect_data.monster_body_part_last_hit
 			return specific_monster_body_part == hit_body_part
 	return false
 

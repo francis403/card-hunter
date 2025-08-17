@@ -105,7 +105,6 @@ func _play_discard_card_animation(
 ) -> Tween:
 	if not discard_pile_marker || not card:
 		return null
-	var initial_card_position: Vector2 = card.global_position
 	var tween = create_tween()
 	tween.set_parallel(true)
 	var target_position = discard_pile_marker.global_position

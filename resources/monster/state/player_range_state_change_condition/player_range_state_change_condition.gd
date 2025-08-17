@@ -59,7 +59,6 @@ func get_range_conditions() -> Array[StateCondition]:
 	var condition_smaller_than: StateCondition = StateCondition.new()
 	
 	var bigger_than_x: int = common_x if common_x > 0 else top_range_for_equal_behaviour
-	var equal_x: int = common_x if common_x > 0 else 0
 	var smaller_than_x: int = common_x if common_x > 0 else low_range_for_equal_behaviour
 	
 	condition_bigger_than.x = bigger_than_x

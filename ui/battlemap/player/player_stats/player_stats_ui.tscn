@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://c8odj6fo4oi7c"]
 
 [ext_resource type="Script" path="res://ui/battlemap/player/player_stats/player_stats_ui.gd" id="1_h542a"]
-[ext_resource type="Theme" uid="uid://dmot8ul1c5l3n" path="res://assets/themes/theme_1.tres" id="2_nitqb"]
+[ext_resource type="PackedScene" uid="uid://hked8dt7umpy" path="res://ui/screen_components/_general_componets/buttons/sound_button/sound_button.tscn" id="2_ci3oq"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cs2ih"]
 bg_color = Color(0.00318958, 0.00157763, 4.2161e-05, 1)
@@ -46,12 +46,11 @@ unique_name_in_owner = true
 layout_mode = 2
 text = "Stamina: 50"
 
-[node name="EndTurnButton" type="Button" parent="MarginContainer/HBoxContainer"]
+[node name="EndTurnButton" parent="MarginContainer/HBoxContainer" instance=ExtResource("2_ci3oq")]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_horizontal = 4
 size_flags_vertical = 4
-theme = ExtResource("2_nitqb")
-text = "End Turn"
 
 [node name="MonsterHP" type="ProgressBar" parent="MarginContainer/HBoxContainer"]
 unique_name_in_owner = true
@@ -64,4 +63,4 @@ theme_override_styles/fill = SubResource("StyleBoxLine_gdji6")
 max_value = 1.0
 value = 1.0
 
-[connection signal="pressed" from="MarginContainer/HBoxContainer/EndTurnButton" to="." method="_on_end_turn_button_pressed"]
+[connection signal="pressed_and_sound_played" from="MarginContainer/HBoxContainer/EndTurnButton" to="." method="_on_end_turn_button_pressed"]

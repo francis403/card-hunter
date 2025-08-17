@@ -16,8 +16,8 @@ signal back_button_pressed
 
 func _ready() -> void:
 	deck_container_component.card_clicked.connect(_on_card_selected_for_deforge)
-	back_button.pressed.connect(_on_back_button_pressed)
-	deforge_button.pressed.connect(_on_deforge_button_pressed)
+	back_button.pressed_and_sound_played.connect(_on_back_button_pressed)
+	deforge_button.pressed_and_sound_played.connect(_on_deforge_button_pressed)
 	_remove_preview()
 
 

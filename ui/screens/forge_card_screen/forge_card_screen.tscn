@@ -154,5 +154,5 @@ h_separation = 50
 v_separation = 100
 enable_h_scrolling = true
 
-[connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/BackButton" to="." method="_on_back_button_pressed"]
-[connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/ForgeButton" to="." method="_on_forge_button_pressed"]
+[connection signal="pressed_and_sound_played" from="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/BackButton" to="." method="_on_back_button_pressed"]
+[connection signal="pressed_and_sound_played" from="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/ForgeButton" to="." method="_on_forge_button_pressed"]
