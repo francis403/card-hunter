@@ -28,7 +28,7 @@ func on_node_click_event():
 		var battle_scene: BattleGenericScene = generate_battle_scene()
 		get_tree().root.add_child(battle_scene)
 	else:
-		print("Error, investigate!")
+		push_error(on_node_click_event, ": Error node clicked while hunt is started!")
 
 func after_node_is_ready():
 	if self.is_revealed:
@@ -50,7 +50,6 @@ func generate_battle_scene() -> BattleGenericScene:
 	var battle_scene: BattleGenericScene = BATTLE_GENERIC_SCENE.instantiate()
 	battle_scene.monsters.clear()
 	battle_scene.set_world_node(self)
-	#battle_scene.player._health = PlayerController.current_player_health
 	for monster in monsters_in_node:
 		battle_scene.monsters.append(monster)
 	return battle_scene

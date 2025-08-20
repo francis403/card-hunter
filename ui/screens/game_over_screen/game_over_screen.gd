@@ -42,6 +42,10 @@ func _ready() -> void:
 	if not self.show_right_button:
 		exit_button.visible = false
 	
+func update_reward_component_title(_reward_component_title: String):
+	self.reward_component_title = _reward_component_title
+	reward_component.title_label.text = reward_component_title
+	
 func _setup_reward_component():
 	reward_component.title_label.text = reward_component_title
 	reward_component.override_default_on_reward_card_picked = self.override_default_on_reward_card_picked

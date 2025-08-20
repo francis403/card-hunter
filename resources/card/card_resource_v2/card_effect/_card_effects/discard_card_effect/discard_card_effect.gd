@@ -15,7 +15,6 @@ func card_effect():
 		card.card_discarded_by_effect.emit()
 		card._discard_card()
 			
-## TODO: revert card being discarded
 func revert_card_effect():
 	for card_resource in discarded_cards_array:
 		BattlemapSignals.card_discarded_from_hand_reverted.emit(card_resource)

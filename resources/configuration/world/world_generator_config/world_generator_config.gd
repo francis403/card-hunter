@@ -53,6 +53,7 @@ func _initialize_world_entity_config(
 	var result: Dictionary = {}
 	inserted_distances.clear()
 	for world_entity_config in world_entity_configs:
+		world_entity_config.init_world_generator_config()
 		var min_dist: int = world_entity_config.minimum_distance_to_root
 		if result.has(min_dist):
 			result[min_dist].add_item(
@@ -165,18 +166,15 @@ func _remove_from_possible_if_max_reached(
 				break
 		inserted_distances.remove_at(index)
 
-## TODO: this is obviously not good
 func _initialize_world_node_scene(
 	world_node_scene: GenericWorldNode,
 	distance: int = 0
 ):
-	## TODO: improve this
 	if world_node_scene is MonsterHuntWorldNode:
-		#var random_monster: GenericMonster = MonsterResourcesController.get_random_generic_monster()
 		var random_monster: GenericMonster = self._generate_monster(distance)
 		world_node_scene.monsters_in_node.append(random_monster)
-	if world_node_scene is TreasureWorldNode:
 		return
+	
 		
 func _generate_monster(
 	distance: int

@@ -9,7 +9,21 @@ class_name WorldEntityGeneratorConfig
 @export var minimum_distance_to_root: int = 0
 @export var maximimum_distance_to_root: int = 100
 
+## Override node possible_rewards
+@export var override_possible_rewards: WorldNodeRewardGeneratorConfig
+
 func generate() -> Object:
 	if not node_scene:
 		return null
-	return node_scene.instantiate().duplicate()
+	var scene = node_scene.instantiate().duplicate()
+	## TODO: override possible rewards
+	if override_possible_rewards and scene is GenericWorldNode:
+		scene.override_world_node_reward(
+			override_possible_rewards.get_rewards(),
+			override_possible_rewards.number_of_choices
+		)
+	return scene
+	
+func init_world_generator_config() -> void:
+	if override_possible_rewards:
+		override_possible_rewards.init_reward_generator_config()

@@ -85,6 +85,8 @@ func on_node_click_event():
 	if scene.has_signal(scene_signal) and\
 		not scene.is_connected(scene_signal, _on_world_node_screen_completed_signal):
 			scene.connect(scene_signal, _on_world_node_screen_completed_signal)
+	if scene is WorldNodeScreen:
+		scene._world_node_scene = self
 	get_tree().root.add_child(scene)
 	self._is_already_clicked = true
 	
@@ -111,6 +113,13 @@ func _is_click_event_processable() -> bool:
 ## Occurs after the world node is completed
 func after_world_node_completed_successfully():
 	BattlemapSignals.node_completed.emit(self.world_node_id)
+
+func override_world_node_reward(
+	_rewards: Array[CardResourceV2],
+	_number_of_choices: int
+):
+	pass
+
 
 func _on_area_2d_input_event(_viewport: Node, _event: InputEvent, _shape_idx: int) -> void:
 	if _event.is_pressed():

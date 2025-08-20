@@ -30,6 +30,12 @@ func get_card(card_id: String) -> CardResourceV2:
 		return _card_in_game[card_id].duplicate()
 	return null
 	
+func get_random_card() -> CardResourceV2:
+	if not _card_in_game:
+		return null
+	var _random_key: String = _card_in_game.keys().pick_random()
+	return _card_in_game[_random_key].duplicate()
+	
 func has_card(card_id: String) -> bool:
 	return _card_in_game.has(card_id)
 
