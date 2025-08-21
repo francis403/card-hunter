@@ -1,5 +1,8 @@
 extends Node
 
+signal battle_scene_finished_loading(
+	battle_scene: BattleGenericScene
+)
 signal battle_start
 signal battle_lost
 signal battle_won

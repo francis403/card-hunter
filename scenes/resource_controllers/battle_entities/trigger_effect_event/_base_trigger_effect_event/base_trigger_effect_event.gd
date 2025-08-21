@@ -7,7 +7,7 @@ var target_piece: Piece = null
 
 func _ready() -> void:
 	if not target_piece:
-		print(BaseTriggerEffectEvent, " ERROR: Missing configuration for trigger Effect Event")
+		push_error(BaseTriggerEffectEvent, " ERROR: Missing configuration for trigger Effect Event")
 		return
 	self._subscribe_to_trigger()
 	self._on_effect_gained()

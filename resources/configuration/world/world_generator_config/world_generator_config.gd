@@ -96,11 +96,11 @@ func generate_node(
 	var random_weighted_table: WeightedTable = _possible_node_configs_by_distance[random_index]
 	var random_config: WorldEntityGeneratorConfig = random_weighted_table.pick_item()
 	if not random_config:
-		print("ERROR: no random_config")
+		push_error(generate_node, " ERROR: no random_config")
 		return null;
 	var world_node_scene: GenericWorldNode = random_config.generate()
 	if not world_node_scene:
-		print("ERROR: no world_node_scene")
+		push_error(generate_node, " ERROR: no world_node_scene")
 		return null;
 	
 	_add_to_generated_history(
@@ -184,11 +184,11 @@ func _generate_monster(
 	var random_weighted_table: WeightedTable = _possible_monsters_configs_by_distance[random_index]
 	var random_config: WorldEntityGeneratorConfig = random_weighted_table.pick_item()
 	if not random_config:
-		print("ERROR: no random_config")
+		push_error(_generate_monster, " ERROR: no random_config")
 		return null;
 	var monster_scene: GenericMonster = random_config.generate()
 	if not monster_scene:
-		print("ERROR: no monster_scene")
+		push_error(_generate_monster, " ERROR: no monster_scene")
 		return null;
 	
 	_add_to_generated_history(monster_scene.monster_id, _generated_monsters)

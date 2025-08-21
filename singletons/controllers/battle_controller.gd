@@ -1,6 +1,11 @@
 extends Node
 
+## Reference to the current battlemap
 var battlemap: Battlemap
+
+## Reference to the player
+var player: PlayerPiece
+var player_hand: Hand
 
 var turn_counter: int = 0
 
@@ -10,14 +15,22 @@ var player_turn_stats: PlayerTurnStats = PlayerTurnStats.new()
 var _current_card_being_played: Card = null
 
 func _ready() -> void:
+	BattleSignals.battle_scene_finished_loading.connect(_on_battle_scene_finished_loading_signal)
 	BattlemapSignals.battlemap_generated.connect(_on_battlemap_generated_signal)
 	BattlemapSignals.card_discarded_from_hand.connect(_on_card_discarded_from_hand)
 	BattlemapSignals.monster_turn_started.connect(_on_player_turn_ended)
 	BattlemapSignals.card_has_been_played.connect(_on_card_played)
 	
+func _on_battle_scene_finished_loading_signal(battle_scene: BattleGenericScene):
+	self.player_hand = battle_scene.hand
+	if not self.player_hand:
+		push_error(_on_battle_scene_finished_loading_signal, " ERROR: player_hand not initiated in battle")
+	
 func _on_battlemap_generated_signal(map: Battlemap):
 	print(_on_battlemap_generated_signal)
 	self.battlemap = map
+	if battlemap:
+		self.player = battlemap.player
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("right_click"):
@@ -36,11 +49,6 @@ func get_player() -> PlayerPiece:
 		return null
 	return battlemap.player
 	
-func get_player_hand() -> Hand:
-	if not battlemap:
-		return null
-	return battlemap.get_ha
-	
 func get_monster() -> MonsterPiece:
 	if not battlemap or not battlemap.monsters or battlemap.monsters.is_empty():
 		return null
@@ -52,6 +60,14 @@ func get_tile(x: int, y: int) -> Tile:
 func get_random_tile(_center_tile: Tile, _config: TileHighlightConfig) -> Tile:
 	return null
 	
+func discard_card_from_player(_card: Card) -> void:
+	if not player:
+		return
+	player.discard_card_from_hand(_card.get_index())
+	await player_hand.play_discard_card_animation(_card)
+	_card.queue_free()
+	
+
 # SIGNALS
 
 func _on_player_turn_ended():

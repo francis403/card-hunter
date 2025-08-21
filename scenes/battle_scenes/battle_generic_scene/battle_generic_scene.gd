@@ -54,6 +54,7 @@ func _ready() -> void:
 	#_draw_cards_start_of_turn(battlemap.player)
 	_prep_battle_arena_monsters()
 	battle_scene_rewards_manager.set_rewards_to_reward_screen()
+	BattleSignals.battle_scene_finished_loading.emit(self)
 	BattleSignals.battle_start.emit()
 
 func _on_player_turn_started_signal():

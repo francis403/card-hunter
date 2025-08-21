@@ -18,7 +18,6 @@ var _deck: Array[CardResourceV2] = []
 
 func _ready() -> void:
 	BattleSignals.battle_start.connect(_on_battle_start_signal)
-	BattlemapSignals.card_discarded_from_hand.connect(_on_card_discared_from_hand_signal)
 	BattlemapSignals.card_removed_from_deck.connect(on_card_removed_from_deck)
 	BattlemapSignals.deal_damage_to_attacked_squares.connect(_on_squares_attacked_signal)
 	#BattlemapSignals.before_player_movement.connect(_before_player_movement_signal)
@@ -65,14 +64,14 @@ func recover_stamina(stamina = _stamina_recover):
 	self._stamina = min(self._stamina + stamina, _max_stamina)
 	BattlemapSignals.player_stamina_changed.emit(self._stamina)
 	
-func _on_battle_start_signal():
-	BattlemapSignals.player_turn_started.emit()
-
-func _on_card_discared_from_hand_signal(index: int):
-	var card: CardResourceV2 = cards_in_hand.pop_at(index)
+func discard_card_from_hand(_index: int):
+	var card: CardResourceV2 = cards_in_hand.pop_at(_index)
 	current_card_in_hand_size -= 1
 	discard_pile.append(card)
 	BattlemapSignals.discard_pile_updated.emit(discard_pile)
+	
+func _on_battle_start_signal():
+	BattlemapSignals.player_turn_started.emit()
 
 func _on_card_discarded_from_hand_reverted_signal(card_resource: CardResourceV2):
 	print(_on_card_discarded_from_hand_reverted_signal)

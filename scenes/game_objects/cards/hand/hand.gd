@@ -17,7 +17,6 @@ func _ready() -> void:
 	BattlemapSignals.unlock_player_input.connect(_on_input_received_signal)
 	BattlemapSignals.card_discarded_from_hand.connect(_on_card_discared_from_hand_signal)
 	BattlemapSignals.card_discarded_from_hand_reverted.connect(_on_card_discared_from_hand_reverted_signal)
-	BattlemapSignals.player_initiated_card_discard.connect(_on_player_initiated_card_discard_signal)
 
 ## TODO: need to either push map up or make input go through cards
 func _on_input_awaiting_signal():
@@ -63,6 +62,12 @@ func populate_hand(new_cards: Array[CardResourceV2]):
 		if tween:
 			await tween.finished
 
+## Play discard card animation for card in hand
+func play_discard_card_animation(card: Card):
+	var tween: Tween = _play_discard_card_animation(card, 0.2)
+	if tween:
+		await tween.finished
+	BattlemapSignals.discard_card_animation_finished.emit(true)
 
 ## TODO: Draw card animation could be done here
 func _instantiate_card(card_resource: CardResourceV2) -> Card:
@@ -90,14 +95,7 @@ func _play_draw_card_animation(card: Card) -> Tween:
 	#tween.tween_property(card, "scale", Vector2(0, 0), 0).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 	#tween.tween_property(card, "scale", Vector2(1, 1), 0.4).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 	
-	return tween
-	
-func _on_player_initiated_card_discard_signal(card: Card):
-	var tween: Tween = _play_discard_card_animation(card, 0.2)
-	if tween:
-		await tween.finished
-	card.queue_free()
-	BattlemapSignals.discard_card_animation_finished.emit(true)
+	return tween	
 	
 func _play_discard_card_animation(
 	card: Card,
