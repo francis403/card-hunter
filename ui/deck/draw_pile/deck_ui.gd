@@ -15,7 +15,7 @@ enum Deck_Type_Enum {
 @onready var title_label: Label = %Title
 @onready var number_of_cards_label: Label = %NumberOfCards
 @onready var margin_container: MarginContainer = $MarginContainer
-
+@onready var audio_stream_player: AudioStreamPlayer = $AudioStreamPlayer
 
 func _ready() -> void:
 	if deck_type == Deck_Type_Enum.DRAW_DECK:
@@ -51,6 +51,8 @@ func _show_full_deck():
 	var deck_visualizer_instance: DeckVisualizer = Constants.deck_visualizer_scene.instantiate()
 	deck_visualizer_instance.deck = PlayerController.get_deck()._deck
 	deck_visualizer_instance.z_index = 2
+	audio_stream_player.play()
+	await audio_stream_player.finished
 	get_tree().root.add_child(deck_visualizer_instance)
 
 func _update_deck_label():

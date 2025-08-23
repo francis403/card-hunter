@@ -3,7 +3,7 @@ class_name MonsterHuntWorldNode
 
 const REVEALED_NODE_SPRITE = preload("res://assets/images/nodes/revealed_node.png")
 const UNKOWN_NODE_SPRITE = preload("res://assets/images/nodes/question_mark_node-transparent.png")
-const BATTLE_GENERIC_SCENE = preload("res://scenes/battle_scenes/battle_generic_scene/battle_generic_scene.tscn")
+#const BATTLE_GENERIC_SCENE = preload("res://scenes/battle_scenes/battle_generic_scene/battle_generic_scene.tscn")
 
 const MONSTERS_DICTIONARY_FIELD: String = "monsters"
 
@@ -26,6 +26,9 @@ func on_node_click_event():
 		return
 	if !GameController.is_showing_battle_scene:
 		var battle_scene: BattleGenericScene = generate_battle_scene()
+		#if audio_stream_player:
+			#audio_stream_player.play()
+			#await audio_stream_player.finished
 		get_tree().root.add_child(battle_scene)
 	else:
 		push_error(on_node_click_event, ": Error node clicked while hunt is started!")
@@ -47,7 +50,7 @@ func clear_monsters():
 	self.monsters_in_node.clear()
 
 func generate_battle_scene() -> BattleGenericScene:
-	var battle_scene: BattleGenericScene = BATTLE_GENERIC_SCENE.instantiate()
+	var battle_scene: BattleGenericScene = on_click_scene.instantiate()
 	battle_scene.monsters.clear()
 	battle_scene.set_world_node(self)
 	for monster in monsters_in_node:

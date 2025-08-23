@@ -1,9 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://bd1e36axykjhr"]
+[gd_scene load_steps=8 format=3 uid="uid://bd1e36axykjhr"]
 
 [ext_resource type="Script" path="res://scenes/game_objects/world/world_node/monster_hunt_world_node/monster_hunt_world_node.gd" id="1_7nydp"]
 [ext_resource type="Texture2D" uid="uid://dxu3uud8jtakw" path="res://assets/images/nodes/question_mark_node-transparent.png" id="2_klal1"]
+[ext_resource type="PackedScene" uid="uid://dn1s6gbout3xc" path="res://scenes/battle_scenes/battle_generic_scene/battle_generic_scene.tscn" id="2_mvx2h"]
 [ext_resource type="Texture2D" uid="uid://dsctmiux3yqib" path="res://scenes/player/tile_0112.png" id="3_6f343"]
 [ext_resource type="Texture2D" uid="uid://y720kc3pkme0" path="res://scenes/monsters/generic_monsters/crab_monster/tile_0110.png" id="4_miluv"]
+[ext_resource type="AudioStream" uid="uid://d1mjkdbshat6f" path="res://assets/sound/sound_effects/footstep09.ogg" id="6_w1chj"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_jgbhb"]
 radius = 32.0
@@ -11,6 +13,10 @@ radius = 32.0
 [node name="MonsterHuntWorldNode" type="Node2D"]
 script = ExtResource("1_7nydp")
 world_node_id = "monster_hunt"
+on_click_scene = ExtResource("2_mvx2h")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_w1chj")
 
 [node name="worldNodeSprite" type="Sprite2D" parent="."]
 texture = ExtResource("2_klal1")

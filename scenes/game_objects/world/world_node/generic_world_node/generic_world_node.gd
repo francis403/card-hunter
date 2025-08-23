@@ -19,6 +19,7 @@ const CONNECTIONS_DICTIONARY_FIELD: String = "connections"
 @onready var player_texture_rect: TextureRect = $HBoxContainer/PlayerTextureRect
 @onready var monster_texture_rect: TextureRect = $HBoxContainer/MonsterTextureRect
 @onready var area_2d: Area2D = $Area2D
+@onready var audio_stream_player: AudioStreamPlayer = $AudioStreamPlayer
 
 var connections: Array[GenericWorldNode] = []
 
@@ -139,6 +140,10 @@ func _process_on_world_node_click():
 	
 	## Tell the game to save 
 	BattlemapSignals.player_world_state_updated.emit(self)
+	if audio_stream_player:
+		audio_stream_player.play()
+		await audio_stream_player.finished
+	
 	
 func hide_player():
 	is_showing_player_sprite = false

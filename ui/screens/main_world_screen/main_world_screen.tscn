@@ -92,7 +92,7 @@ max_ocurrences = 100
 script = ExtResource("13_wp36s")
 override_possible_rewards = Array[ExtResource("7_tlmgq")]([SubResource("Resource_r5p2f"), SubResource("Resource_efu3o"), SubResource("Resource_ggkmc"), SubResource("Resource_cm3ao"), SubResource("Resource_1bpig")])
 number_of_rewards_to_display = 4
-number_of_choices = 1
+number_of_choices = 2
 
 [sub_resource type="Resource" id="Resource_5upvb"]
 script = ExtResource("6_f2ehu")

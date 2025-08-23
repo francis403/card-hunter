@@ -3,6 +3,7 @@ class_name ClassPickerComponent
 
 @onready var card_back: CardBack = $CardBack
 @onready var title_label: Label = %Title
+@onready var audio_stream_player: AudioStreamPlayer = $AudioStreamPlayer
 
 @export var card_back_texture: AtlasTexture
 @export var title: String
@@ -17,4 +18,6 @@ func _on_card_back_gui_input(event: InputEvent) -> void:
 	if event.is_pressed():
 		if player_class:
 			PlayerController.replace_deck(player_class.default_class_deck)
+		audio_stream_player.play()
+		await audio_stream_player.finished
 		get_tree().change_scene_to_packed(Constants.main_world_scroll_scene)
