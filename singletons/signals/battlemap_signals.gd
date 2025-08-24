@@ -37,7 +37,7 @@ signal player_initiated_card_discard(card: Card)
 signal discard_card_animation_finished(is_success: bool)
 signal card_discarded_from_hand(index: int)
 signal card_discarded_from_hand_reverted(card_resource: CardResourceV2)
-signal card_removed_from_deck(index: int)
+signal card_removed_from_deck()
 
 ## Player signals
 signal player_turn_started

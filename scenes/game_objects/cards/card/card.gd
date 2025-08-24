@@ -82,7 +82,7 @@ func _revert_played_card():
 func _on_card_finished_playing():
 	BattleController._current_card_being_played = null
 	if card_resource.tag_array.has("one_use"):
-		BattlemapSignals.card_removed_from_deck.emit(self.get_index())
+		BattlemapSignals.card_removed_from_deck.emit()
 		self.queue_free()
 	else:
 		_discard_card()

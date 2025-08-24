@@ -13,7 +13,6 @@ var current_card_in_hand_size: int = 0
 ## TODO: Need to convert all of this into PlayerDeck
 var draw_pile: Array[CardResourceV2] = []
 var discard_pile: Array[CardResourceV2] = []
-var cards_in_hand: Array[CardResourceV2] = []
 var _deck: Array[CardResourceV2] = []
 
 func _ready() -> void:
@@ -42,10 +41,9 @@ func shuffle_deck(deck: Array[CardResourceV2]):
 	
 func draw_til_hand_size() -> Array[CardResourceV2]:
 	var new_cards_added: Array[CardResourceV2] = []
-	var start_size: int = cards_in_hand.size()
+	var start_size: int = current_card_in_hand_size
 	for n in range(start_size, hand_size):
 		var drawn_card = draw_card()
-		cards_in_hand.append(drawn_card)
 		current_card_in_hand_size += 1
 		new_cards_added.append(drawn_card)
 	return new_cards_added
@@ -64,10 +62,9 @@ func recover_stamina(stamina = _stamina_recover):
 	self._stamina = min(self._stamina + stamina, _max_stamina)
 	BattlemapSignals.player_stamina_changed.emit(self._stamina)
 	
-func discard_card_from_hand(_index: int):
-	var card: CardResourceV2 = cards_in_hand.pop_at(_index)
+func discard_card_from_hand(_card: Card):
 	current_card_in_hand_size -= 1
-	discard_pile.append(card)
+	discard_pile.append(_card.card_resource.duplicate())
 	BattlemapSignals.discard_pile_updated.emit(discard_pile)
 	
 func _on_battle_start_signal():
@@ -76,7 +73,6 @@ func _on_battle_start_signal():
 func _on_card_discarded_from_hand_reverted_signal(card_resource: CardResourceV2):
 	print(_on_card_discarded_from_hand_reverted_signal)
 	## I should probably make sure we manage to revert first
-	cards_in_hand.append(card_resource)
 	current_card_in_hand_size += 1
 	var index_of_discarded_card: int = _find_index_of_discarded_card(card_resource.id)
 	if index_of_discarded_card >= 0:
@@ -90,8 +86,7 @@ func _find_index_of_discarded_card(card_id: String) -> int:
 			return i
 	return -1
 
-func on_card_removed_from_deck(index: int):
-	cards_in_hand.pop_at(index)
+func on_card_removed_from_deck():
 	current_card_in_hand_size -= 1
 
 func _on_squares_attacked_signal(
