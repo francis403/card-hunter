@@ -42,7 +42,7 @@ func _on_treasure_gui_input(event: InputEvent) -> void:
 		reward_screen.visible = true
 
 func _on_reward_picked_signal(card: Card):
-	var card_id: String = card.card_resource.id
+	var card_id: int = card.get_instance_id()
 	if picked_rewards.has(card_id):
 		picked_rewards.erase(card_id)
 		card.undisable_card()
