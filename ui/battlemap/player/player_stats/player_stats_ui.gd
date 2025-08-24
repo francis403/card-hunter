@@ -1,12 +1,18 @@
 extends Control
 class_name PlayerStatsUi
 
-@onready var player_health_label: Label = %PlayerHealthLabel
-@onready var player_stamina_label: Label = %PlayerStaminaLabel
-@onready var end_turn_button: Button = %EndTurnButton
 
 ## TODO: I probably have to put this above the monster (maybe only when it's hovered above)
 @onready var monster_hp_progress_bar: ProgressBar = %MonsterHP
+@onready var health_progress_bar: ProgressBar = %HealthProgressBar
+@onready var player_health_label: Label = %PlayerHealthLabel
+@onready var stamina_progress_bar: ProgressBar = %StaminaProgressBar
+@onready var player_stamina_label: Label = %PlayerStaminaLabel
+@onready var end_turn_button: Button = %EndTurnButton
+
+@export var _critical_health_range: float = 0.3
+
+var _critical_health_effect_tween: Tween
 
 func _ready() -> void:
 	BattlemapSignals.player_stamina_changed.connect(_on_player_stamina_changed)
@@ -17,10 +23,25 @@ func _ready() -> void:
 	_initialize_player_stats()
 
 func _on_player_stamina_changed(current_stamina: int):
-	player_stamina_label.text = "Stamina: " + str(current_stamina)
+	player_stamina_label.text = str(current_stamina) + "/" + str(50)
+	stamina_progress_bar.value = current_stamina
 
 func _on_player_health_changed(current_health: int):
-	player_health_label.text = "HP: " + str(current_health)
+	player_health_label.text = str(current_health) + "/" + str(100)
+	health_progress_bar.value = current_health
+	var percentage: float = current_health/100
+	if percentage < _critical_health_range:
+		_add_critical_health_effect()
+	elif _critical_health_effect_tween and _critical_health_effect_tween.is_running():
+		_critical_health_effect_tween.kill()
+		
+func _add_critical_health_effect():
+	if _critical_health_effect_tween and _critical_health_effect_tween.is_running():
+		return
+	_critical_health_effect_tween = create_tween()
+	_critical_health_effect_tween.set_loops()
+	_critical_health_effect_tween.tween_property(health_progress_bar, "modulate:a", 0.5, 0.5)
+	_critical_health_effect_tween.tween_property(health_progress_bar, "modulate:a", 1.0, 0.5)
 
 func _on_player_lock_input():
 	end_turn_button.disabled = true
