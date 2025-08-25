@@ -26,9 +26,7 @@ func on_node_click_event():
 		return
 	if !GameController.is_showing_battle_scene:
 		var battle_scene: BattleGenericScene = generate_battle_scene()
-		#if audio_stream_player:
-			#audio_stream_player.play()
-			#await audio_stream_player.finished
+		self._is_already_clicked = true
 		get_tree().root.add_child(battle_scene)
 	else:
 		push_error(on_node_click_event, ": Error node clicked while hunt is started!")

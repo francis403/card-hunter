@@ -22,6 +22,7 @@ const CONNECTIONS_DICTIONARY_FIELD: String = "connections"
 @onready var audio_stream_player: AudioStreamPlayer = $AudioStreamPlayer
 
 var connections: Array[GenericWorldNode] = []
+var pulsating_tween: Tween
 
 @export_group("Basic configs")
 @export var world_node_id: String
@@ -35,11 +36,17 @@ var connections: Array[GenericWorldNode] = []
 @export var maximum_number_of_monster_to_generate: int = 1
 @export var _is_only_clickable_once: bool = true
 
+var _available_tween_scale: Vector2 = Vector2(1.1, 1.1)
+
 var is_showing_player_sprite: bool = false
 var is_revealed: bool = false
 var is_reachable: bool = false
 var is_loaded: bool = false
-var _is_already_clicked: bool = false
+var _is_already_clicked: bool = false:
+	set(value):
+		_is_already_clicked = value
+		if _is_already_clicked:
+			_stop_pulsating()
 
 ## This needs to be overwritten by every children
 var my_node_scene: PackedScene = null
@@ -58,6 +65,8 @@ func _prepare_world_node():
 	_prepare_world_node_sprite()
 	if self.is_revealed:
 		reveal_node_effect()
+		if not self._is_already_clicked:
+			_start_pulsating_animation()
 
 func _prepare_world_node_sprite():
 	if File.progress.current_world_node_id == world_node_id:
@@ -88,8 +97,8 @@ func on_node_click_event():
 			scene.connect(scene_signal, _on_world_node_screen_completed_signal)
 	if scene is WorldNodeScreen:
 		scene._world_node_scene = self
-	get_tree().root.add_child(scene)
 	self._is_already_clicked = true
+	get_tree().root.add_child(scene)
 	
 func _on_world_node_screen_completed_signal(_advance_day: bool):
 	BattlemapSignals.world_node_screen_completed.emit(_advance_day)
@@ -166,6 +175,7 @@ func reveal_node():
 	reveal_node_effect()
 	tween.tween_property(self, "modulate:a", 1.0, 1.0).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_QUAD)
 	BattlemapSignals.node_finished_revealing.emit(self.world_node_id)
+	_start_pulsating_animation()
 
 func _mark_reachable():
 	self.is_reachable = true
@@ -220,4 +230,30 @@ func load_node_from_dictionary(node_state: Dictionary):
 		self._is_only_clickable_once = node_state[IS_ONLY_CLICKABLE_ONCE_DICTIONARY_FIELD]
 	self.my_node_scene_path = node_state[NODE_SCENE_PATH_DICTIONARY_FIELD]
 	self.my_node_scene = load(my_node_scene_path)
-	self.position = node_state[POSITION_DICTIONARY_FIELD] 
+	self.position = node_state[POSITION_DICTIONARY_FIELD]
+	_start_pulsating_animation()
+
+func _start_pulsating_animation() -> void:
+	if is_revealed and not _is_already_clicked:
+		_start_pulsating()
+		return
+	if pulsating_tween and pulsating_tween.is_running():
+		_stop_pulsating()
+
+func _start_pulsating() -> void:
+	if pulsating_tween and pulsating_tween.is_running():
+		_stop_pulsating()
+	pulsating_tween = create_tween()
+	if world_node_sprite:
+		pulsating_tween.set_loops()
+		pulsating_tween.tween_property(world_node_sprite, "scale", _available_tween_scale, 0.8)
+		pulsating_tween.tween_property(world_node_sprite, "scale", Vector2.ONE, 0.8)
+		pulsating_tween.set_ease(Tween.EASE_IN_OUT)
+		pulsating_tween.set_trans(Tween.TRANS_SINE)
+
+func _stop_pulsating() -> void:
+	if pulsating_tween:
+		pulsating_tween.kill()
+		pulsating_tween = null
+	if world_node_sprite:
+		world_node_sprite.scale = Vector2.ONE
