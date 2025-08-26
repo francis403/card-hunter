@@ -6,6 +6,10 @@
 script = ExtResource("1_2kf64")
 number_of_cards_to_select = 1
 update_next_card_effect_data = true
+top_section_background_color = Color(0.124, 0.15, 0.153, 1)
+bottom_section_background_color = Color(0.384, 0.384, 0.384, 1)
 id = "discard_1_card_from_hand"
 title = "Discard Card From Hand"
 stamina_cost = -5
+default_top_section_background_color = Color(0.124, 0.15, 0.153, 1)
+default_bottom_section_background_color = Color(0.384, 0.384, 0.384, 1)

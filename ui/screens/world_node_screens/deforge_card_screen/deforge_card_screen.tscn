@@ -95,7 +95,7 @@ stamina_cost = 0
 default_top_section_background_color = Color(0.124, 0.15, 0.153, 1)
 default_bottom_section_background_color = Color(0.384, 0.384, 0.384, 1)
 
-[sub_resource type="Resource" id="Resource_p4l5s"]
+[sub_resource type="Resource" id="Resource_1mow1"]
 resource_local_to_scene = true
 script = ExtResource("3_jpurv")
 id = "back_stab_1"
@@ -157,7 +157,7 @@ size_flags_stretch_ratio = 3.0
 unique_name_in_owner = true
 layout_mode = 2
 listen_for_card_clicks = true
-deck = Array[ExtResource("3_jpurv")]([SubResource("Resource_p4l5s"), ExtResource("5_k6nq3")])
+deck = Array[ExtResource("3_jpurv")]([SubResource("Resource_1mow1"), ExtResource("5_k6nq3")])
 grid_column_size = 2
 
 [node name="CardToDeforge" type="MarginContainer" parent="PanelContainer/VBoxContainer/HBoxContainer"]
