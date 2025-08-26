@@ -102,17 +102,42 @@ func _on_mouse_entered() -> void:
 func _play_hover_animation():
 	if not _card_can_hover():
 		return
+		
 	var tween = create_tween()
-	tween.tween_property(self, "position:y", -50, .4)\
+	tween.set_parallel(true)
+	
+	# Lift card up
+	tween.tween_property(self, "position:y", AnimationConstants.CARD_HOVER_LIFT, AnimationConstants.CARD_HOVER_DURATION)\
 		.set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_BACK)
+	
+	# Subtle scale increase
+	tween.tween_property(self, "scale", AnimationConstants.CARD_HOVER_SCALE, AnimationConstants.CARD_HOVER_DURATION)\
+		.set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_QUART)
+	
+	# Glow effect
+	tween.tween_property(self, "modulate", Color(1.1, 1.1, 1.2, 1.0), AnimationConstants.CARD_HOVER_DURATION)
 
 func _on_mouse_exited() -> void:
 	_mouse_hovering = false
+	_play_unhover_animation()
+
+func _play_unhover_animation():
 	if not _card_can_hover():
 		return
+		
 	var tween = create_tween()
-	tween.tween_property(self, "position:y", 0, .4)\
-		.set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_BACK)
+	tween.set_parallel(true)
+	
+	# Return to original position
+	tween.tween_property(self, "position:y", 0, AnimationConstants.CARD_HOVER_UNHOVER_DURATION)\
+		.set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_QUART)
+	
+	# Return to original scale
+	tween.tween_property(self, "scale", Vector2(1.0, 1.0), AnimationConstants.CARD_HOVER_UNHOVER_DURATION)\
+		.set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_QUART)
+	
+	# Remove glow
+	tween.tween_property(self, "modulate", Color.WHITE, AnimationConstants.CARD_HOVER_UNHOVER_DURATION)
 	
 func _card_can_hover() -> bool:
 	return card_can_hover && not _is_awaiting_card_selection
