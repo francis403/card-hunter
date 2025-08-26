@@ -56,11 +56,16 @@ func _is_awaiting_player_input() -> bool:
 	return self.modulate.a <= 0.5
 
 func _card_clicked():
+	_play_on_click_sound()
 	if _is_awaiting_card_selection:
 		_add_selected_card()
 	else:
 		_play_card()
 	card_picked.emit(self)
+
+func _play_on_click_sound():
+	if self.card_resource and self.card_resource._on_click_sound:
+		BattlemapSignals.play_card_stream.emit(self.card_resource._on_click_sound)
 
 func _add_selected_card():
 	BattlemapSignals.input_received_for_card_selected.emit(self)

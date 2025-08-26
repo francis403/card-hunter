@@ -25,6 +25,7 @@ enum CardRaririty {
 @export var special_effects: Array[SpecialCardEffectResource]
 
 @export_group("Card Audio & animation")
+@export var _on_click_sound: AudioStream = load("res://assets/sound/sound_effects/button_clicks/click3.ogg")
 @export var audio_stream: AudioStream
 
 var _revertable_play_actions: Array[CardEffect] = []
