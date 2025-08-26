@@ -84,16 +84,33 @@ func _instantiate_card(card_resource: CardResourceV2) -> Card:
 func _play_draw_card_animation(card: Card) -> Tween:
 	if not draw_pile_marker || not card:
 		return null
-	var final_card_position: Vector2 = card.global_position
+		
+	var final_position = card.global_position
 	var tween = create_tween()
-	#tween.parallel()
-	#card.visible = true
-	tween.tween_property(card, "modulate:a", 1.0, 0)
-	tween.tween_property(card, "global_position", draw_pile_marker.global_position, 0).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
-	tween.tween_property(card, "global_position", final_card_position, 0.3).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
-	#tween.parallel()
-	#tween.tween_property(card, "scale", Vector2(0, 0), 0).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
-	#tween.tween_property(card, "scale", Vector2(1, 1), 0.4).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	tween.set_parallel(true)
+	
+	# Start from draw pile with small scale
+	card.global_position = draw_pile_marker.global_position
+	card.scale = AnimationConstants.CARD_DRAW_START_SCALE
+	card.rotation_degrees = 0
+	card.modulate.a = 0.0
+	
+	# Animate appearance
+	tween.tween_property(card, "modulate:a", 1.0, AnimationConstants.CARD_DRAW_FADE_DURATION)
+	
+	# Scale up with bounce effect
+	tween.tween_property(card, "scale", AnimationConstants.CARD_DRAW_BOUNCE_SCALE, AnimationConstants.CARD_DRAW_SCALE_DURATION)\
+		.set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	tween.tween_property(card, "scale", AnimationConstants.CARD_DRAW_FINAL_SCALE, AnimationConstants.CARD_DRAW_SCALE_SETTLE_DURATION)\
+		.set_delay(AnimationConstants.CARD_DRAW_SCALE_DURATION)
+	
+	# Move to final position with curve
+	tween.tween_property(card, "global_position", final_position, AnimationConstants.CARD_DRAW_DURATION)\
+		.set_trans(Tween.TRANS_QUART).set_ease(Tween.EASE_OUT)
+	
+	# Subtle rotation during movement
+	tween.tween_property(card, "rotation_degrees", randf_range(-AnimationConstants.CARD_DRAW_ROTATION_RANGE, AnimationConstants.CARD_DRAW_ROTATION_RANGE), AnimationConstants.CARD_DRAW_ROTATION_DURATION)
+	tween.tween_property(card, "rotation_degrees", 0, AnimationConstants.CARD_DRAW_ROTATION_DURATION).set_delay(AnimationConstants.CARD_DRAW_ROTATION_DURATION)
 	
 	return tween	
 	
@@ -116,12 +133,6 @@ func _play_discard_card_animation(
 	tween.set_ease(Tween.EASE_IN_OUT)
 	tween.set_trans(Tween.TRANS_CUBIC)
 
-	#tween.parallel()
-	#tween.tween_property(card, "modulate:a", 1.0, 0)
-	#tween.parallel().tween_property(card, "scale", Vector2(1, 1), 0).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
-	#tween.parallel().tween_property(card, "global_position", initial_card_position, 0).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
-	#tween.parallel().tween_property(card, "scale", Vector2(0.3, 0.3), 1.0).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
-	#tween.parallel().tween_property(card, "global_position", discard_pile_marker.global_position, 0.6).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
 	return tween
 	
 func _on_card_discared_from_hand_signal(_index: int):
