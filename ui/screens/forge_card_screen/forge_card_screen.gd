@@ -8,12 +8,16 @@ class_name ForgeCardScreen
 
 const MIN_AMOUNT_OF_MODULES: int = 1
 const MAX_AMOUNT_OF_MODULES: int = 4
+const MIN_TITLE_LENGTH: int = 1
+const MAX_TITLE_LENGTH: int = 30
 
 @onready var card_modules_container_component: CardModulesContainerComponent = %CardModulesContainerComponent
 @onready var added_card_modules: CardModulesContainerComponent = %AddedCardModules
 @onready var display_card: Card = %Card
 @onready var card_title_input: LineEdit = %CardTitleInput
 @onready var forge_button: SoundButton = %ForgeButton
+@onready var module_count_label: Label = %ModuleCountLabel
+@onready var title_length_label: Label = %TitleLengthLabel
 
 var _built_card: Card
 
@@ -26,6 +30,12 @@ func _ready() -> void:
 	)
 	for child: CardModuleComponent in card_modules_container_component.get_children_nodes():
 		_add_signals_when_clicked(child, _on_available_card_module_clicked_signal)
+	
+	# Connect input signals for real-time validation
+	card_title_input.text_changed.connect(_on_title_input_changed)
+	
+	# Initialize UI feedback
+	_update_validation_display()
 
 func _on_forge_button_pressed() -> void:
 	if not _is_valid_card_forge():
@@ -64,6 +74,9 @@ func _on_available_card_module_clicked_signal(
 	display_card.card_resource.description = _generate_card_description()
 	display_card.initialize_card()
 	
+	# Update validation display when modules change
+	_update_validation_display()
+	
 func _add_card_module_to_new_card(
 	_card_module_component: CardModuleComponent,
 	_card_module: CardModule
@@ -93,22 +106,58 @@ func _add_card_module_to_available_options(
 	display_card.card_resource.description = _generate_card_description()
 	display_card.initialize_card()
 	
+	# Update validation display when modules change
+	_update_validation_display()
+
+func _on_title_input_changed(_new_text: String) -> void:
+	_update_validation_display()
+
+func _update_validation_display() -> void:
+	var _valid: bool = true
+	var module_count = 0
+	
+	if display_card.card_resource:
+		module_count = display_card.card_resource.get_card_modules().size()
+	
+	module_count_label.text = "Modules: %d/%d" % [module_count, MAX_AMOUNT_OF_MODULES]
+	module_count_label.modulate = Color(0.3, 1, 0.3, 1)
+	if not _validate_card_modules(display_card.card_resource):
+		module_count_label.modulate = Color(1, 0.3, 0.3, 1)
+		_valid = false
+	
+	# Update title length
+	var title_length = card_title_input.text.length()
+	title_length_label.text = "Title: %d/%d characters" % [title_length, MAX_TITLE_LENGTH] 
+	title_length_label.modulate = Color(0.3, 1, 0.3, 1)
+	if not _validate_title(card_title_input.text):
+		title_length_label.modulate = Color(1, 0.3, 0.3, 1)
+		_valid = false
+
+	forge_button.disabled = not _valid
+	forge_button.modulate = Color.WHITE if _valid else Color(0.7, 0.7, 0.7, 1)
+	
 func _on_back_button_pressed() -> void:
 	self.queue_free()
 
 func _is_valid_card_forge() -> bool:
 	var title: String = card_title_input.text
-	if title.length() == 0 || title.length() > 60:
+	if not _validate_title(title):
 		return false
 	var _forged_card_resource: CardResourceV2 = display_card.card_resource 
 	if not _forged_card_resource:
 		return false
-	var nbr_card_modugles: int = _forged_card_resource.get_card_modules().size()
-	if nbr_card_modugles < MIN_AMOUNT_OF_MODULES or nbr_card_modugles > MAX_AMOUNT_OF_MODULES:
+	if not _validate_card_modules(_forged_card_resource):
 		return false
 	## TODO: for every card module validate each one
 	return true
 
+func _validate_title(_title: String) -> bool:
+	return _title.length() >= MIN_TITLE_LENGTH and _title.length() <= MAX_TITLE_LENGTH
+
+func _validate_card_modules(_card_resource: CardResourceV2) -> bool:
+	var nbr_card_modules: int = _card_resource.get_card_modules().size()
+	return nbr_card_modules >= MIN_AMOUNT_OF_MODULES and nbr_card_modules <= MAX_AMOUNT_OF_MODULES
+		
 func _generate_card_description() -> String:
 	var result: String = ""
 	var _card_resource: CardResourceV2 = display_card.card_resource

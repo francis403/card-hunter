@@ -145,6 +145,22 @@ size_flags_horizontal = 4
 size_flags_vertical = 4
 text = "Forge Card"
 
+[node name="ValidationContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="ModuleCountLabel" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/ValidationContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Modules: 0/4"
+horizontal_alignment = 1
+
+[node name="TitleLengthLabel" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/ValidationContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Title: 0/60 characters"
+horizontal_alignment = 1
+
 [node name="AddedCardModules" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer" instance=ExtResource("2_qj0og")]
 unique_name_in_owner = true
 layout_mode = 2
