@@ -18,7 +18,6 @@ func _ready() -> void:
 	BattlemapSignals.card_discarded_from_hand.connect(_on_card_discared_from_hand_signal)
 	BattlemapSignals.card_discarded_from_hand_reverted.connect(_on_card_discared_from_hand_reverted_signal)
 
-## TODO: need to either push map up or make input go through cards
 func _on_input_awaiting_signal():
 	h_box_container.modulate.a = .33
 	h_box_container.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -64,7 +63,7 @@ func populate_hand(new_cards: Array[CardResourceV2]):
 
 ## Play discard card animation for card in hand
 func play_discard_card_animation(card: Card):
-	var tween: Tween = _play_discard_card_animation(card, 0.2)
+	var tween: Tween = _play_discard_card_animation(card)
 	if tween:
 		await tween.finished
 	BattlemapSignals.discard_card_animation_finished.emit(true)
@@ -116,23 +115,49 @@ func _play_draw_card_animation(card: Card) -> Tween:
 	
 func _play_discard_card_animation(
 	card: Card,
-	duration: float = 0.4
+	duration: float = AnimationConstants.CARD_DISCARD_DURATION
 ) -> Tween:
 	if not discard_pile_marker || not card:
 		return null
+		
 	var tween = create_tween()
 	tween.set_parallel(true)
+	
 	var target_position = discard_pile_marker.global_position
+	# Center the card on the discard pile marker
 	target_position.x -= card.size.x / 2  
 	target_position.y -= card.size.y / 2
-
-	tween.tween_property(card, "global_position", target_position, duration)
-	tween.tween_property(card, "scale", Vector2(0.5, 0.5), duration)
-	tween.tween_property(card, "rotation_degrees", randf_range(-15, 15), duration)
-	tween.tween_property(card, "modulate:a", 0.8, duration)
-	tween.set_ease(Tween.EASE_IN_OUT)
-	tween.set_trans(Tween.TRANS_CUBIC)
-
+	# Add random offset for natural pile stacking
+	target_position += Vector2(randf_range(-5, 5), randf_range(-5, 5))
+	
+	# Create curved arc movement path
+	var start_position = card.global_position
+	var mid_point = start_position.lerp(target_position, 0.5)
+	mid_point.y -= AnimationConstants.CARD_DISCARD_ARC_HEIGHT  # Arc height
+	
+	# Two-phase movement for natural arc
+	# Phase 1: Rise to peak of arc
+	tween.tween_property(card, "global_position", mid_point, AnimationConstants.CARD_DISCARD_ARC_DURATION_PHASE1)\
+		.set_trans(Tween.TRANS_QUART).set_ease(Tween.EASE_OUT)
+	
+	# Phase 2: Fall to discard pile
+	tween.tween_property(card, "global_position", target_position, AnimationConstants.CARD_DISCARD_ARC_DURATION_PHASE2)\
+		.set_delay(AnimationConstants.CARD_DISCARD_ARC_DURATION_PHASE1)\
+		.set_trans(Tween.TRANS_QUART).set_ease(Tween.EASE_IN)
+	
+	# Scale down smoothly
+	tween.tween_property(card, "scale", AnimationConstants.CARD_DISCARD_END_SCALE, duration)
+	
+	# Natural rotation with more variety
+	var rotation_amount = randf_range(AnimationConstants.CARD_DISCARD_ROTATION_MIN, AnimationConstants.CARD_DISCARD_ROTATION_MAX)
+	if randf() > 0.5:
+		rotation_amount *= -1  # Random direction
+	tween.tween_property(card, "rotation_degrees", rotation_amount, duration)
+	
+	# Fade out near the end for smooth disappearance
+	tween.tween_property(card, "modulate:a", 0.0, AnimationConstants.CARD_DISCARD_FADE_DURATION)\
+		.set_delay(duration - AnimationConstants.CARD_DISCARD_FADE_DURATION)
+	
 	return tween
 	
 func _on_card_discared_from_hand_signal(_index: int):
