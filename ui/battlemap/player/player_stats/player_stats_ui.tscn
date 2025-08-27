@@ -45,7 +45,7 @@ texture = ExtResource("2_6x40f")
 
 [node name="HealthProgressBar" type="ProgressBar" parent="MarginContainer/PlayerStatsContainer/VBoxContainer/HpHBoxContainer"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(120, 20)
+custom_minimum_size = Vector2(240, 20)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
@@ -79,7 +79,7 @@ texture = ExtResource("4_koqd6")
 
 [node name="StaminaProgressBar" type="ProgressBar" parent="MarginContainer/PlayerStatsContainer/VBoxContainer/StaminaHBoxContainer2"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(120, 20)
+custom_minimum_size = Vector2(240, 20)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
