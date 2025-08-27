@@ -15,4 +15,6 @@ shadow_size = 2
 [resource]
 Button/styles/focus = SubResource("StyleBoxEmpty_8wyib")
 Button/styles/pressed = SubResource("StyleBoxEmpty_m6bqo")
+Label/colors/font_color = Color(1, 1, 1, 1)
+Label/font_sizes/font_size = 16
 PanelContainer/styles/panel = SubResource("StyleBoxFlat_8quhs")

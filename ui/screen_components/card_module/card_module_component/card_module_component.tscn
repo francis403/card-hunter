@@ -78,6 +78,8 @@ theme = SubResource("Theme_k5w5k")
 [node name="StaminaCostLabel" type="Label" parent="MarginContainer/VBoxContainer/TopSection/TopSection/LeftSide/MarginContainer/CostIcon"]
 unique_name_in_owner = true
 layout_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.95, 0.95, 1)
+theme_override_font_sizes/font_size = 16
 text = "50"
 horizontal_alignment = 1
 
@@ -113,6 +115,8 @@ layout_mode = 2
 unique_name_in_owner = true
 layout_mode = 2
 mouse_filter = 1
+theme_override_colors/default_color = Color(0.05, 0.05, 0.05, 1)
+theme_override_font_sizes/normal_font_size = 16
 text = "Description Description"
 fit_content = true
 scroll_active = false
@@ -120,6 +124,8 @@ scroll_active = false
 [node name="CriticalDescription" type="RichTextLabel" parent="MarginContainer/VBoxContainer/BottomSection/MarginContainer/DescriptionSection"]
 layout_mode = 2
 mouse_filter = 1
+theme_override_colors/default_color = Color(0.7, 0.1, 0.1, 1)
+theme_override_font_sizes/normal_font_size = 16
 text = "Critical Text"
 fit_content = true
 
