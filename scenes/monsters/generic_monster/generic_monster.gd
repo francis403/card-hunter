@@ -13,11 +13,14 @@ signal body_part_hit(body_part: BodyPart)
 @onready var power_effect_container: PowerEffectContainer = $PowerEffectContainer
 @onready var power_effect_ui: PowerEffectUI = $PowerEffectUI
 
-@onready var move_intent_container: MarginContainer = $StatusControl/MoveIntentContainer
+@onready var move_intent_container: MarginContainer = %MoveIntentContainer
 @onready var reward_manager: RewardManager = $RewardManager
 
 ## Indicator of what the monster is going to do
 @onready var move_intent_image: TextureRect = $StatusControl/MoveIntentContainer/MoveIntentImage
+
+@onready var monster_stats_ui: Control = $MonsterStatsUI
+@onready var monster_health_bar: ProgressBar = $MonsterStatsUI/MonsterHealthBar
 
 @export var monster_id: String
 @export var monster_texture: Texture2D
@@ -33,6 +36,8 @@ func _ready() -> void:
 	self.set_state_icon()
 	self.set_debug_mode()
 	self.subscribe_to_events()
+	monster_health_bar.max_value = self._max_hp if _max_hp >= _health else _health
+	monster_health_bar.value = self._health
 
 ## Play the monster turn
 func play_monster_turn():
@@ -169,3 +174,7 @@ func apply_damage(
 	)
 	hurtbox_component.trigger(str(damage))
 	super.apply_damage(damage, _origin_tile)
+	monster_health_bar.value = self._health
+
+func toggle_monster_hp_bar(_show: bool):
+	self.monster_stats_ui.visible = _show if not BattleController.awaiting_player_input else false

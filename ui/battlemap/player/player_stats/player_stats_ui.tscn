@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://c8odj6fo4oi7c"]
+[gd_scene load_steps=7 format=3 uid="uid://c8odj6fo4oi7c"]
 
 [ext_resource type="Script" path="res://ui/battlemap/player/player_stats/player_stats_ui.gd" id="1_h542a"]
 [ext_resource type="Texture2D" uid="uid://c8tnqo3lekynj" path="res://assets/images/icons/player_stats/hearth_1.png" id="2_6x40f"]
@@ -6,13 +6,6 @@
 [ext_resource type="Theme" uid="uid://dleg6fota3kqt" path="res://assets/themes/player_stats_ui/player_stats_health.tres" id="3_ul362"]
 [ext_resource type="Theme" uid="uid://b7aymmo75dupe" path="res://assets/themes/player_stats_ui/player_stats_stamina.tres" id="4_27dpb"]
 [ext_resource type="Texture2D" uid="uid://d28chlagumyqt" path="res://assets/images/icons/player_stats/stamina_1.png" id="4_koqd6"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cs2ih"]
-bg_color = Color(0.00318958, 0.00157763, 4.2161e-05, 1)
-
-[sub_resource type="StyleBoxLine" id="StyleBoxLine_gdji6"]
-color = Color(0.960784, 0, 0, 1)
-thickness = 23
 
 [node name="PlayerStatsUI" type="MarginContainer"]
 custom_minimum_size = Vector2(0, 50)
@@ -110,16 +103,5 @@ layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 text = "End Turn"
-
-[node name="MonsterHP" type="ProgressBar" parent="MarginContainer/PlayerStatsContainer"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(200, 0)
-layout_mode = 2
-size_flags_horizontal = 10
-size_flags_vertical = 4
-theme_override_styles/background = SubResource("StyleBoxFlat_cs2ih")
-theme_override_styles/fill = SubResource("StyleBoxLine_gdji6")
-max_value = 1.0
-value = 1.0
 
 [connection signal="pressed_and_sound_played" from="MarginContainer/PlayerStatsContainer/VBoxContainer/EndTurnButton" to="." method="_on_end_turn_button_pressed"]

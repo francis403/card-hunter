@@ -100,3 +100,18 @@ func get_center() -> Vector2:
 		self.position.x - (_x_size/2),
 		self.position.y - (_y_size/2)
 	)
+
+## TODO: I don't love this but I couldn't figure out how to improve it
+func _on_mouse_entered() -> void:
+	if not piece_in_tile:
+		return
+	if not piece_in_tile is GenericMonster:
+		return
+	piece_in_tile.toggle_monster_hp_bar(true)
+
+func _on_mouse_exited() -> void:
+	if not piece_in_tile:
+		return
+	if not piece_in_tile is GenericMonster:
+		return
+	piece_in_tile.toggle_monster_hp_bar(false)

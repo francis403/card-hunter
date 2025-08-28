@@ -14,12 +14,17 @@ var player_turn_stats: PlayerTurnStats = PlayerTurnStats.new()
 ## TODO: probably here is not the ideal place
 var _current_card_being_played: Card = null
 
+var awaiting_player_input: bool = false
+
 func _ready() -> void:
 	BattleSignals.battle_scene_finished_loading.connect(_on_battle_scene_finished_loading_signal)
 	BattlemapSignals.battlemap_generated.connect(_on_battlemap_generated_signal)
 	BattlemapSignals.card_discarded_from_hand.connect(_on_card_discarded_from_hand)
 	BattlemapSignals.monster_turn_started.connect(_on_player_turn_ended)
 	BattlemapSignals.card_has_been_played.connect(_on_card_played)
+	BattlemapSignals.awaiting_player_input.connect(_on_awaiting_player_input_signal)
+	BattlemapSignals.player_input_received.connect(_on_player_input_received)
+	BattlemapSignals.canceled_player_input.connect(_on_player_input_received)
 	
 func _on_battle_scene_finished_loading_signal(battle_scene: BattleGenericScene):
 	self.player_hand = battle_scene.hand
@@ -31,6 +36,12 @@ func _on_battlemap_generated_signal(map: Battlemap):
 	self.battlemap = map
 	if battlemap:
 		self.player = battlemap.player
+
+func _on_awaiting_player_input_signal():
+	awaiting_player_input = true
+	
+func _on_player_input_received():
+	awaiting_player_input = false
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("right_click"):

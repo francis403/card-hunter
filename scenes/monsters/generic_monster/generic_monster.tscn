@@ -1,7 +1,8 @@
-[gd_scene load_steps=12 format=3 uid="uid://b77dqwv8b42lt"]
+[gd_scene load_steps=13 format=3 uid="uid://b77dqwv8b42lt"]
 
 [ext_resource type="Script" path="res://scenes/monsters/generic_monster/generic_monster.gd" id="1_vliax"]
 [ext_resource type="Script" path="res://scenes/game_objects/state_machine/state_machine.gd" id="2_38rv1"]
+[ext_resource type="Theme" uid="uid://c2n58o5sst24h" path="res://assets/themes/monster_stats_ui/monster_stats_health.tres" id="2_gpvy6"]
 [ext_resource type="PackedScene" uid="uid://dckrxrqyssly2" path="res://scenes/game_objects/power_effect_components/power_effect_container/power_effect_container.tscn" id="3_0ld0n"]
 [ext_resource type="Texture2D" uid="uid://bqlcfti4m2fao" path="res://assets/game_objects/monster_parts/intents/move_intents/red_arrow_move_intent.png" id="5_dum2y"]
 [ext_resource type="PackedScene" uid="uid://bffvgei5m8pfa" path="res://scenes/components/hurtbox_components/hurtbox_component.tscn" id="5_qo24u"]
@@ -19,7 +20,9 @@ shader_parameter/flash_modifier = 0.0
 
 [node name="GenericMonster" type="CharacterBody2D"]
 scale = Vector2(5, 5)
+input_pickable = true
 script = ExtResource("1_vliax")
+_max_hp = 100
 
 [node name="RewardManager" parent="." instance=ExtResource("6_ifw8h")]
 
@@ -30,10 +33,48 @@ power_effect_ui = NodePath("../PowerEffectUI")
 script = ExtResource("2_38rv1")
 
 [node name="HurtboxComponent" parent="." node_paths=PackedStringArray("sprite_2d") instance=ExtResource("5_qo24u")]
-scale = Vector2(1, 1)
 sprite_2d = NodePath("../Sprite2D")
 
 [node name="MonsterBodyPartContainer" parent="." instance=ExtResource("8_gr0se")]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_1ynpp")
+
+[node name="EffectsLayer" type="Node2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_jo88s")
+
+[node name="MonsterStatsUI" type="Control" parent="."]
+visible = false
+layout_mode = 3
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_top = -20.0
+offset_bottom = -20.0
+grow_horizontal = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 2
+
+[node name="MonsterHealthBar" type="ProgressBar" parent="MonsterStatsUI"]
+custom_minimum_size = Vector2(24, 6)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -5.0
+offset_top = -3.0
+offset_right = 5.0
+offset_bottom = 3.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_gpvy6")
+value = 50.0
+show_percentage = false
 
 [node name="StatusControl" type="Control" parent="."]
 layout_mode = 3
@@ -48,29 +89,19 @@ grow_horizontal = 2
 mouse_filter = 2
 
 [node name="MoveIntentContainer" type="MarginContainer" parent="StatusControl"]
+unique_name_in_owner = true
 layout_mode = 0
 offset_left = 15.0
 offset_top = 7.0
 offset_right = 24.0
 offset_bottom = 12.0
 pivot_offset = Vector2(4.5, 2.5)
+mouse_filter = 2
 
 [node name="MoveIntentImage" type="TextureRect" parent="StatusControl/MoveIntentContainer"]
 layout_mode = 2
+mouse_filter = 2
 texture = ExtResource("5_dum2y")
 expand_mode = 2
-
-[node name="MoveIntentImage" type="TextureRect" parent="StatusControl/MoveIntentContainer/MoveIntentImage"]
-layout_mode = 0
-texture = ExtResource("5_dum2y")
-expand_mode = 2
-
-[node name="Sprite2D" type="Sprite2D" parent="."]
-material = SubResource("ShaderMaterial_1ynpp")
-
-[node name="EffectsLayer" type="Node2D" parent="."]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("CircleShape2D_jo88s")
 
 [node name="PowerEffectUI" parent="." instance=ExtResource("8_ma7f3")]

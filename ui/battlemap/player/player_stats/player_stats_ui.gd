@@ -1,9 +1,6 @@
 extends MarginContainer
 class_name PlayerStatsUi
 
-
-## TODO: I probably have to put this above the monster (maybe only when it's hovered above)
-@onready var monster_hp_progress_bar: ProgressBar = %MonsterHP
 @onready var health_progress_bar: ProgressBar = %HealthProgressBar
 @onready var player_health_label: Label = %PlayerHealthLabel
 @onready var stamina_progress_bar: ProgressBar = %StaminaProgressBar
@@ -19,7 +16,6 @@ func _ready() -> void:
 	BattlemapSignals.player_health_changed.connect(_on_player_health_changed)
 	BattlemapSignals.lock_player_input.connect(_on_player_lock_input)
 	BattlemapSignals.unlock_player_input.connect(_on_player_unlock_input)
-	BattlemapSignals.monster_hp_changed.connect(_on_monster_health_changed)
 	_initialize_player_stats()
 
 func _on_player_stamina_changed(_current_stamina: int):
@@ -61,10 +57,6 @@ func _on_player_unlock_input():
 
 func _on_end_turn_button_pressed() -> void:
 	BattlemapSignals.monster_turn_started.emit()
-
-func _on_monster_health_changed(new_hp: int, max_hp: int):
-	var progress_bar_value: float = float (new_hp) / float(max_hp)
-	monster_hp_progress_bar.value = progress_bar_value
 
 func _initialize_player_stats():
 	player_health_label.text = str(PlayerController.current_player_health) + "/" + str(100)

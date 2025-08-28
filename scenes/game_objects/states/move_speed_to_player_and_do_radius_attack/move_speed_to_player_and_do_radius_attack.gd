@@ -42,12 +42,13 @@ func do_movement():
 	
 	if next_turn_move_tile:
 		BattleController.battlemap.place_piece_in_tile(monster, next_turn_move_tile)
-		
-	next_turn_move_tile = MovementUtils.get_movement_tile(
-		monster._tile,
-		target._tile,
-		monster._speed
-	)
+	
+	if target:
+		next_turn_move_tile = MovementUtils.get_movement_tile(
+			monster._tile,
+			target._tile,
+			monster._speed
+		)
 	BattlemapSignals.monster_prepared_move.emit(
 		next_turn_move_tile
 	)
