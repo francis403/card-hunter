@@ -105,13 +105,9 @@ func get_center() -> Vector2:
 func _on_mouse_entered() -> void:
 	if not piece_in_tile:
 		return
-	if not piece_in_tile is GenericMonster:
-		return
-	piece_in_tile.toggle_monster_hp_bar(true)
+	piece_in_tile.on_mouse_hover_enter()
 
 func _on_mouse_exited() -> void:
 	if not piece_in_tile:
 		return
-	if not piece_in_tile is GenericMonster:
-		return
-	piece_in_tile.toggle_monster_hp_bar(false)
+	piece_in_tile.on_mouse_hover_exit()

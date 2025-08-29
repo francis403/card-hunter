@@ -60,3 +60,9 @@ func has_any_power_effect() -> bool:
 
 func has_power_effect(_status_id: String) -> bool:
 	return false
+
+func on_mouse_hover_enter():
+	pass
+
+func on_mouse_hover_exit():
+	pass

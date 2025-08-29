@@ -176,5 +176,8 @@ func apply_damage(
 	super.apply_damage(damage, _origin_tile)
 	monster_health_bar.value = self._health
 
-func toggle_monster_hp_bar(_show: bool):
-	self.monster_stats_ui.visible = _show if not BattleController.awaiting_player_input else false
+func on_mouse_hover_enter():
+	self.monster_stats_ui.visible = not BattleController.awaiting_player_input
+
+func on_mouse_hover_exit():
+	self.monster_stats_ui.visible = false
