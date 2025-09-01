@@ -1,10 +1,21 @@
-extends Control
+extends MarginContainer
 class_name Hand
 
-@onready var h_box_container: HBoxContainer = $HBoxContainer
+const CARD_WIDTH: int = 170
+
+@onready var hand_container: Control = $HandContainer
+@onready var cards_being_discarded_container: Control = $CardsBeingDiscardedContainer
 
 @export var draw_pile_marker: Marker2D
 @export var discard_pile_marker: Marker2D
+
+@export_group("Hand Appearance")
+@export var hand_curve: Curve
+@export var rotation_curve: Curve
+@export var max_rotation_degrees: float = 5
+@export var x_sep: int = -10
+@export var y_min: int = 0
+@export var y_max: int = -15
 
 var has_drawn_hand_before: bool = false
 
@@ -15,33 +26,32 @@ func _ready() -> void:
 	BattlemapSignals.player_input_received.connect(_on_input_received_signal)
 	BattlemapSignals.lock_player_input.connect(_on_input_awaiting_signal)
 	BattlemapSignals.unlock_player_input.connect(_on_input_received_signal)
-	BattlemapSignals.card_discarded_from_hand.connect(_on_card_discared_from_hand_signal)
 	BattlemapSignals.card_discarded_from_hand_reverted.connect(_on_card_discared_from_hand_reverted_signal)
 
 func _on_input_awaiting_signal():
-	h_box_container.modulate.a = .33
-	h_box_container.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	h_box_container.set_process_input(false)
+	hand_container.modulate.a = .33
+	hand_container.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	hand_container.set_process_input(false)
 	self.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	self.process_mode = Node.PROCESS_MODE_DISABLED
 	self.set_process_input(false)
-	h_box_container.propagate_call("set_mouse_filter", [Control.MOUSE_FILTER_IGNORE])
+	hand_container.propagate_call("set_mouse_filter", [Control.MOUSE_FILTER_IGNORE])
 
 func _on_input_received_signal():
-	h_box_container.modulate.a = 1
-	h_box_container.mouse_filter = Control.MOUSE_FILTER_PASS
+	hand_container.modulate.a = 1
+	hand_container.mouse_filter = Control.MOUSE_FILTER_PASS
 	self.mouse_filter = Control.MOUSE_FILTER_STOP
 	self.process_mode = Node.PROCESS_MODE_INHERIT
 	self.set_process_input(true)
-	h_box_container.propagate_call("set_mouse_filter", [Control.MOUSE_FILTER_PASS])
+	hand_container.propagate_call("set_mouse_filter", [Control.MOUSE_FILTER_PASS])
 
 func _on_player_canceled_input_signal():
-	h_box_container.modulate.a = 1
+	hand_container.modulate.a = 1
 	self.process_mode = Node.PROCESS_MODE_INHERIT
 	BattlemapSignals.tile_picked_in_battlemap.emit(null)
 
 func _clean_preview():
-	for node in h_box_container.get_children():
+	for node in hand_container.get_children():
 		node.queue_free()
 
 ## TODO: don't love the way I'm doing the animation
@@ -52,14 +62,23 @@ func populate_hand(new_cards: Array[CardResourceV2]):
 		new_instantiated_cards.append(new_card)
 	if new_instantiated_cards.size() <= 0:
 		return
-	await h_box_container.sort_children
+	update_hand_positions()
+	#await h_box_container.sort_children
 	if not has_drawn_hand_before:
 		has_drawn_hand_before = true
-		await h_box_container.sort_children
+		#await h_box_container.sort_children
 	for child in new_instantiated_cards:
 		var tween = _play_draw_card_animation(child)
 		if tween:
 			await tween.finished
+
+func discard_card(
+	_card: Card
+) -> void:
+	_card.reparent(cards_being_discarded_container)
+	update_hand_positions()
+	await self.play_discard_card_animation(_card)
+	_card.queue_free()
 
 ## Play discard card animation for card in hand
 func play_discard_card_animation(card: Card):
@@ -68,23 +87,22 @@ func play_discard_card_animation(card: Card):
 		await tween.finished
 	BattlemapSignals.discard_card_animation_finished.emit(true)
 
-## TODO: Draw card animation could be done here
 func _instantiate_card(card_resource: CardResourceV2) -> Card:
 	if not card_resource:
 		return
 	var card_instance: Card = Constants.card_scene.instantiate()
-	h_box_container.add_child(card_instance)
+	hand_container.add_child(card_instance)
 	card_instance.modulate.a = 0.0
 	card_instance.card_resource = card_resource
 	card_instance.initialize_card()
 	return card_instance
-	
 	
 func _play_draw_card_animation(card: Card) -> Tween:
 	if not draw_pile_marker || not card:
 		return null
 		
 	var final_position = card.global_position
+	var final_rotation: float = card.rotation_degrees
 	var tween = create_tween()
 	tween.set_parallel(true)
 	
@@ -109,9 +127,9 @@ func _play_draw_card_animation(card: Card) -> Tween:
 	
 	# Subtle rotation during movement
 	tween.tween_property(card, "rotation_degrees", randf_range(-AnimationConstants.CARD_DRAW_ROTATION_RANGE, AnimationConstants.CARD_DRAW_ROTATION_RANGE), AnimationConstants.CARD_DRAW_ROTATION_DURATION)
-	tween.tween_property(card, "rotation_degrees", 0, AnimationConstants.CARD_DRAW_ROTATION_DURATION).set_delay(AnimationConstants.CARD_DRAW_ROTATION_DURATION)
+	tween.tween_property(card, "rotation_degrees", final_rotation, AnimationConstants.CARD_DRAW_ROTATION_DURATION).set_delay(AnimationConstants.CARD_DRAW_ROTATION_DURATION)
 	
-	return tween	
+	return tween
 	
 func _play_discard_card_animation(
 	card: Card,
@@ -159,9 +177,6 @@ func _play_discard_card_animation(
 		.set_delay(duration - AnimationConstants.CARD_DISCARD_FADE_DURATION)
 	
 	return tween
-	
-func _on_card_discared_from_hand_signal(_index: int):
-	pass
 
 ## TODO: Play some sort of animation
 func _on_card_discared_from_hand_reverted_signal(card_resource: CardResourceV2):
@@ -169,5 +184,27 @@ func _on_card_discared_from_hand_reverted_signal(card_resource: CardResourceV2):
 	var card_instance: Card = self._instantiate_card(card_resource)
 	card_instance.modulate.a = 1.0
 
-func _on_h_box_container_sort_children() -> void:
-	pass
+func update_hand_positions() -> void:
+	var _hand_size: int = hand_container.get_child_count()
+	var _total_cards_size: float = Card.SIZE.x * _hand_size + x_sep * (_hand_size - 1)
+	var _final_sep_x = x_sep
+	
+	if _total_cards_size > self.size.x:
+		_final_sep_x = (size.x - Card.SIZE.x * _hand_size) / (_hand_size - 1)
+		_total_cards_size = self.size.x
+		
+	var _offset: float = (self.size.x - _total_cards_size) / 2
+	
+	for i in _hand_size:
+		var _card: Card = hand_container.get_child(i)
+		var _y_multipler: float = hand_curve.sample(1.0 / (_hand_size-1) * i)
+		var _rotation_multipler: float = rotation_curve.sample(1.0 / (_hand_size-1) * i)
+		
+		if _hand_size == 1:
+			_y_multipler = 0.0
+			_rotation_multipler = 0.0
+			
+		var _final_x: float = _offset + Card.SIZE.x * i + _final_sep_x * i
+		var _final_y: float = y_min + y_max * _y_multipler
+		_card.position = Vector2(_final_x, _final_y)
+		_card.rotation_degrees = max_rotation_degrees * _rotation_multipler

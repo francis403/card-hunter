@@ -75,9 +75,7 @@ func discard_card_from_player(_card: Card) -> void:
 	if not player:
 		return
 	player.discard_card_from_hand(_card)
-	await player_hand.play_discard_card_animation(_card)
-	_card.queue_free()
-	
+	player_hand.discard_card(_card)
 
 # SIGNALS
 

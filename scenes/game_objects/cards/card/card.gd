@@ -5,8 +5,9 @@ signal card_picked(card: Card)
 signal card_played
 signal card_discarded_by_effect
 
-const DISABLED_CARD_COLOR = Color(0.502, 0.502, 0.502, 0.463)
-const NORMAL_CARD_COLOR = Color(1, 1, 1)
+const DISABLED_CARD_COLOR: Color = Color(0.502, 0.502, 0.502, 0.463)
+const NORMAL_CARD_COLOR: Color = Color(1, 1, 1)
+const SIZE: Vector2 = Vector2(175, 270)
 
 @export var card_resource: CardResourceV2
 @export var card_can_hover: bool = true
@@ -102,6 +103,7 @@ func _discard_card() -> bool:
 
 func _on_mouse_entered() -> void:
 	_mouse_hovering = true
+	self.z_index = 1
 	_play_hover_animation()
 
 func _play_hover_animation():
@@ -124,6 +126,7 @@ func _play_hover_animation():
 
 func _on_mouse_exited() -> void:
 	_mouse_hovering = false
+	self.z_index = 0
 	_play_unhover_animation()
 
 func _play_unhover_animation():

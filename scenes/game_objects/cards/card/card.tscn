@@ -19,6 +19,7 @@ font_color = Color(0.05, 0.05, 0.05, 1)
 custom_minimum_size = Vector2(175, 270)
 offset_right = 171.0
 offset_bottom = 225.0
+pivot_offset = Vector2(87, 270)
 size_flags_vertical = 4
 theme = ExtResource("1_gneqa")
 script = ExtResource("1_eebhr")
