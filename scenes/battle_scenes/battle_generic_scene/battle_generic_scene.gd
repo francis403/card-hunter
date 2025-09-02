@@ -32,7 +32,6 @@ func _init() -> void:
 	GameController.is_showing_battle_scene = true
 
 func _ready() -> void:
-	BattlemapSignals.monster_turn_started.connect(_on_monster_turn_started_signal)
 	BattlemapSignals.player_turn_started.connect(_on_player_turn_started_signal)
 	
 	# deck signals
@@ -85,7 +84,8 @@ func _prep_battle_arena_monsters():
 			monsters_node.add_child(monster)
 		#battlemap.update_monsters()
 	
-func _on_monster_turn_started_signal():
+func start_monster_turn():
+	BattlemapSignals.monster_turn_started.emit()
 	is_player_turn = false
 	BattlemapSignals.lock_player_input.emit()
 	for monster in battlemap.monsters:
@@ -155,3 +155,7 @@ func _on_tree_exited() -> void:
 		BattleSignals.boss_battle_complete.emit()
 		return
 	BattleSignals.battle_complete.emit()
+
+
+func _on_end_turn_button_pressed() -> void:
+	start_monster_turn()

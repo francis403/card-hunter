@@ -7,6 +7,9 @@ var battlemap: Battlemap
 var player: PlayerPiece
 var player_hand: Hand
 
+## Reference to the battle
+var _battle_scene: BattleGenericScene
+
 var turn_counter: int = 0
 
 var player_turn_stats: PlayerTurnStats = PlayerTurnStats.new()
@@ -26,8 +29,9 @@ func _ready() -> void:
 	BattlemapSignals.player_input_received.connect(_on_player_input_received)
 	BattlemapSignals.canceled_player_input.connect(_on_player_input_received)
 	
-func _on_battle_scene_finished_loading_signal(battle_scene: BattleGenericScene):
-	self.player_hand = battle_scene.hand
+func _on_battle_scene_finished_loading_signal(_loaded_battle_scene: BattleGenericScene):
+	self._battle_scene = _loaded_battle_scene
+	self.player_hand = _loaded_battle_scene.hand
 	if not self.player_hand:
 		push_error(_on_battle_scene_finished_loading_signal, " ERROR: player_hand not initiated in battle")
 	
@@ -49,6 +53,8 @@ func _input(event: InputEvent) -> void:
 		_handle_current_card_being_played_canceled()
 	elif event.is_action_pressed("v_pressed"):
 		BattlemapSignals.button_pressed_to_toggle_view_monster_parts.emit()
+	elif event.is_action_pressed("enter_pressed") and _battle_scene:
+		_battle_scene.start_monster_turn()
 
 func _handle_current_card_being_played_canceled():
 	if not _current_card_being_played:

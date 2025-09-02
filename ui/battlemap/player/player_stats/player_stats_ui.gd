@@ -5,7 +5,6 @@ class_name PlayerStatsUi
 @onready var player_health_label: Label = %PlayerHealthLabel
 @onready var stamina_progress_bar: ProgressBar = %StaminaProgressBar
 @onready var player_stamina_label: Label = %PlayerStaminaLabel
-@onready var end_turn_button: Button = %EndTurnButton
 
 @export var _critical_health_range: float = 0.3
 
@@ -14,8 +13,6 @@ var _critical_health_effect_tween: Tween
 func _ready() -> void:
 	BattlemapSignals.player_stamina_changed.connect(_on_player_stamina_changed)
 	BattlemapSignals.player_health_changed.connect(_on_player_health_changed)
-	BattlemapSignals.lock_player_input.connect(_on_player_lock_input)
-	BattlemapSignals.unlock_player_input.connect(_on_player_unlock_input)
 	_initialize_player_stats()
 
 func _on_player_stamina_changed(_current_stamina: int):
@@ -47,16 +44,6 @@ func _add_critical_health_effect():
 	_critical_health_effect_tween.set_loops()
 	_critical_health_effect_tween.tween_property(health_progress_bar, "modulate:a", 0.5, 0.5)
 	_critical_health_effect_tween.tween_property(health_progress_bar, "modulate:a", 1.0, 0.5)
-
-
-func _on_player_lock_input():
-	end_turn_button.disabled = true
-
-func _on_player_unlock_input():
-	end_turn_button.disabled = false
-
-func _on_end_turn_button_pressed() -> void:
-	BattlemapSignals.monster_turn_started.emit()
 
 func _initialize_player_stats():
 	player_health_label.text = str(PlayerController.current_player_health) + "/" + str(100)
