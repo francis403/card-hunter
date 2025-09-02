@@ -123,6 +123,9 @@ number_of_village_children_node = 3
 [node name="MainWorldScreen" instance=ExtResource("1_eplf0")]
 script = ExtResource("1_3wacw")
 
+[node name="Background" parent="." index="0"]
+mouse_filter = 2
+
 [node name="WorldManager" parent="." index="1" instance=ExtResource("4_m1ip7")]
 
 [node name="WorldGeneratorManager" parent="." index="2" node_paths=PackedStringArray("world_node_container", "village_node_marker") instance=ExtResource("1_f2eca")]
@@ -131,16 +134,7 @@ world_generator_config = SubResource("Resource_r4qll")
 world_node_container = NodePath("../WorldNodes")
 village_node_marker = NodePath("../VillageNodeMarker")
 
-[node name="Title" parent="Screen/HBoxContainer" index="0"]
-text = "World Screen"
-
-[node name="BossTimerLabel" type="Label" parent="Screen/HBoxContainer" index="1"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 4
-text = "Days till next attack: 5"
-
-[node name="WorldNodes" type="MarginContainer" parent="." index="4"]
+[node name="WorldNodes" type="MarginContainer" parent="." index="5"]
 layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -150,9 +144,25 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="DeckUI" parent="." index="6" instance=ExtResource("5_yl1ki")]
+z_index = 1
 layout_mode = 1
+mouse_filter = 0
 title = "Deck"
 deck_type = 0
 
 [node name="VillageNodeMarker" type="Marker2D" parent="." index="7"]
 position = Vector2(581, 310)
+
+[node name="Screen" parent="." index="8"]
+mouse_filter = 2
+theme_override_constants/margin_top = 25
+
+[node name="Title" parent="Screen/HBoxContainer" index="0"]
+visible = false
+text = "World Screen"
+
+[node name="BossTimerLabel" type="Label" parent="Screen/HBoxContainer" index="1"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Days till next attack: 5"
