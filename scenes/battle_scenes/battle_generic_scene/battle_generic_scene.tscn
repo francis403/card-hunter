@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://dn1s6gbout3xc"]
+[gd_scene load_steps=14 format=3 uid="uid://dn1s6gbout3xc"]
 
 [ext_resource type="Script" path="res://scenes/battle_scenes/battle_generic_scene/battle_generic_scene.gd" id="1_6gf8r"]
 [ext_resource type="AudioStream" uid="uid://dwcjod037iqrj" path="res://assets/sound/background_music/One Man Symphony - Collateral Damage (Free) - 15 CyberRace Theme 02.mp3" id="2_ugrlm"]
@@ -12,6 +12,7 @@
 [ext_resource type="PackedScene" uid="uid://cksvi3r0uyp0o" path="res://scenes/managers/battle_scene_rewards_manager/battle_scene_rewards_manager.tscn" id="10_66p06"]
 [ext_resource type="PackedScene" uid="uid://dyhe2vn3fiuv5" path="res://ui/battlemap/player/discard_card_ui/discard_card_ui.tscn" id="10_muclq"]
 [ext_resource type="PackedScene" uid="uid://hked8dt7umpy" path="res://ui/screen_components/_general_componets/buttons/sound_button/sound_button.tscn" id="11_w28v7"]
+[ext_resource type="Theme" uid="uid://bqnfkv4w8p2m3" path="res://assets/themes/buttons/end_turn_button_theme.tres" id="12_end_turn_theme"]
 
 [node name="BattleGenericScene" type="Node" node_paths=PackedStringArray("player")]
 script = ExtResource("1_6gf8r")
@@ -88,12 +89,12 @@ theme_override_constants/separation = 15
 
 [node name="EndTurnButton" parent="UINodes/BottomRightContainer" instance=ExtResource("11_w28v7")]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(120, 45)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-text = "
-End Turn
- "
+theme = ExtResource("12_end_turn_theme")
+text = "End Turn"
 
 [node name="DiscardPile" parent="UINodes/BottomRightContainer" instance=ExtResource("9_a3gj4")]
 layout_mode = 2
