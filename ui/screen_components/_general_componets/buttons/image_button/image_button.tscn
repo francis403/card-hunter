@@ -1,17 +1,40 @@
-[gd_scene load_steps=2 format=3 uid="uid://coqutn25meql"]
+[gd_scene load_steps=5 format=3 uid="uid://cnmfofjavj5t2"]
 
 [ext_resource type="Script" path="res://ui/screen_components/_general_componets/buttons/image_button/image_button.gd" id="1_pdmpc"]
+[ext_resource type="Texture2D" uid="uid://drnrw7pcoujpb" path="res://assets/game_objects/card_parts/background/card_background_stone.tres" id="1_pumtf"]
+[ext_resource type="Texture2D" uid="uid://dirrli3fxsig0" path="res://assets/game_objects/card_parts/background/card_background_white.tres" id="2_4j36w"]
+[ext_resource type="Texture2D" uid="uid://cyanl8scvf3ka" path="res://assets/images/icons/craft/hammer.png" id="3_mnh1f"]
 
-[node name="ImageButton" type="Control"]
-layout_mode = 3
+[node name="ImageButton" type="TextureButton"]
+offset_right = 104.0
+offset_bottom = 128.0
+size_flags_horizontal = 4
+texture_normal = ExtResource("1_pumtf")
+texture_pressed = ExtResource("1_pumtf")
+texture_hover = ExtResource("1_pumtf")
+texture_disabled = ExtResource("2_4j36w")
+texture_focused = ExtResource("1_pumtf")
+script = ExtResource("1_pdmpc")
+
+[node name="FrontImage" type="TextureRect" parent="."]
+layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_pdmpc")
+texture = ExtResource("3_mnh1f")
 
-[node name="TextureButton" type="TextureButton" parent="."]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+
+[node name="Text" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -23.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "Forge Card"
+horizontal_alignment = 1

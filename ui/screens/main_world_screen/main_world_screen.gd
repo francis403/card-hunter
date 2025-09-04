@@ -3,7 +3,8 @@ class_name MainWorldScreen
 
 @onready var world_nodes: MarginContainer = $WorldNodes
 @onready var boss_timer_label: Label = %BossTimerLabel
-@onready var deck_ui: DeckUI = $DeckUI
+@onready var deck_ui: DeckUI = %DeckUI
+@onready var forge_button: ImageButton = %ForgeButton
 @onready var world_generator_manager: WorldGeneratorManager = $WorldGeneratorManager
 
 func _ready() -> void:
@@ -12,6 +13,7 @@ func _ready() -> void:
 	BattlemapSignals.world_node_screen_completed.connect(_on_world_node_screen_completed_signal)
 	GameController.days_till_attack_modified.connect(_on_days_till_attack_modified_signal)
 	GameController.world_boss_monster_encountered.connect(_on_world_boss_monster_encountered_signal)
+	forge_button.on_button_pressed.connect(_on_forge_button_pressed)
 	_clean_preview()
 	boss_timer_label.text = "Days till next attack: " + str(GameController.days_till_attack)
 	
@@ -57,3 +59,7 @@ func _on_battle_won_signal():
 
 func _on_world_node_screen_completed_signal(_advance_day: bool):
 	GameController.decrease_days_till_next_attack()
+
+func _on_forge_button_pressed():
+	var scene: ForgeCardScreen = Constants.forge_card_screen_scene.instantiate()
+	get_tree().root.add_child(scene)
