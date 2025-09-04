@@ -6,6 +6,7 @@ class_name MainWorldScreen
 @onready var deck_ui: DeckUI = %DeckUI
 @onready var forge_button: ImageButton = %ForgeButton
 @onready var world_generator_manager: WorldGeneratorManager = $WorldGeneratorManager
+@onready var player_menu: PlayerMenu = %PlayerMenu
 
 func _ready() -> void:
 	BattleSignals.battle_start.connect(_on_battle_start_signal)
@@ -13,6 +14,7 @@ func _ready() -> void:
 	BattlemapSignals.world_node_screen_completed.connect(_on_world_node_screen_completed_signal)
 	GameController.days_till_attack_modified.connect(_on_days_till_attack_modified_signal)
 	GameController.world_boss_monster_encountered.connect(_on_world_boss_monster_encountered_signal)
+	GameController.debug_mode_toggled.connect(_on_debug_mode_toggled)
 	forge_button.on_button_pressed.connect(_on_forge_button_pressed)
 	_clean_preview()
 	boss_timer_label.text = "Days till next attack: " + str(GameController.days_till_attack)
@@ -41,6 +43,9 @@ func _on_world_boss_monster_encountered_signal():
 		get_parent(),
 		_prep_boss_battle()
 	)
+	
+func _on_debug_mode_toggled(is_debug_mode_on: bool) -> void:
+	player_menu.visible = is_debug_mode_on
 
 ## TODO: generate better boss battles
 ## TODO: need to add some event_resource or something
