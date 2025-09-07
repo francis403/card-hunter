@@ -1,7 +1,8 @@
-[gd_resource type="Resource" script_class="CardResourceV2" load_steps=10 format=3 uid="uid://d37hu1uhqsq3o"]
+[gd_resource type="Resource" script_class="CardResourceV2" load_steps=11 format=3 uid="uid://d37hu1uhqsq3o"]
 
 [ext_resource type="Script" path="res://resources/card/card_resource_v2/card_effect/card_effect.gd" id="1_4iq5p"]
 [ext_resource type="AudioStream" uid="uid://d4nqs2kfg56mh" path="res://assets/sound/sound_effects/knifeSlice.ogg" id="1_lqvir"]
+[ext_resource type="Texture2D" uid="uid://dihus25vpq4qq" path="res://assets/images/card/card_main_image/dagger.png" id="2_820uk"]
 [ext_resource type="Script" path="res://resources/card/card_resource_v2/card_effect/_card_effects/attack_card_effect/attack_card_effect.gd" id="2_t0gwf"]
 [ext_resource type="Script" path="res://resources/card/card_resource_v2/condition/condition.gd" id="2_yj67r"]
 [ext_resource type="Script" path="res://resources/card/card_resource_v2/card_resource_v2.gd" id="3_po1p0"]
@@ -53,3 +54,4 @@ play_conditions = Array[ExtResource("2_yj67r")]([])
 play_actions = Array[ExtResource("1_4iq5p")]([SubResource("Resource_wpiia")])
 special_effects = Array[ExtResource("4_f5m2y")]([])
 audio_stream = ExtResource("1_lqvir")
+card_image = ExtResource("2_820uk")

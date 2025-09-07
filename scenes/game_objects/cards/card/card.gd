@@ -22,6 +22,7 @@ const SIZE: Vector2 = Vector2(175, 270)
 @onready var special_effect_controller: Node = $SpecialEffectController
 @onready var full_card_container: MarginContainer = $FullCardContainer
 @onready var back_ground_texture_rect: TextureRect = $BackGroundTextureRect
+@onready var card_image: TextureRect = $FullCardContainer/CardContentVBoxContainer/ImageContainer/TextureRect/CardImage
 
 var card_can_be_played: bool = true
 var _mouse_hovering: bool = false
@@ -41,9 +42,13 @@ func _ready() -> void:
 	self.card_can_be_played = _card_can_be_played
 
 func initialize_card():
+	if not card_resource:
+		return
 	card_title.text = card_resource.title
 	card_description.text = card_resource.description
 	stamina_cost_label.text = str(card_resource.stamina_cost)
+	if card_resource.card_image:
+		self.card_image.texture = self.card_resource.card_image
 	card_resource.subscribe_to_special_effects(self, special_effect_controller)
 
 

@@ -1,7 +1,8 @@
-[gd_resource type="Resource" script_class="CardResourceV2" load_steps=7 format=3 uid="uid://dj70btw21vyx3"]
+[gd_resource type="Resource" script_class="CardResourceV2" load_steps=8 format=3 uid="uid://dj70btw21vyx3"]
 
 [ext_resource type="AudioStream" uid="uid://d1mjkdbshat6f" path="res://assets/sound/sound_effects/footstep09.ogg" id="1_8nr0h"]
 [ext_resource type="Script" path="res://resources/card/card_resource_v2/card_effect/card_effect.gd" id="2_4kdfr"]
+[ext_resource type="Texture2D" uid="uid://dnf1rcsjmf4c3" path="res://assets/images/card/card_main_image/potion_healing_1.png" id="2_nu2px"]
 [ext_resource type="Resource" uid="uid://8r2moa4quqc7" path="res://resources/card/card_resource_v2/card_effect/_card_effects/_card_effects_collection/move_diagonal_2.tres" id="3_a8rey"]
 [ext_resource type="Script" path="res://resources/card/card_resource_v2/condition/condition.gd" id="5_mkd7t"]
 [ext_resource type="Script" path="res://resources/card/card_resource_v2/card_resource_v2.gd" id="6_8ihme"]
@@ -19,3 +20,4 @@ play_conditions = Array[ExtResource("5_mkd7t")]([])
 play_actions = Array[ExtResource("2_4kdfr")]([ExtResource("3_a8rey")])
 special_effects = Array[ExtResource("7_tnh10")]([])
 audio_stream = ExtResource("1_8nr0h")
+card_image = ExtResource("2_nu2px")

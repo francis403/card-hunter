@@ -119,6 +119,13 @@ layout_mode = 2
 texture = ExtResource("6_xpnrf")
 stretch_mode = 3
 
+[node name="CardImage" type="TextureRect" parent="FullCardContainer/CardContentVBoxContainer/ImageContainer/TextureRect"]
+layout_mode = 2
+offset_right = 164.0
+offset_bottom = 72.0
+expand_mode = 3
+stretch_mode = 5
+
 [node name="DescritpionContainer" type="MarginContainer" parent="FullCardContainer/CardContentVBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3

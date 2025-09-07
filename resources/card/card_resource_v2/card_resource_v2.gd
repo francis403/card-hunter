@@ -1,6 +1,8 @@
 extends Resource
 class_name CardResourceV2
 
+const BASIC_CARD_BACKGROUND_IMAGE: Texture2D = preload("res://assets/images/card/card_main_image/potion_healing_1.png")
+
 signal card_finished_playing
 
 enum CardRaririty {
@@ -27,6 +29,9 @@ enum CardRaririty {
 @export_group("Card Audio & animation")
 @export var _on_click_sound: AudioStream = load("res://assets/sound/sound_effects/button_clicks/click3.ogg")
 @export var audio_stream: AudioStream
+
+@export_group("Card Visuals")
+@export var card_image: Texture2D = BASIC_CARD_BACKGROUND_IMAGE
 
 var _revertable_play_actions: Array[CardEffect] = []
 

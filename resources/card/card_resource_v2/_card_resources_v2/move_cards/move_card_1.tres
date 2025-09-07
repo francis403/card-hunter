@@ -1,6 +1,7 @@
-[gd_resource type="Resource" script_class="CardResourceV2" load_steps=7 format=3 uid="uid://cmf6ja37sck5y"]
+[gd_resource type="Resource" script_class="CardResourceV2" load_steps=8 format=3 uid="uid://cmf6ja37sck5y"]
 
 [ext_resource type="AudioStream" uid="uid://d1mjkdbshat6f" path="res://assets/sound/sound_effects/footstep09.ogg" id="1_d6j37"]
+[ext_resource type="Texture2D" uid="uid://dq660nsdil435" path="res://assets/images/card/card_main_image/move_all_directions.png" id="2_ccs1x"]
 [ext_resource type="Script" path="res://resources/card/card_resource_v2/card_effect/card_effect.gd" id="2_lpc1f"]
 [ext_resource type="Resource" uid="uid://dk0gj3lsmtif8" path="res://resources/card/card_resource_v2/card_effect/_card_effects/_card_effects_collection/move_1.tres" id="3_w652k"]
 [ext_resource type="Script" path="res://resources/card/card_resource_v2/condition/condition.gd" id="5_2ovqd"]
@@ -19,3 +20,4 @@ play_conditions = Array[ExtResource("5_2ovqd")]([])
 play_actions = Array[ExtResource("2_lpc1f")]([ExtResource("3_w652k")])
 special_effects = Array[ExtResource("7_4t722")]([])
 audio_stream = ExtResource("1_d6j37")
+card_image = ExtResource("2_ccs1x")
