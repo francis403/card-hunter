@@ -1,5 +1,6 @@
-[gd_resource type="Resource" script_class="CardResourceV2" load_steps=6 format=3 uid="uid://dvk1a1vyglgvc"]
+[gd_resource type="Resource" script_class="CardResourceV2" load_steps=7 format=3 uid="uid://dvk1a1vyglgvc"]
 
+[ext_resource type="Texture2D" uid="uid://4hoxr5mnlpt5" path="res://assets/images/card/card_main_image/speed.png" id="1_0to5e"]
 [ext_resource type="Script" path="res://resources/card/card_resource_v2/card_effect/card_effect.gd" id="1_nxy4l"]
 [ext_resource type="Script" path="res://resources/card/card_resource_v2/condition/condition.gd" id="2_n6siu"]
 [ext_resource type="Resource" uid="uid://c0bpds8prbbmo" path="res://resources/card/card_resource_v2/card_effect/_card_effects/_card_effects_collection/power_double_speed_2.tres" id="2_wjbuj"]
@@ -17,3 +18,4 @@ tag_array = Array[String](["power"])
 play_conditions = Array[ExtResource("2_n6siu")]([])
 play_actions = Array[ExtResource("1_nxy4l")]([ExtResource("2_wjbuj")])
 special_effects = Array[ExtResource("4_b5w8q")]([])
+card_image = ExtResource("1_0to5e")
