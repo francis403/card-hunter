@@ -1,6 +1,7 @@
-[gd_resource type="Resource" script_class="CardResourceV2" load_steps=8 format=3 uid="uid://dl1moktvst0io"]
+[gd_resource type="Resource" script_class="CardResourceV2" load_steps=9 format=3 uid="uid://dl1moktvst0io"]
 
 [ext_resource type="AudioStream" uid="uid://d1mjkdbshat6f" path="res://assets/sound/sound_effects/footstep09.ogg" id="1_vijq0"]
+[ext_resource type="Texture2D" uid="uid://b4egf34ust84a" path="res://assets/images/card/card_main_image/retreat.png" id="2_q0bbo"]
 [ext_resource type="Script" path="res://resources/card/card_resource_v2/card_effect/card_effect.gd" id="2_w7d0r"]
 [ext_resource type="Resource" uid="uid://dwihnll5qw26v" path="res://resources/card/card_resource_v2/card_effect/_card_effects/_card_effects_collection/discard_1_card_from_hand.tres" id="3_vu5as"]
 [ext_resource type="Resource" uid="uid://dk0gj3lsmtif8" path="res://resources/card/card_resource_v2/card_effect/_card_effects/_card_effects_collection/move_1.tres" id="4_r2ls2"]
@@ -12,12 +13,13 @@
 script = ExtResource("7_h7jtr")
 id = "emergency_retreat_1"
 title = "Run Away"
-rarity = null
+rarity = 0
 description = "Move 1 tile away. 
 Before you can play this card you must discard a card."
-stamina_cost = null
+stamina_cost = 0
 tag_array = Array[String](["move"])
 play_conditions = Array[ExtResource("5_eb1cn")]([])
 play_actions = Array[ExtResource("2_w7d0r")]([ExtResource("3_vu5as"), ExtResource("4_r2ls2")])
 special_effects = Array[ExtResource("7_ed1g2")]([])
 audio_stream = ExtResource("1_vijq0")
+card_image = ExtResource("2_q0bbo")

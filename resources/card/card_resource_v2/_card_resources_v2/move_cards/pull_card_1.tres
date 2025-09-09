@@ -1,6 +1,7 @@
-[gd_resource type="Resource" script_class="CardResourceV2" load_steps=6 format=3 uid="uid://dgb7w0axp0pyl"]
+[gd_resource type="Resource" script_class="CardResourceV2" load_steps=7 format=3 uid="uid://dgb7w0axp0pyl"]
 
 [ext_resource type="Script" path="res://resources/card/card_resource_v2/card_effect/card_effect.gd" id="1_8rr8l"]
+[ext_resource type="Texture2D" uid="uid://dnf1rcsjmf4c3" path="res://assets/images/card/card_main_image/potion_healing_1.png" id="1_pnjxw"]
 [ext_resource type="Script" path="res://resources/card/card_resource_v2/condition/condition.gd" id="2_41c3t"]
 [ext_resource type="Resource" uid="uid://d2iqg4w3f4b2h" path="res://resources/card/card_resource_v2/card_effect/_card_effects/_card_effects_collection/move_other_pull_1.tres" id="2_ivo8n"]
 [ext_resource type="Script" path="res://resources/card/card_resource_v2/card_resource_v2.gd" id="3_2isji"]
@@ -17,3 +18,4 @@ tag_array = Array[String](["move"])
 play_conditions = Array[ExtResource("2_41c3t")]([])
 play_actions = Array[ExtResource("1_8rr8l")]([ExtResource("2_ivo8n")])
 special_effects = Array[ExtResource("4_c38os")]([])
+card_image = ExtResource("1_pnjxw")

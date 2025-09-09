@@ -1,6 +1,7 @@
-[gd_resource type="Resource" script_class="CardResourceV2" load_steps=6 format=3 uid="uid://bnds0fxs33yqg"]
+[gd_resource type="Resource" script_class="CardResourceV2" load_steps=7 format=3 uid="uid://bnds0fxs33yqg"]
 
 [ext_resource type="Script" path="res://resources/card/card_resource_v2/card_effect/card_effect.gd" id="1_05pe8"]
+[ext_resource type="Texture2D" uid="uid://du3o611wyha3e" path="res://assets/images/card/card_main_image/push.png" id="1_qlrlg"]
 [ext_resource type="Resource" uid="uid://don2d3okfgy06" path="res://resources/card/card_resource_v2/card_effect/_card_effects/_card_effects_collection/move_other_push_1.tres" id="2_dsopr"]
 [ext_resource type="Script" path="res://resources/card/card_resource_v2/condition/condition.gd" id="2_uhw8q"]
 [ext_resource type="Script" path="res://resources/card/card_resource_v2/card_resource_v2.gd" id="3_ae2bu"]
@@ -17,3 +18,4 @@ tag_array = Array[String](["move"])
 play_conditions = Array[ExtResource("2_uhw8q")]([])
 play_actions = Array[ExtResource("1_05pe8")]([ExtResource("2_dsopr")])
 special_effects = Array[ExtResource("4_sgafs")]([])
+card_image = ExtResource("1_qlrlg")
