@@ -1,7 +1,7 @@
 extends Resource
 class_name CardResourceV2
 
-const BASIC_CARD_BACKGROUND_IMAGE: Texture2D = preload("res://assets/images/card/card_main_image/potion_healing_1.png")
+const BASIC_CARD_BACKGROUND_IMAGE: Texture2D = preload("res://assets/images/card/card_main_image/exclamation_mark.png")
 
 signal card_finished_playing
 

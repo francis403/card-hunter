@@ -1,6 +1,7 @@
-[gd_resource type="Resource" script_class="CardResourceV2" load_steps=10 format=3 uid="uid://d0tjdvgepml65"]
+[gd_resource type="Resource" script_class="CardResourceV2" load_steps=11 format=3 uid="uid://d0tjdvgepml65"]
 
 [ext_resource type="AudioStream" uid="uid://mdol2aev84gr" path="res://assets/sound/sound_effects/drinking_potion.mp3" id="1_6q8rp"]
+[ext_resource type="Texture2D" uid="uid://dnf1rcsjmf4c3" path="res://assets/images/card/card_main_image/potion_healing_1.png" id="2_e32qo"]
 [ext_resource type="Script" path="res://resources/card/card_resource_v2/card_effect/card_effect.gd" id="2_grq01"]
 [ext_resource type="Script" path="res://resources/card/card_resource_v2/card_effect/_card_effects/status_change_card_effect/status_change_card_effect.gd" id="3_2fk6h"]
 [ext_resource type="Script" path="res://resources/configuration/effect_configs/status_modifier_config/status_modifier_config.gd" id="4_11vpw"]
@@ -39,3 +40,4 @@ play_conditions = Array[ExtResource("5_xpgh1")]([])
 play_actions = Array[ExtResource("2_grq01")]([SubResource("Resource_1uxtb")])
 special_effects = Array[ExtResource("7_vvv15")]([])
 audio_stream = ExtResource("1_6q8rp")
+card_image = ExtResource("2_e32qo")

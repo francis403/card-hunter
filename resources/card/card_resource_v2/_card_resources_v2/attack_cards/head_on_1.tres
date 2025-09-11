@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="CardResourceV2" load_steps=9 format=3 uid="uid://b8medpnffy1sh"]
 
-[ext_resource type="Texture2D" uid="uid://dihus25vpq4qq" path="res://assets/images/card/card_main_image/dagger.png" id="1_ep58n"]
 [ext_resource type="Script" path="res://resources/card/card_resource_v2/card_effect/card_effect.gd" id="1_o2f8x"]
+[ext_resource type="Texture2D" uid="uid://dsqygnsqcy5uh" path="res://assets/images/card/card_main_image/hit_on_head.png" id="1_ol1as"]
 [ext_resource type="Resource" uid="uid://b7jfi626r7lu0" path="res://resources/card/card_resource_v2/card_effect/_card_effects/_card_effects_collection/melee_attack_10.tres" id="2_0h3or"]
 [ext_resource type="Script" path="res://resources/card/card_resource_v2/condition/condition.gd" id="2_2bn0t"]
 [ext_resource type="Resource" uid="uid://y7ik5ek0nh50" path="res://resources/card/card_resource_v2/card_effect/_card_effects/_card_effects_collection/on_head_attack.tres" id="3_f0uat"]
@@ -21,4 +21,4 @@ tag_array = Array[String](["attack"])
 play_conditions = Array[ExtResource("2_2bn0t")]([])
 play_actions = Array[ExtResource("1_o2f8x")]([ExtResource("2_0h3or"), ExtResource("3_f0uat"), ExtResource("4_jh86i")])
 special_effects = Array[ExtResource("4_a6ucl")]([])
-card_image = ExtResource("1_ep58n")
+card_image = ExtResource("1_ol1as")
