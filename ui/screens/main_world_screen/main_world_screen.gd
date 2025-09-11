@@ -7,6 +7,8 @@ class_name MainWorldScreen
 @onready var forge_button: ImageButton = %ForgeButton
 @onready var world_generator_manager: WorldGeneratorManager = $WorldGeneratorManager
 @onready var player_menu: PlayerMenu = %PlayerMenu
+@onready var world_background_generator: WorldBackgroundGenerator = $WorldBackgroundGenerator
+@onready var village_node_marker: Marker2D = $VillageNodeMarker
 
 func _ready() -> void:
 	BattleSignals.battle_start.connect(_on_battle_start_signal)
@@ -18,6 +20,8 @@ func _ready() -> void:
 	forge_button.on_button_pressed.connect(_on_forge_button_pressed)
 	_clean_preview()
 	boss_timer_label.text = "Days till next attack: " + str(GameController.days_till_attack)
+	# Setup grass exclusions after a frame to ensure all nodes are ready
+	call_deferred("_setup_world_background_exclusion_zone")
 	
 
 func _clean_preview():
@@ -64,6 +68,19 @@ func _on_battle_won_signal():
 
 func _on_world_node_screen_completed_signal(_advance_day: bool):
 	GameController.decrease_days_till_next_attack()
+
+func _setup_world_background_exclusion_zone():
+	if not (world_background_generator and village_node_marker):
+		return
+	var exclusion_zones: Array[Vector2] = [village_node_marker.position]
+	
+	# Add world nodes to exclusion zones
+	for child in world_nodes.get_children():
+		if child.has_method("get_global_position"):
+			exclusion_zones.append(child.global_position)
+		elif child.has_method("get_position"):
+			exclusion_zones.append(child.position)
+	world_background_generator.set_exclusion_zones(exclusion_zones)
 
 func _on_forge_button_pressed():
 	var scene: ForgeCardScreen = Constants.forge_card_screen_scene.instantiate()

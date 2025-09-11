@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://dtut6u4j637u8"]
+
+[ext_resource type="Script" path="res://scenes/managers/world_background_generator/world_background_generator.gd" id="1_a6gtr"]
+
+[node name="WorldBackgroundGenerator" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_a6gtr")
+min_distance = 35.0
+exclusion_radius = 100.0
