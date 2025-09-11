@@ -1,7 +1,6 @@
 extends GenericWorldNode
 class_name VillageWorldNode
 
-const VILAGE_NODE_SPRITE = preload("res://assets/images/nodes/vilage_node.png")
 
 ## -------- OVERRIDE IMNPORTANT FUNCTIONS --------
 func set_world_scene():
@@ -14,6 +13,6 @@ func on_node_click_event():
 	pass
 
 func after_node_is_ready():
-	world_node_sprite.texture = VILAGE_NODE_SPRITE
+	world_node_sprite.texture = self.revealed_texture
 
 ## -------- FINISH OVERRIDING IMNPORTANT FUNCTIONS --------

@@ -35,6 +35,7 @@ var pulsating_tween: Tween
 @export var generate_random_monsters: bool = true
 @export var maximum_number_of_monster_to_generate: int = 1
 @export var _is_only_clickable_once: bool = true
+@export var _is_pulsable: bool = true
 
 var _available_tween_scale: Vector2 = Vector2(1.1, 1.1)
 
@@ -234,6 +235,8 @@ func load_node_from_dictionary(node_state: Dictionary):
 	_start_pulsating_animation()
 
 func _start_pulsating_animation() -> void:
+	if not _is_pulsable:
+		return
 	if is_revealed and not _is_already_clicked:
 		_start_pulsating()
 		return
