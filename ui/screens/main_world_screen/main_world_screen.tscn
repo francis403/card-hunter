@@ -1,4 +1,4 @@
-[gd_scene load_steps=39 format=3 uid="uid://baqwuitia2ptv"]
+[gd_scene load_steps=40 format=3 uid="uid://baqwuitia2ptv"]
 
 [ext_resource type="Script" path="res://ui/screens/main_world_screen/main_world_screen.gd" id="1_3wacw"]
 [ext_resource type="PackedScene" uid="uid://dqlmwbtf0bya2" path="res://ui/screens/generic_screen/generic_screen.tscn" id="1_eplf0"]
@@ -24,6 +24,7 @@
 [ext_resource type="Resource" uid="uid://bu7gcqxkp3gqp" path="res://resources/card/card_resource_v2/_card_resources_v2/move_cards/teleport_card_1.tres" id="16_uwt2j"]
 [ext_resource type="PackedScene" uid="uid://cnmfofjavj5t2" path="res://ui/screen_components/_general_componets/buttons/image_button/image_button.tscn" id="21_sawn2"]
 [ext_resource type="AudioStream" uid="uid://2dk82vkfonp7" path="res://assets/sound/sound_effects/button_clicks/click5.ogg" id="22_p38ha"]
+[ext_resource type="Theme" uid="uid://bxlatu18hbfeu" path="res://assets/themes/generic_theme_1.tres" id="25_14g2u"]
 
 [sub_resource type="Resource" id="Resource_rn4cb"]
 script = ExtResource("6_f2ehu")
@@ -185,15 +186,28 @@ _under_text = "Forge Card"
 mouse_filter = 2
 theme_override_constants/margin_top = 25
 
-[node name="Title" parent="Screen/HBoxContainer" index="0"]
-visible = false
-text = "World Screen"
+[node name="PanelContainer" type="PanelContainer" parent="Screen/HBoxContainer" index="0"]
+layout_mode = 2
+theme = ExtResource("25_14g2u")
 
-[node name="BossTimerLabel" type="Label" parent="Screen/HBoxContainer" index="1"]
+[node name="MarginContainer" type="MarginContainer" parent="Screen/HBoxContainer/PanelContainer" index="0"]
+layout_mode = 2
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_bottom = 15
+
+[node name="BossTimerLabel" type="Label" parent="Screen/HBoxContainer/PanelContainer/MarginContainer" index="0"]
 unique_name_in_owner = true
 layout_mode = 2
-size_flags_horizontal = 4
+size_flags_vertical = 1
 text = "Days till next attack: 5"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Title" parent="Screen/HBoxContainer" index="1"]
+visible = false
+text = "World Screen"
 
 [node name="PlayerMenu" parent="." index="10"]
 unique_name_in_owner = true

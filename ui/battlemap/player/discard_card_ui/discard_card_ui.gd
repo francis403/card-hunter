@@ -6,7 +6,7 @@ class_name DiscardCardUI
 ## This is what representes the card that has been discarded
 ## In the future this and the _current_selected_card might be the same
 @onready var card: Card = $VBoxContainer/PanelContainer/Card
-@onready var discard_button: Button = $VBoxContainer/Button
+@onready var discard_button: SoundButton = %DiscardButton
 
 @export var title_string: String = "Select Card to Discard"
 
@@ -20,6 +20,7 @@ func _ready() -> void:
 	BattlemapSignals.awaiting_for_card_selection.connect(on_awaiting_for_card_selection_signal)
 	BattlemapSignals.canceled_player_input.connect(_on_player_canceled_input_signal)
 	BattlemapSignals.input_received_for_card_selected.connect(select_card)
+	discard_button.pressed.connect(_on_button_pressed)
 
 func select_card(
 	selected_card: Card

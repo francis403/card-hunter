@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://dyhe2vn3fiuv5"]
+[gd_scene load_steps=5 format=3 uid="uid://dyhe2vn3fiuv5"]
 
+[ext_resource type="Theme" uid="uid://bxlatu18hbfeu" path="res://assets/themes/generic_theme_1.tres" id="1_b8lqu"]
 [ext_resource type="PackedScene" uid="uid://d3vhms6yk456c" path="res://scenes/game_objects/cards/card/card.tscn" id="1_jnrqc"]
 [ext_resource type="Script" path="res://ui/battlemap/player/discard_card_ui/discard_card_ui.gd" id="1_lasxw"]
-[ext_resource type="Theme" uid="uid://dmot8ul1c5l3n" path="res://assets/themes/theme_1.tres" id="2_l7nn6"]
+[ext_resource type="PackedScene" uid="uid://hked8dt7umpy" path="res://ui/screen_components/_general_componets/buttons/sound_button/sound_button.tscn" id="3_t7avb"]
 
 [node name="DiscardCardUI" type="MarginContainer"]
 anchors_preset = 8
@@ -12,6 +13,7 @@ anchor_right = 0.5
 anchor_bottom = 0.5
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("1_b8lqu")
 script = ExtResource("1_lasxw")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
@@ -29,11 +31,8 @@ layout_mode = 2
 visible = false
 layout_mode = 2
 
-[node name="Button" type="Button" parent="VBoxContainer"]
+[node name="DiscardButton" parent="VBoxContainer" instance=ExtResource("3_t7avb")]
+unique_name_in_owner = true
 visible = false
 layout_mode = 2
-theme = ExtResource("2_l7nn6")
 text = "Discard"
-icon_alignment = 1
-
-[connection signal="pressed" from="VBoxContainer/Button" to="." method="_on_button_pressed"]
