@@ -81,7 +81,7 @@ func discard_card_from_player(_card: Card) -> void:
 	if not player:
 		return
 	player.discard_card_from_hand(_card)
-	player_hand.discard_card(_card)
+	await player_hand.discard_card(_card)
 
 # SIGNALS
 

@@ -103,7 +103,7 @@ func _discard_card() -> bool:
 		push_warning(_discard_card, " warning:  card cannot be discarded.")
 		return false
 	BattlemapSignals.card_discarded_from_hand.emit(self.get_index())
-	BattleController.discard_card_from_player(self)
+	await BattleController.discard_card_from_player(self)
 	return true
 
 func _on_mouse_entered() -> void:
