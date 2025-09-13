@@ -169,7 +169,6 @@ theme_override_constants/margin_bottom = 5
 
 [node name="DeckUI" parent="BottomMargin" index="0" instance=ExtResource("5_yl1ki")]
 unique_name_in_owner = true
-z_index = 1
 layout_mode = 2
 mouse_filter = 0
 title = "Deck"
