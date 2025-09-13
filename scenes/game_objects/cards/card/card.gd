@@ -24,7 +24,7 @@ const SIZE: Vector2 = Vector2(175, 270)
 @onready var back_ground_texture_rect: TextureRect = $BackGroundTextureRect
 @onready var card_image: TextureRect = $FullCardContainer/CardContentVBoxContainer/ImageContainer/TextureRect/CardImage
 
-var card_can_be_played: bool = true
+var card_can_be_played: bool = false
 var _mouse_hovering: bool = false
 var _discard_button_mouse_hovering: bool = false
 
