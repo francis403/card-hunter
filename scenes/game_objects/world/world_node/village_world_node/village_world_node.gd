@@ -14,5 +14,6 @@ func on_node_click_event():
 
 func after_node_is_ready():
 	world_node_sprite.texture = self.revealed_texture
+	world_node_sprite.scale = Vector2(2, 2)
 
 ## -------- FINISH OVERRIDING IMNPORTANT FUNCTIONS --------
