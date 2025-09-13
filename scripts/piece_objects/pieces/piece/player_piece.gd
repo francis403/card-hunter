@@ -44,7 +44,6 @@ func draw_til_hand_size() -> Array[CardResourceV2]:
 	var start_size: int = current_card_in_hand_size
 	for n in range(start_size, hand_size):
 		var drawn_card = draw_card()
-		current_card_in_hand_size += 1
 		new_cards_added.append(drawn_card)
 	return new_cards_added
 		
@@ -56,6 +55,7 @@ func draw_card() -> CardResourceV2:
 		BattlemapSignals.discard_pile_updated.emit(discard_pile)
 		shuffle_deck(draw_pile)
 	var card_resource: CardResourceV2 = draw_pile.pop_front()
+	current_card_in_hand_size += 1
 	return card_resource
 
 func recover_stamina(stamina = _stamina_recover):
