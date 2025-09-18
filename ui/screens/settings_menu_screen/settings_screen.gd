@@ -3,7 +3,8 @@ class_name SettingsScreen
 
 signal volume_change(new_volume: float)
 
-@onready var _volume_slider: HSlider = $VBoxContainer/GridContainer/VolumeSlider
+@onready var _volume_slider: HSlider = %VolumeSlider
+
 
 func _ready() -> void:
 	_volume_slider.value_changed.connect(_on_volume_slider_value_changed)

@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=6 format=3 uid="uid://bxlatu18hbfeu"]
+[gd_resource type="Theme" load_steps=9 format=3 uid="uid://bxlatu18hbfeu"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_e8gba"]
 bg_color = Color(0.583256, 0.455549, 0.0659641, 1)
@@ -56,13 +56,32 @@ corner_radius_bottom_left = 5
 expand_margin_left = 5.0
 expand_margin_right = 5.0
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7jdgj"]
+bg_color = Color(0.188235, 0.419608, 0.431373, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_f4afm"]
+bg_color = Color(0.188235, 0.419608, 0.431373, 1)
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ipkt1"]
-bg_color = Color(0.733333, 0.580392, 0.411765, 0.713726)
+bg_color = Color(0.713726, 0.580392, 0.305882, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
 border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ktfwr"]
 
 [resource]
 Button/styles/focus = SubResource("StyleBoxFlat_e8gba")
 Button/styles/hover = SubResource("StyleBoxFlat_076ta")
 Button/styles/normal = SubResource("StyleBoxFlat_ugeck")
 Button/styles/pressed = SubResource("StyleBoxFlat_ef3dv")
+HSlider/styles/grabber_area = SubResource("StyleBoxFlat_7jdgj")
+HSlider/styles/grabber_area_highlight = SubResource("StyleBoxFlat_f4afm")
 PanelContainer/styles/panel = SubResource("StyleBoxFlat_ipkt1")
+VScrollBar/styles/grabber = SubResource("StyleBoxEmpty_ktfwr")
