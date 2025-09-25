@@ -121,7 +121,7 @@ override_possible_rewards = SubResource("Resource_clsn7")
 script = ExtResource("6_f2ehu")
 node_scene = ExtResource("10_lov3o")
 weight = 30
-max_ocurrences = 1
+max_ocurrences = 2
 minimum_distance_to_root = 2
 maximimum_distance_to_root = null
 

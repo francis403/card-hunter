@@ -8,8 +8,8 @@ signal right_button_pressed
 @onready var title_label: Label = %TitleLabel
 @onready var reward_component: RewardUIComponent = %RewardComponent
 @onready var bottom_h_container: HBoxContainer = %BottomHContainer
-@onready var continue_button: Button = $MarginContainer/VBoxContainer/BottomHContainer/Continue
-@onready var exit_button: Button = $MarginContainer/VBoxContainer/BottomHContainer/Exit
+@onready var continue_button: SoundButton = %ContinueButton
+@onready var exit_button: SoundButton = %ExitButton
 
 @export_group("General Screen configuration")
 @export var title_text: String = "You Win"
