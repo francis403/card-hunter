@@ -6,6 +6,6 @@
 
 [resource]
 script = ExtResource("1_ix56t")
-player_class_name = "Generic Class"
+player_class_name = "Sword & Shield"
 player_class_icon = ExtResource("2_sh0sq")
 default_class_deck = ExtResource("1_sj70g")

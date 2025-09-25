@@ -9,6 +9,6 @@ atlas = ExtResource("2_dibf3")
 
 [resource]
 script = ExtResource("3_xicnr")
-player_class_name = "Ninja Class"
+player_class_name = "Dual Blades"
 player_class_icon = SubResource("AtlasTexture_dinak")
 default_class_deck = ExtResource("1_4roh7")

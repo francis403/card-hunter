@@ -6,6 +6,6 @@
 
 [resource]
 script = ExtResource("3_ogchd")
-player_class_name = "Archer Class"
+player_class_name = "Bow & Arrow"
 player_class_icon = ExtResource("2_gdw61")
 default_class_deck = ExtResource("1_8b4bo")
