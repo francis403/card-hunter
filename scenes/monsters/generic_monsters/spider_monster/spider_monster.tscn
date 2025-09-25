@@ -92,5 +92,5 @@ max_angle = 320.0
 min_angle = 45.0
 max_angle = 135.0
 
-[node name="Sprite2D" parent="." index="6"]
+[node name="Sprite2D" parent="." index="5"]
 texture = ExtResource("2_kyton")

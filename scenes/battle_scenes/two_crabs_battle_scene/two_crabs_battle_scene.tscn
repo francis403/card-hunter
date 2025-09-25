@@ -5,7 +5,7 @@
 
 [node name="BattleGenericScene" instance=ExtResource("1_134wq")]
 
-[node name="Battlemap" parent="." index="3" node_paths=PackedStringArray("monsters")]
+[node name="Battlemap" parent="." index="4" node_paths=PackedStringArray("monsters")]
 monsters = [NodePath("../CrabMonster"), NodePath("../CrabMonster2")]
 
 [node name="CrabMonster" parent="." index="5" instance=ExtResource("2_43rgl")]

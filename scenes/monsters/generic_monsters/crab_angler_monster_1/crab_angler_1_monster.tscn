@@ -1,0 +1,105 @@
+[gd_scene load_steps=24 format=3 uid="uid://bcm61mhdmnl68"]
+
+[ext_resource type="PackedScene" uid="uid://b77dqwv8b42lt" path="res://scenes/monsters/generic_monster/generic_monster.tscn" id="1_skrv7"]
+[ext_resource type="Script" path="res://scenes/monsters/generic_monsters/crab_angler_monster_1/crab_angler_1_monster.gd" id="2_g5t55"]
+[ext_resource type="Texture2D" uid="uid://dutkyxu18qhve" path="res://scenes/monsters/generic_monsters/crab_angler_monster_1/crab_monster_1.png" id="3_whqhq"]
+[ext_resource type="PackedScene" uid="uid://c7xqpe3snou7" path="res://scenes/monsters/monster_body_parts/body_parts/head_body_part/head_body_part.tscn" id="4_5iiwr"]
+[ext_resource type="PackedScene" uid="uid://xrdhr3l1djpf" path="res://scenes/game_objects/states/move_speed_to_player_and_do_attack/move_speed_to_player_and_do_attack.tscn" id="4_lg418"]
+[ext_resource type="Script" path="res://resources/configuration/monster_configurations/monster_immunities_config/monster_immunitie_config.gd" id="4_sfk81"]
+[ext_resource type="Script" path="res://resources/configuration/monster_configurations/monster_spawn_config/monster_spawn_config.gd" id="5_5n8w0"]
+[ext_resource type="PackedScene" uid="uid://cje0q5xds21f7" path="res://scenes/monsters/monster_body_parts/body_parts/back_body_part/back_body_part.tscn" id="5_8cjo8"]
+[ext_resource type="Script" path="res://resources/monster/state/state_change_condition/state_change_condition.gd" id="5_nbue8"]
+[ext_resource type="Script" path="res://resources/configuration/tile_highlight_configuration/tile_highlight_configuration.gd" id="5_xhnfh"]
+[ext_resource type="Script" path="res://resources/monster/state/state_condition/state_condition.gd" id="6_er0gv"]
+[ext_resource type="Script" path="res://resources/configuration/monster_configurations/monster_config/monster_config.gd" id="6_mxty3"]
+[ext_resource type="PackedScene" uid="uid://oalssska7u76" path="res://scenes/game_objects/states/stay_away_and_attack_from_range/stay_away_and_attack_from_range.tscn" id="7_o1bq8"]
+[ext_resource type="Script" path="res://resources/card/card_resource_v2/card_resource_v2.gd" id="7_pqggf"]
+[ext_resource type="Resource" uid="uid://d0tjdvgepml65" path="res://resources/card/card_resource_v2/_card_resources_v2/status_change_cards/health_potion_1.tres" id="8_ywphr"]
+[ext_resource type="Resource" uid="uid://c7ml1pqlvfib4" path="res://resources/card/card_resource_v2/_card_resources_v2/power_cards/double_strength_power_card_1.tres" id="9_14w4y"]
+[ext_resource type="Resource" uid="uid://djlopuaxk13fn" path="res://resources/card/card_resource_v2/_card_resources_v2/move_cards/dash_card_1.tres" id="10_mygvp"]
+
+[sub_resource type="Resource" id="Resource_nwrhg"]
+script = ExtResource("4_sfk81")
+immune_list = Array[String]([])
+
+[sub_resource type="Resource" id="Resource_xwi8f"]
+script = ExtResource("5_5n8w0")
+_min_number_of_days_passed = 0
+_min_number_boss_fights = 0
+
+[sub_resource type="Resource" id="Resource_24cch"]
+script = ExtResource("6_mxty3")
+monster_immunity_config = SubResource("Resource_nwrhg")
+monster_spawn_config = SubResource("Resource_xwi8f")
+
+[sub_resource type="Resource" id="Resource_pet88"]
+script = ExtResource("5_xhnfh")
+_range = 1
+min_range = 0.0
+area_type = 0
+ignore_occupied_tiles = true
+ignore_origin = true
+ignore_corners = false
+ignore_non_corners = false
+ignore_tiles_with_effects = false
+ignore_north_tiles = false
+ignore_south_tiles = false
+ignore_east_tiles = false
+ignore_west_tiles = false
+use_specific_tile_location_config = false
+ignore_tiles_close_to_origin = false
+ignore_tiles_away_from_origin = false
+ignore_tiles_same_distance_from_origin = false
+
+[sub_resource type="Resource" id="Resource_5yixl"]
+script = ExtResource("6_er0gv")
+state_condition = 0
+logical_operation = 0
+x = 0
+
+[sub_resource type="Resource" id="Resource_in7xo"]
+script = ExtResource("5_nbue8")
+conditions = Array[ExtResource("6_er0gv")]([SubResource("Resource_5yixl")])
+state_name = "MoveSpeedToPlayerAndDoRadiusAttack"
+
+[node name="CrabAngler1Monster" instance=ExtResource("1_skrv7")]
+script = ExtResource("2_g5t55")
+type_of_giant_monster = 0
+extra_size = 1
+monster_id = "crab_angler_1_monster"
+monster_texture = ExtResource("3_whqhq")
+monster_config = SubResource("Resource_24cch")
+debug_mode = true
+_health = 50
+_max_hp = 50
+_speed = 2
+_max_stamina = 50
+_strength = 25
+
+[node name="RewardManager" parent="." index="0"]
+card_rewards = Array[ExtResource("7_pqggf")]([ExtResource("8_ywphr"), ExtResource("9_14w4y"), ExtResource("10_mygvp")])
+
+[node name="StateMachine" parent="." index="2" node_paths=PackedStringArray("initial_state")]
+initial_state = NodePath("MoveSpeedToPlayerAndDoAttack")
+
+[node name="MoveSpeedToPlayerAndDoAttack" parent="StateMachine" index="0" instance=ExtResource("4_lg418")]
+_range = 6
+tile_highlight_config = SubResource("Resource_pet88")
+
+[node name="StayAwayAndAttackFromRange" parent="StateMachine" index="1" instance=ExtResource("7_o1bq8")]
+state_change_conditions = Array[ExtResource("5_nbue8")]([SubResource("Resource_in7xo")])
+
+[node name="HeadBodyPart" parent="MonsterBodyPartContainer" index="0" instance=ExtResource("4_5iiwr")]
+min_angle = 45.0
+max_angle = 136.0
+
+[node name="BackBodyPart" parent="MonsterBodyPartContainer" index="1" instance=ExtResource("5_8cjo8")]
+min_angle = 224.0
+max_angle = 320.0
+
+[node name="Sprite2D" parent="." index="5"]
+texture = ExtResource("3_whqhq")
+
+[node name="StatusControl" parent="." index="9"]
+offset_top = -23.0
+offset_bottom = 17.0

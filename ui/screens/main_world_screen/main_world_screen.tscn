@@ -1,4 +1,4 @@
-[gd_scene load_steps=40 format=3 uid="uid://baqwuitia2ptv"]
+[gd_scene load_steps=42 format=3 uid="uid://baqwuitia2ptv"]
 
 [ext_resource type="Script" path="res://ui/screens/main_world_screen/main_world_screen.gd" id="1_3wacw"]
 [ext_resource type="PackedScene" uid="uid://dqlmwbtf0bya2" path="res://ui/screens/generic_screen/generic_screen.tscn" id="1_eplf0"]
@@ -16,6 +16,7 @@
 [ext_resource type="Script" path="res://resources/configuration/world/world_entity_reward_generator_config.gd" id="7_tlmgq"]
 [ext_resource type="PackedScene" uid="uid://blf6uu6ap5ht3" path="res://scenes/game_objects/world/world_node/treasure_world_node/treasure_world_node.tscn" id="8_a4yq4"]
 [ext_resource type="PackedScene" uid="uid://dljw8exgbojmi" path="res://scenes/game_objects/world/world_node/deforge_card_world_node/deforge_card_world_node.tscn" id="10_lov3o"]
+[ext_resource type="PackedScene" uid="uid://bcm61mhdmnl68" path="res://scenes/monsters/generic_monsters/crab_angler_monster_1/crab_angler_1_monster.tscn" id="11_f6dhk"]
 [ext_resource type="Resource" uid="uid://dvk1a1vyglgvc" path="res://resources/card/card_resource_v2/_card_resources_v2/power_cards/double_speed_power_card_1.tres" id="12_b6gvx"]
 [ext_resource type="Resource" uid="uid://dl1moktvst0io" path="res://resources/card/card_resource_v2/_card_resources_v2/move_cards/emergency_retreat_1.tres" id="13_n3o4v"]
 [ext_resource type="Resource" uid="uid://c7ml1pqlvfib4" path="res://resources/card/card_resource_v2/_card_resources_v2/power_cards/double_strength_power_card_1.tres" id="13_sx0mk"]
@@ -50,8 +51,16 @@ maximimum_distance_to_root = 100
 [sub_resource type="Resource" id="Resource_jb2wl"]
 script = SubResource("GDScript_o11dp")
 node_scene = ExtResource("7_cjsb3")
-weight = 10
+weight = 15
 max_ocurrences = 100
+minimum_distance_to_root = 0
+maximimum_distance_to_root = 100
+
+[sub_resource type="Resource" id="Resource_443fq"]
+script = ExtResource("6_f2ehu")
+node_scene = ExtResource("11_f6dhk")
+weight = 5
+max_ocurrences = 2
 minimum_distance_to_root = 0
 maximimum_distance_to_root = 100
 
@@ -119,7 +128,7 @@ maximimum_distance_to_root = null
 [sub_resource type="Resource" id="Resource_r4qll"]
 script = ExtResource("7_44hfg")
 available_world_nodes = Array[ExtResource("6_f2ehu")]([SubResource("Resource_mixv6"), SubResource("Resource_5upvb"), SubResource("Resource_4cwlo")])
-available_generic_monsters = Array[ExtResource("6_f2ehu")]([SubResource("Resource_qam74"), SubResource("Resource_jb2wl")])
+available_generic_monsters = Array[ExtResource("6_f2ehu")]([SubResource("Resource_qam74"), SubResource("Resource_jb2wl"), SubResource("Resource_443fq")])
 available_boss_monsters = Array[ExtResource("6_f2ehu")]([SubResource("Resource_rn4cb")])
 max_distance_to_village = 2
 max_number_of_child_nodes = 3

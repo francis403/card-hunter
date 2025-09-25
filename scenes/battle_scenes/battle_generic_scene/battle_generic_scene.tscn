@@ -42,7 +42,6 @@ position = Vector2(79, 62)
 player = NodePath("../Player")
 _number_of_columns = 11
 _number_of_rows = 5
-_debug_mode = false
 
 [node name="Player" parent="." instance=ExtResource("8_ye4fl")]
 position = Vector2(323, 351)

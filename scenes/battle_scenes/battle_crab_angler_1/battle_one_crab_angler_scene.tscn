@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3 uid="uid://pgsygph62es4"]
+
+[ext_resource type="PackedScene" uid="uid://dn1s6gbout3xc" path="res://scenes/battle_scenes/battle_generic_scene/battle_generic_scene.tscn" id="1_pmtyc"]
+[ext_resource type="Resource" uid="uid://c2013uvhxp01r" path="res://resources/player_deck/decks/generic_deck/bow_deck.tres" id="2_njc3d"]
+[ext_resource type="PackedScene" uid="uid://bcm61mhdmnl68" path="res://scenes/monsters/generic_monsters/crab_angler_monster_1/crab_angler_1_monster.tscn" id="3_x7eqk"]
+
+[node name="BattleOneCrabTestScene" instance=ExtResource("1_pmtyc")]
+
+[node name="Battlemap" parent="." index="4" node_paths=PackedStringArray("monsters")]
+monsters = [NodePath("../monsters/CrabAngler1Monster")]
+
+[node name="Player" parent="." index="5"]
+is_player_damageable = false
+hand_size = 5
+replace_deck = ExtResource("2_njc3d")
+
+[node name="CrabAngler1Monster" parent="monsters" index="0" instance=ExtResource("3_x7eqk")]
+position = Vector2(821, 341)

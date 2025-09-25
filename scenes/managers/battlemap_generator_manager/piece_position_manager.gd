@@ -14,7 +14,7 @@ func place_piece(piece: Piece, position: Vector2):
 func place_piece_in_tile(piece: Piece, tile: Tile):
 	place_node_in_tile(piece, tile)
 
-## TODO: do we need to check if it's a giant monster?
+## TODO: do Giant monsters need at least 2 speed?
 func place_node_in_tile(node: Node2D, tile: Tile):
 	if not tile or not node:
 		return

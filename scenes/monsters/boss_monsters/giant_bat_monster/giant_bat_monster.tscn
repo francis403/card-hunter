@@ -54,7 +54,6 @@ _strength = 33
 initial_state = NodePath("ShootBloodIfWithinRangeState")
 
 [node name="ShootBloodIfWithinRangeState" parent="StateMachine" index="0" instance=ExtResource("4_wo37l")]
-range = 3
 status_id = "bloodied_status_effect"
 tile_effect_type = 1
 tile_effect_resource = ExtResource("7_2qcch")
@@ -70,7 +69,6 @@ state_if_outside_range = "ShootBloodIfWithinRangeState"
 state_icon = ExtResource("9_y3ror")
 
 [node name="ChargeState" parent="StateMachine" index="2" instance=ExtResource("11_mp3qu")]
-range = 5
 state_after_charging = "MoveSpeedToPlayerAndDoAttack"
 
 [node name="FlyAwayState" parent="StateMachine" index="3" instance=ExtResource("9_4qrvu")]

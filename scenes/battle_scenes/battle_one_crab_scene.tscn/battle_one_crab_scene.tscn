@@ -15,6 +15,5 @@ hand_size = 5
 replace_deck = ExtResource("2_sb8aw")
 
 [node name="CrabMonster" parent="." index="11" instance=ExtResource("2_aicp5")]
-debug_mode = true
 _health = 100
 _max_hp = 100

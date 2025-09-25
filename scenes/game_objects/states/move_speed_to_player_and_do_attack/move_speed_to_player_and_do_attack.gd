@@ -24,7 +24,7 @@ func do_state_action():
 	)
 	
 	# only show when able to attack player
-	if distance_to_player > range:
+	if distance_to_player > _range:
 		BattlemapSignals.clear_attack_highlight_tiles.emit()
 		self.changed_state.emit(self, state_if_outside_range)
 		return
@@ -37,7 +37,6 @@ func do_preview_action(recalculate_move: bool = false):
 
 func do_movement():
 	var next_turn_move_tile: Tile = monster.next_move
-	
 	if next_turn_move_tile:
 		BattleController.battlemap.place_piece_in_tile(monster, next_turn_move_tile)
 	next_turn_move_tile = MovementUtils.get_movement_tile(

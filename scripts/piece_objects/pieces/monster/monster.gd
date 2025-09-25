@@ -1,7 +1,6 @@
 extends Piece
 class_name MonsterPiece
 
-
 var next_move: Tile = null
 
 func _ready() -> void:
