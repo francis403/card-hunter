@@ -25,10 +25,7 @@ func _prep_ui_content():
 		description.text = description_text
 	if accept_button_text:
 		accept_button.text = accept_button_text
-		
 
-
-## TODO: I can probably do better
 func _on_accept_button_pressed() -> void:
 	if accept_button_scene:
 		ScreenUtils.close_event_screen()

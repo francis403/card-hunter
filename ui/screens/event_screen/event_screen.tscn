@@ -1,8 +1,8 @@
 [gd_scene load_steps=4 format=3 uid="uid://b8tidpfj3sl0v"]
 
-[ext_resource type="Theme" uid="uid://dmot8ul1c5l3n" path="res://assets/themes/theme_1.tres" id="1_la7f0"]
-[ext_resource type="Texture2D" uid="uid://1lwus3xnrrcy" path="res://ui/screens/quest_picker/scroll_background.jpg" id="1_rii0y"]
+[ext_resource type="Theme" uid="uid://bxlatu18hbfeu" path="res://assets/themes/generic_theme_1.tres" id="1_sb3kc"]
 [ext_resource type="Script" path="res://ui/screens/event_screen/event_screen.gd" id="2_mynnm"]
+[ext_resource type="PackedScene" uid="uid://hked8dt7umpy" path="res://ui/screen_components/_general_componets/buttons/sound_button/sound_button.tscn" id="3_o4dvs"]
 
 [node name="EventScreen" type="MarginContainer"]
 anchors_preset = 8
@@ -16,12 +16,11 @@ offset_right = 271.5
 offset_bottom = 180.0
 grow_horizontal = 2
 grow_vertical = 2
-theme = ExtResource("1_la7f0")
+theme = ExtResource("1_sb3kc")
 script = ExtResource("2_mynnm")
 
-[node name="TextureRect" type="TextureRect" parent="."]
+[node name="PanelContainer" type="PanelContainer" parent="."]
 layout_mode = 2
-texture = ExtResource("1_rii0y")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 2
@@ -36,7 +35,8 @@ layout_mode = 2
 [node name="Title" type="Label" parent="MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-theme = ExtResource("1_la7f0")
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 64
 text = "Title Title Title"
 horizontal_alignment = 1
@@ -48,11 +48,11 @@ size_flags_vertical = 6
 text = "Description Description Descrption"
 horizontal_alignment = 1
 
-[node name="AcceptButton" type="Button" parent="MarginContainer/VBoxContainer"]
+[node name="AcceptButton" parent="MarginContainer/VBoxContainer" instance=ExtResource("3_o4dvs")]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
-size_flags_vertical = 10
+size_flags_vertical = 4
 text = "Go on the hunt"
 
-[connection signal="pressed" from="MarginContainer/VBoxContainer/AcceptButton" to="." method="_on_accept_button_pressed"]
+[connection signal="pressed_and_sound_played" from="MarginContainer/VBoxContainer/AcceptButton" to="." method="_on_accept_button_pressed"]
