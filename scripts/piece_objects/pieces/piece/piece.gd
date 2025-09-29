@@ -18,6 +18,12 @@ signal piece_took_damage(damage: int)
 ## Modify the value of damage a piece deals
 @export var _damage_dealt_multiplier: float = 1.0
 
+@export_group("Movement Animation")
+## Duration of movement animation in seconds
+@export var movement_duration: float = 0.3
+## Animation curve for movement interpolation
+@export var movement_curve: Curve
+
 var base_speed: int
 var _tile: Tile
 

@@ -11,12 +11,24 @@ var _player: PlayerPiece:
 func animate_piece_to_position(piece: Piece, target_position: Vector2):
 	if not piece:
 		return
-		
-	var _tween: Tween = create_tween()
-	_tween.set_loops()
 	
-	_tween.set_ease(animation_easing)
-	_tween.tween_property(piece, "position", target_position, animation_duration)
+	var duration = piece.movement_duration if piece.movement_duration > 0 else animation_duration
+	var tween: Tween = create_tween()
+	
+	if not piece.movement_curve:
+		tween.set_ease(animation_easing)
+		tween.tween_property(piece, "position", target_position, duration)
+		return
+	var start_position = piece.position
+	tween.tween_method(_animate_with_curve.bind(piece, start_position, target_position), 0.0, 1.0, duration)
+	
+
+func _animate_with_curve(piece: Piece, start_pos: Vector2, target_pos: Vector2, progress: float):
+	if not piece or not piece.movement_curve:
+		return
+	
+	var curve_value = piece.movement_curve.sample(progress)
+	piece.position = start_pos.lerp(target_pos, curve_value)
 
 func place_piece(piece: Piece, position: Vector2):
 	piece.position = position
