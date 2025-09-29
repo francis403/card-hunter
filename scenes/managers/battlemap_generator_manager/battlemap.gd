@@ -54,22 +54,22 @@ func _populate_grid():
 ## TODO: we need to export the initial position for player and each monster
 func _populate_battlemap():
 	_piece_position_manager._player = player
-	_piece_position_manager.place_piece_in_tile(player, get_tile(2, 2))
+	_piece_position_manager.place_piece_in_tile(player, get_tile(2, 2), false)
 	
 	update_monsters()
 
 func update_monsters():
 	if monsters.size() <= 0:
 		return
-	_piece_position_manager.place_piece_in_tile(monsters[0], get_tile(8, 2))
+	_piece_position_manager.place_piece_in_tile(monsters[0], get_tile(8, 2), false)
 	if monsters.size() > 1:
-		_piece_position_manager.place_piece_in_tile(monsters[1], get_tile(7, 2))
+		_piece_position_manager.place_piece_in_tile(monsters[1], get_tile(7, 2), false)
 
-func place_piece_in_tile(piece: Piece, tile: Tile):
-	_piece_position_manager.place_piece_in_tile(piece, tile)
+func place_piece_in_tile(piece: Piece, tile: Tile, animate: bool = true):
+	_piece_position_manager.place_piece_in_tile(piece, tile, animate)
 
-func place_node_in_tile(node: Node2D, tile: Tile):
-	_piece_position_manager.place_node_in_tile(node, tile)
+func place_node_in_tile(node: Node2D, tile: Tile, animate: bool = true):
+	_piece_position_manager.place_node_in_tile(node, tile, animate)
 
 func move_piece_x_right(piece: Piece, x: int) -> void:
 	if piece is PlayerCharacter:
