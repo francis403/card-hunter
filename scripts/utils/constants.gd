@@ -52,6 +52,17 @@ enum TileEffectTypes {
 	BLOODIED
 }
 
+enum ModulePlacementRule {
+	NONE,
+	CANNOT_BE_FIRST,
+	CANNOT_BE_LAST,
+	MUST_BE_FIRST,
+	MUST_BE_LAST,
+	NEEDS_ATTACK_AFTER,
+	NEEDS_ATTACK_BEFORE,
+	CANNOT_FOLLOW_SAME_TYPE
+}
+
 # Constanst
 
 var quest_picker_screen_scroll_scene: PackedScene = load("res://ui/screens/quest_picker/quest_picker_screen.tscn")

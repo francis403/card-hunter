@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://chi4whjeqmkui"]
+[gd_scene load_steps=14 format=3 uid="uid://chi4whjeqmkui"]
 
 [ext_resource type="Theme" uid="uid://bxlatu18hbfeu" path="res://assets/themes/generic_theme_1.tres" id="1_dn2uj"]
 [ext_resource type="Script" path="res://ui/screens/forge_card_screen/forge_card_screen.gd" id="1_m7f0i"]
@@ -10,6 +10,7 @@
 [ext_resource type="Script" path="res://resources/card/card_resource_v2/card_effect/card_effect.gd" id="5_bmwru"]
 [ext_resource type="Script" path="res://resources/card/card_resource_v2/condition/condition.gd" id="6_ggtjb"]
 [ext_resource type="Script" path="res://resources/card/card_resource_v2/card_resource_v2.gd" id="7_2y4kb"]
+[ext_resource type="Texture2D" uid="uid://bgcpanftu2lor" path="res://assets/images/card/card_main_image/exclamation_mark.png" id="8_anyo7"]
 [ext_resource type="Script" path="res://resources/card/card_resource_v2/special_card_effect/special_card_effect_resource.gd" id="8_ivn8g"]
 
 [sub_resource type="Resource" id="Resource_e1um6"]
@@ -23,6 +24,7 @@ tag_array = Array[String]([])
 play_conditions = Array[ExtResource("6_ggtjb")]([])
 play_actions = Array[ExtResource("5_bmwru")]([])
 special_effects = Array[ExtResource("8_ivn8g")]([])
+card_image = ExtResource("8_anyo7")
 
 [node name="ForgeCardScreen" type="Control"]
 layout_mode = 3
@@ -159,6 +161,12 @@ horizontal_alignment = 1
 unique_name_in_owner = true
 layout_mode = 2
 text = "Title: 0/60 characters"
+horizontal_alignment = 1
+
+[node name="ValidationErrorLabel" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/ValidationContainer"]
+unique_name_in_owner = true
+modulate = Color(1, 0.301961, 0.301961, 1)
+layout_mode = 2
 horizontal_alignment = 1
 
 [node name="AddedCardModules" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer" instance=ExtResource("2_qj0og")]

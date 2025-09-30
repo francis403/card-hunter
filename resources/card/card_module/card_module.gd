@@ -7,10 +7,17 @@ class_name CardModule
 @export var id: String
 @export var title: String = ""
 @export var stamina_cost: int = 5
+@export var types: Array[String] = []
 
 @export_group("Card Module Color Configuration")
 @export var default_top_section_background_color: Color = Color(0.124, 0.15, 0.153)
 @export var default_bottom_section_background_color: Color = Color(0.384, 0.384, 0.384)
+
+@export_group("Validation Rules")
+## Position constraint for this module
+@export var placement_rule: Constants.ModulePlacementRule = Constants.ModulePlacementRule.NONE
+## Maximum number of this module type allowed per card
+@export var max_instances_per_card: int = -1
 
 func get_top_section_color() -> Color:
 	if "top_section_background_color" in self:
@@ -31,6 +38,8 @@ func to_dictionary() -> Dictionary:
 		"id": self.id,
 		"title": self.title,
 		"stamina_cost": self.stamina_cost,
+		"placement_rule": self.placement_rule,
+		"types": self.types,
 		"scene_path": _get_my_node_scene_path()
 	}
 	return result
@@ -39,6 +48,8 @@ func from_dictionary(dictionary: Dictionary):
 	self.id = dictionary["id"]
 	self.title = dictionary["title"]
 	self.stamina_cost = dictionary["stamina_cost"]
+	self.types = dictionary["types"]
+	self.placement_rule = dictionary["placement_rule"]
 
 func equals(other: CardModule) -> bool:
 	return self.id == other.id and self.title == other.title\
