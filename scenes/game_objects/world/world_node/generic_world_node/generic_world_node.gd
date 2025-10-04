@@ -37,6 +37,9 @@ var pulsating_tween: Tween
 @export var _is_only_clickable_once: bool = true
 @export var _is_pulsable: bool = true
 
+## When using table generation might be useful to have the info here
+var table_position: Vector2 = Vector2(-1, -1)
+
 var _available_tween_scale: Vector2 = Vector2(1.1, 1.1)
 
 var is_showing_player_sprite: bool = false

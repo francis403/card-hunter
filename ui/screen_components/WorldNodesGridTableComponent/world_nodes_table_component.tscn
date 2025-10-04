@@ -1,0 +1,155 @@
+[gd_scene load_steps=35 format=3 uid="uid://cmurt2gatahso"]
+
+[ext_resource type="Script" path="res://ui/screen_components/WorldNodesGridTableComponent/world_nodes_table_component.gd" id="1_uhfm2"]
+[ext_resource type="PackedScene" uid="uid://85fgvtoxusyd" path="res://scenes/game_objects/world/world_node/village_world_node/village_world_node.tscn" id="2_id4lb"]
+[ext_resource type="Script" path="res://resources/configuration/world/world_entity_generator_config.gd" id="3_xq4eh"]
+[ext_resource type="PackedScene" uid="uid://bp8v6rbwvlp4m" path="res://scenes/battle_scenes/giant_bat_test_scene/giant_bat_battle_test_scene.tscn" id="4_1ky1l"]
+[ext_resource type="PackedScene" uid="uid://cvlh0ir1dbn8k" path="res://scenes/monsters/generic_monsters/crab_monster/crab_monster.tscn" id="5_kwpa7"]
+[ext_resource type="PackedScene" uid="uid://w530cnkei473" path="res://scenes/monsters/generic_monsters/spider_monster/spider_monster.tscn" id="6_ttej1"]
+[ext_resource type="PackedScene" uid="uid://bcm61mhdmnl68" path="res://scenes/monsters/generic_monsters/crab_angler_monster_1/crab_angler_1_monster.tscn" id="7_l7ko2"]
+[ext_resource type="PackedScene" uid="uid://bd1e36axykjhr" path="res://scenes/game_objects/world/world_node/monster_hunt_world_node/monster_hunt_world_node.tscn" id="8_5yo52"]
+[ext_resource type="PackedScene" uid="uid://blf6uu6ap5ht3" path="res://scenes/game_objects/world/world_node/treasure_world_node/treasure_world_node.tscn" id="9_vuv1e"]
+[ext_resource type="Script" path="res://resources/configuration/world/world_entity_reward_generator_config.gd" id="10_c0phl"]
+[ext_resource type="Resource" uid="uid://bu7gcqxkp3gqp" path="res://resources/card/card_resource_v2/_card_resources_v2/move_cards/teleport_card_1.tres" id="11_m67q7"]
+[ext_resource type="Resource" uid="uid://dl1moktvst0io" path="res://resources/card/card_resource_v2/_card_resources_v2/move_cards/emergency_retreat_1.tres" id="12_ktrmd"]
+[ext_resource type="Resource" uid="uid://dvk1a1vyglgvc" path="res://resources/card/card_resource_v2/_card_resources_v2/power_cards/double_speed_power_card_1.tres" id="13_ykosw"]
+[ext_resource type="Resource" uid="uid://c7ml1pqlvfib4" path="res://resources/card/card_resource_v2/_card_resources_v2/power_cards/double_strength_power_card_1.tres" id="14_67gxq"]
+[ext_resource type="Resource" uid="uid://d0tjdvgepml65" path="res://resources/card/card_resource_v2/_card_resources_v2/status_change_cards/health_potion_1.tres" id="15_5m37d"]
+[ext_resource type="Script" path="res://resources/configuration/world/world_node/world_node_reward_generator_config/world_node_reward_generator_config.gd" id="16_geyw0"]
+[ext_resource type="PackedScene" uid="uid://dljw8exgbojmi" path="res://scenes/game_objects/world/world_node/deforge_card_world_node/deforge_card_world_node.tscn" id="17_aof85"]
+[ext_resource type="Script" path="res://resources/configuration/world/world_generator_config/world_generator_config.gd" id="18_x068k"]
+[ext_resource type="Theme" uid="uid://bxlatu18hbfeu" path="res://assets/themes/generic_theme_1.tres" id="19_wxm8v"]
+
+[sub_resource type="Resource" id="Resource_rn4cb"]
+script = ExtResource("3_xq4eh")
+node_scene = ExtResource("4_1ky1l")
+weight = 30
+min_occurrences = 0
+max_ocurrences = 1
+minimum_distance_to_root = 0
+maximimum_distance_to_root = 100
+
+[sub_resource type="GDScript" id="GDScript_o11dp"]
+script/source = "extends WorldEntityGeneratorConfig
+class_name WorldMonsterGeneratorConfig
+"
+
+[sub_resource type="Resource" id="Resource_qam74"]
+script = SubResource("GDScript_o11dp")
+node_scene = ExtResource("5_kwpa7")
+weight = 20
+min_occurrences = 0
+max_ocurrences = 100
+minimum_distance_to_root = 0
+maximimum_distance_to_root = 100
+
+[sub_resource type="Resource" id="Resource_jb2wl"]
+script = SubResource("GDScript_o11dp")
+node_scene = ExtResource("6_ttej1")
+weight = 15
+min_occurrences = 0
+max_ocurrences = 100
+minimum_distance_to_root = 0
+maximimum_distance_to_root = 100
+
+[sub_resource type="Resource" id="Resource_443fq"]
+script = ExtResource("3_xq4eh")
+node_scene = ExtResource("7_l7ko2")
+weight = 5
+min_occurrences = 0
+max_ocurrences = 2
+minimum_distance_to_root = 0
+maximimum_distance_to_root = 100
+
+[sub_resource type="Resource" id="Resource_mixv6"]
+script = ExtResource("3_xq4eh")
+node_scene = ExtResource("8_5yo52")
+weight = 30
+min_occurrences = 5
+max_ocurrences = 100
+minimum_distance_to_root = 0
+maximimum_distance_to_root = 100
+
+[sub_resource type="Resource" id="Resource_r5p2f"]
+script = ExtResource("10_c0phl")
+reward_resource = ExtResource("11_m67q7")
+weight = 5
+max_ocurrences = 100
+
+[sub_resource type="Resource" id="Resource_efu3o"]
+script = ExtResource("10_c0phl")
+reward_resource = ExtResource("12_ktrmd")
+weight = 35
+max_ocurrences = 100
+
+[sub_resource type="Resource" id="Resource_ggkmc"]
+script = ExtResource("10_c0phl")
+reward_resource = ExtResource("13_ykosw")
+weight = 25
+max_ocurrences = 100
+
+[sub_resource type="Resource" id="Resource_cm3ao"]
+script = ExtResource("10_c0phl")
+reward_resource = ExtResource("14_67gxq")
+weight = 25
+max_ocurrences = 100
+
+[sub_resource type="Resource" id="Resource_1bpig"]
+script = ExtResource("10_c0phl")
+reward_resource = ExtResource("15_5m37d")
+weight = 30
+max_ocurrences = 100
+
+[sub_resource type="Resource" id="Resource_clsn7"]
+script = ExtResource("16_geyw0")
+override_possible_rewards = Array[ExtResource("10_c0phl")]([SubResource("Resource_r5p2f"), SubResource("Resource_efu3o"), SubResource("Resource_ggkmc"), SubResource("Resource_cm3ao"), SubResource("Resource_1bpig")])
+number_of_rewards_to_display = 4
+number_of_choices = 2
+
+[sub_resource type="Resource" id="Resource_5upvb"]
+script = ExtResource("3_xq4eh")
+node_scene = ExtResource("9_vuv1e")
+weight = 90
+min_occurrences = 1
+max_ocurrences = 1
+minimum_distance_to_root = 1
+maximimum_distance_to_root = 100
+override_possible_rewards = SubResource("Resource_clsn7")
+
+[sub_resource type="Resource" id="Resource_4cwlo"]
+script = ExtResource("3_xq4eh")
+node_scene = ExtResource("17_aof85")
+weight = 30
+min_occurrences = 2
+max_ocurrences = 2
+minimum_distance_to_root = 2
+maximimum_distance_to_root = 100
+
+[sub_resource type="Resource" id="Resource_m3ba2"]
+script = ExtResource("18_x068k")
+available_world_nodes = Array[ExtResource("3_xq4eh")]([SubResource("Resource_mixv6"), SubResource("Resource_5upvb"), SubResource("Resource_4cwlo")])
+available_generic_monsters = Array[ExtResource("3_xq4eh")]([SubResource("Resource_qam74"), SubResource("Resource_jb2wl"), SubResource("Resource_443fq")])
+available_boss_monsters = Array[ExtResource("3_xq4eh")]([SubResource("Resource_rn4cb")])
+max_distance_to_village = 2
+max_number_of_child_nodes = 3
+number_of_village_children_node = 3
+
+[node name="WorldNodesTableComponent" type="MarginContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("19_wxm8v")
+script = ExtResource("1_uhfm2")
+world_generator_config = SubResource("Resource_m3ba2")
+village_node_scene = ExtResource("2_id4lb")
+
+[node name="WorldNodesContainerTest" type="Control" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 1
+
+[node name="TableCenterPoint" type="Marker2D" parent="."]
+unique_name_in_owner = true
+position = Vector2(575, 325)

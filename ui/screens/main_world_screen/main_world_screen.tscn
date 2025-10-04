@@ -1,4 +1,4 @@
-[gd_scene load_steps=42 format=3 uid="uid://baqwuitia2ptv"]
+[gd_scene load_steps=13 format=3 uid="uid://baqwuitia2ptv"]
 
 [ext_resource type="Script" path="res://ui/screens/main_world_screen/main_world_screen.gd" id="1_3wacw"]
 [ext_resource type="PackedScene" uid="uid://dqlmwbtf0bya2" path="res://ui/screens/generic_screen/generic_screen.tscn" id="1_eplf0"]
@@ -7,132 +7,11 @@
 [ext_resource type="Texture2D" uid="uid://dpb5sngqwaanu" path="res://assets/images/world/grass/grass_1.png" id="4_3m13u"]
 [ext_resource type="PackedScene" uid="uid://bfnifkcvaye6" path="res://scenes/managers/world_manager/world_manager.tscn" id="4_m1ip7"]
 [ext_resource type="PackedScene" uid="uid://b3x2sadw27m6s" path="res://ui/deck/draw_pile/deck_ui.tscn" id="5_yl1ki"]
-[ext_resource type="PackedScene" uid="uid://bp8v6rbwvlp4m" path="res://scenes/battle_scenes/giant_bat_test_scene/giant_bat_battle_test_scene.tscn" id="6_arges"]
-[ext_resource type="Script" path="res://resources/configuration/world/world_entity_generator_config.gd" id="6_f2ehu"]
-[ext_resource type="PackedScene" uid="uid://bd1e36axykjhr" path="res://scenes/game_objects/world/world_node/monster_hunt_world_node/monster_hunt_world_node.tscn" id="6_jj6yq"]
-[ext_resource type="PackedScene" uid="uid://cvlh0ir1dbn8k" path="res://scenes/monsters/generic_monsters/crab_monster/crab_monster.tscn" id="6_vy4tc"]
-[ext_resource type="Script" path="res://resources/configuration/world/world_generator_config/world_generator_config.gd" id="7_44hfg"]
-[ext_resource type="PackedScene" uid="uid://w530cnkei473" path="res://scenes/monsters/generic_monsters/spider_monster/spider_monster.tscn" id="7_cjsb3"]
-[ext_resource type="Script" path="res://resources/configuration/world/world_entity_reward_generator_config.gd" id="7_tlmgq"]
-[ext_resource type="PackedScene" uid="uid://blf6uu6ap5ht3" path="res://scenes/game_objects/world/world_node/treasure_world_node/treasure_world_node.tscn" id="8_a4yq4"]
-[ext_resource type="PackedScene" uid="uid://dljw8exgbojmi" path="res://scenes/game_objects/world/world_node/deforge_card_world_node/deforge_card_world_node.tscn" id="10_lov3o"]
-[ext_resource type="PackedScene" uid="uid://bcm61mhdmnl68" path="res://scenes/monsters/generic_monsters/crab_angler_monster_1/crab_angler_1_monster.tscn" id="11_f6dhk"]
-[ext_resource type="Resource" uid="uid://dvk1a1vyglgvc" path="res://resources/card/card_resource_v2/_card_resources_v2/power_cards/double_speed_power_card_1.tres" id="12_b6gvx"]
-[ext_resource type="Resource" uid="uid://dl1moktvst0io" path="res://resources/card/card_resource_v2/_card_resources_v2/move_cards/emergency_retreat_1.tres" id="13_n3o4v"]
-[ext_resource type="Resource" uid="uid://c7ml1pqlvfib4" path="res://resources/card/card_resource_v2/_card_resources_v2/power_cards/double_strength_power_card_1.tres" id="13_sx0mk"]
-[ext_resource type="Script" path="res://resources/configuration/world/world_node/world_node_reward_generator_config/world_node_reward_generator_config.gd" id="13_wp36s"]
-[ext_resource type="Resource" uid="uid://d0tjdvgepml65" path="res://resources/card/card_resource_v2/_card_resources_v2/status_change_cards/health_potion_1.tres" id="16_7iaen"]
-[ext_resource type="Resource" uid="uid://bu7gcqxkp3gqp" path="res://resources/card/card_resource_v2/_card_resources_v2/move_cards/teleport_card_1.tres" id="16_uwt2j"]
+[ext_resource type="Resource" uid="uid://d2glp1sppr75o" path="res://resources/configuration/world/world_generator_config/world_generation_config_1.tres" id="7_fu735"]
+[ext_resource type="PackedScene" uid="uid://cmurt2gatahso" path="res://ui/screen_components/WorldNodesGridTableComponent/world_nodes_table_component.tscn" id="8_hy27n"]
 [ext_resource type="PackedScene" uid="uid://cnmfofjavj5t2" path="res://ui/screen_components/_general_componets/buttons/image_button/image_button.tscn" id="21_sawn2"]
 [ext_resource type="AudioStream" uid="uid://2dk82vkfonp7" path="res://assets/sound/sound_effects/button_clicks/click5.ogg" id="22_p38ha"]
 [ext_resource type="Theme" uid="uid://bxlatu18hbfeu" path="res://assets/themes/generic_theme_1.tres" id="25_14g2u"]
-
-[sub_resource type="Resource" id="Resource_rn4cb"]
-script = ExtResource("6_f2ehu")
-node_scene = ExtResource("6_arges")
-weight = 30
-max_ocurrences = 1
-minimum_distance_to_root = null
-maximimum_distance_to_root = null
-
-[sub_resource type="GDScript" id="GDScript_o11dp"]
-script/source = "extends WorldEntityGeneratorConfig
-class_name WorldMonsterGeneratorConfig
-"
-
-[sub_resource type="Resource" id="Resource_qam74"]
-script = SubResource("GDScript_o11dp")
-node_scene = ExtResource("6_vy4tc")
-weight = 20
-max_ocurrences = 100
-minimum_distance_to_root = 0
-maximimum_distance_to_root = 100
-
-[sub_resource type="Resource" id="Resource_jb2wl"]
-script = SubResource("GDScript_o11dp")
-node_scene = ExtResource("7_cjsb3")
-weight = 15
-max_ocurrences = 100
-minimum_distance_to_root = 0
-maximimum_distance_to_root = 100
-
-[sub_resource type="Resource" id="Resource_443fq"]
-script = ExtResource("6_f2ehu")
-node_scene = ExtResource("11_f6dhk")
-weight = 5
-max_ocurrences = 2
-minimum_distance_to_root = 0
-maximimum_distance_to_root = 100
-
-[sub_resource type="Resource" id="Resource_mixv6"]
-script = ExtResource("6_f2ehu")
-node_scene = ExtResource("6_jj6yq")
-weight = 30
-max_ocurrences = null
-minimum_distance_to_root = null
-maximimum_distance_to_root = null
-
-[sub_resource type="Resource" id="Resource_r5p2f"]
-script = ExtResource("7_tlmgq")
-reward_resource = ExtResource("16_uwt2j")
-weight = 5
-max_ocurrences = 100
-
-[sub_resource type="Resource" id="Resource_efu3o"]
-script = ExtResource("7_tlmgq")
-reward_resource = ExtResource("13_n3o4v")
-weight = 35
-max_ocurrences = 100
-
-[sub_resource type="Resource" id="Resource_ggkmc"]
-script = ExtResource("7_tlmgq")
-reward_resource = ExtResource("12_b6gvx")
-weight = 25
-max_ocurrences = 100
-
-[sub_resource type="Resource" id="Resource_cm3ao"]
-script = ExtResource("7_tlmgq")
-reward_resource = ExtResource("13_sx0mk")
-weight = 25
-max_ocurrences = 100
-
-[sub_resource type="Resource" id="Resource_1bpig"]
-script = ExtResource("7_tlmgq")
-reward_resource = ExtResource("16_7iaen")
-weight = 30
-max_ocurrences = 100
-
-[sub_resource type="Resource" id="Resource_clsn7"]
-script = ExtResource("13_wp36s")
-override_possible_rewards = Array[ExtResource("7_tlmgq")]([SubResource("Resource_r5p2f"), SubResource("Resource_efu3o"), SubResource("Resource_ggkmc"), SubResource("Resource_cm3ao"), SubResource("Resource_1bpig")])
-number_of_rewards_to_display = 4
-number_of_choices = 2
-
-[sub_resource type="Resource" id="Resource_5upvb"]
-script = ExtResource("6_f2ehu")
-node_scene = ExtResource("8_a4yq4")
-weight = 90
-max_ocurrences = 1
-minimum_distance_to_root = 1
-maximimum_distance_to_root = null
-override_possible_rewards = SubResource("Resource_clsn7")
-
-[sub_resource type="Resource" id="Resource_4cwlo"]
-script = ExtResource("6_f2ehu")
-node_scene = ExtResource("10_lov3o")
-weight = 30
-max_ocurrences = 2
-minimum_distance_to_root = 2
-maximimum_distance_to_root = null
-
-[sub_resource type="Resource" id="Resource_r4qll"]
-script = ExtResource("7_44hfg")
-available_world_nodes = Array[ExtResource("6_f2ehu")]([SubResource("Resource_mixv6"), SubResource("Resource_5upvb"), SubResource("Resource_4cwlo")])
-available_generic_monsters = Array[ExtResource("6_f2ehu")]([SubResource("Resource_qam74"), SubResource("Resource_jb2wl"), SubResource("Resource_443fq")])
-available_boss_monsters = Array[ExtResource("6_f2ehu")]([SubResource("Resource_rn4cb")])
-max_distance_to_village = 2
-max_number_of_child_nodes = 3
-number_of_village_children_node = 3
 
 [node name="MainWorldScreen" instance=ExtResource("1_eplf0")]
 script = ExtResource("1_3wacw")
@@ -148,11 +27,20 @@ exclusion_radius = 75.0
 
 [node name="WorldGeneratorManager" parent="." index="3" node_paths=PackedStringArray("world_node_container", "village_node_marker") instance=ExtResource("1_f2eca")]
 position = Vector2(-1, 0)
-world_generator_config = SubResource("Resource_r4qll")
+world_generator_config = ExtResource("7_fu735")
 world_node_container = NodePath("../WorldNodes")
 village_node_marker = NodePath("../VillageNodeMarker")
 
-[node name="WorldNodes" type="MarginContainer" parent="." index="4"]
+[node name="WorldNodesTableComponent" parent="." index="4" node_paths=PackedStringArray("world_nodes_container") instance=ExtResource("8_hy27n")]
+layout_mode = 0
+anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
+grow_horizontal = 1
+grow_vertical = 1
+world_nodes_container = NodePath("../WorldNodes")
+
+[node name="WorldNodes" type="MarginContainer" parent="." index="5"]
 layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -161,10 +49,10 @@ grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="VillageNodeMarker" type="Marker2D" parent="." index="5"]
+[node name="VillageNodeMarker" type="Marker2D" parent="." index="6"]
 position = Vector2(581, 310)
 
-[node name="BottomMargin" type="MarginContainer" parent="." index="8"]
+[node name="BottomMargin" type="MarginContainer" parent="." index="9"]
 layout_mode = 1
 anchors_preset = 12
 anchor_top = 1.0
@@ -190,7 +78,7 @@ size_flags_horizontal = 8
 _audio_stream = ExtResource("22_p38ha")
 _under_text = "Forge Card"
 
-[node name="Screen" parent="." index="9"]
+[node name="Screen" parent="." index="10"]
 mouse_filter = 2
 theme_override_constants/margin_top = 25
 
@@ -217,6 +105,6 @@ vertical_alignment = 1
 visible = false
 text = "World Screen"
 
-[node name="PlayerMenu" parent="." index="10"]
+[node name="PlayerMenu" parent="." index="11"]
 unique_name_in_owner = true
 visible = false

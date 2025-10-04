@@ -179,6 +179,9 @@ func _initialize_world_node_scene(
 func _generate_monster(
 	distance: int
 ) -> GenericMonster:
+	if _possible_monsters_configs_by_distance.is_empty():
+		push_error(_generate_monster, " ERROR: _possible_monsters_configs_by_distance is empty!")
+		return null;
 	var random_distance: int = randi_range(0, distance)
 	var random_index: int = _get_weighted_table_index(random_distance, _inserted_monsters_min_distances)
 	var random_weighted_table: WeightedTable = _possible_monsters_configs_by_distance[random_index]
