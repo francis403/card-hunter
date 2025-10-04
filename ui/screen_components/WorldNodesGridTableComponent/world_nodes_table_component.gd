@@ -53,7 +53,7 @@ func _ready() -> void:
 		return
 	_initialize_fields()
 	#if not _is_world_saved:
-	generate_world()
+	#generate_world()
 	#else:
 		#_load_world()
 

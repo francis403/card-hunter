@@ -1,13 +1,11 @@
-[gd_scene load_steps=13 format=3 uid="uid://baqwuitia2ptv"]
+[gd_scene load_steps=11 format=3 uid="uid://baqwuitia2ptv"]
 
 [ext_resource type="Script" path="res://ui/screens/main_world_screen/main_world_screen.gd" id="1_3wacw"]
 [ext_resource type="PackedScene" uid="uid://dqlmwbtf0bya2" path="res://ui/screens/generic_screen/generic_screen.tscn" id="1_eplf0"]
-[ext_resource type="PackedScene" uid="uid://4hdqldcrtvn0" path="res://scenes/managers/world_generator_manager/world_generator_manager.tscn" id="1_f2eca"]
 [ext_resource type="PackedScene" uid="uid://dtut6u4j637u8" path="res://scenes/managers/world_background_generator/world_background_generator.tscn" id="3_rcgnw"]
 [ext_resource type="Texture2D" uid="uid://dpb5sngqwaanu" path="res://assets/images/world/grass/grass_1.png" id="4_3m13u"]
 [ext_resource type="PackedScene" uid="uid://bfnifkcvaye6" path="res://scenes/managers/world_manager/world_manager.tscn" id="4_m1ip7"]
 [ext_resource type="PackedScene" uid="uid://b3x2sadw27m6s" path="res://ui/deck/draw_pile/deck_ui.tscn" id="5_yl1ki"]
-[ext_resource type="Resource" uid="uid://d2glp1sppr75o" path="res://resources/configuration/world/world_generator_config/world_generation_config_1.tres" id="7_fu735"]
 [ext_resource type="PackedScene" uid="uid://cmurt2gatahso" path="res://ui/screen_components/WorldNodesGridTableComponent/world_nodes_table_component.tscn" id="8_hy27n"]
 [ext_resource type="PackedScene" uid="uid://cnmfofjavj5t2" path="res://ui/screen_components/_general_componets/buttons/image_button/image_button.tscn" id="21_sawn2"]
 [ext_resource type="AudioStream" uid="uid://2dk82vkfonp7" path="res://assets/sound/sound_effects/button_clicks/click5.ogg" id="22_p38ha"]
@@ -25,13 +23,7 @@ exclusion_radius = 75.0
 
 [node name="WorldManager" parent="." index="2" instance=ExtResource("4_m1ip7")]
 
-[node name="WorldGeneratorManager" parent="." index="3" node_paths=PackedStringArray("world_node_container", "village_node_marker") instance=ExtResource("1_f2eca")]
-position = Vector2(-1, 0)
-world_generator_config = ExtResource("7_fu735")
-world_node_container = NodePath("../WorldNodes")
-village_node_marker = NodePath("../VillageNodeMarker")
-
-[node name="WorldNodesTableComponent" parent="." index="4" node_paths=PackedStringArray("world_nodes_container") instance=ExtResource("8_hy27n")]
+[node name="WorldNodesTableComponent" parent="." index="3" node_paths=PackedStringArray("world_nodes_container") instance=ExtResource("8_hy27n")]
 layout_mode = 0
 anchors_preset = 0
 anchor_right = 0.0
@@ -40,7 +32,7 @@ grow_horizontal = 1
 grow_vertical = 1
 world_nodes_container = NodePath("../WorldNodes")
 
-[node name="WorldNodes" type="MarginContainer" parent="." index="5"]
+[node name="WorldNodes" type="MarginContainer" parent="." index="4"]
 layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -49,10 +41,10 @@ grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="VillageNodeMarker" type="Marker2D" parent="." index="6"]
+[node name="VillageNodeMarker" type="Marker2D" parent="." index="5"]
 position = Vector2(581, 310)
 
-[node name="BottomMargin" type="MarginContainer" parent="." index="9"]
+[node name="BottomMargin" type="MarginContainer" parent="." index="8"]
 layout_mode = 1
 anchors_preset = 12
 anchor_top = 1.0
@@ -78,7 +70,7 @@ size_flags_horizontal = 8
 _audio_stream = ExtResource("22_p38ha")
 _under_text = "Forge Card"
 
-[node name="Screen" parent="." index="10"]
+[node name="Screen" parent="." index="9"]
 mouse_filter = 2
 theme_override_constants/margin_top = 25
 
@@ -105,6 +97,6 @@ vertical_alignment = 1
 visible = false
 text = "World Screen"
 
-[node name="PlayerMenu" parent="." index="11"]
+[node name="PlayerMenu" parent="." index="10"]
 unique_name_in_owner = true
 visible = false

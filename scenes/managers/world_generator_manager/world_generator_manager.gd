@@ -33,14 +33,15 @@ var _loaded_nodes: Array[String] = []
 var village_node: VillageWorldNode
 
 func _init() -> void:
-	village_node = File.progress.village_node
+	if File.progress:
+		village_node = File.progress.village_node
 
-func _ready() -> void:
-	BattlemapSignals.world_updated.connect(_save_world_state)
-	if world_generator_config:
-		world_generator_config.initialize_config()
-		max_distance_to_village = world_generator_config.max_distance_to_village
-		maximum_number_of_child_nodes = world_generator_config.max_number_of_child_nodes
+#func _ready() -> void:
+	#BattlemapSignals.world_updated.connect(_save_world_state)
+	#if world_generator_config:
+		#world_generator_config.initialize_config()
+		#max_distance_to_village = world_generator_config.max_distance_to_village
+		#maximum_number_of_child_nodes = world_generator_config.max_number_of_child_nodes
 
 #func _draw():
 	#if not _is_world_saved():

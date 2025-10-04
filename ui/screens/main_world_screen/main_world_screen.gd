@@ -5,7 +5,8 @@ class_name MainWorldScreen
 @onready var boss_timer_label: Label = %BossTimerLabel
 @onready var deck_ui: DeckUI = %DeckUI
 @onready var forge_button: ImageButton = %ForgeButton
-@onready var world_generator_manager: WorldGeneratorManager = $WorldGeneratorManager
+#@onready var world_generator_manager: WorldGeneratorManager = $WorldGeneratorManager
+@onready var world_nodes_table_component: WorldNodesTableComponent = $WorldNodesTableComponent
 @onready var player_menu: PlayerMenu = %PlayerMenu
 @onready var world_background_generator: WorldBackgroundGenerator = $WorldBackgroundGenerator
 @onready var village_node_marker: Marker2D = $VillageNodeMarker
@@ -21,6 +22,7 @@ func _ready() -> void:
 	_clean_preview()
 	boss_timer_label.text = "Days till next attack: " + str(GameController.days_till_attack)
 	# Setup grass exclusions after a frame to ensure all nodes are ready
+	world_nodes_table_component.generate_world()
 	call_deferred("_setup_world_background_exclusion_zone")
 	
 
@@ -59,7 +61,7 @@ func _prep_boss_battle() -> EventScreen:
 	result.description_text = "After completing your last quest, you suddenlty notice the sun is out.\n" + \
 		"Suddently, a giant Bat appears out of nowhere."
 	result.accept_button_text = "To the Hunt" 
-	result.accept_button_scene = world_generator_manager.get_random_world_boss_scene()
+	#result.accept_button_scene = world_generator_manager.get_random_world_boss_scene()
 	return result
 
 func _on_battle_won_signal():
