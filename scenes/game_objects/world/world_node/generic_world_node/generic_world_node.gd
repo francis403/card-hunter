@@ -13,6 +13,7 @@ const IS_ONLY_CLICKABLE_ONCE_DICTIONARY_FIELD: String = "is_only_clickable_once"
 const WORLD_NODE_TYPE_DICTIONARY_FIELD: String = "world_node_type"
 const NODE_SCENE_PATH_DICTIONARY_FIELD: String = "node_scene"
 const POSITION_DICTIONARY_FIELD: String = "position"
+const TABLE_POSITION_DICTIONARY_FIELD: String = "table_position"
 const CONNECTIONS_DICTIONARY_FIELD: String = "connections"
 
 @onready var world_node_sprite: Sprite2D = $worldNodeSprite
@@ -217,6 +218,7 @@ func convert_node_to_dictionary() -> Dictionary:
 	result[IS_ALREADY_CLICKED_DICTIONARY_FIELD] = self._is_already_clicked
 	result[IS_ONLY_CLICKABLE_ONCE_DICTIONARY_FIELD] = self._is_only_clickable_once
 	result[POSITION_DICTIONARY_FIELD] = self.position
+	result[TABLE_POSITION_DICTIONARY_FIELD] = self.table_position
 	result[NODE_SCENE_PATH_DICTIONARY_FIELD] = self.my_node_scene_path
 	result[CONNECTIONS_DICTIONARY_FIELD] = {}
 	return result
@@ -235,6 +237,7 @@ func load_node_from_dictionary(node_state: Dictionary):
 	self.my_node_scene_path = node_state[NODE_SCENE_PATH_DICTIONARY_FIELD]
 	self.my_node_scene = load(my_node_scene_path)
 	self.position = node_state[POSITION_DICTIONARY_FIELD]
+	self.table_position = node_state[TABLE_POSITION_DICTIONARY_FIELD]
 	_start_pulsating_animation()
 
 func _start_pulsating_animation() -> void:

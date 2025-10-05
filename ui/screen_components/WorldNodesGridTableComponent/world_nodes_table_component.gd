@@ -18,6 +18,9 @@ const RADIUS: int = 30
 @export_category("Scene definitions")
 @export var village_node_scene: PackedScene 
 
+@export_category("Debug Settings")
+@export var _generate_in_test_container: bool = false
+
 @onready var table_center_point: Marker2D = %TableCenterPoint
 @onready var world_nodes_container_test: Control = %WorldNodesContainerTest
 
@@ -26,6 +29,7 @@ var _number_of_nodes_to_generate: int = 1
 var _total_number_of_nodes_generated: int = 0
 
 var _max_depth_world_generation: int = 3
+var _number_of_village_children: int = 3
 
 ## Every time we add a new node, we add the adjacent positions here
 ## We then remove the node position from here
@@ -42,7 +46,8 @@ var _table_center_point: Vector2
 
 
 func _init() -> void:
-	_village_node = File.progress.village_node
+	if File.progress:
+		_village_node = File.progress.village_node
 
 func _ready() -> void:
 	if not village_node_scene:
@@ -53,7 +58,8 @@ func _ready() -> void:
 		return
 	_initialize_fields()
 	#if not _is_world_saved:
-	#generate_world()
+	if _generate_in_test_container:
+		generate_world()
 	#else:
 		#_load_world()
 
@@ -61,22 +67,21 @@ func _initialize_fields():
 	_table_center_point = Vector2(x_table_size/2, y_table_size/2)
 	self.world_generator_config.initialize_config()
 	self._max_depth_world_generation = world_generator_config.max_distance_to_village
+	self._number_of_village_children = world_generator_config.number_of_village_children_node
 	if not self.world_nodes_container:
 		world_nodes_container = world_nodes_container_test
 
 func generate_world():
 	_number_of_nodes_to_generate = _calculate_total_number_of_nodes()
 	_village_node = _place_village()
+	_generate_village_children(_village_node)
 	PlayerController.current_world_node = _village_node
-	_generate_adjacent_nodes(
-		PlayerController.current_world_node,
-		3
+	_generate_world_nodes(
+		PlayerController.current_world_node
 	)
 	_village_node.reveal_connected_nodes()
 	_save_world_state()
 
-func get_nodes() -> Array[Node]:
-	return world_nodes_container.get_children()
 
 ## Village node + minimums 
 func _calculate_total_number_of_nodes() -> int:
@@ -96,28 +101,53 @@ func _place_village() -> GenericWorldNode:
 	_add_node_to_table(_village_node)
 	return _village_node
 
-func _generate_adjacent_nodes(
-	_center_node: GenericWorldNode,
-	_number_of_children: int = 2
+func _generate_village_children(
+	_village_node: GenericWorldNode
 ):
-	var _distance_to_center: int = 0
+	var _village_table_position: Vector2 = _village_node.table_position
+	## Add positions
+	var _picked_adjacent_positions: Array[Vector2] = [
+		_village_table_position + Vector2(0, -1),
+		_village_table_position + Vector2(1, 1),
+		_village_table_position + Vector2(-1, 1)
+	]
+	for _child_position: Vector2 in _picked_adjacent_positions:
+		_generate_node_in_table(_child_position, _village_node.table_position)
+
+## Generate a number of children for a specific node
+## -1 for random
+func _generate_node_children(
+	_center_node: GenericWorldNode,
+	_number_of_children: int = -1
+):
+	var _picked_adjacent_positions: Array[Vector2] = []
+
+func _generate_world_nodes(
+	_center_node: GenericWorldNode
+):
 	var _center_position: Vector2 = _center_node.table_position
 	while _total_number_of_nodes_generated <= _number_of_nodes_to_generate:
 		var random_table_position: Vector2 = _get_adjacent_table_position(_center_position)
 		if not random_table_position:
 			return
-		_distance_to_center = _distance_between_two_points(_center_position, random_table_position)
-		var generated_node: GenericWorldNode = world_generator_config.generate_node(_distance_to_center)
-		var base_node: GenericWorldNode = _available_world_table_positions[random_table_position]
-		generated_node.table_position = random_table_position
-		generated_node.global_position = _calculate_node_position(generated_node.table_position)
-		generated_node.world_node_id = str(_total_number_of_nodes_generated)
-		base_node.connections.append(generated_node)
-		_add_node_to_table(generated_node)
-		_draw_line_between_nodes(base_node, generated_node)
+		_generate_node_in_table(random_table_position, _center_position)
 
 func _get_adjacent_table_position(_table_position: Vector2) -> Vector2:
 	return _available_world_table_positions.keys().pick_random()
+
+func _generate_node_in_table(
+	_node_position: Vector2,
+	_center_position: Vector2
+):
+	var _distance_to_center = _distance_between_two_points(_center_position, _node_position)
+	var generated_node: GenericWorldNode = world_generator_config.generate_node(_distance_to_center)
+	var base_node: GenericWorldNode = _available_world_table_positions[_node_position]
+	generated_node.table_position = _node_position
+	generated_node.global_position = _calculate_node_position(generated_node.table_position)
+	generated_node.world_node_id = str(_total_number_of_nodes_generated)
+	base_node.connections.append(generated_node)
+	_add_node_to_table(generated_node)
+	_draw_line_between_nodes(base_node, generated_node)
 
 func _add_node_to_table(_node: GenericWorldNode):
 	world_nodes_container.add_child(_node)
@@ -191,4 +221,11 @@ func _save_world_state():
 	File.progress.world_state.convert_node_to_world_state(_village_node)
 
 func _load_world():
+	pass
+
+func _load_village():
+	_village_node = File.progress.village_node
+	_initiate_world()
+	
+func _initiate_world():
 	pass

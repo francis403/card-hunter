@@ -144,6 +144,7 @@ theme = ExtResource("19_wxm8v")
 script = ExtResource("1_uhfm2")
 world_generator_config = SubResource("Resource_m3ba2")
 village_node_scene = ExtResource("2_id4lb")
+_generate_in_test_container = true
 
 [node name="WorldNodesContainerTest" type="Control" parent="."]
 unique_name_in_owner = true
