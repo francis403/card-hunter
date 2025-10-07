@@ -7,53 +7,49 @@ const WORLD_NODE_SCENE = preload("res://scenes/game_objects/world/world_node/mon
 
 ## Represents the world state in a dictionary. 
 ## This is what is saved/loaded to file
+## Also provides quick access to specific nodes by id
 var _world_state: Dictionary = {
 	"world": {}
 }
 
-## Quick access to all world_node references
-var nodes_in_world: Dictionary = {}
+var world_nodes_array: Array[GenericWorldNode]
+
+func load_world_state(
+	_dict: Dictionary
+):
+	_world_state = _dict.duplicate()
+	var _world_dict: Dictionary = _world_state[WORLD_DICTIONARY_FIELD]
+	world_nodes_array = []
+	for _key in _world_dict.keys():
+		var _node: GenericWorldNode = self.load_node_from_memory(_key)
+		world_nodes_array.append(_node)
+
+func update_nodes_in_world_state(_nodes: Array[GenericWorldNode]):
+	for _node in _nodes:
+		update_node_in_world_state(_node)
+
+func update_node_in_world_state(_node: GenericWorldNode):
+	if not _world_state[WORLD_DICTIONARY_FIELD].has(_node.world_node_id):
+		world_nodes_array.append(_node)
+	_world_state[WORLD_DICTIONARY_FIELD][_node.world_node_id] = _node.convert_node_to_dictionary()
+
+func load_node_from_memory(
+	_id: String
+) -> GenericWorldNode:
+	if not _world_state[WORLD_DICTIONARY_FIELD].has(_id):
+		return null
+	var _node_dict: Dictionary = _world_state[WORLD_DICTIONARY_FIELD][_id]
+	var _node_scene_path: String = _node_dict[GenericWorldNode.NODE_SCENE_PATH_DICTIONARY_FIELD]
+	var _result: GenericWorldNode = load(_node_scene_path).instantiate()
+	_result.load_node_from_dictionary(_node_dict)
+	return _result
+
+func get_world_node(_node_id: String) -> GenericWorldNode:
+	if not _world_state[WORLD_DICTIONARY_FIELD].has(_node_id):
+		return null
+	var response: GenericWorldNode = GenericWorldNode.new()
+	response.load_node_from_dictionary(_world_state[WORLD_DICTIONARY_FIELD][_node_id])
+	return response
 
 func to_dictionary() -> Dictionary:
 	return _world_state
-
-## TODO: we're completely clearing everything when we want to save, this cannot be ideal
-func convert_node_to_world_state(root_node: GenericWorldNode):
-	_world_state[WORLD_DICTIONARY_FIELD].clear()
-	_append_to_state(_world_state[WORLD_DICTIONARY_FIELD], root_node)
-		
-func _append_to_state(state: Dictionary, node: GenericWorldNode):
-	state[node.world_node_id] = node.convert_node_to_dictionary()
-	for child in node.connections:
-		_append_to_state(
-			state[node.world_node_id][GenericWorldNode.CONNECTIONS_DICTIONARY_FIELD],
-			child
-		)
-
-func convert_world_state_to_node() -> GenericWorldNode:
-	var result: GenericWorldNode = _get_node_from_state(
-		_world_state[WORLD_DICTIONARY_FIELD],
-		Constants.VILLAGE_NODE_ID
-	)
-	
-	return result
-
-func _get_node_from_state(
-	state: Dictionary,
-	id: String
-) -> GenericWorldNode:
-	var world_node_scene_path: String = state[id][GenericWorldNode.NODE_SCENE_PATH_DICTIONARY_FIELD]
-	if nodes_in_world.has(id):
-		return nodes_in_world[id]
-	var result = load(world_node_scene_path).instantiate()
-	result.load_node_from_dictionary(state[id])
-	nodes_in_world[id] = result
-	for connection_id in state[id][GenericWorldNode.CONNECTIONS_DICTIONARY_FIELD].keys():
-		result.connections.append(
-			_get_node_from_state(
-				state[id][GenericWorldNode.CONNECTIONS_DICTIONARY_FIELD],
-				connection_id
-			)
-		)
-	return result
-	

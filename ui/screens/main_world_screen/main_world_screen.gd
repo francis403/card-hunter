@@ -22,7 +22,7 @@ func _ready() -> void:
 	_clean_preview()
 	boss_timer_label.text = "Days till next attack: " + str(GameController.days_till_attack)
 	# Setup grass exclusions after a frame to ensure all nodes are ready
-	world_nodes_table_component.generate_world()
+	world_nodes_table_component.instantiate_world()
 	call_deferred("_setup_world_background_exclusion_zone")
 	
 

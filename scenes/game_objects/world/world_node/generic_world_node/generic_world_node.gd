@@ -221,6 +221,8 @@ func convert_node_to_dictionary() -> Dictionary:
 	result[TABLE_POSITION_DICTIONARY_FIELD] = self.table_position
 	result[NODE_SCENE_PATH_DICTIONARY_FIELD] = self.my_node_scene_path
 	result[CONNECTIONS_DICTIONARY_FIELD] = {}
+	for _con in connections:
+		result[CONNECTIONS_DICTIONARY_FIELD][_con.world_node_id] = true
 	return result
 	
 func load_node_from_dictionary(node_state: Dictionary):

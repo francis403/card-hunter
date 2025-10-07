@@ -44,6 +44,7 @@ var _village_node: GenericWorldNode
 ## Hold the reference to the center point of the table
 var _table_center_point: Vector2
 
+var _world_nodes: Array[GenericWorldNode] = []
 
 func _init() -> void:
 	if File.progress:
@@ -71,10 +72,17 @@ func _initialize_fields():
 	if not self.world_nodes_container:
 		world_nodes_container = world_nodes_container_test
 
+func instantiate_world():
+	if not _is_world_saved():
+		generate_world()
+	else:
+		_load_world()
+
 func generate_world():
 	_number_of_nodes_to_generate = _calculate_total_number_of_nodes()
 	_village_node = _place_village()
 	_generate_village_children(_village_node)
+	_world_nodes.append(_village_node) 
 	PlayerController.current_world_node = _village_node
 	_generate_world_nodes(
 		PlayerController.current_world_node
@@ -102,9 +110,9 @@ func _place_village() -> GenericWorldNode:
 	return _village_node
 
 func _generate_village_children(
-	_village_node: GenericWorldNode
+	_village_world_node: GenericWorldNode
 ):
-	var _village_table_position: Vector2 = _village_node.table_position
+	var _village_table_position: Vector2 = _village_world_node.table_position
 	## Add positions
 	var _picked_adjacent_positions: Array[Vector2] = [
 		_village_table_position + Vector2(0, -1),
@@ -112,7 +120,7 @@ func _generate_village_children(
 		_village_table_position + Vector2(-1, 1)
 	]
 	for _child_position: Vector2 in _picked_adjacent_positions:
-		_generate_node_in_table(_child_position, _village_node.table_position)
+		_generate_node_in_table(_child_position, _village_world_node.table_position)
 
 ## Generate a number of children for a specific node
 ## -1 for random
@@ -153,6 +161,7 @@ func _add_node_to_table(_node: GenericWorldNode):
 	world_nodes_container.add_child(_node)
 	_store_adjacent_table_positions(_node)
 	_total_number_of_nodes_generated += 1
+	_world_nodes.append(_node) 
 
 func _store_adjacent_table_positions(
 	_node: GenericWorldNode
@@ -218,14 +227,16 @@ func _is_world_saved() -> bool:
 func _save_world_state():
 	print(_save_world_state)
 	File.progress.village_node = _village_node
-	File.progress.world_state.convert_node_to_world_state(_village_node)
+	File.progress.world_state.update_nodes_in_world_state(_world_nodes)
 
 func _load_world():
-	pass
+	_load_village()
 
 func _load_village():
 	_village_node = File.progress.village_node
 	_initiate_world()
 	
 func _initiate_world():
-	pass
+	var _nodes_to_load: Array[GenericWorldNode] = File.progress.world_state.world_nodes_array
+	for _node: GenericWorldNode in _nodes_to_load:
+		_add_node_to_table(_node)
