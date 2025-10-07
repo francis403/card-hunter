@@ -101,7 +101,6 @@ func _calculate_total_number_of_nodes() -> int:
 func _place_village() -> GenericWorldNode:
 	_village_node = village_node_scene.instantiate()
 	_village_node.world_node_id = Constants.VILLAGE_NODE_ID
-	_village_node.is_showing_player_sprite = true
 	_village_node.is_revealed = true
 	_village_node.is_reachable = true
 	_village_node.global_position = table_center_point.global_position
@@ -154,6 +153,7 @@ func _generate_node_in_table(
 	generated_node.global_position = _calculate_node_position(generated_node.table_position)
 	generated_node.world_node_id = str(_total_number_of_nodes_generated)
 	base_node.connections.append(generated_node)
+	#generated_node.connections.append(base_node)
 	_add_node_to_table(generated_node)
 	_draw_line_between_nodes(base_node, generated_node)
 
@@ -237,6 +237,8 @@ func _load_village():
 	_initiate_world()
 	
 func _initiate_world():
-	var _nodes_to_load: Array[GenericWorldNode] = File.progress.world_state.world_nodes_array
+	var _nodes_to_load: Array= File.progress.world_state.get_world_nodes()
 	for _node: GenericWorldNode in _nodes_to_load:
 		_add_node_to_table(_node)
+		for _con in _node.connections:
+			_draw_line_between_nodes(_node, _con)

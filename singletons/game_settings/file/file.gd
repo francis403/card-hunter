@@ -42,6 +42,7 @@ func change_progress():
 	save_data["progress"]["player"]["hp"] = PlayerController.current_player_health
 	save_data["progress"]["player"]["card_modules"] = convert_player_card_modules_to_dictionary()
 	save_data["progress"]["player"]["forged_cards"] = PlayerController._forged_cards
+	save_data["progress"]["player"]["player_node_id"] = progress.current_world_node_id
 	save()
 
 func convert_player_card_modules_to_dictionary() -> Dictionary:
@@ -104,6 +105,8 @@ func _load_player_forged_cards(_dict: Dictionary):
 		PlayerController.add_forged_card(card_resource)
 
 ## SIGNALS
+
 func _on_player_world_state_updated_signal(_world_node: GenericWorldNode):
+	## TODO: currently just updating one node, will need to find a way to update all nodes that are changed
 	progress.world_state.update_node_in_world_state(_world_node)
 	change_progress()

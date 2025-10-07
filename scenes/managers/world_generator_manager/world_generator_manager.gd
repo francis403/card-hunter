@@ -135,7 +135,6 @@ func get_overlapping_node(world_node_global_position: Vector2) -> GenericWorldNo
 func _load_world():
 	print(_load_world)
 	_load_village()
-	BattlemapSignals.hide_player_in_other_node.emit(File.progress.current_world_node_id)
 
 func _load_village():
 	village_node = File.progress.village_node

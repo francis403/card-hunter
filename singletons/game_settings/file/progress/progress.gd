@@ -2,7 +2,14 @@ extends Resource
 class_name Progress
 
 var current_health: int
-var current_world_node_id: String 
+var current_world_node_id: String:
+	set(value):
+		if current_world_node_id and current_world_node_id != value:
+			var _old_node: GenericWorldNode = world_state.get_world_node(current_world_node_id)
+			if _old_node:
+				_old_node.hide_player()
+		current_world_node_id = value
+		GameController.current_player_node_id = current_world_node_id
 
 ## Already loaded world
 var village_node: VillageWorldNode

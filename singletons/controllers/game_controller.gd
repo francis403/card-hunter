@@ -15,6 +15,8 @@ var days_till_attack: int = 5:
 		if days_till_attack <= 0:
 			world_boss_monster_encountered.emit()
 
+var current_player_node_id: String
+
 func _ready() -> void:
 	BattleSignals.boss_battle_complete.connect(_on_boss_battle_complete_signal)
 
