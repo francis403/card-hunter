@@ -19,9 +19,11 @@ var _inserted_min_distances: Array[int] = [0]
 
 var _possible_boss_monsters_configs: WeightedTable = WeightedTable.new()
 
+## Distance - WeightedTable reference.
 var _possible_monsters_configs_by_distance: Dictionary = {
 	0: WeightedTable.new()
 }
+
 var _inserted_monsters_min_distances: Array[int] = [0]
 
 ## This can be used to check the maximum and the minimum number of nodes
@@ -92,8 +94,10 @@ func generate_node(
 	distance: int
 ) -> GenericWorldNode:
 	var random_distance: int = randi_range(0, distance)
-	var random_index: int = _get_weighted_table_index(random_distance, _inserted_min_distances)
-	var random_weighted_table: WeightedTable = _possible_node_configs_by_distance[random_index]
+	var random_distance_by_weight: int = _get_weighted_table_index(random_distance, _inserted_min_distances)
+	var random_weighted_table: WeightedTable = _possible_node_configs_by_distance[random_distance_by_weight]
+	var random_config_dictionary: Dictionary = random_weighted_table.pick_dictionary()
+	var index_to_remove_from: int = random_config_dictionary["index"]
 	var random_config: WorldEntityGeneratorConfig = random_weighted_table.pick_item()
 	if not random_config:
 		push_error(generate_node, " ERROR: no random_config")
@@ -110,7 +114,8 @@ func generate_node(
 	_remove_from_possible_if_max_reached(
 		world_node_scene.world_node_id,
 		random_config.max_ocurrences,
-		random_index,
+		random_distance_by_weight,
+		index_to_remove_from,
 		_possible_node_configs_by_distance,
 		_inserted_min_distances,
 		_generated_nodes
@@ -146,7 +151,8 @@ func _add_to_generated_history(
 func _remove_from_possible_if_max_reached(
 	id: String,
 	max_generated: int,
-	index_to_remove: int,
+	distance_to_remove_from: int,
+	index_in_distance_to_remove_from: int,
 	dictionary_to_remove_from: Dictionary,
 	inserted_distances: Array[int],
 	generated_history: Dictionary
@@ -156,12 +162,14 @@ func _remove_from_possible_if_max_reached(
 	var number_of_generated: int = generated_history[id]
 	if number_of_generated >= max_generated:
 		## remove
-		dictionary_to_remove_from.erase(index_to_remove)
+		dictionary_to_remove_from[distance_to_remove_from].remove_item_by_index(index_in_distance_to_remove_from)
 		
 		## TODO: improve this
+		if not dictionary_to_remove_from[distance_to_remove_from].is_empty():
+			return
 		var index: int = 0
 		for i in range(inserted_distances.size()):
-			if inserted_distances[i] == index_to_remove:
+			if inserted_distances[i] == distance_to_remove_from:
 				index = i
 				break
 		inserted_distances.remove_at(index)
@@ -183,9 +191,11 @@ func _generate_monster(
 		push_error(_generate_monster, " ERROR: _possible_monsters_configs_by_distance is empty!")
 		return null;
 	var random_distance: int = randi_range(0, distance)
-	var random_index: int = _get_weighted_table_index(random_distance, _inserted_monsters_min_distances)
-	var random_weighted_table: WeightedTable = _possible_monsters_configs_by_distance[random_index]
-	var random_config: WorldEntityGeneratorConfig = random_weighted_table.pick_item()
+	var random_distance_by_weight: int = _get_weighted_table_index(random_distance, _inserted_monsters_min_distances)
+	var random_weighted_table: WeightedTable = _possible_monsters_configs_by_distance[random_distance_by_weight]
+	var random_config_dictionary: Dictionary = random_weighted_table.pick_dictionary()
+	var index_to_remove_from: int = random_config_dictionary["index"]
+	var random_config: WorldEntityGeneratorConfig = random_config_dictionary["item"]
 	if not random_config:
 		push_error(_generate_monster, " ERROR: no random_config")
 		return null;
@@ -198,7 +208,8 @@ func _generate_monster(
 	_remove_from_possible_if_max_reached(
 		monster_scene.monster_id,
 		random_config.max_ocurrences,
-		random_index,
+		random_distance_by_weight,
+		index_to_remove_from,
 		_possible_monsters_configs_by_distance,
 		_inserted_monsters_min_distances,
 		_generated_monsters

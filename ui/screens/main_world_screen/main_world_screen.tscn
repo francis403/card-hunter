@@ -31,7 +31,8 @@ anchor_bottom = 0.0
 grow_horizontal = 1
 grow_vertical = 1
 world_nodes_container = NodePath("../WorldNodes")
-seperation = 100
+constant_number_of_nodes_to_add = 0
+_max_depth_world_generation = 3
 _generate_in_test_container = false
 
 [node name="WorldNodes" type="MarginContainer" parent="." index="4"]

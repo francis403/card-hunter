@@ -143,6 +143,10 @@ grow_vertical = 2
 theme = ExtResource("19_wxm8v")
 script = ExtResource("1_uhfm2")
 world_generator_config = SubResource("Resource_m3ba2")
+constant_number_of_nodes_to_add = 5
+world_generation_seed = 500
+_max_depth_world_generation = 6
+seperation = 100
 village_node_scene = ExtResource("2_id4lb")
 _generate_in_test_container = true
 

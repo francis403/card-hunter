@@ -7,10 +7,14 @@ const RADIUS: int = 30
 @export_category("World Definition")
 @export var x_table_size: int = 10
 @export var y_table_size: int = 10
-@export  var world_nodes_container: Control
+@export var world_nodes_container: Control
 
 @export_category("World Generation Configuration")
 @export var world_generator_config: WorldGeneratorConfig
+@export var use_random_seed: bool = true
+@export var constant_number_of_nodes_to_add: int = 0
+@export var world_generation_seed: int = 0
+@export var _max_depth_world_generation: int = 3
 
 @export_category("World UI")
 @export var seperation: int = 75
@@ -28,7 +32,6 @@ var _number_of_nodes_to_generate: int = 1
 ## Count total number of nodes generated
 var _total_number_of_nodes_generated: int = 0
 
-var _max_depth_world_generation: int = 3
 var _number_of_village_children: int = 3
 
 ## Every time we add a new node, we add the adjacent positions here
@@ -51,6 +54,8 @@ func _init() -> void:
 		_village_node = File.progress.village_node
 
 func _ready() -> void:
+	if not use_random_seed:
+		seed(world_generation_seed)
 	if not village_node_scene:
 		push_error("Missing village node scene! Not able to generate world.")
 		return
@@ -58,11 +63,8 @@ func _ready() -> void:
 		push_error("Missing world config! Not able to generate world.")
 		return
 	_initialize_fields()
-	#if not _is_world_saved:
 	if _generate_in_test_container:
 		generate_world()
-	#else:
-		#_load_world()
 
 func _initialize_fields():
 	_table_center_point = Vector2(x_table_size/2, y_table_size/2)
@@ -90,13 +92,15 @@ func generate_world():
 	_village_node.reveal_connected_nodes()
 	_save_world_state()
 
+func expand_world():
+	pass
 
 ## Village node + minimums 
 func _calculate_total_number_of_nodes() -> int:
 	var result: int = 1
 	for _node in world_generator_config.available_world_nodes:
 		result += _node.min_occurrences
-	return result
+	return result + constant_number_of_nodes_to_add 
 
 func _place_village() -> GenericWorldNode:
 	_village_node = village_node_scene.instantiate()
@@ -150,7 +154,11 @@ func _generate_node_in_table(
 	var generated_node: GenericWorldNode = world_generator_config.generate_node(_distance_to_center)
 	var base_node: GenericWorldNode = _available_world_table_positions[_node_position]
 	generated_node.table_position = _node_position
-	generated_node.global_position = _calculate_node_position(generated_node.table_position)
+	#generated_node.global_position = _calculate_node_position(generated_node.table_position)
+	generated_node.global_position = calculate_positions_in_radius(
+		base_node,
+		generated_node.table_position
+	)
 	generated_node.world_node_id = str(_total_number_of_nodes_generated)
 	base_node.connections.append(generated_node)
 	#generated_node.connections.append(base_node)
@@ -175,8 +183,13 @@ func _store_adjacent_table_positions(
 				center_position.x + radius_x,
 				center_position.y + radius_y
 			)
+			## TODO: we don't want to overrite the position right?
+			#if _available_world_table_positions.has(_table_position):
+				#continue
+			if _added_world_table_positions.has(_table_position):
+				continue
 			var _distance_to_center: int = _distance_between_two_points(_table_center_point, _table_position)
-			if not _added_world_table_positions.has(_table_position) and _distance_to_center <= _max_depth_world_generation:
+			if _distance_to_center <= _max_depth_world_generation:
 				_available_world_table_positions[_table_position] = _node
 	_available_world_table_positions.erase(center_position)
 
@@ -193,18 +206,38 @@ func _draw_line_between_nodes(base_node: GenericWorldNode, other_node: GenericWo
 	world_nodes_container.add_child(line)
 
 func _calculate_node_position(
-	_table_position: Vector2
+	_table_position: Vector2,
+	_center_point: Vector2 = _table_center_point
 ) -> Vector2:
 	var table_offset = _table_position - _table_center_point
 	
 	# Normalize diagonal distances to match orthogonal distances
 	var distance = table_offset.length()
 	if distance > 0:
-		var normalized_offset = table_offset.normalized() * seperation * distance
+		#var normalized_offset = table_offset.normalized() * seperation * distance
+		var normalized_offset = table_offset.normalized() * seperation
 		var screen_position = table_center_point.global_position + normalized_offset
 		return screen_position
 	
 	return table_center_point.global_position
+
+func calculate_positions_in_radius(
+	center_node: GenericWorldNode,
+	table_position: Vector2
+) -> Vector2:
+	var center_table_position: Vector2 = center_node.table_position
+	var table_offset = table_position - center_table_position
+	print(calculate_positions_in_radius, ": ", center_table_position, " - ", table_offset)
+	
+	# Calculate angle from center to target position
+	var angle: float = atan2(table_offset.y, table_offset.x)
+	
+	# Position at fixed radius using the angle
+	var offset = Vector2(cos(angle), sin(angle)) * seperation
+	var screen_position: Vector2 = center_node.global_position + offset
+	
+	print(calculate_positions_in_radius, ": ", screen_position)
+	return screen_position
 
 func _distance_between_two_points(
 	_point_a: Vector2,
