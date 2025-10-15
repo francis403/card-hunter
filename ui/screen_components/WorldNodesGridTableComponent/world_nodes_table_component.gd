@@ -39,7 +39,7 @@ var _number_of_village_children: int = 3
 var _available_world_table_positions: Dictionary = {}
 
 ## Store all positions added to the table
-var _added_world_table_positions: Dictionary = {}
+var _blocked_table_positions: Dictionary = {}
 
 ## Hold the _village_node reference
 var _village_node: GenericWorldNode
@@ -47,6 +47,8 @@ var _village_node: GenericWorldNode
 ## Hold the reference to the center point of the table
 var _table_center_point: Vector2
 
+## Keep a reference to all world nodes
+## Used to save world state
 var _world_nodes: Array[GenericWorldNode] = []
 
 func _init() -> void:
@@ -64,7 +66,7 @@ func _ready() -> void:
 		return
 	_initialize_fields()
 	if _generate_in_test_container:
-		generate_world()
+		_generate_world()
 
 func _initialize_fields():
 	_table_center_point = Vector2(x_table_size/2, y_table_size/2)
@@ -76,14 +78,15 @@ func _initialize_fields():
 
 func instantiate_world():
 	if not _is_world_saved():
-		generate_world()
+		_generate_world()
 	else:
 		_load_world()
 
-func generate_world():
+func _generate_world():
 	_number_of_nodes_to_generate = _calculate_total_number_of_nodes()
 	_village_node = _place_village()
 	_generate_village_children(_village_node)
+	_block_adjancent_table_positions(_village_node.table_position)
 	_world_nodes.append(_village_node) 
 	PlayerController.current_world_node = _village_node
 	_generate_world_nodes(
@@ -100,7 +103,7 @@ func _calculate_total_number_of_nodes() -> int:
 	var result: int = 1
 	for _node in world_generator_config.available_world_nodes:
 		result += _node.min_occurrences
-	return result + constant_number_of_nodes_to_add 
+	return result
 
 func _place_village() -> GenericWorldNode:
 	_village_node = village_node_scene.instantiate()
@@ -175,7 +178,8 @@ func _store_adjacent_table_positions(
 	_node: GenericWorldNode
 ):
 	var center_position = _node.table_position
-	_added_world_table_positions[center_position] = true
+	_blocked_table_positions[center_position] = true
+	var node_distance_to_center: int = _distance_between_two_points(_table_center_point, center_position)
 	var radius: int = 1
 	for radius_x in range(-radius, radius + 1):
 		for radius_y in range(-radius, radius + 1):
@@ -184,14 +188,29 @@ func _store_adjacent_table_positions(
 				center_position.y + radius_y
 			)
 			## TODO: we don't want to overrite the position right?
-			#if _available_world_table_positions.has(_table_position):
-				#continue
-			if _added_world_table_positions.has(_table_position):
+			if _available_world_table_positions.has(_table_position):
+				continue
+			if _blocked_table_positions.has(_table_position):
+				_available_world_table_positions.erase(_table_position)
 				continue
 			var _distance_to_center: int = _distance_between_two_points(_table_center_point, _table_position)
-			if _distance_to_center <= _max_depth_world_generation:
+			# Only store positions that are same distance or farther from center (opposite direction)
+			if _distance_to_center >= node_distance_to_center and _distance_to_center <= _max_depth_world_generation:
 				_available_world_table_positions[_table_position] = _node
 	_available_world_table_positions.erase(center_position)
+
+func _block_adjancent_table_positions(
+	_node_table_pos: Vector2
+):
+	var radius: int = 1
+	for radius_x in range(-radius, radius + 1):
+		for radius_y in range(-radius, radius + 1):
+			var _table_position: Vector2 = Vector2(
+				_node_table_pos.x + radius_x,
+				_node_table_pos.y + radius_y
+			)
+			_blocked_table_positions[_table_position] = true
+			_available_world_table_positions.erase(_table_position)
 
 func _draw_line_between_nodes(base_node: GenericWorldNode, other_node: GenericWorldNode):
 	var line = Line2D.new()
@@ -227,7 +246,6 @@ func calculate_positions_in_radius(
 ) -> Vector2:
 	var center_table_position: Vector2 = center_node.table_position
 	var table_offset = table_position - center_table_position
-	print(calculate_positions_in_radius, ": ", center_table_position, " - ", table_offset)
 	
 	# Calculate angle from center to target position
 	var angle: float = atan2(table_offset.y, table_offset.x)
