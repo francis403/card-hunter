@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=3 uid="uid://cmurt2gatahso"]
+[gd_scene load_steps=36 format=3 uid="uid://cmurt2gatahso"]
 
 [ext_resource type="Script" path="res://ui/screen_components/WorldNodesGridTableComponent/world_nodes_table_component.gd" id="1_uhfm2"]
 [ext_resource type="PackedScene" uid="uid://85fgvtoxusyd" path="res://scenes/game_objects/world/world_node/village_world_node/village_world_node.tscn" id="2_id4lb"]
@@ -19,6 +19,7 @@
 [ext_resource type="PackedScene" uid="uid://dljw8exgbojmi" path="res://scenes/game_objects/world/world_node/deforge_card_world_node/deforge_card_world_node.tscn" id="17_aof85"]
 [ext_resource type="Script" path="res://resources/configuration/world/world_generator_config/world_generator_config.gd" id="18_x068k"]
 [ext_resource type="Theme" uid="uid://bxlatu18hbfeu" path="res://assets/themes/generic_theme_1.tres" id="19_wxm8v"]
+[ext_resource type="Script" path="res://ui/screen_components/WorldNodesGridTableComponent/table_helper.gd" id="20_tqts6"]
 
 [sub_resource type="Resource" id="Resource_rn4cb"]
 script = ExtResource("3_xq4eh")
@@ -149,6 +150,10 @@ _max_depth_world_generation = 6
 seperation = 100
 village_node_scene = ExtResource("2_id4lb")
 _generate_in_test_container = true
+
+[node name="TableHelper" type="Node" parent="." node_paths=PackedStringArray("_table_center_point_marker2d")]
+script = ExtResource("20_tqts6")
+_table_center_point_marker2d = NodePath("../TableCenterPoint")
 
 [node name="WorldNodesContainerTest" type="Control" parent="."]
 unique_name_in_owner = true
