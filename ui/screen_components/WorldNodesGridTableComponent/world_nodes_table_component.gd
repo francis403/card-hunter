@@ -47,8 +47,6 @@ var _nodes_by_distance_dictionary: Dictionary = {
 
 ## Every time we add a new node, we add the adjacent positions here
 ## We then remove the node position from here
-## TODO(FA): ideally we would have by distance
-## distance: <Dictionary <position : root_node>>
 var _available_world_table_positions: Dictionary = {
 	## <distance> :  { <table_position> : <root_node> }
 }
