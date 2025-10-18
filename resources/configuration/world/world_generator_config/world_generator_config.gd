@@ -42,12 +42,6 @@ func initialize_config():
 		_initialize_world_entity_config(available_generic_monsters, _inserted_monsters_min_distances)
 	_possible_boss_monsters_configs = _initialize_boss_monsters_config()
 
-## TODO: we need to generate the nodes
-## Maybe it would be smarter to not try to determine which nodes we should add straight from the start,
-## but only when it's clicked
-func _generate_node_list():
-	pass
-
 func _initialize_world_entity_config(
 	world_entity_configs: Array[WorldEntityGeneratorConfig],
 	inserted_distances: Array[int]
@@ -88,24 +82,27 @@ func generate_random_boss_monster_scene() -> PackedScene:
 		return boss_monster_config.node_scene
 	return null
 
-## TODO: need to think of some logic to have min-max number of nodes
-## Maybe a possible solution would be to start by making them all MonsterHuntNode, and then move through the list of required nodes
+## Provided a distance of a node from the center, generate a possible node
 func generate_node(
 	distance: int
 ) -> GenericWorldNode:
-	var random_distance: int = randi_range(0, distance)
-	var random_distance_by_weight: int = _get_weighted_table_index(random_distance, _inserted_min_distances)
+	## Grab random distance between the root and the center
+	## Grab all the available distances between the node and the root
+	var random_distance_by_weight: int = _get_random_weighted_table_index(distance, _inserted_min_distances)
+	if random_distance_by_weight < 0:
+		push_error(generate_node, " ERROR: random_distance_by_weight had something go wrong")
+		return null
 	var random_weighted_table: WeightedTable = _possible_node_configs_by_distance[random_distance_by_weight]
 	var random_config_dictionary: Dictionary = random_weighted_table.pick_dictionary()
 	var index_to_remove_from: int = random_config_dictionary["index"]
 	var random_config: WorldEntityGeneratorConfig = random_weighted_table.pick_item()
 	if not random_config:
 		push_error(generate_node, " ERROR: no random_config")
-		return null;
+		return null
 	var world_node_scene: GenericWorldNode = random_config.generate()
 	if not world_node_scene:
 		push_error(generate_node, " ERROR: no world_node_scene")
-		return null;
+		return null
 	
 	_add_to_generated_history(
 		world_node_scene.world_node_id,
@@ -124,12 +121,12 @@ func generate_node(
 	
 	return world_node_scene
 
-## TODO: we could do this in log n
+## THis could be done in log_n
 func _get_weighted_table_index(
 	distance: int,
 	_inserted_distances: Array[int],
 ) -> int:
-	var found_i: int = 0
+	var found_i: int = -1
 	## I'm not sure this always follows the order of insertion
 	for _inserted_min_distance in _inserted_distances:
 		if _inserted_min_distance > distance:
@@ -137,6 +134,17 @@ func _get_weighted_table_index(
 		else:
 			found_i = _inserted_min_distance
 	return found_i
+
+func _get_random_weighted_table_index(
+	distance: int,
+	_inserted_distances: Array[int],
+) -> int:
+	var _possible_distances: Array[int] =\
+		_inserted_distances.filter(func (_distance): return _distance <= distance)
+	if not _possible_distances:
+		push_warning(_get_random_weighted_table_index, "WARNING: distance ", distance, " not in _inserted_distances!")
+		return -1
+	return _possible_distances.pick_random()
 
 func _add_to_generated_history(
 	id: String,
@@ -163,16 +171,12 @@ func _remove_from_possible_if_max_reached(
 	if number_of_generated >= max_generated:
 		## remove
 		dictionary_to_remove_from[distance_to_remove_from].remove_item_by_index(index_in_distance_to_remove_from)
-		
-		## TODO: improve this
 		if not dictionary_to_remove_from[distance_to_remove_from].is_empty():
 			return
-		var index: int = 0
-		for i in range(inserted_distances.size()):
-			if inserted_distances[i] == distance_to_remove_from:
-				index = i
-				break
-		inserted_distances.remove_at(index)
+		dictionary_to_remove_from.erase(distance_to_remove_from)
+		var index: int = inserted_distances.find(distance_to_remove_from)
+		if index >= 0:
+			inserted_distances.remove_at(index)
 
 func _initialize_world_node_scene(
 	world_node_scene: GenericWorldNode,

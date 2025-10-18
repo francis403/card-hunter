@@ -17,6 +17,10 @@ func remove_item_by_index(index: int):
 	var _temp_item_weight: int = items[index]["weight"]
 	items.remove_at(index)
 	weight_sum -= _temp_item_weight
+	var _new_index: int = 0
+	for item in items:
+		item["index"] = _new_index
+		_new_index += 1
 
 func is_empty() -> bool:
 	return items.is_empty()

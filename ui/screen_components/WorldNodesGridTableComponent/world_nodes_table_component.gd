@@ -28,15 +28,30 @@ const RADIUS: int = 30
 @onready var table_center_point: Marker2D = %TableCenterPoint
 @onready var world_nodes_container_test: Control = %WorldNodesContainerTest
 
-var _number_of_nodes_to_generate: int = 1
+## Number of nodes to be generated. Calculated at runtime
+var _number_of_nodes_to_generate: int
+
 ## Count total number of nodes generated
 var _total_number_of_nodes_generated: int = 0
 
+## Number of nodes to generate for the village
 var _number_of_village_children: int = 3
+
+## Gives info of the furthest node from the root
+var _further_distance_generated: int = 0
+
+## Provides a quick access to all nodes by distance
+var _nodes_by_distance_dictionary: Dictionary = {
+	## distance: Array[GenericWorldNode]
+}
 
 ## Every time we add a new node, we add the adjacent positions here
 ## We then remove the node position from here
-var _available_world_table_positions: Dictionary = {}
+## TODO(FA): ideally we would have by distance
+## distance: <Dictionary <position : root_node>>
+var _available_world_table_positions: Dictionary = {
+	## <distance> :  { <table_position> : <root_node> }
+}
 
 ## Store all positions added to the table
 var _blocked_table_positions: Dictionary = {}
@@ -87,7 +102,6 @@ func _generate_world():
 	_village_node = _place_village()
 	_generate_village_children(_village_node)
 	_block_adjancent_table_positions(_village_node.table_position)
-	_world_nodes.append(_village_node) 
 	PlayerController.current_world_node = _village_node
 	_generate_world_nodes(
 		PlayerController.current_world_node
@@ -140,22 +154,50 @@ func _generate_world_nodes(
 	_center_node: GenericWorldNode
 ):
 	var _center_position: Vector2 = _center_node.table_position
-	while _total_number_of_nodes_generated <= _number_of_nodes_to_generate:
-		var random_table_position: Vector2 = _get_adjacent_table_position(_center_position)
-		if not random_table_position:
-			return
+	var _minimum_distance: int = 1
+	## To avoid an infinite loop
+	var _number_of_loops: int = 0
+	var _max_loops: int = 1000
+	while _total_number_of_nodes_generated < _number_of_nodes_to_generate and _number_of_loops < _max_loops:
+		## TODO(FA): We need to only generate the position if it's available
+		var random_table_position: Vector2 = _get_random_position(_minimum_distance)
+		if random_table_position < Vector2(0, 0):
+			_blocked_table_positions[random_table_position] = true
+			_number_of_loops += 1
+			continue
 		_generate_node_in_table(random_table_position, _center_position)
+		_number_of_loops += 1
 
-func _get_adjacent_table_position(_table_position: Vector2) -> Vector2:
-	return _available_world_table_positions.keys().pick_random()
+## Returns a random position, 
+## or (-1, -1) if none is available
+func _get_random_position(
+	_min_distance_to_root: int = 0,
+	_max_distance_to_root: int = 101
+) -> Vector2:
+	var _result: Vector2 = Vector2.ZERO
+	var _random_distance: int = clamp(
+		_available_world_table_positions.keys().pick_random(),
+		_min_distance_to_root,
+		_max_distance_to_root
+	)
+	if not _available_world_table_positions.has(_random_distance):
+		return Vector2(-1, -1)
+	if _available_world_table_positions[_random_distance].is_empty():
+		return Vector2(-1, -1)
+	return _available_world_table_positions[_random_distance].keys().pick_random()
 
 func _generate_node_in_table(
 	_node_position: Vector2,
 	_center_position: Vector2
 ):
-	var _distance_to_center = _distance_between_two_points(_center_position, _node_position)
+	var _distance_to_center: int = _distance_between_two_points(_center_position, _node_position)
+	## TODO: we should check if the distance is okay
 	var generated_node: GenericWorldNode = world_generator_config.generate_node(_distance_to_center)
-	var base_node: GenericWorldNode = _available_world_table_positions[_node_position]
+	if not generated_node:
+		push_warning(_generate_node_in_table, "WARNING: _node_position: ", _node_position, " failed to be generated!")
+		return
+	## TODO(FA): this might be not the correct distance
+	var base_node: GenericWorldNode = _available_world_table_positions[_distance_to_center][_node_position]
 	generated_node.table_position = _node_position
 	#generated_node.global_position = _calculate_node_position(generated_node.table_position)
 	generated_node.global_position = calculate_positions_in_radius(
@@ -165,17 +207,23 @@ func _generate_node_in_table(
 	generated_node.world_node_id = str(_total_number_of_nodes_generated)
 	base_node.connections.append(generated_node)
 	#generated_node.connections.append(base_node)
-	_add_node_to_table(generated_node)
+	_add_node_to_table(generated_node, _distance_to_center)
 	_draw_line_between_nodes(base_node, generated_node)
 
-func _add_node_to_table(_node: GenericWorldNode):
+func _add_node_to_table(_node: GenericWorldNode, _distance_to_root: int = 0):
 	world_nodes_container.add_child(_node)
-	_store_adjacent_table_positions(_node)
+	_store_adjacent_table_positions(_node, _distance_to_root)
 	_total_number_of_nodes_generated += 1
-	_world_nodes.append(_node) 
+	_world_nodes.append(_node)
+	if _nodes_by_distance_dictionary.has(_distance_to_root):
+		_nodes_by_distance_dictionary[_distance_to_root].append(_node)
+	else:
+		_nodes_by_distance_dictionary[_distance_to_root] = [_node]
+	_further_distance_generated = max(_further_distance_generated, _distance_to_root)
 
 func _store_adjacent_table_positions(
-	_node: GenericWorldNode
+	_node: GenericWorldNode,
+	_node_distance: int
 ):
 	var center_position = _node.table_position
 	_blocked_table_positions[center_position] = true
@@ -187,17 +235,21 @@ func _store_adjacent_table_positions(
 				center_position.x + radius_x,
 				center_position.y + radius_y
 			)
-			## TODO: we don't want to overrite the position right?
-			if _available_world_table_positions.has(_table_position):
+			var _distance_to_root: int = _distance_between_two_points(
+				_table_position,
+				_table_center_point
+			)
+			if not _available_world_table_positions.has(_distance_to_root):
+				_available_world_table_positions[_distance_to_root] = {}
+			elif _available_world_table_positions[_distance_to_root].has(_table_position):
 				continue
 			if _blocked_table_positions.has(_table_position):
-				_available_world_table_positions.erase(_table_position)
+				_available_world_table_positions[_distance_to_root].erase(_table_position)
 				continue
-			var _distance_to_center: int = _distance_between_two_points(_table_center_point, _table_position)
 			# Only store positions that are same distance or farther from center (opposite direction)
-			if _distance_to_center >= node_distance_to_center and _distance_to_center <= _max_depth_world_generation:
-				_available_world_table_positions[_table_position] = _node
-	_available_world_table_positions.erase(center_position)
+			if _distance_to_root >= node_distance_to_center and _distance_to_root <= _max_depth_world_generation:
+				_available_world_table_positions[_distance_to_root][_table_position] = _node
+	_available_world_table_positions[_node_distance].erase(center_position)
 
 func _block_adjancent_table_positions(
 	_node_table_pos: Vector2
@@ -209,8 +261,9 @@ func _block_adjancent_table_positions(
 				_node_table_pos.x + radius_x,
 				_node_table_pos.y + radius_y
 			)
+			var _distance: int = _distance_between_two_points(_table_center_point, _table_position)
 			_blocked_table_positions[_table_position] = true
-			_available_world_table_positions.erase(_table_position)
+			_available_world_table_positions[_distance].erase(_table_position)
 
 func _draw_line_between_nodes(base_node: GenericWorldNode, other_node: GenericWorldNode):
 	var line = Line2D.new()
@@ -254,7 +307,6 @@ func calculate_positions_in_radius(
 	var offset = Vector2(cos(angle), sin(angle)) * seperation
 	var screen_position: Vector2 = center_node.global_position + offset
 	
-	print(calculate_positions_in_radius, ": ", screen_position)
 	return screen_position
 
 func _distance_between_two_points(
@@ -290,6 +342,7 @@ func _load_village():
 func _initiate_world():
 	var _nodes_to_load: Array= File.progress.world_state.get_world_nodes()
 	for _node: GenericWorldNode in _nodes_to_load:
-		_add_node_to_table(_node)
+		var _distance: int = _distance_between_two_points(_node.table_position, _village_node.table_position)
+		_add_node_to_table(_node, _distance)
 		for _con in _node.connections:
 			_draw_line_between_nodes(_node, _con)

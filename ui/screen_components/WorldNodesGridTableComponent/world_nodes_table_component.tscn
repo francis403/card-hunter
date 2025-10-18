@@ -38,8 +38,8 @@ class_name WorldMonsterGeneratorConfig
 script = SubResource("GDScript_o11dp")
 node_scene = ExtResource("5_kwpa7")
 weight = 20
-min_occurrences = 0
-max_ocurrences = 100
+min_occurrences = 2
+max_ocurrences = 2
 minimum_distance_to_root = 0
 maximimum_distance_to_root = 100
 
@@ -47,8 +47,8 @@ maximimum_distance_to_root = 100
 script = SubResource("GDScript_o11dp")
 node_scene = ExtResource("6_ttej1")
 weight = 15
-min_occurrences = 0
-max_ocurrences = 100
+min_occurrences = 2
+max_ocurrences = 2
 minimum_distance_to_root = 0
 maximimum_distance_to_root = 100
 
@@ -56,8 +56,8 @@ maximimum_distance_to_root = 100
 script = ExtResource("3_xq4eh")
 node_scene = ExtResource("7_l7ko2")
 weight = 5
-min_occurrences = 0
-max_ocurrences = 2
+min_occurrences = 1
+max_ocurrences = 1
 minimum_distance_to_root = 0
 maximimum_distance_to_root = 100
 
@@ -66,7 +66,7 @@ script = ExtResource("3_xq4eh")
 node_scene = ExtResource("8_5yo52")
 weight = 30
 min_occurrences = 5
-max_ocurrences = 100
+max_ocurrences = 5
 minimum_distance_to_root = 0
 maximimum_distance_to_root = 100
 
@@ -112,7 +112,7 @@ node_scene = ExtResource("9_vuv1e")
 weight = 90
 min_occurrences = 1
 max_ocurrences = 1
-minimum_distance_to_root = 1
+minimum_distance_to_root = 2
 maximimum_distance_to_root = 100
 override_possible_rewards = SubResource("Resource_clsn7")
 
