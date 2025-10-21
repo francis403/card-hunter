@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=3 uid="uid://cmurt2gatahso"]
+[gd_scene load_steps=37 format=3 uid="uid://cmurt2gatahso"]
 
 [ext_resource type="Script" path="res://ui/screen_components/WorldNodesGridTableComponent/world_nodes_table_component.gd" id="1_uhfm2"]
 [ext_resource type="PackedScene" uid="uid://85fgvtoxusyd" path="res://scenes/game_objects/world/world_node/village_world_node/village_world_node.tscn" id="2_id4lb"]
@@ -126,9 +126,18 @@ max_ocurrences = 2
 minimum_distance_to_root = 2
 maximimum_distance_to_root = 100
 
+[sub_resource type="Resource" id="Resource_qctsw"]
+script = ExtResource("3_xq4eh")
+node_scene = ExtResource("9_vuv1e")
+weight = 30
+min_occurrences = 5
+max_ocurrences = 5
+minimum_distance_to_root = 3
+maximimum_distance_to_root = 3
+
 [sub_resource type="Resource" id="Resource_m3ba2"]
 script = ExtResource("18_x068k")
-available_world_nodes = Array[ExtResource("3_xq4eh")]([SubResource("Resource_mixv6"), SubResource("Resource_5upvb"), SubResource("Resource_4cwlo")])
+available_world_nodes = Array[ExtResource("3_xq4eh")]([SubResource("Resource_mixv6"), SubResource("Resource_5upvb"), SubResource("Resource_4cwlo"), SubResource("Resource_qctsw")])
 available_generic_monsters = Array[ExtResource("3_xq4eh")]([SubResource("Resource_qam74"), SubResource("Resource_jb2wl"), SubResource("Resource_443fq")])
 available_boss_monsters = Array[ExtResource("3_xq4eh")]([SubResource("Resource_rn4cb")])
 max_distance_to_village = 2
@@ -146,7 +155,6 @@ script = ExtResource("1_uhfm2")
 world_generator_config = SubResource("Resource_m3ba2")
 constant_number_of_nodes_to_add = 5
 world_generation_seed = 500
-_max_depth_world_generation = 6
 seperation = 100
 village_node_scene = ExtResource("2_id4lb")
 _generate_in_test_container = true

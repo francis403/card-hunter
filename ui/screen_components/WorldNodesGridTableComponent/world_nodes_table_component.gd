@@ -61,6 +61,7 @@ func _init() -> void:
 		_village_node = File.progress.village_node
 
 func _ready() -> void:
+	BattlemapSignals.expand_world.connect(expand_world)
 	if not use_random_seed:
 		seed(world_generation_seed)
 	if not village_node_scene:
@@ -99,19 +100,40 @@ func _generate_world():
 	table_helper.block_adjancent_table_positions(_village_node.table_position)
 	PlayerController.current_world_node = _village_node
 	_generate_world_nodes(
-		PlayerController.current_world_node
+		PlayerController.current_world_node,
+		_number_of_nodes_to_generate
 	)
 	_village_node.reveal_connected_nodes()
 	_save_world_state()
 
+## TODO(FA): improve this
 func expand_world():
-	pass
+	## TODO: calculate the total number of nodes to add based on the depth
+	## block all positions at depth  2
+	#table_helper.block_table_depth(1)
+	table_helper.block_table_depth(2)
+	table_helper._show_available_pos()
+	#table_helper._show_blocked_pos()
+	var _number_of_nodes_to_add: int = 3
+	var _current_number_of_nodes_added: int = 0
+	for i in randi_range(0, _number_of_nodes_to_add):
+		## TODO: figure out a smart way to continously expand the world organically
+		var random_table_position: Vector2 = table_helper.get_random_position(
+			2,
+			5
+		)
+		if random_table_position < Vector2(0, 0):
+			print("WORLD_EXPAND: Error expanding world!")
+			continue
+		_generate_node_in_table(random_table_position, _village_node.table_position)
+
 
 ## Village node + minimums 
 func _calculate_total_number_of_nodes() -> int:
 	var result: int = 1
 	for _node in world_generator_config.available_world_nodes:
-		result += _node.min_occurrences
+		if _node.minimum_distance_to_root <= _max_depth_world_generation:
+			result += _node.min_occurrences
 	return result
 
 func _place_village() -> GenericWorldNode:
@@ -146,27 +168,36 @@ func _generate_node_children(
 	var _picked_adjacent_positions: Array[Vector2] = []
 
 func _generate_world_nodes(
-	_center_node: GenericWorldNode
+	_center_node: GenericWorldNode,
+	_nbr_of_nodes_to_generate: int = _number_of_nodes_to_generate
 ):
 	var _center_position: Vector2 = _center_node.table_position
-	var _minimum_distance: int = 1
+	var _minimum_distance: int = 2
 	## To avoid an infinite loop
 	var _number_of_loops: int = 0
-	var _max_loops: int = 1000
-	while _total_number_of_nodes_generated < _number_of_nodes_to_generate and _number_of_loops < _max_loops:
+	var _max_loops: int = 50
+	while _total_number_of_nodes_generated < _nbr_of_nodes_to_generate and _number_of_loops < _max_loops:
 		## TODO(FA): We need to only generate the position if it's available
-		var random_table_position: Vector2 = table_helper.get_random_position(_minimum_distance)
+		var random_table_position: Vector2 = table_helper.get_random_position(
+			_minimum_distance,
+			_max_depth_world_generation
+		)
+		_minimum_distance = max(world_generator_config.get_min_node_distance(), _minimum_distance)
+		_number_of_loops += 1
 		if random_table_position < Vector2(0, 0):
-			table_helper.block_table_pos(random_table_position)
-			_number_of_loops += 1
+			#table_helper.block_table_pos(random_table_position)
+			print("Error with: random_table_position!")
 			continue
 		_generate_node_in_table(random_table_position, _center_position)
-		_number_of_loops += 1
+	print("DEBUG: generation World generated in: ", _number_of_loops, " loops!")
 
 func _generate_node_in_table(
 	_node_position: Vector2,
 	_center_position: Vector2
 ):
+	print("DEBUG: generation number of min nodes missing: ", world_generator_config.calculate_number_of_nodes_missing())
+	print("DEBUG: generation progress: ", self._total_number_of_nodes_generated, "/", self._number_of_nodes_to_generate)
+	
 	var _distance_to_center: int = table_helper.distance_between_two_points(_center_position, _node_position)
 	## TODO: we should check if the distance is okay
 	var generated_node: GenericWorldNode = world_generator_config.generate_node(_distance_to_center)

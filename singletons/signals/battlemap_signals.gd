@@ -76,3 +76,4 @@ signal node_completed(world_node_id: String)
 signal node_completed_and_freed(world_node_id: String)
 signal world_updated
 signal world_node_screen_completed(_advance_day: bool)
+signal expand_world

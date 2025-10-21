@@ -90,12 +90,11 @@ func generate_node(
 	## Grab all the available distances between the node and the root
 	var random_distance_by_weight: int = _get_random_weighted_table_index(distance, _inserted_min_distances)
 	if random_distance_by_weight < 0:
-		push_error(generate_node, " ERROR: random_distance_by_weight had something go wrong")
 		return null
 	var random_weighted_table: WeightedTable = _possible_node_configs_by_distance[random_distance_by_weight]
 	var random_config_dictionary: Dictionary = random_weighted_table.pick_dictionary()
 	var index_to_remove_from: int = random_config_dictionary["index"]
-	var random_config: WorldEntityGeneratorConfig = random_weighted_table.pick_item()
+	var random_config: WorldEntityGeneratorConfig = random_config_dictionary["item"]
 	if not random_config:
 		push_error(generate_node, " ERROR: no random_config")
 		return null
@@ -121,7 +120,20 @@ func generate_node(
 	
 	return world_node_scene
 
-## THis could be done in log_n
+func get_min_node_distance() -> int:
+	return _inserted_min_distances[0]
+	
+func get_max_distance() -> int:
+	return 1
+
+func calculate_number_of_nodes_missing() -> int:
+	var result: int = 0
+	for _weighted_table: WeightedTable in _possible_node_configs_by_distance.values():
+		for _item in _weighted_table.items:
+			result += _item["item"].min_occurrences
+	return result
+
+## This could be done in log_n
 func _get_weighted_table_index(
 	distance: int,
 	_inserted_distances: Array[int],
@@ -142,7 +154,7 @@ func _get_random_weighted_table_index(
 	var _possible_distances: Array[int] =\
 		_inserted_distances.filter(func (_distance): return _distance <= distance)
 	if not _possible_distances:
-		push_warning(_get_random_weighted_table_index, "WARNING: distance ", distance, " not in _inserted_distances!")
+		push_warning("WARNING: distance ", distance, " not in _inserted_distances: ", _inserted_distances)
 		return -1
 	return _possible_distances.pick_random()
 
@@ -170,9 +182,12 @@ func _remove_from_possible_if_max_reached(
 	var number_of_generated: int = generated_history[id]
 	if number_of_generated >= max_generated:
 		## remove
+		print("DEBUG: distance_to_remove_from: ", distance_to_remove_from)
+		print("DEBUG: removing: ", index_in_distance_to_remove_from, " from ", dictionary_to_remove_from[distance_to_remove_from].items)
 		dictionary_to_remove_from[distance_to_remove_from].remove_item_by_index(index_in_distance_to_remove_from)
 		if not dictionary_to_remove_from[distance_to_remove_from].is_empty():
 			return
+		print("DEBUG: completely erasing: ", distance_to_remove_from)
 		dictionary_to_remove_from.erase(distance_to_remove_from)
 		var index: int = inserted_distances.find(distance_to_remove_from)
 		if index >= 0:
