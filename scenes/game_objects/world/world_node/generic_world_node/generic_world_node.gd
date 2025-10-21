@@ -7,12 +7,12 @@ class_name GenericWorldNode
 const ID_DICTIONARY_FIELD: String = "id"
 const IS_REVEALED_DICTIONARY_FIELD: String = "is_revealed"
 const IS_REACHABLE_DICTIONARY_FIELD: String = "is_reachable"
-const IS_SHOWING_PLAYER_SPRITE_DICTIONARY_FIELD: String = "is_showing_player_sprite"
 const IS_ALREADY_CLICKED_DICTIONARY_FIELD: String = "is_already_clicked"
 const IS_ONLY_CLICKABLE_ONCE_DICTIONARY_FIELD: String = "is_only_clickable_once"
 const WORLD_NODE_TYPE_DICTIONARY_FIELD: String = "world_node_type"
 const NODE_SCENE_PATH_DICTIONARY_FIELD: String = "node_scene"
 const POSITION_DICTIONARY_FIELD: String = "position"
+const TABLE_POSITION_DICTIONARY_FIELD: String = "table_position"
 const CONNECTIONS_DICTIONARY_FIELD: String = "connections"
 
 @onready var world_node_sprite: Sprite2D = $worldNodeSprite
@@ -37,9 +37,11 @@ var pulsating_tween: Tween
 @export var _is_only_clickable_once: bool = true
 @export var _is_pulsable: bool = true
 
+## When using table generation might be useful to have the info here
+var table_position: Vector2 = Vector2(-1, -1)
+
 var _available_tween_scale: Vector2 = Vector2(1.1, 1.1)
 
-var is_showing_player_sprite: bool = false
 var is_revealed: bool = false
 var is_reachable: bool = false
 var is_loaded: bool = false
@@ -58,7 +60,6 @@ func _init() -> void:
 	my_node_scene = load(my_node_scene_path)
 
 func _ready() -> void:
-	BattlemapSignals.hide_player_in_other_node.connect(_on_hide_player_in_other_node_signal)
 	_prepare_world_node()
 	after_node_is_ready()
 
@@ -72,10 +73,6 @@ func _prepare_world_node():
 func _prepare_world_node_sprite():
 	if File.progress.current_world_node_id == world_node_id:
 		show_player()
-	
-func _on_hide_player_in_other_node_signal(node_id: String):
-	if world_node_id != node_id:
-		hide_player()
 
 func reveal_connected_nodes():
 	for node in self.connections:
@@ -141,7 +138,7 @@ func _process_on_world_node_click():
 	if not self.is_reachable:
 		return
 	
-	if self.is_showing_player_sprite:
+	if self.world_node_id == GameController.current_player_node_id:
 		on_node_click_event()
 	
 	self.show_player()
@@ -156,12 +153,10 @@ func _process_on_world_node_click():
 	
 	
 func hide_player():
-	is_showing_player_sprite = false
 	if player_texture_rect:
 		player_texture_rect.visible = false
 
 func show_player():
-	is_showing_player_sprite = true
 	player_texture_rect.visible = true
 
 func reveal_node():
@@ -175,6 +170,10 @@ func reveal_node():
 	tween = create_tween()
 	reveal_node_effect()
 	tween.tween_property(self, "modulate:a", 1.0, 1.0).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_QUAD)
+	
+	## Update the world state for the revealed nodes
+	BattlemapSignals.player_world_state_updated.emit(self)
+	
 	BattlemapSignals.node_finished_revealing.emit(self.world_node_id)
 	_start_pulsating_animation()
 
@@ -203,28 +202,26 @@ func copy_properties_into_node(node: GenericWorldNode):
 	node.position = self.position
 	node.is_revealed = self.is_revealed
 	node.is_reachable = self.is_reachable
-	node.is_showing_player_sprite = self.is_showing_player_sprite
 
 func convert_node_to_dictionary() -> Dictionary:
 	var result: Dictionary = {}
 	result[ID_DICTIONARY_FIELD] = self.world_node_id
 	result[IS_REVEALED_DICTIONARY_FIELD] = self.is_revealed
 	result[IS_REACHABLE_DICTIONARY_FIELD] = self.is_reachable
-	result[IS_SHOWING_PLAYER_SPRITE_DICTIONARY_FIELD] = self.is_showing_player_sprite
 	result[IS_ALREADY_CLICKED_DICTIONARY_FIELD] = self._is_already_clicked
 	result[IS_ONLY_CLICKABLE_ONCE_DICTIONARY_FIELD] = self._is_only_clickable_once
 	result[POSITION_DICTIONARY_FIELD] = self.position
+	result[TABLE_POSITION_DICTIONARY_FIELD] = self.table_position
 	result[NODE_SCENE_PATH_DICTIONARY_FIELD] = self.my_node_scene_path
 	result[CONNECTIONS_DICTIONARY_FIELD] = {}
+	for _con in connections:
+		result[CONNECTIONS_DICTIONARY_FIELD][_con.world_node_id] = true
 	return result
 	
 func load_node_from_dictionary(node_state: Dictionary):
 	self.world_node_id = node_state[ID_DICTIONARY_FIELD]
 	self.is_revealed = node_state[IS_REVEALED_DICTIONARY_FIELD]
 	self.is_reachable = node_state[IS_REACHABLE_DICTIONARY_FIELD]
-	self.is_showing_player_sprite = node_state[IS_SHOWING_PLAYER_SPRITE_DICTIONARY_FIELD]
-	if self.is_showing_player_sprite:
-		PlayerController.current_world_node = self
 	if node_state.has(IS_ALREADY_CLICKED_DICTIONARY_FIELD):
 		self._is_already_clicked = node_state[IS_ALREADY_CLICKED_DICTIONARY_FIELD]
 	if node_state.has(IS_ONLY_CLICKABLE_ONCE_DICTIONARY_FIELD):
@@ -232,6 +229,7 @@ func load_node_from_dictionary(node_state: Dictionary):
 	self.my_node_scene_path = node_state[NODE_SCENE_PATH_DICTIONARY_FIELD]
 	self.my_node_scene = load(my_node_scene_path)
 	self.position = node_state[POSITION_DICTIONARY_FIELD]
+	self.table_position = node_state[TABLE_POSITION_DICTIONARY_FIELD]
 	_start_pulsating_animation()
 
 func _start_pulsating_animation() -> void:

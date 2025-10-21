@@ -43,9 +43,6 @@ types = Array[String]([])
 default_top_section_background_color = Color(0.124, 0.15, 0.153, 1)
 default_bottom_section_background_color = Color(0.384, 0.384, 0.384, 1)
 placement_rule = 0
-required_preceding_types = Array[String]([])
-required_following_types = Array[String]([])
-conflicting_modules = Array[String]([])
 max_instances_per_card = -1
 
 [resource]

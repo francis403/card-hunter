@@ -70,10 +70,10 @@ signal monster_body_part_attacked(monster: MonsterPiece, bodyPart: BodyPart)
 
 ## WorldMap Signals
 signal player_world_state_updated(world_node: GenericWorldNode)
-signal hide_player_in_other_node(world_node_id: String)
 signal reveal_connected_nodes(world_node: GenericWorldNode)
 signal node_finished_revealing(world_node_id: String)
 signal node_completed(world_node_id: String)
 signal node_completed_and_freed(world_node_id: String)
 signal world_updated
 signal world_node_screen_completed(_advance_day: bool)
+signal expand_world

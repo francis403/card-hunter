@@ -1,0 +1,125 @@
+[gd_resource type="Resource" script_class="WorldGeneratorConfig" load_steps=31 format=3 uid="uid://d2glp1sppr75o"]
+
+[ext_resource type="Script" path="res://resources/configuration/world/world_entity_generator_config.gd" id="1_hshkm"]
+[ext_resource type="PackedScene" uid="uid://bp8v6rbwvlp4m" path="res://scenes/battle_scenes/giant_bat_test_scene/giant_bat_battle_test_scene.tscn" id="2_jakwl"]
+[ext_resource type="PackedScene" uid="uid://cvlh0ir1dbn8k" path="res://scenes/monsters/generic_monsters/crab_monster/crab_monster.tscn" id="3_kgsmw"]
+[ext_resource type="PackedScene" uid="uid://w530cnkei473" path="res://scenes/monsters/generic_monsters/spider_monster/spider_monster.tscn" id="4_bxeyo"]
+[ext_resource type="PackedScene" uid="uid://bcm61mhdmnl68" path="res://scenes/monsters/generic_monsters/crab_angler_monster_1/crab_angler_1_monster.tscn" id="5_q3cah"]
+[ext_resource type="PackedScene" uid="uid://bd1e36axykjhr" path="res://scenes/game_objects/world/world_node/monster_hunt_world_node/monster_hunt_world_node.tscn" id="6_y1y27"]
+[ext_resource type="PackedScene" uid="uid://blf6uu6ap5ht3" path="res://scenes/game_objects/world/world_node/treasure_world_node/treasure_world_node.tscn" id="7_wlrov"]
+[ext_resource type="Script" path="res://resources/configuration/world/world_entity_reward_generator_config.gd" id="8_mx3de"]
+[ext_resource type="Resource" uid="uid://bu7gcqxkp3gqp" path="res://resources/card/card_resource_v2/_card_resources_v2/move_cards/teleport_card_1.tres" id="9_ec11n"]
+[ext_resource type="Resource" uid="uid://dl1moktvst0io" path="res://resources/card/card_resource_v2/_card_resources_v2/move_cards/emergency_retreat_1.tres" id="10_t2g73"]
+[ext_resource type="Resource" uid="uid://dvk1a1vyglgvc" path="res://resources/card/card_resource_v2/_card_resources_v2/power_cards/double_speed_power_card_1.tres" id="11_ghqd1"]
+[ext_resource type="Resource" uid="uid://c7ml1pqlvfib4" path="res://resources/card/card_resource_v2/_card_resources_v2/power_cards/double_strength_power_card_1.tres" id="12_jusuw"]
+[ext_resource type="Resource" uid="uid://d0tjdvgepml65" path="res://resources/card/card_resource_v2/_card_resources_v2/status_change_cards/health_potion_1.tres" id="13_88xp1"]
+[ext_resource type="Script" path="res://resources/configuration/world/world_node/world_node_reward_generator_config/world_node_reward_generator_config.gd" id="14_wd70h"]
+[ext_resource type="PackedScene" uid="uid://dljw8exgbojmi" path="res://scenes/game_objects/world/world_node/deforge_card_world_node/deforge_card_world_node.tscn" id="15_a47ff"]
+[ext_resource type="Script" path="res://resources/configuration/world/world_generator_config/world_generator_config.gd" id="16_b66hr"]
+
+[sub_resource type="Resource" id="Resource_rn4cb"]
+script = ExtResource("1_hshkm")
+node_scene = ExtResource("2_jakwl")
+weight = 30
+max_ocurrences = 1
+minimum_distance_to_root = null
+maximimum_distance_to_root = null
+
+[sub_resource type="GDScript" id="GDScript_o11dp"]
+script/source = "extends WorldEntityGeneratorConfig
+class_name WorldMonsterGeneratorConfig
+"
+
+[sub_resource type="Resource" id="Resource_qam74"]
+script = SubResource("GDScript_o11dp")
+node_scene = ExtResource("3_kgsmw")
+weight = 20
+max_ocurrences = 100
+minimum_distance_to_root = 0
+maximimum_distance_to_root = 100
+
+[sub_resource type="Resource" id="Resource_jb2wl"]
+script = SubResource("GDScript_o11dp")
+node_scene = ExtResource("4_bxeyo")
+weight = 15
+max_ocurrences = 100
+minimum_distance_to_root = 0
+maximimum_distance_to_root = 100
+
+[sub_resource type="Resource" id="Resource_443fq"]
+script = ExtResource("1_hshkm")
+node_scene = ExtResource("5_q3cah")
+weight = 5
+max_ocurrences = 2
+minimum_distance_to_root = 0
+maximimum_distance_to_root = 100
+
+[sub_resource type="Resource" id="Resource_mixv6"]
+script = ExtResource("1_hshkm")
+node_scene = ExtResource("6_y1y27")
+weight = 30
+max_ocurrences = null
+minimum_distance_to_root = null
+maximimum_distance_to_root = null
+
+[sub_resource type="Resource" id="Resource_r5p2f"]
+script = ExtResource("8_mx3de")
+reward_resource = ExtResource("9_ec11n")
+weight = 5
+max_ocurrences = 100
+
+[sub_resource type="Resource" id="Resource_efu3o"]
+script = ExtResource("8_mx3de")
+reward_resource = ExtResource("10_t2g73")
+weight = 35
+max_ocurrences = 100
+
+[sub_resource type="Resource" id="Resource_ggkmc"]
+script = ExtResource("8_mx3de")
+reward_resource = ExtResource("11_ghqd1")
+weight = 25
+max_ocurrences = 100
+
+[sub_resource type="Resource" id="Resource_cm3ao"]
+script = ExtResource("8_mx3de")
+reward_resource = ExtResource("12_jusuw")
+weight = 25
+max_ocurrences = 100
+
+[sub_resource type="Resource" id="Resource_1bpig"]
+script = ExtResource("8_mx3de")
+reward_resource = ExtResource("13_88xp1")
+weight = 30
+max_ocurrences = 100
+
+[sub_resource type="Resource" id="Resource_clsn7"]
+script = ExtResource("14_wd70h")
+override_possible_rewards = Array[ExtResource("8_mx3de")]([SubResource("Resource_r5p2f"), SubResource("Resource_efu3o"), SubResource("Resource_ggkmc"), SubResource("Resource_cm3ao"), SubResource("Resource_1bpig")])
+number_of_rewards_to_display = 4
+number_of_choices = 2
+
+[sub_resource type="Resource" id="Resource_5upvb"]
+script = ExtResource("1_hshkm")
+node_scene = ExtResource("7_wlrov")
+weight = 90
+max_ocurrences = 1
+minimum_distance_to_root = 1
+maximimum_distance_to_root = null
+override_possible_rewards = SubResource("Resource_clsn7")
+
+[sub_resource type="Resource" id="Resource_4cwlo"]
+script = ExtResource("1_hshkm")
+node_scene = ExtResource("15_a47ff")
+weight = 30
+max_ocurrences = 2
+minimum_distance_to_root = 2
+maximimum_distance_to_root = null
+
+[resource]
+script = ExtResource("16_b66hr")
+available_world_nodes = Array[ExtResource("1_hshkm")]([SubResource("Resource_mixv6"), SubResource("Resource_5upvb"), SubResource("Resource_4cwlo")])
+available_generic_monsters = Array[ExtResource("1_hshkm")]([SubResource("Resource_qam74"), SubResource("Resource_jb2wl"), SubResource("Resource_443fq")])
+available_boss_monsters = Array[ExtResource("1_hshkm")]([SubResource("Resource_rn4cb")])
+max_distance_to_village = 2
+max_number_of_child_nodes = 3
+number_of_village_children_node = 3

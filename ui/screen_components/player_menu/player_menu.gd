@@ -30,3 +30,7 @@ func _on_forge_card_button_pressed() -> void:
 	if !get_parent() is ForgeCardScreen:
 		var scene: ForgeCardScreen = Constants.forge_card_screen_scene.instantiate()
 		get_tree().root.add_child(scene)
+
+
+func _on_expand_world_pressed() -> void:
+	BattlemapSignals.expand_world.emit()

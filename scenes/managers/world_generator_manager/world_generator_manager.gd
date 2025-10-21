@@ -4,7 +4,6 @@ extends Node2D
 ## TODO: Need to divide this class in two (world_generation / world loading)
 class_name WorldGeneratorManager
 
-const WORLD_NODE_SCENE = preload("res://scenes/game_objects/world/world_node/monster_hunt_world_node/monster_hunt_world_node.tscn")
 const VILLAGE_NODE_SCENE = preload("res://scenes/game_objects/world/world_node/village_world_node/village_world_node.tscn")
 
 const RADIUS = 30
@@ -34,28 +33,29 @@ var _loaded_nodes: Array[String] = []
 var village_node: VillageWorldNode
 
 func _init() -> void:
-	village_node = File.progress.village_node
+	if File.progress:
+		village_node = File.progress.village_node
 
-func _ready() -> void:
-	BattlemapSignals.world_updated.connect(_save_world_state)
-	if world_generator_config:
-		world_generator_config.initialize_config()
-		max_distance_to_village = world_generator_config.max_distance_to_village
-		maximum_number_of_child_nodes = world_generator_config.max_number_of_child_nodes
+#func _ready() -> void:
+	#BattlemapSignals.world_updated.connect(_save_world_state)
+	#if world_generator_config:
+		#world_generator_config.initialize_config()
+		#max_distance_to_village = world_generator_config.max_distance_to_village
+		#maximum_number_of_child_nodes = world_generator_config.max_number_of_child_nodes
 
-func _draw():
-	if not _is_world_saved():
-		_generate_world()
-	else:
-		_load_world()
+#func _draw():
+	#if not _is_world_saved():
+		#_generate_world()
+	#else:
+		#_load_world()
 
 func _exit_tree() -> void:
 	## on exit need to make sure not to delete the village node
-	File.progress.village_node = village_node.duplicate_node(true)
+	if File.progress:
+		File.progress.village_node = village_node.duplicate_node(true)
 
 func _is_world_saved() -> bool:
-	return village_node != null
-	
+	return village_node != null	
 
 func _remove_preview():
 	if not world_node_container:
@@ -135,7 +135,6 @@ func get_overlapping_node(world_node_global_position: Vector2) -> GenericWorldNo
 func _load_world():
 	print(_load_world)
 	_load_village()
-	BattlemapSignals.hide_player_in_other_node.emit(File.progress.current_world_node_id)
 
 func _load_village():
 	village_node = File.progress.village_node
