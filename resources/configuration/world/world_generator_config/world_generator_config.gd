@@ -126,13 +126,6 @@ func get_min_node_distance() -> int:
 func get_max_distance() -> int:
 	return 1
 
-func calculate_number_of_nodes_missing() -> int:
-	var result: int = 0
-	for _weighted_table: WeightedTable in _possible_node_configs_by_distance.values():
-		for _item in _weighted_table.items:
-			result += _item["item"].min_occurrences
-	return result
-
 ## This could be done in log_n
 func _get_weighted_table_index(
 	distance: int,
@@ -199,6 +192,8 @@ func _initialize_world_node_scene(
 ):
 	if world_node_scene is MonsterHuntWorldNode:
 		var random_monster: GenericMonster = self._generate_monster(distance)
+		if not random_monster:
+			push_error("ERROR: Error while generating Monster for MonsterHuntWorld")
 		world_node_scene.monsters_in_node.append(random_monster)
 		return
 	
@@ -209,8 +204,9 @@ func _generate_monster(
 	if _possible_monsters_configs_by_distance.is_empty():
 		push_error(_generate_monster, " ERROR: _possible_monsters_configs_by_distance is empty!")
 		return null;
-	var random_distance: int = randi_range(0, distance)
-	var random_distance_by_weight: int = _get_weighted_table_index(random_distance, _inserted_monsters_min_distances)
+	var random_distance_by_weight: int = _get_weighted_table_index(distance, _inserted_monsters_min_distances)
+	if random_distance_by_weight < 0:
+		return null
 	var random_weighted_table: WeightedTable = _possible_monsters_configs_by_distance[random_distance_by_weight]
 	var random_config_dictionary: Dictionary = random_weighted_table.pick_dictionary()
 	var index_to_remove_from: int = random_config_dictionary["index"]

@@ -110,8 +110,6 @@ func _generate_world():
 func expand_world():
 	## TODO: calculate the total number of nodes to add based on the depth
 	## block all positions at depth  2
-	#table_helper.block_table_depth(1)
-	table_helper.block_table_depth(2)
 	table_helper._show_available_pos()
 	#table_helper._show_blocked_pos()
 	var _number_of_nodes_to_add: int = 3
@@ -119,15 +117,16 @@ func expand_world():
 	for i in randi_range(0, _number_of_nodes_to_add):
 		## TODO: figure out a smart way to continously expand the world organically
 		var random_table_position: Vector2 = table_helper.get_random_position(
-			2,
-			5
+			3,
+			4
 		)
 		if random_table_position < Vector2(0, 0):
-			print("WORLD_EXPAND: Error expanding world!")
+			print("DEBUG: Error expanding world!")
 			continue
 		_generate_node_in_table(random_table_position, _village_node.table_position)
 
 
+## TODO: improve this
 ## Village node + minimums 
 func _calculate_total_number_of_nodes() -> int:
 	var result: int = 1
@@ -185,7 +184,6 @@ func _generate_world_nodes(
 		_minimum_distance = max(world_generator_config.get_min_node_distance(), _minimum_distance)
 		_number_of_loops += 1
 		if random_table_position < Vector2(0, 0):
-			#table_helper.block_table_pos(random_table_position)
 			print("Error with: random_table_position!")
 			continue
 		_generate_node_in_table(random_table_position, _center_position)
@@ -195,11 +193,7 @@ func _generate_node_in_table(
 	_node_position: Vector2,
 	_center_position: Vector2
 ):
-	print("DEBUG: generation number of min nodes missing: ", world_generator_config.calculate_number_of_nodes_missing())
-	print("DEBUG: generation progress: ", self._total_number_of_nodes_generated, "/", self._number_of_nodes_to_generate)
-	
 	var _distance_to_center: int = table_helper.distance_between_two_points(_center_position, _node_position)
-	## TODO: we should check if the distance is okay
 	var generated_node: GenericWorldNode = world_generator_config.generate_node(_distance_to_center)
 	if not generated_node:
 		push_warning(_generate_node_in_table, "WARNING: _node_position: ", _node_position, " failed to be generated!")

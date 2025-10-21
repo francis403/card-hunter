@@ -6,7 +6,7 @@ var _seperation: int
 var _max_depth_world_generation: int
 
 ## Store all positions that can never have a node
-var _blocked_table_positions: Dictionary = {}
+var _added_table_positions: Dictionary = {}
 
 ## Every time we add a new node, we add the adjacent positions here
 ## We then remove the node position from here
@@ -97,10 +97,12 @@ func calculate_positions_in_radius(
 
 func store_adjacent_table_positions(
 	_node: GenericWorldNode,
-	_node_distance: int
+	_node_distance: int,
+	_store_position: bool = true
 ):
 	var center_position = _node.table_position
-	self.block_table_pos(center_position)
+	if _store_position:
+		self._added_table_positions[center_position] = true
 	var node_distance_to_center: int = self.distance_between_two_points(_table_center_point, center_position)
 	var radius: int = 1
 	for radius_x in range(-radius, radius + 1):
@@ -117,7 +119,7 @@ func store_adjacent_table_positions(
 				_available_world_table_positions[_distance_to_root] = {}
 			elif _available_world_table_positions[_distance_to_root].has(_table_position):
 				continue
-			if self.is_position_blocked(_table_position):
+			if self.is_position_already_added(_table_position):
 				_available_world_table_positions[_distance_to_root].erase(_table_position)
 				continue
 			# Only store positions that are same distance or farther from center (opposite direction)
@@ -127,24 +129,16 @@ func store_adjacent_table_positions(
 	if _available_world_table_positions[_node_distance].is_empty():
 		_available_world_table_positions.erase(_node_distance)
 
-func is_position_blocked(
+func is_position_already_added(
 	_table_pos: Vector2
 ) -> bool:
-	return _blocked_table_positions.has(_table_pos) 
-
-func block_table_pos(
-	_table_pos: Vector2
-) -> void:
-	_blocked_table_positions[_table_pos] = true
+	return _added_table_positions.has(_table_pos) 
 
 func block_table_depth(
 	_depth: int
 ) -> void:
 	if not _available_world_table_positions.has(_depth):
 		return
-	for _pos: Vector2 in _available_world_table_positions[_depth]:
-		_blocked_table_positions[_pos] = true
-	_blocked_table_positions.erase(_depth)
 	_available_world_table_positions.erase(_depth)
 
 func block_adjancent_table_positions(
@@ -158,7 +152,6 @@ func block_adjancent_table_positions(
 				_node_table_pos.y + radius_y
 			)
 			var _distance: int = self.distance_between_two_points(_table_center_point, _table_position)
-			_blocked_table_positions[_table_position] = true
 			_available_world_table_positions[_distance].erase(_table_position)
 
 func _show_available_pos() -> void:
@@ -166,8 +159,3 @@ func _show_available_pos() -> void:
 	for _distance: int in _available_world_table_positions.keys():
 		print("DEBUG: _distance: ", _distance, " pos: ", _available_world_table_positions[_distance].keys())
 	print("DEBUG: Finished showing available positions")
-
-func _show_blocked_pos() -> void:
-	print("DEBUG: Showing blocked positions!")
-	print(_blocked_table_positions)
-	print("DEBUG: Ended showing blocked positions!")
