@@ -1,37 +1,24 @@
 [gd_resource type="Resource" script_class="CardResourceV2" load_steps=9 format=3 uid="uid://bnbqi4hpeshi7"]
 
 [ext_resource type="Texture2D" uid="uid://cmdpu8h87nhym" path="res://assets/images/card/card_main_image/breathing.png" id="1_2g634"]
-[ext_resource type="Script" path="res://resources/card/card_resource_v2/card_effect/card_effect.gd" id="1_8t6g6"]
-[ext_resource type="Script" path="res://resources/card/card_resource_v2/condition/condition.gd" id="2_7flai"]
-[ext_resource type="Script" path="res://resources/card/card_resource_v2/card_effect/_card_effects/status_change_card_effect/status_change_card_effect.gd" id="2_f1s3t"]
+[ext_resource type="Script" uid="uid://clo7yb32ydt37" path="res://resources/card/card_resource_v2/card_effect/card_effect.gd" id="1_8t6g6"]
+[ext_resource type="Script" uid="uid://0ehgq0gu1n0f" path="res://resources/card/card_resource_v2/condition/condition.gd" id="2_7flai"]
+[ext_resource type="Script" uid="uid://qs3ypqmnyc18" path="res://resources/card/card_resource_v2/card_effect/_card_effects/status_change_card_effect/status_change_card_effect.gd" id="2_f1s3t"]
 [ext_resource type="Resource" uid="uid://rjylrmcltplf" path="res://resources/card/card_resource_v2/card_effect/_card_effects/status_change_card_effect/status_modifier_config_collection/status_stamina_recover_15.tres" id="3_6wfj5"]
-[ext_resource type="Script" path="res://resources/card/card_resource_v2/card_resource_v2.gd" id="3_o0hed"]
-[ext_resource type="Script" path="res://resources/card/card_resource_v2/special_card_effect/special_card_effect_resource.gd" id="4_urash"]
+[ext_resource type="Script" uid="uid://bsspisl6hdkmh" path="res://resources/card/card_resource_v2/card_resource_v2.gd" id="3_o0hed"]
+[ext_resource type="Script" uid="uid://gcdjt0hw3kpk" path="res://resources/card/card_resource_v2/special_card_effect/special_card_effect_resource.gd" id="4_urash"]
 
 [sub_resource type="Resource" id="Resource_ma60m"]
 script = ExtResource("2_f1s3t")
 status_modifier_config = ExtResource("3_6wfj5")
-update_next_card_effect_data = true
-top_section_background_color = Color(0.124, 0.15, 0.153, 1)
-bottom_section_background_color = Color(0.384, 0.384, 0.384, 1)
-id = ""
 title = "Recover 15 stamina points"
 stamina_cost = 10
-types = Array[String]([])
-default_top_section_background_color = Color(0.124, 0.15, 0.153, 1)
-default_bottom_section_background_color = Color(0.384, 0.384, 0.384, 1)
-placement_rule = 0
-max_instances_per_card = -1
 
 [resource]
 script = ExtResource("3_o0hed")
 id = "breathe_1"
 title = "Breathe"
-rarity = 0
 description = "Take a moment to breathe. Recover 15 points of stamina."
-stamina_cost = 0
 tag_array = Array[String](["status_change", "breath"])
-play_conditions = Array[ExtResource("2_7flai")]([])
 play_actions = Array[ExtResource("1_8t6g6")]([SubResource("Resource_ma60m")])
-special_effects = Array[ExtResource("4_urash")]([])
 card_image = ExtResource("1_2g634")

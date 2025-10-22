@@ -1,40 +1,17 @@
 [gd_resource type="Resource" script_class="AttackCardEffect" load_steps=4 format=3 uid="uid://b7jfi626r7lu0"]
 
-[ext_resource type="Script" path="res://resources/card/card_resource_v2/card_effect/_card_effects/attack_card_effect/attack_card_effect.gd" id="1_nmilh"]
-[ext_resource type="Script" path="res://resources/configuration/tile_highlight_configuration/tile_highlight_configuration.gd" id="2_or0jy"]
+[ext_resource type="Script" uid="uid://dpymrf8md1jo1" path="res://resources/card/card_resource_v2/card_effect/_card_effects/attack_card_effect/attack_card_effect.gd" id="1_nmilh"]
+[ext_resource type="Script" uid="uid://clufwv38rhs7a" path="res://resources/configuration/tile_highlight_configuration/tile_highlight_configuration.gd" id="2_or0jy"]
 
 [sub_resource type="Resource" id="Resource_xjk7e"]
 script = ExtResource("2_or0jy")
-_range = 1
-min_range = 0.0
 area_type = 4
-ignore_occupied_tiles = false
-ignore_origin = true
-ignore_corners = false
-ignore_non_corners = false
-ignore_tiles_with_effects = false
-ignore_north_tiles = false
-ignore_south_tiles = false
-ignore_east_tiles = false
-ignore_west_tiles = false
-use_specific_tile_location_config = false
-ignore_tiles_close_to_origin = false
-ignore_tiles_away_from_origin = false
-ignore_tiles_same_distance_from_origin = false
 
 [resource]
 script = ExtResource("1_nmilh")
-damage = 10
 tile_highlight_config = SubResource("Resource_xjk7e")
 center_piece = 1
-update_next_card_effect_data = true
-top_section_background_color = Color(0.124, 0.15, 0.153, 1)
-bottom_section_background_color = Color(0.384, 0.384, 0.384, 1)
 id = "melee_attack_10"
 title = "10 Melee damage"
 stamina_cost = 10
 types = Array[String](["attack"])
-default_top_section_background_color = Color(0.124, 0.15, 0.153, 1)
-default_bottom_section_background_color = Color(0.384, 0.384, 0.384, 1)
-placement_rule = 0
-max_instances_per_card = -1

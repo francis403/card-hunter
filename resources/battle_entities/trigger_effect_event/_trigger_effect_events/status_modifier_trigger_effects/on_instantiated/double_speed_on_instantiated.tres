@@ -1,8 +1,8 @@
 [gd_resource type="Resource" script_class="StatusModifierTriggerEffectEventResource" load_steps=5 format=3 uid="uid://d33p4dfxxd0kx"]
 
 [ext_resource type="PackedScene" uid="uid://b10tsdd4yth4m" path="res://scenes/resource_controllers/battle_entities/trigger_effect_event/trigger_effect_events/status_modifier_trigger_effect/status_modifier_trigger_effect.tscn" id="1_3fyxm"]
-[ext_resource type="Script" path="res://resources/battle_entities/trigger_effect_event/trigger_effect_event_subtypes/status_modifier_trigger_effect_event_resource/status_modifier_trigger_effect_event_resource.gd" id="2_htnjw"]
-[ext_resource type="Script" path="res://resources/configuration/effect_configs/status_modifier_config/status_modifier_config.gd" id="3_4pby3"]
+[ext_resource type="Script" uid="uid://c7cq51nwf2xjr" path="res://resources/battle_entities/trigger_effect_event/trigger_effect_event_subtypes/status_modifier_trigger_effect_event_resource/status_modifier_trigger_effect_event_resource.gd" id="2_htnjw"]
+[ext_resource type="Script" uid="uid://dscx6wxqge05q" path="res://resources/configuration/effect_configs/status_modifier_config/status_modifier_config.gd" id="3_4pby3"]
 
 [sub_resource type="Resource" id="Resource_jcks2"]
 script = ExtResource("3_4pby3")
@@ -14,5 +14,4 @@ value = 2.0
 script = ExtResource("2_htnjw")
 status_modifier_config = SubResource("Resource_jcks2")
 id = "double_speed_on_init"
-effect_trigger = 0
 effect_controller = ExtResource("1_3fyxm")

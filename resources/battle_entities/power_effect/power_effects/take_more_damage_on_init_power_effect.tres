@@ -1,11 +1,11 @@
 [gd_resource type="Resource" script_class="PowerEffect" load_steps=9 format=3 uid="uid://c7l87falpdmsi"]
 
 [ext_resource type="PackedScene" uid="uid://i650y26vx1dc" path="res://scenes/resource_controllers/card/card_controller_v2/card_effect_controller/power_effect_controllers/base_power_node_controller/base_power_node_controller.tscn" id="1_acyii"]
-[ext_resource type="Script" path="res://resources/battle_entities/power_effect/power_effect.gd" id="2_dyaoa"]
-[ext_resource type="Script" path="res://resources/battle_entities/trigger_effect_event/trigger_effect_event.gd" id="3_hdjob"]
+[ext_resource type="Script" uid="uid://c33vyipa7ff1v" path="res://resources/battle_entities/power_effect/power_effect.gd" id="2_dyaoa"]
+[ext_resource type="Script" uid="uid://6vk40iscvhue" path="res://resources/battle_entities/trigger_effect_event/trigger_effect_event.gd" id="3_hdjob"]
 [ext_resource type="PackedScene" uid="uid://b10tsdd4yth4m" path="res://scenes/resource_controllers/battle_entities/trigger_effect_event/trigger_effect_events/status_modifier_trigger_effect/status_modifier_trigger_effect.tscn" id="4_fn1op"]
-[ext_resource type="Script" path="res://resources/battle_entities/trigger_effect_event/trigger_effect_event_subtypes/status_modifier_trigger_effect_event_resource/status_modifier_trigger_effect_event_resource.gd" id="5_xiqil"]
-[ext_resource type="Script" path="res://resources/configuration/effect_configs/status_modifier_config/status_modifier_config.gd" id="6_bf6uw"]
+[ext_resource type="Script" uid="uid://c7cq51nwf2xjr" path="res://resources/battle_entities/trigger_effect_event/trigger_effect_event_subtypes/status_modifier_trigger_effect_event_resource/status_modifier_trigger_effect_event_resource.gd" id="5_xiqil"]
+[ext_resource type="Script" uid="uid://dscx6wxqge05q" path="res://resources/configuration/effect_configs/status_modifier_config/status_modifier_config.gd" id="6_bf6uw"]
 
 [sub_resource type="Resource" id="Resource_wfdeq"]
 script = ExtResource("6_bf6uw")
@@ -17,7 +17,6 @@ value = 1.5
 script = ExtResource("5_xiqil")
 status_modifier_config = SubResource("Resource_wfdeq")
 id = "take_more_damage_status_modifier_trigger_effect"
-effect_trigger = 0
 effect_controller = ExtResource("4_fn1op")
 
 [resource]
@@ -25,7 +24,4 @@ script = ExtResource("2_dyaoa")
 id = "take_more_damage_power_effect"
 title = "Bloodied"
 description = "Bloodied Pieces take 50% more damage"
-is_never_ending = false
-turns_duration = 2
-base_power_node = ExtResource("1_acyii")
 trigger_effect_event = Array[ExtResource("3_hdjob")]([SubResource("Resource_0ivwa")])

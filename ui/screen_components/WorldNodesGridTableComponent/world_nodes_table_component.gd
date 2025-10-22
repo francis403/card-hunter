@@ -126,6 +126,9 @@ func expand_world():
 		_generate_node_in_table(random_table_position, _village_node.table_position)
 
 
+func get_random_world_boss_scene() -> PackedScene:
+	return world_generator_config.generate_random_boss_monster_scene()
+
 ## TODO: improve this
 ## Village node + minimums 
 func _calculate_total_number_of_nodes() -> int:

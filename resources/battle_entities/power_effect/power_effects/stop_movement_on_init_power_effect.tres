@@ -1,11 +1,11 @@
 [gd_resource type="Resource" script_class="PowerEffect" load_steps=9 format=3 uid="uid://2sr6h7cdpkii"]
 
 [ext_resource type="PackedScene" uid="uid://i650y26vx1dc" path="res://scenes/resource_controllers/card/card_controller_v2/card_effect_controller/power_effect_controllers/base_power_node_controller/base_power_node_controller.tscn" id="1_llf2s"]
-[ext_resource type="Script" path="res://resources/battle_entities/power_effect/power_effect.gd" id="2_n1swv"]
-[ext_resource type="Script" path="res://resources/battle_entities/trigger_effect_event/trigger_effect_event.gd" id="3_6l6h1"]
+[ext_resource type="Script" uid="uid://c33vyipa7ff1v" path="res://resources/battle_entities/power_effect/power_effect.gd" id="2_n1swv"]
+[ext_resource type="Script" uid="uid://6vk40iscvhue" path="res://resources/battle_entities/trigger_effect_event/trigger_effect_event.gd" id="3_6l6h1"]
 [ext_resource type="PackedScene" uid="uid://b10tsdd4yth4m" path="res://scenes/resource_controllers/battle_entities/trigger_effect_event/trigger_effect_events/status_modifier_trigger_effect/status_modifier_trigger_effect.tscn" id="4_2181d"]
-[ext_resource type="Script" path="res://resources/battle_entities/trigger_effect_event/trigger_effect_event_subtypes/status_modifier_trigger_effect_event_resource/status_modifier_trigger_effect_event_resource.gd" id="4_q8mcs"]
-[ext_resource type="Script" path="res://resources/configuration/effect_configs/status_modifier_config/status_modifier_config.gd" id="5_5i7ur"]
+[ext_resource type="Script" uid="uid://c7cq51nwf2xjr" path="res://resources/battle_entities/trigger_effect_event/trigger_effect_event_subtypes/status_modifier_trigger_effect_event_resource/status_modifier_trigger_effect_event_resource.gd" id="4_q8mcs"]
+[ext_resource type="Script" uid="uid://dscx6wxqge05q" path="res://resources/configuration/effect_configs/status_modifier_config/status_modifier_config.gd" id="5_5i7ur"]
 
 [sub_resource type="Resource" id="Resource_wfdeq"]
 script = ExtResource("5_5i7ur")
@@ -17,7 +17,6 @@ value = 0.0
 script = ExtResource("4_q8mcs")
 status_modifier_config = SubResource("Resource_wfdeq")
 id = "stop_movement_on_init_trigger_effect"
-effect_trigger = 0
 effect_controller = ExtResource("4_2181d")
 
 [resource]
@@ -25,7 +24,4 @@ script = ExtResource("2_n1swv")
 id = "stop_movement_on_init"
 title = "Stuck In a Spider Web"
 description = "Piece get's stuck in a spider web for 2 turns."
-is_never_ending = false
-turns_duration = 2
-base_power_node = ExtResource("1_llf2s")
 trigger_effect_event = Array[ExtResource("3_6l6h1")]([SubResource("Resource_s36km")])

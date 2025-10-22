@@ -1,60 +1,34 @@
 [gd_resource type="Resource" script_class="CardResourceV2" load_steps=11 format=3 uid="uid://d37hu1uhqsq3o"]
 
-[ext_resource type="Script" path="res://resources/card/card_resource_v2/card_effect/card_effect.gd" id="1_4iq5p"]
+[ext_resource type="Script" uid="uid://clo7yb32ydt37" path="res://resources/card/card_resource_v2/card_effect/card_effect.gd" id="1_4iq5p"]
 [ext_resource type="AudioStream" uid="uid://d4nqs2kfg56mh" path="res://assets/sound/sound_effects/knifeSlice.ogg" id="1_lqvir"]
 [ext_resource type="Texture2D" uid="uid://ss35rr0it47u" path="res://assets/images/card/card_main_image/great_sword_swing.png" id="2_3yxdr"]
-[ext_resource type="Script" path="res://resources/card/card_resource_v2/card_effect/_card_effects/attack_card_effect/attack_card_effect.gd" id="2_t0gwf"]
-[ext_resource type="Script" path="res://resources/card/card_resource_v2/condition/condition.gd" id="2_yj67r"]
-[ext_resource type="Script" path="res://resources/card/card_resource_v2/card_resource_v2.gd" id="3_po1p0"]
-[ext_resource type="Script" path="res://resources/card/card_resource_v2/special_card_effect/special_card_effect_resource.gd" id="4_f5m2y"]
-[ext_resource type="Script" path="res://resources/configuration/tile_highlight_configuration/tile_highlight_configuration.gd" id="4_xy4rf"]
+[ext_resource type="Script" uid="uid://dpymrf8md1jo1" path="res://resources/card/card_resource_v2/card_effect/_card_effects/attack_card_effect/attack_card_effect.gd" id="2_t0gwf"]
+[ext_resource type="Script" uid="uid://0ehgq0gu1n0f" path="res://resources/card/card_resource_v2/condition/condition.gd" id="2_yj67r"]
+[ext_resource type="Script" uid="uid://bsspisl6hdkmh" path="res://resources/card/card_resource_v2/card_resource_v2.gd" id="3_po1p0"]
+[ext_resource type="Script" uid="uid://gcdjt0hw3kpk" path="res://resources/card/card_resource_v2/special_card_effect/special_card_effect_resource.gd" id="4_f5m2y"]
+[ext_resource type="Script" uid="uid://clufwv38rhs7a" path="res://resources/configuration/tile_highlight_configuration/tile_highlight_configuration.gd" id="4_xy4rf"]
 
 [sub_resource type="Resource" id="Resource_qnmcf"]
 script = ExtResource("4_xy4rf")
 _range = 2
-min_range = 0.0
 area_type = 5
-ignore_occupied_tiles = false
-ignore_origin = true
-ignore_corners = false
-ignore_non_corners = false
-ignore_tiles_with_effects = false
-ignore_north_tiles = false
-ignore_south_tiles = false
-ignore_east_tiles = false
-ignore_west_tiles = false
-use_specific_tile_location_config = false
-ignore_tiles_close_to_origin = false
-ignore_tiles_away_from_origin = false
-ignore_tiles_same_distance_from_origin = false
 
 [sub_resource type="Resource" id="Resource_wpiia"]
 script = ExtResource("2_t0gwf")
 damage = 25
 tile_highlight_config = SubResource("Resource_qnmcf")
-center_piece = 0
-update_next_card_effect_data = true
-top_section_background_color = Color(0.124, 0.15, 0.153, 1)
-bottom_section_background_color = Color(0.384, 0.384, 0.384, 1)
 id = "long_melee_attack"
 title = "Long Melee Attack - 25 damage"
 stamina_cost = 15
-types = Array[String]([])
-default_top_section_background_color = Color(0.124, 0.15, 0.153, 1)
-default_bottom_section_background_color = Color(0.384, 0.384, 0.384, 1)
-placement_rule = 0
-max_instances_per_card = -1
 
 [resource]
 script = ExtResource("3_po1p0")
 id = "long_slice_1"
 title = "Long Slice"
-rarity = 0
 description = "Do a long slash. Deal 25 damage."
 stamina_cost = 15
 tag_array = Array[String](["attack"])
-play_conditions = Array[ExtResource("2_yj67r")]([])
 play_actions = Array[ExtResource("1_4iq5p")]([SubResource("Resource_wpiia")])
-special_effects = Array[ExtResource("4_f5m2y")]([])
 audio_stream = ExtResource("1_lqvir")
 card_image = ExtResource("2_3yxdr")
