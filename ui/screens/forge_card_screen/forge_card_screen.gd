@@ -220,7 +220,6 @@ func _is_valid_card_forge() -> bool:
 		return false
 	if not _validate_card_modules(_forged_card_resource):
 		return false
-	## TODO: for every card module validate each one
 	return true
 
 func _validate_title(_title: String) -> bool:

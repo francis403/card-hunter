@@ -1,14 +1,14 @@
 [gd_resource type="Resource" script_class="PlayerClass" load_steps=5 format=3 uid="uid://cabahpy2a8xvv"]
 
 [ext_resource type="Resource" uid="uid://ckij4pl4b7t1g" path="res://resources/player_deck/decks/generic_deck/ninja_deck.tres" id="1_4roh7"]
-[ext_resource type="Texture2D" uid="uid://sbkowjdimfes" path="res://assets/game_objects/card_parts/card_icons/ninja_class_2.png" id="2_dibf3"]
-[ext_resource type="Script" path="res://resources/player/player_class/player_class.gd" id="3_xicnr"]
+[ext_resource type="Texture2D" uid="uid://b6ux8y37p1o0q" path="res://assets/game_objects/card_parts/card_icons/dual_blade_2.png" id="2_8egh1"]
+[ext_resource type="Script" uid="uid://bhi1nlll7e7tv" path="res://resources/player/player_class/player_class.gd" id="3_xicnr"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_dinak"]
-atlas = ExtResource("2_dibf3")
+[sub_resource type="AtlasTexture" id="AtlasTexture_clk1l"]
+atlas = ExtResource("2_8egh1")
 
 [resource]
 script = ExtResource("3_xicnr")
 player_class_name = "Dual Blades"
-player_class_icon = SubResource("AtlasTexture_dinak")
+player_class_icon = SubResource("AtlasTexture_clk1l")
 default_class_deck = ExtResource("1_4roh7")

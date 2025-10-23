@@ -1,10 +1,11 @@
-[gd_scene load_steps=10 format=3 uid="uid://baqwuitia2ptv"]
+[gd_scene load_steps=11 format=3 uid="uid://baqwuitia2ptv"]
 
-[ext_resource type="Script" path="res://ui/screens/main_world_screen/main_world_screen.gd" id="1_3wacw"]
+[ext_resource type="Script" uid="uid://com2ygiomxuyk" path="res://ui/screens/main_world_screen/main_world_screen.gd" id="1_3wacw"]
 [ext_resource type="PackedScene" uid="uid://dqlmwbtf0bya2" path="res://ui/screens/generic_screen/generic_screen.tscn" id="1_eplf0"]
 [ext_resource type="PackedScene" uid="uid://dtut6u4j637u8" path="res://scenes/managers/world_background_generator/world_background_generator.tscn" id="3_rcgnw"]
 [ext_resource type="Texture2D" uid="uid://dpb5sngqwaanu" path="res://assets/images/world/grass/grass_1.png" id="4_3m13u"]
 [ext_resource type="PackedScene" uid="uid://b3x2sadw27m6s" path="res://ui/deck/draw_pile/deck_ui.tscn" id="5_yl1ki"]
+[ext_resource type="Resource" uid="uid://b0pr2kyi1t77m" path="res://resources/configuration/world/world_generator_config/world_generation_config_crab_and_spider_world.tres" id="6_55ot5"]
 [ext_resource type="PackedScene" uid="uid://cmurt2gatahso" path="res://ui/screen_components/WorldNodesGridTableComponent/world_nodes_table_component.tscn" id="8_hy27n"]
 [ext_resource type="PackedScene" uid="uid://cnmfofjavj5t2" path="res://ui/screen_components/_general_componets/buttons/image_button/image_button.tscn" id="21_sawn2"]
 [ext_resource type="AudioStream" uid="uid://2dk82vkfonp7" path="res://assets/sound/sound_effects/button_clicks/click5.ogg" id="22_p38ha"]
@@ -17,6 +18,7 @@ script = ExtResource("1_3wacw")
 mouse_filter = 2
 
 [node name="WorldBackgroundGenerator" parent="." index="1" instance=ExtResource("3_rcgnw")]
+layout_mode = 0
 _texture = ExtResource("4_3m13u")
 exclusion_radius = 75.0
 
@@ -28,6 +30,7 @@ anchor_bottom = 0.0
 grow_horizontal = 1
 grow_vertical = 1
 world_nodes_container = NodePath("../WorldNodes")
+world_generator_config = ExtResource("6_55ot5")
 constant_number_of_nodes_to_add = 0
 _generate_in_test_container = false
 

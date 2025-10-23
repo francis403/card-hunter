@@ -31,7 +31,6 @@ func save() -> Dictionary:
 		i += 1
 	return save_date
 	
-## TODO: load forged cards
 func _load(deck_dictionary: Dictionary):
 	if not deck_dictionary.has("deck"):
 		push_error("Deck dictionary does not have deck property")

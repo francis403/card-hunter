@@ -1,0 +1,121 @@
+[gd_resource type="Resource" script_class="WorldGeneratorConfig" load_steps=32 format=3 uid="uid://b0pr2kyi1t77m"]
+
+[ext_resource type="Script" uid="uid://dsgvl6m2b1jke" path="res://resources/configuration/world/world_entity_generator_config.gd" id="1_fdfpp"]
+[ext_resource type="PackedScene" uid="uid://bp8v6rbwvlp4m" path="res://scenes/battle_scenes/giant_bat_test_scene/giant_bat_battle_test_scene.tscn" id="2_llr0q"]
+[ext_resource type="PackedScene" uid="uid://cvlh0ir1dbn8k" path="res://scenes/monsters/generic_monsters/crab_monster/crab_monster.tscn" id="3_45h48"]
+[ext_resource type="PackedScene" uid="uid://w530cnkei473" path="res://scenes/monsters/generic_monsters/spider_monster/spider_monster.tscn" id="4_bu56j"]
+[ext_resource type="PackedScene" uid="uid://bcm61mhdmnl68" path="res://scenes/monsters/generic_monsters/crab_angler_monster_1/crab_angler_1_monster.tscn" id="5_6ao5t"]
+[ext_resource type="PackedScene" uid="uid://bd1e36axykjhr" path="res://scenes/game_objects/world/world_node/monster_hunt_world_node/monster_hunt_world_node.tscn" id="6_uc883"]
+[ext_resource type="PackedScene" uid="uid://blf6uu6ap5ht3" path="res://scenes/game_objects/world/world_node/treasure_world_node/treasure_world_node.tscn" id="7_tl1nw"]
+[ext_resource type="Script" uid="uid://b5fhk1dv5at4d" path="res://resources/configuration/world/world_entity_reward_generator_config.gd" id="8_jp41o"]
+[ext_resource type="Resource" uid="uid://bu7gcqxkp3gqp" path="res://resources/card/card_resource_v2/_card_resources_v2/move_cards/teleport_card_1.tres" id="9_wrgep"]
+[ext_resource type="Resource" uid="uid://dl1moktvst0io" path="res://resources/card/card_resource_v2/_card_resources_v2/move_cards/emergency_retreat_1.tres" id="10_f3g7f"]
+[ext_resource type="Resource" uid="uid://dvk1a1vyglgvc" path="res://resources/card/card_resource_v2/_card_resources_v2/power_cards/double_speed_power_card_1.tres" id="11_38tex"]
+[ext_resource type="Resource" uid="uid://c7ml1pqlvfib4" path="res://resources/card/card_resource_v2/_card_resources_v2/power_cards/double_strength_power_card_1.tres" id="12_ymequ"]
+[ext_resource type="Resource" uid="uid://d0tjdvgepml65" path="res://resources/card/card_resource_v2/_card_resources_v2/status_change_cards/health_potion_1.tres" id="13_1d1xf"]
+[ext_resource type="Script" uid="uid://ckwgusk6gqgph" path="res://resources/configuration/world/world_node/world_node_reward_generator_config/world_node_reward_generator_config.gd" id="14_86mcy"]
+[ext_resource type="PackedScene" uid="uid://dljw8exgbojmi" path="res://scenes/game_objects/world/world_node/deforge_card_world_node/deforge_card_world_node.tscn" id="15_akitp"]
+[ext_resource type="Script" uid="uid://bgqrwe3syitw8" path="res://resources/configuration/world/world_generator_config/world_generator_config.gd" id="16_fcw2b"]
+
+[sub_resource type="Resource" id="Resource_rn4cb"]
+script = ExtResource("1_fdfpp")
+node_scene = ExtResource("2_llr0q")
+weight = 30
+max_ocurrences = 1
+
+[sub_resource type="GDScript" id="GDScript_o11dp"]
+script/source = "extends WorldEntityGeneratorConfig
+class_name WorldMonsterGeneratorConfig
+"
+
+[sub_resource type="Resource" id="Resource_qam74"]
+script = SubResource("GDScript_o11dp")
+node_scene = ExtResource("3_45h48")
+weight = 20
+min_occurrences = 3
+max_ocurrences = 3
+
+[sub_resource type="Resource" id="Resource_jb2wl"]
+script = SubResource("GDScript_o11dp")
+node_scene = ExtResource("4_bu56j")
+weight = 15
+min_occurrences = 3
+max_ocurrences = 3
+
+[sub_resource type="Resource" id="Resource_443fq"]
+script = ExtResource("1_fdfpp")
+node_scene = ExtResource("5_6ao5t")
+weight = 5
+min_occurrences = 2
+max_ocurrences = 2
+minimum_distance_to_root = 2
+
+[sub_resource type="Resource" id="Resource_mixv6"]
+script = ExtResource("1_fdfpp")
+node_scene = ExtResource("6_uc883")
+weight = 30
+min_occurrences = 8
+max_ocurrences = 8
+
+[sub_resource type="Resource" id="Resource_r5p2f"]
+script = ExtResource("8_jp41o")
+reward_resource = ExtResource("9_wrgep")
+weight = 5
+
+[sub_resource type="Resource" id="Resource_efu3o"]
+script = ExtResource("8_jp41o")
+reward_resource = ExtResource("10_f3g7f")
+weight = 35
+
+[sub_resource type="Resource" id="Resource_ggkmc"]
+script = ExtResource("8_jp41o")
+reward_resource = ExtResource("11_38tex")
+weight = 25
+
+[sub_resource type="Resource" id="Resource_cm3ao"]
+script = ExtResource("8_jp41o")
+reward_resource = ExtResource("12_ymequ")
+weight = 25
+
+[sub_resource type="Resource" id="Resource_1bpig"]
+script = ExtResource("8_jp41o")
+reward_resource = ExtResource("13_1d1xf")
+weight = 30
+
+[sub_resource type="Resource" id="Resource_clsn7"]
+script = ExtResource("14_86mcy")
+override_possible_rewards = Array[ExtResource("8_jp41o")]([SubResource("Resource_r5p2f"), SubResource("Resource_efu3o"), SubResource("Resource_ggkmc"), SubResource("Resource_cm3ao"), SubResource("Resource_1bpig")])
+number_of_rewards_to_display = 4
+number_of_choices = 2
+
+[sub_resource type="Resource" id="Resource_5upvb"]
+script = ExtResource("1_fdfpp")
+node_scene = ExtResource("7_tl1nw")
+weight = 90
+min_occurrences = 1
+max_ocurrences = 1
+minimum_distance_to_root = 2
+override_possible_rewards = SubResource("Resource_clsn7")
+
+[sub_resource type="Resource" id="Resource_4cwlo"]
+script = ExtResource("1_fdfpp")
+node_scene = ExtResource("15_akitp")
+weight = 30
+min_occurrences = 2
+max_ocurrences = 2
+minimum_distance_to_root = 2
+
+[sub_resource type="Resource" id="Resource_qctsw"]
+script = ExtResource("1_fdfpp")
+node_scene = ExtResource("7_tl1nw")
+weight = 30
+min_occurrences = 5
+max_ocurrences = 5
+minimum_distance_to_root = 3
+maximimum_distance_to_root = 3
+
+[resource]
+script = ExtResource("16_fcw2b")
+available_world_nodes = Array[ExtResource("1_fdfpp")]([SubResource("Resource_mixv6"), SubResource("Resource_5upvb"), SubResource("Resource_4cwlo"), SubResource("Resource_qctsw")])
+available_generic_monsters = Array[ExtResource("1_fdfpp")]([SubResource("Resource_qam74"), SubResource("Resource_jb2wl"), SubResource("Resource_443fq")])
+available_boss_monsters = Array[ExtResource("1_fdfpp")]([SubResource("Resource_rn4cb")])
