@@ -14,7 +14,6 @@ const deck_visualizer_scene = preload("res://ui/deck/deck_visualizer/deck_visual
 
 @onready var discard_card_ui: DiscardCardUI = $UINodes/DiscardCardUI
 
-
 @export var player: PlayerCharacter
 
 ## Defines the monsters in the battle scene
@@ -45,7 +44,6 @@ func _ready() -> void:
 	# Monsters
 	BattlemapSignals.monster_died.connect(_on_monster_died_signal)
 	BattlemapSignals.player_died.connect(_on_battle_lost_signal)
-	BattleSignals.battle_won.connect(_on_battle_won_signal)
 	
 	## Card Signals
 	BattlemapSignals.draw_pile_draw_cards_requested.connect(_draw_pile_draw_cards)
@@ -115,6 +113,7 @@ func _on_monster_died_signal():
 	_number_of_monsters_defeated += 1
 	if _number_of_monsters_defeated >= battlemap.get_total_amount_of_monsters():
 		PlayerController.current_player_health = player._health
+		_on_battle_won()
 		BattleSignals.battle_won.emit()
 
 func _on_battle_lost_signal():
@@ -122,7 +121,7 @@ func _on_battle_lost_signal():
 	_prep_loss_screen()
 	_show_game_over_screen()
 
-func _on_battle_won_signal():
+func _on_battle_won():
 	if _world_node:
 		_world_node.reveal_connected_nodes()
 		_world_node.after_world_node_completed_successfully()
@@ -151,7 +150,6 @@ func _draw_pile_draw_cards(n: int):
 func _on_tree_exited() -> void:
 	GameController.is_showing_battle_scene = false
 	if is_boss_battle:
-		GameController.days_till_attack = 5
 		BattleSignals.boss_battle_complete.emit()
 		return
 	BattleSignals.battle_complete.emit()

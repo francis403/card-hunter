@@ -25,6 +25,10 @@ func init_table_helper(
 	_max_depth_world_generation = max_depth_world_generation
 	_seperation = seperation
 
+func clean():
+	_added_table_positions.clear()
+	_available_world_table_positions.clear()
+
 func set_max_depth(_value: int):
 	self._max_depth_world_generation = _value
 

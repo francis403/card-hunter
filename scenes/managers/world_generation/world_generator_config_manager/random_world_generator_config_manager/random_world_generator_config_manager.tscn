@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://uwj0c5r8hb8l"]
+
+[ext_resource type="Script" uid="uid://roigvupqd3tc" path="res://scenes/managers/world_generation/world_generator_config_manager/random_world_generator_config_manager/random_world_generator_manager.gd" id="1_fb3db"]
+
+[node name="RandomWorldGeneratorManager" type="Node"]
+script = ExtResource("1_fb3db")

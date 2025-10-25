@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://clw6ot57jagn8"]
 
-[ext_resource type="Script" path="res://ui/screen_components/player_menu/player_menu.gd" id="1_0vdgd"]
+[ext_resource type="Script" uid="uid://b65r7tm7pbw8m" path="res://ui/screen_components/player_menu/player_menu.gd" id="1_0vdgd"]
 [ext_resource type="Theme" uid="uid://dmot8ul1c5l3n" path="res://assets/themes/theme_1.tres" id="2_sboyk"]
 
 [node name="PlayerMenu" type="MarginContainer"]
@@ -36,7 +36,11 @@ text = "Forge Card"
 
 [node name="ExpandWorld" type="Button" parent="VBoxContainer"]
 layout_mode = 2
-text = "Expand World"
+text = "Boss Defeated"
+
+[node name="GameComplete" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "Complete Game"
 
 [connection signal="pressed" from="VBoxContainer/QuestPickerButton" to="." method="_on_quest_picker_button_pressed"]
 [connection signal="pressed" from="VBoxContainer/WorldViewButton" to="." method="_on_world_view_button_pressed"]
@@ -44,3 +48,4 @@ text = "Expand World"
 [connection signal="pressed" from="VBoxContainer/DeforgeCardButton" to="." method="_on_deforge_card_button_pressed"]
 [connection signal="pressed" from="VBoxContainer/ForgeCardButton" to="." method="_on_forge_card_button_pressed"]
 [connection signal="pressed" from="VBoxContainer/ExpandWorld" to="." method="_on_expand_world_pressed"]
+[connection signal="pressed" from="VBoxContainer/GameComplete" to="." method="_on_game_complete_pressed"]

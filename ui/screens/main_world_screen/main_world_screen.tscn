@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://baqwuitia2ptv"]
+[gd_scene load_steps=12 format=3 uid="uid://baqwuitia2ptv"]
 
 [ext_resource type="Script" uid="uid://com2ygiomxuyk" path="res://ui/screens/main_world_screen/main_world_screen.gd" id="1_3wacw"]
 [ext_resource type="PackedScene" uid="uid://dqlmwbtf0bya2" path="res://ui/screens/generic_screen/generic_screen.tscn" id="1_eplf0"]
@@ -7,22 +7,26 @@
 [ext_resource type="PackedScene" uid="uid://b3x2sadw27m6s" path="res://ui/deck/draw_pile/deck_ui.tscn" id="5_yl1ki"]
 [ext_resource type="Resource" uid="uid://b0pr2kyi1t77m" path="res://resources/configuration/world/world_generator_config/world_generation_config_crab_and_spider_world.tres" id="6_55ot5"]
 [ext_resource type="PackedScene" uid="uid://cmurt2gatahso" path="res://ui/screen_components/WorldNodesGridTableComponent/world_nodes_table_component.tscn" id="8_hy27n"]
+[ext_resource type="PackedScene" uid="uid://uwj0c5r8hb8l" path="res://scenes/managers/world_generation/world_generator_config_manager/random_world_generator_config_manager/random_world_generator_config_manager.tscn" id="11_pkvgt"]
 [ext_resource type="PackedScene" uid="uid://cnmfofjavj5t2" path="res://ui/screen_components/_general_componets/buttons/image_button/image_button.tscn" id="21_sawn2"]
 [ext_resource type="AudioStream" uid="uid://2dk82vkfonp7" path="res://assets/sound/sound_effects/button_clicks/click5.ogg" id="22_p38ha"]
 [ext_resource type="Theme" uid="uid://bxlatu18hbfeu" path="res://assets/themes/generic_theme_1.tres" id="25_14g2u"]
 
-[node name="MainWorldScreen" instance=ExtResource("1_eplf0")]
+[node name="MainWorldScreen" node_paths=PackedStringArray("world_genator_config_generator") instance=ExtResource("1_eplf0")]
 script = ExtResource("1_3wacw")
+world_genator_config_generator = NodePath("RandomWorldGeneratorManager")
 
-[node name="Background" parent="." index="0"]
+[node name="RandomWorldGeneratorManager" parent="." index="0" instance=ExtResource("11_pkvgt")]
+
+[node name="Background" parent="." index="1"]
 mouse_filter = 2
 
-[node name="WorldBackgroundGenerator" parent="." index="1" instance=ExtResource("3_rcgnw")]
+[node name="WorldBackgroundGenerator" parent="." index="2" instance=ExtResource("3_rcgnw")]
 layout_mode = 0
 _texture = ExtResource("4_3m13u")
 exclusion_radius = 75.0
 
-[node name="WorldNodesTableComponent" parent="." index="2" node_paths=PackedStringArray("world_nodes_container") instance=ExtResource("8_hy27n")]
+[node name="WorldNodesTableComponent" parent="." index="3" node_paths=PackedStringArray("world_nodes_container") instance=ExtResource("8_hy27n")]
 layout_mode = 0
 anchors_preset = 0
 anchor_right = 0.0
@@ -34,7 +38,7 @@ world_generator_config = ExtResource("6_55ot5")
 constant_number_of_nodes_to_add = 0
 _generate_in_test_container = false
 
-[node name="WorldNodes" type="MarginContainer" parent="." index="3"]
+[node name="WorldNodes" type="MarginContainer" parent="." index="4"]
 layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -43,10 +47,10 @@ grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="VillageNodeMarker" type="Marker2D" parent="." index="4"]
+[node name="VillageNodeMarker" type="Marker2D" parent="." index="5"]
 position = Vector2(581, 310)
 
-[node name="BottomMargin" type="MarginContainer" parent="." index="7"]
+[node name="BottomMargin" type="MarginContainer" parent="." index="8"]
 layout_mode = 1
 anchors_preset = 12
 anchor_top = 1.0
@@ -72,7 +76,7 @@ size_flags_horizontal = 8
 _audio_stream = ExtResource("22_p38ha")
 _under_text = "Forge Card"
 
-[node name="Screen" parent="." index="8"]
+[node name="Screen" parent="." index="9"]
 mouse_filter = 2
 theme_override_constants/margin_top = 25
 
@@ -99,6 +103,6 @@ vertical_alignment = 1
 visible = false
 text = "World Screen"
 
-[node name="PlayerMenu" parent="." index="9"]
+[node name="PlayerMenu" parent="." index="10"]
 unique_name_in_owner = true
 visible = false

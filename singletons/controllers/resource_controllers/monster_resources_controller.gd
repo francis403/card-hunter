@@ -76,6 +76,21 @@ func get_random_generic_monster() -> GenericMonster:
 	var random_monster: GenericMonster = _generic_monsters_list.pick_random()
 	return random_monster.duplicate()
 	
+func get_list_of_generic_monsters(
+	_size: int
+) -> Array[GenericMonster]:
+	var _result: Array[GenericMonster] = []
+	var _dup: Array[GenericMonster] = _generic_monsters_list.duplicate()
+	for i in range(0, _size):
+		_result.append(
+			_dup.pop_at(randi_range(0, _dup.size() - 1))
+		)
+	return _result
+	
+func get_random_boss_monster() -> GenericMonster:
+	var random_monster: GenericMonster = _boss_monsters_list.pick_random()
+	return random_monster.duplicate()
+	
 func get_all_scene_file_paths(path: String) -> Array[String]:  
 	var file_paths: Array[String] = []  
 	var dir = DirAccess.open(path)  

@@ -33,4 +33,8 @@ func _on_forge_card_button_pressed() -> void:
 
 
 func _on_expand_world_pressed() -> void:
-	BattlemapSignals.expand_world.emit()
+	BattleSignals.boss_battle_complete.emit()
+
+
+func _on_game_complete_pressed() -> void:
+	BattleSignals.game_complete.emit()

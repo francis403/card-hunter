@@ -16,11 +16,12 @@ var days_till_attack: int = 5:
 			world_boss_monster_encountered.emit()
 
 var current_player_node_id: String
+var number_of_villages_saved: int = 0
 
 func _ready() -> void:
-	BattleSignals.boss_battle_complete.connect(_on_boss_battle_complete_signal)
+	BattleSignals.game_complete.connect(_on_game_complete_signal)
 
-func _on_boss_battle_complete_signal():
+func _on_game_complete_signal():
 	ScreenUtils.open_event_screen(
 		get_parent(),
 		_prep_thank_you_event()

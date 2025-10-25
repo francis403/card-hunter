@@ -11,6 +11,8 @@ class_name WorldGeneratorConfig
 @export var max_number_of_child_nodes = 3
 @export var number_of_village_children_node = 3
 
+@export var _debug_mode: bool = false
+
 ## Contains the description on how to generate the world nodes by min-level
 var _possible_node_configs_by_distance: Dictionary = {
 	0: WeightedTable.new()
@@ -82,6 +84,39 @@ func generate_random_boss_monster_scene() -> PackedScene:
 		return boss_monster_config.node_scene
 	return null
 
+func _generate_monster(
+	distance: int
+) -> GenericMonster:
+	if _debug_mode:
+		print("DEBUG: Generate Monster start")
+	var random_distance_by_weight: int = _get_random_weighted_table_index(distance, _inserted_monsters_min_distances)
+	if random_distance_by_weight < 0:
+		push_warning(_generate_monster, " _possible_monsters_configs_by_distance is empty! Probably not enough monsters per monster hunt node")
+		return null
+	var random_weighted_table: WeightedTable = _possible_monsters_configs_by_distance[random_distance_by_weight]
+	var random_config_dictionary: Dictionary = random_weighted_table.pick_dictionary()
+	var index_to_remove_from: int = random_config_dictionary["index"]
+	var random_config: WorldEntityGeneratorConfig = random_config_dictionary["item"]
+	if not random_config:
+		push_error(_generate_monster, " ERROR: no random_config")
+		return null;
+	var monster_scene: GenericMonster = random_config.generate()
+	if not monster_scene:
+		push_error(_generate_monster, " ERROR: no monster_scene")
+		return null;
+	_add_to_generated_history(monster_scene.monster_id, _generated_monsters)
+	#print_debug("Monster ", monster_scene.monster_id, " added! Total of: ", _generated_monsters[monster_scene.monster_id], " added!")
+	_remove_from_possible_if_max_reached(
+		monster_scene.monster_id,
+		random_config.max_ocurrences,
+		random_distance_by_weight,
+		index_to_remove_from,
+		_possible_monsters_configs_by_distance,
+		_inserted_monsters_min_distances,
+		_generated_monsters
+	)
+	return monster_scene
+
 ## Provided a distance of a node from the center, generate a possible node
 func generate_node(
 	distance: int
@@ -126,20 +161,6 @@ func get_min_node_distance() -> int:
 func get_max_distance() -> int:
 	return 1
 
-## This could be done in log_n
-func _get_weighted_table_index(
-	distance: int,
-	_inserted_distances: Array[int],
-) -> int:
-	var found_i: int = -1
-	## I'm not sure this always follows the order of insertion
-	for _inserted_min_distance in _inserted_distances:
-		if _inserted_min_distance > distance:
-			continue
-		else:
-			found_i = _inserted_min_distance
-	return found_i
-
 func _get_random_weighted_table_index(
 	distance: int,
 	_inserted_distances: Array[int],
@@ -171,20 +192,21 @@ func _remove_from_possible_if_max_reached(
 	generated_history: Dictionary
 ):
 	if not generated_history.has(id):
+		if _debug_mode:
+			print("Tried removing ", id, " but it's not in generated history so skipping!")
 		return
 	var number_of_generated: int = generated_history[id]
 	if number_of_generated >= max_generated:
 		## remove
-		print("DEBUG: distance_to_remove_from: ", distance_to_remove_from)
-		print("DEBUG: removing: ", index_in_distance_to_remove_from, " from ", dictionary_to_remove_from[distance_to_remove_from].items)
 		dictionary_to_remove_from[distance_to_remove_from].remove_item_by_index(index_in_distance_to_remove_from)
 		if not dictionary_to_remove_from[distance_to_remove_from].is_empty():
 			return
-		print("DEBUG: completely erasing: ", distance_to_remove_from)
 		dictionary_to_remove_from.erase(distance_to_remove_from)
 		var index: int = inserted_distances.find(distance_to_remove_from)
 		if index >= 0:
 			inserted_distances.remove_at(index)
+	if _debug_mode:
+		print("(", id, ", ", number_of_generated ,", ", max_generated, ")")
 
 func _initialize_world_node_scene(
 	world_node_scene: GenericWorldNode,
@@ -196,38 +218,4 @@ func _initialize_world_node_scene(
 			push_error("ERROR: Error while generating Monster for MonsterHuntWorld")
 		world_node_scene.monsters_in_node.append(random_monster)
 		return
-	
-		
-func _generate_monster(
-	distance: int
-) -> GenericMonster:
-	if _possible_monsters_configs_by_distance.is_empty():
-		push_error(_generate_monster, " ERROR: _possible_monsters_configs_by_distance is empty!")
-		return null;
-	var random_distance_by_weight: int = _get_weighted_table_index(distance, _inserted_monsters_min_distances)
-	if random_distance_by_weight < 0:
-		return null
-	var random_weighted_table: WeightedTable = _possible_monsters_configs_by_distance[random_distance_by_weight]
-	var random_config_dictionary: Dictionary = random_weighted_table.pick_dictionary()
-	var index_to_remove_from: int = random_config_dictionary["index"]
-	var random_config: WorldEntityGeneratorConfig = random_config_dictionary["item"]
-	if not random_config:
-		push_error(_generate_monster, " ERROR: no random_config")
-		return null;
-	var monster_scene: GenericMonster = random_config.generate()
-	if not monster_scene:
-		push_error(_generate_monster, " ERROR: no monster_scene")
-		return null;
-	
-	_add_to_generated_history(monster_scene.monster_id, _generated_monsters)
-	_remove_from_possible_if_max_reached(
-		monster_scene.monster_id,
-		random_config.max_ocurrences,
-		random_distance_by_weight,
-		index_to_remove_from,
-		_possible_monsters_configs_by_distance,
-		_inserted_monsters_min_distances,
-		_generated_monsters
-	)
-	return monster_scene
 	

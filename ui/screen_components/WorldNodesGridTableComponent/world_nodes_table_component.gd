@@ -61,7 +61,6 @@ func _init() -> void:
 		_village_node = File.progress.village_node
 
 func _ready() -> void:
-	BattlemapSignals.expand_world.connect(expand_world)
 	if not use_random_seed:
 		seed(world_generation_seed)
 	if not village_node_scene:
@@ -104,27 +103,32 @@ func _generate_world():
 		_number_of_nodes_to_generate
 	)
 	_village_node.reveal_connected_nodes()
-	_save_world_state()
+	self._save_world_state()
 
-## TODO(FA): improve this
-func expand_world():
-	## TODO: calculate the total number of nodes to add based on the depth
-	## block all positions at depth  2
-	table_helper._show_available_pos()
-	#table_helper._show_blocked_pos()
-	var _number_of_nodes_to_add: int = 3
-	var _current_number_of_nodes_added: int = 0
-	for i in randi_range(0, _number_of_nodes_to_add):
-		## TODO: figure out a smart way to continously expand the world organically
-		var random_table_position: Vector2 = table_helper.get_random_position(
-			3,
-			4
-		)
-		if random_table_position < Vector2(0, 0):
-			print("DEBUG: Error expanding world!")
-			continue
-		_generate_node_in_table(random_table_position, _village_node.table_position)
+## TODO(FA): Fix bugs
+func generate_new_world(
+	_new_world_generator_config: WorldGeneratorConfig
+):
+	print("Generating new world...")
+	## Clean current world
+	_clean_world()
+	## Go through the _new_world_generator_config to create everything new
+	self.world_generator_config = _new_world_generator_config.duplicate()
+	self.world_generator_config.initialize_config()
+	call_deferred("_generate_world")
 
+func _clean_world() -> void:
+	print("Cleaning the world")
+	for _node in world_nodes_container.get_children():
+		world_nodes_container.remove_child(_node)
+		_node.queue_free()
+	for _node in world_nodes_container_test.get_children():
+		_node.queue_free()
+	_world_nodes.clear()
+	_nodes_by_distance_dictionary.clear()
+	table_helper.clean()
+	_total_number_of_nodes_generated = 0
+	_further_distance_generated = 0
 
 func get_random_world_boss_scene() -> PackedScene:
 	return world_generator_config.generate_random_boss_monster_scene()
@@ -190,7 +194,7 @@ func _generate_world_nodes(
 			print("Error with: random_table_position!")
 			continue
 		_generate_node_in_table(random_table_position, _center_position)
-	print("DEBUG: generation World generated in: ", _number_of_loops, " loops!")
+	#print("DEBUG: generation World generated in: ", _number_of_loops, " loops!")
 
 func _generate_node_in_table(
 	_node_position: Vector2,

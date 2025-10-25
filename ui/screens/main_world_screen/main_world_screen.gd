@@ -1,6 +1,8 @@
 extends Control
 class_name MainWorldScreen
 
+@export var world_genator_config_generator: WorldGeneratorConfigManager
+
 @onready var world_nodes: MarginContainer = $WorldNodes
 @onready var boss_timer_label: Label = %BossTimerLabel
 @onready var deck_ui: DeckUI = %DeckUI
@@ -13,6 +15,7 @@ class_name MainWorldScreen
 func _ready() -> void:
 	BattleSignals.battle_start.connect(_on_battle_start_signal)
 	BattleSignals.battle_complete.connect(_on_battle_won_signal)
+	BattleSignals.boss_battle_complete.connect(_on_boss_battle_complete_signal)
 	BattlemapSignals.world_node_screen_completed.connect(_on_world_node_screen_completed_signal)
 	GameController.days_till_attack_modified.connect(_on_days_till_attack_modified_signal)
 	GameController.world_boss_monster_encountered.connect(_on_world_boss_monster_encountered_signal)
@@ -24,7 +27,6 @@ func _ready() -> void:
 	world_nodes_table_component.instantiate_world()
 	call_deferred("_setup_world_background_exclusion_zone")
 	
-
 func _clean_preview():
 	for child in world_nodes.get_children():
 		child.queue_free()
@@ -66,6 +68,16 @@ func _prep_boss_battle() -> EventScreen:
 func _on_battle_won_signal():
 	world_nodes.process_mode = Node.PROCESS_MODE_ALWAYS
 	GameController.decrease_days_till_next_attack()
+
+## TODO(FA): generate a new world once boss is defeated
+func _on_boss_battle_complete_signal():
+	GameController.days_till_attack = 5
+	GameController.number_of_villages_saved += 1
+	if not world_genator_config_generator:
+		return
+	world_nodes_table_component.generate_new_world(
+		world_genator_config_generator.generate_config()
+	)
 
 func _on_world_node_screen_completed_signal(_advance_day: bool):
 	GameController.decrease_days_till_next_attack()

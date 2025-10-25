@@ -133,6 +133,7 @@ func _on_area_2d_input_event(_viewport: Node, _event: InputEvent, _shape_idx: in
 	if _event.is_pressed():
 		_process_on_world_node_click()
 
+## TODO: We are processing this click for everything
 func _process_on_world_node_click():
 	## TODO: show a message
 	if not self.is_reachable:
