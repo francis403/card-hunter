@@ -10,4 +10,5 @@ signal battle_won
 ## Sent right before the battle is freed
 signal battle_complete
 signal boss_battle_complete
+signal world_generation_triggered
 signal game_complete

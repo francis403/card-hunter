@@ -15,7 +15,7 @@ class_name MainWorldScreen
 func _ready() -> void:
 	BattleSignals.battle_start.connect(_on_battle_start_signal)
 	BattleSignals.battle_complete.connect(_on_battle_won_signal)
-	BattleSignals.boss_battle_complete.connect(_on_boss_battle_complete_signal)
+	BattleSignals.world_generation_triggered.connect(_on_world_generation_triggered)
 	BattlemapSignals.world_node_screen_completed.connect(_on_world_node_screen_completed_signal)
 	GameController.days_till_attack_modified.connect(_on_days_till_attack_modified_signal)
 	GameController.world_boss_monster_encountered.connect(_on_world_boss_monster_encountered_signal)
@@ -69,8 +69,7 @@ func _on_battle_won_signal():
 	world_nodes.process_mode = Node.PROCESS_MODE_ALWAYS
 	GameController.decrease_days_till_next_attack()
 
-## TODO(FA): generate a new world once boss is defeated
-func _on_boss_battle_complete_signal():
+func _on_world_generation_triggered():
 	GameController.days_till_attack = 5
 	GameController.number_of_villages_saved += 1
 	if not world_genator_config_generator:

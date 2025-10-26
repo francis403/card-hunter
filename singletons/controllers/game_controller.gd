@@ -19,7 +19,16 @@ var current_player_node_id: String
 var number_of_villages_saved: int = 0
 
 func _ready() -> void:
+	BattleSignals.boss_battle_complete.connect(_on_boss_battle_complete_signal)
 	BattleSignals.game_complete.connect(_on_game_complete_signal)
+
+func _on_boss_battle_complete_signal():
+	self.days_till_attack = 5
+	self.number_of_villages_saved += 1
+	if number_of_villages_saved < 2:
+		BattleSignals.world_generation_triggered.emit()
+	else:
+		_on_game_complete_signal()
 
 func _on_game_complete_signal():
 	ScreenUtils.open_event_screen(
