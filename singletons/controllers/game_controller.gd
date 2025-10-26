@@ -70,8 +70,8 @@ func _prep_new_world_event() -> EventScreen:
 	return result
 
 func _on_new_world_event_accept_button_pressed(_event_screen: EventScreen):
-	BattleSignals.world_generation_triggered.emit()
 	_event_screen.close_screen()
+	BattleSignals.world_generation_triggered.emit()
 
 func _prep_thank_you_event() -> EventScreen:
 	var result: EventScreen = EventScreen.new()

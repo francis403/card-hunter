@@ -54,7 +54,7 @@ func _on_world_boss_monster_encountered_signal():
 func _on_debug_mode_toggled(is_debug_mode_on: bool) -> void:
 	player_menu.visible = is_debug_mode_on
 
-## TODO: generate better boss battles
+## TODO: This is probably what is causing the issue
 ## TODO: need to add some event_resource or something
 func _prep_boss_battle() -> EventScreen:
 	var result: EventScreen = EventScreen.new()
@@ -70,6 +70,7 @@ func _on_battle_won_signal():
 	GameController.decrease_days_till_next_attack()
 
 func _on_world_generation_triggered():
+	world_nodes.process_mode = Node.PROCESS_MODE_INHERIT
 	if not world_genator_config_generator:
 		return
 	world_nodes_table_component.generate_new_world(

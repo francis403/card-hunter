@@ -118,7 +118,6 @@ func generate_new_world(
 	call_deferred("_generate_world")
 
 func _clean_world() -> void:
-	print("Cleaning the world")
 	for _node in world_nodes_container.get_children():
 		world_nodes_container.remove_child(_node)
 		_node.queue_free()

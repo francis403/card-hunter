@@ -16,6 +16,8 @@ signal on_accept_button_pressed_signal(_event_screen: EventScreen)
 @export var override_accept_button_function: bool = false
 @export var accept_button_scene: PackedScene
 
+@export var add_scene_to_parent: bool = true
+
 func _ready() -> void:
 	_prep_ui_content()
 	
@@ -41,7 +43,10 @@ func _on_accept_button_pressed() -> void:
 	if override_accept_button_function:
 		return
 	if accept_button_scene:
+		if not add_scene_to_parent:
+			get_tree().change_scene_to_packed(accept_button_scene)
+		else:
+			self.get_parent().add_child(accept_button_scene.instantiate())
 		ScreenUtils.close_event_screen()
-		get_tree().change_scene_to_packed(accept_button_scene)
 	else:
 		ScreenUtils.close_event_screen()
