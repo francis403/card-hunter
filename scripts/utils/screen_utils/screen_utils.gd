@@ -25,10 +25,7 @@ func open_event_screen(parent_node: Node, event: EventScreen):
 	else:
 		event_screen_instance = event_screen_scene.instantiate()
 		if event:
-			event_screen_instance.title_text = event.title_text
-			event_screen_instance.description_text = event.description_text
-			event_screen_instance.accept_button_text = event.accept_button_text
-			event_screen_instance.accept_button_scene = event.accept_button_scene
+			event_screen_instance.clone(event)
 		event_screen_instance.open_screen(parent_node)
 	
 func close_event_screen():

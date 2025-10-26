@@ -70,8 +70,6 @@ func _on_battle_won_signal():
 	GameController.decrease_days_till_next_attack()
 
 func _on_world_generation_triggered():
-	GameController.days_till_attack = 5
-	GameController.number_of_villages_saved += 1
 	if not world_genator_config_generator:
 		return
 	world_nodes_table_component.generate_new_world(

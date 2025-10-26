@@ -26,7 +26,11 @@ func _on_boss_battle_complete_signal():
 	self.days_till_attack = 5
 	self.number_of_villages_saved += 1
 	if number_of_villages_saved < 2:
-		BattleSignals.world_generation_triggered.emit()
+		ScreenUtils.open_event_screen(
+			get_parent(),
+			_prep_new_world_event()
+		)
+		self.process_mode = Node.PROCESS_MODE_ALWAYS
 	else:
 		_on_game_complete_signal()
 
@@ -54,6 +58,21 @@ func _toggle_debug_mode():
 	debug_mode_enabled = !debug_mode_enabled
 	debug_mode_toggled.emit(debug_mode_enabled)
 	
+## TODO: we should have this events in resources
+func _prep_new_world_event() -> EventScreen:
+	var result: EventScreen = EventScreen.new()
+	result.title_text = "New Village to save"
+	result.description_text = "You've managed to saved one village, but there's still one more village that needs your help.\n" 
+	result.accept_button_text = "Save the village!" 
+	result.override_accept_button_function = true
+	result.on_accept_button_pressed_signal.connect(_on_new_world_event_accept_button_pressed)
+	result.accept_button_scene = null
+	return result
+
+func _on_new_world_event_accept_button_pressed(_event_screen: EventScreen):
+	BattleSignals.world_generation_triggered.emit()
+	_event_screen.close_screen()
+
 func _prep_thank_you_event() -> EventScreen:
 	var result: EventScreen = EventScreen.new()
 	result.title_text = "Many thanks"
