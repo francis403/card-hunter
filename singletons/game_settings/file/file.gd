@@ -38,6 +38,7 @@ func change_progress():
 	save_data["progress"]["player_world_node_id"] = progress.current_world_node_id
 	save_data["progress"]["world_state"] = progress.world_state.to_dictionary()
 	save_data["progress"]["world_state"]["days_left"] = GameController.days_till_attack
+	save_data["progress"]["world_state"]["villages_saved"] = GameController.number_of_villages_saved
 	save_data["progress"]["player"] = PlayerController.get_deck().save()
 	save_data["progress"]["player"]["hp"] = PlayerController.current_player_health
 	save_data["progress"]["player"]["card_modules"] = convert_player_card_modules_to_dictionary()
@@ -66,11 +67,11 @@ func load_progress():
 		_load_player_info()
 	
 func _load_world_state():
+	if save_data["progress"]["world_state"].has("villages_saved"):
+		GameController.number_of_villages_saved = save_data["progress"]["world_state"]["villages_saved"]
 	if save_data["progress"]["world_state"].has("days_left"):
 		GameController.days_till_attack = save_data["progress"]["world_state"]["days_left"]
 	self.progress.load_world(save_data["progress"]["world_state"])
-	#var _loaded_village_node: GenericWorldNode = self.progress.world_state.get_world_node(Constants.VILLAGE_NODE_ID)
-	#self.progress.village_node = _loaded_village_node
 
 ## TODO: this can probably be done a lot better
 func _load_player_info():

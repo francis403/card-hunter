@@ -115,7 +115,8 @@ func generate_new_world(
 	## Go through the _new_world_generator_config to create everything new
 	self.world_generator_config = _new_world_generator_config.duplicate()
 	self.world_generator_config.initialize_config()
-	call_deferred("_generate_world")
+	_generate_world()
+	File.progress.world_state.clear_and_update_world_state(_world_nodes)
 
 func _clean_world() -> void:
 	for _node in world_nodes_container.get_children():

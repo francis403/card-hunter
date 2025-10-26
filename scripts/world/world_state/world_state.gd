@@ -8,7 +8,7 @@ const WORLD_NODE_SCENE = preload("res://scenes/game_objects/world/world_node/mon
 ## Represents the world state in a dictionary. 
 ## This is what is saved/loaded to file
 var _world_state: Dictionary = {
-	"world": {}
+	WORLD_DICTIONARY_FIELD: {}
 }
 
 ## Quick access of loaded nodes
@@ -25,6 +25,14 @@ func load_world_state(
 		var _node: GenericWorldNode = self.load_node_from_memory(_key)
 		world_nodes_dict[_key] = _node
 	_connect_world_nodes()
+	
+func clear_and_update_world_state(
+	_nodes: Array[GenericWorldNode]
+) -> void:
+	world_nodes_dict.clear()
+	_world_state[WORLD_DICTIONARY_FIELD].clear()
+	for _node in _nodes:
+		update_node_in_world_state(_node)
 	
 func update_nodes_in_world_state(_nodes: Array[GenericWorldNode]):
 	for _node in _nodes:
