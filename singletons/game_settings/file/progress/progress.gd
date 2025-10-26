@@ -31,7 +31,7 @@ func _init() -> void:
 func load_world(_dict: Dictionary):
 	world_state.load_world_state(_dict)
 	var _loaded_village_node: GenericWorldNode = world_state.load_node_from_memory(Constants.VILLAGE_NODE_ID)
-	self.village_node = _loaded_village_node.duplicate()
+	self.village_node = _loaded_village_node
 
 func update_player_position(current_world_node: GenericWorldNode):
 	if not PlayerController.current_world_node:
