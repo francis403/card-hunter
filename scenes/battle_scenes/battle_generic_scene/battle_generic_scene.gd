@@ -13,6 +13,7 @@ const deck_visualizer_scene = preload("res://ui/deck/deck_visualizer/deck_visual
 @onready var monsters_node: Node = $monsters
 
 @onready var discard_card_ui: DiscardCardUI = $UINodes/DiscardCardUI
+@onready var player_battle_menu: PlayerBattleMenu = $UINodes/PlayerBattleMenu
 
 @export var player: PlayerCharacter
 
@@ -31,6 +32,7 @@ func _init() -> void:
 	GameController.is_showing_battle_scene = true
 
 func _ready() -> void:
+	GameController.debug_mode_toggled.connect(_debug_mode_enabled_signal)
 	BattlemapSignals.player_turn_started.connect(_on_player_turn_started_signal)
 	
 	# deck signals
@@ -53,6 +55,9 @@ func _ready() -> void:
 	battle_scene_rewards_manager.set_rewards_to_reward_screen()
 	BattleSignals.battle_scene_finished_loading.emit(self)
 	BattleSignals.battle_start.emit()
+
+func _debug_mode_enabled_signal(_enabled: bool):
+	player_battle_menu.visible = _enabled
 
 func _on_player_turn_started_signal():
 	is_player_turn = true

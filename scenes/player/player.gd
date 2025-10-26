@@ -19,11 +19,15 @@ func _ready() -> void:
 	else:
 		PlayerController.current_player_health = self._health
 	BattlemapSignals.play_card_stream.connect(_on_play_card_sound_signal)
+	SpecialSignals.immortallity_toggled_player.connect(_on_immortality_toggled_signal)
 
 func _on_play_card_sound_signal(audio_stream: AudioStream):
 	audio_stream_player.stream = audio_stream
 	audio_stream_player.play()
-
+	
+func _on_immortality_toggled_signal():
+	self.is_player_damageable = not self.is_player_damageable
+	
 func add_power_effect(power_effect: BasePowerNodeController):
 	power_effect_container.add_power_effect(power_effect, self)
 

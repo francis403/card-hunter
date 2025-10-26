@@ -2,7 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://1lwus3xnrrcy" path="res://ui/screens/quest_picker/scroll_background.jpg" id="1_0g53d"]
 [ext_resource type="Theme" uid="uid://dmot8ul1c5l3n" path="res://assets/themes/theme_1.tres" id="2_mb2ls"]
-[ext_resource type="PackedScene" uid="uid://clw6ot57jagn8" path="res://ui/screen_components/player_menu/player_menu.tscn" id="2_wgvgf"]
+[ext_resource type="PackedScene" uid="uid://clw6ot57jagn8" path="res://ui/screen_components/debug/player_menu/player_menu.tscn" id="2_wgvgf"]
 
 [node name="GenericScreen" type="Control"]
 layout_mode = 3

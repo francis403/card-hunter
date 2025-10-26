@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://dn1s6gbout3xc"]
+[gd_scene load_steps=15 format=3 uid="uid://dn1s6gbout3xc"]
 
 [ext_resource type="Script" uid="uid://dbusmwpy6abj" path="res://scenes/battle_scenes/battle_generic_scene/battle_generic_scene.gd" id="1_6gf8r"]
 [ext_resource type="AudioStream" uid="uid://dwcjod037iqrj" path="res://assets/sound/background_music/One Man Symphony - Collateral Damage (Free) - 15 CyberRace Theme 02.mp3" id="2_ugrlm"]
@@ -13,6 +13,7 @@
 [ext_resource type="PackedScene" uid="uid://dyhe2vn3fiuv5" path="res://ui/battlemap/player/discard_card_ui/discard_card_ui.tscn" id="10_muclq"]
 [ext_resource type="PackedScene" uid="uid://hked8dt7umpy" path="res://ui/screen_components/_general_componets/buttons/sound_button/sound_button.tscn" id="11_w28v7"]
 [ext_resource type="Theme" uid="uid://bqnfkv4w8p2m3" path="res://assets/themes/buttons/end_turn_button_theme.tres" id="12_end_turn_theme"]
+[ext_resource type="PackedScene" uid="uid://ig386fapparw" path="res://ui/screen_components/debug/player_battle_menu/player_battle_menu.tscn" id="13_qwc1m"]
 
 [node name="BattleGenericScene" type="Node" node_paths=PackedStringArray("player")]
 script = ExtResource("1_6gf8r")
@@ -108,6 +109,12 @@ offset_left = -85.0
 offset_top = -224.0
 offset_right = 85.0
 offset_bottom = 3.0
+
+[node name="PlayerBattleMenu" parent="UINodes" instance=ExtResource("13_qwc1m")]
+visible = false
+layout_mode = 1
+offset_left = -151.0
+offset_bottom = 81.0
 
 [node name="GameOverScreen" parent="." instance=ExtResource("9_bw6p8")]
 visible = false

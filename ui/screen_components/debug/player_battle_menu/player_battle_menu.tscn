@@ -1,0 +1,33 @@
+[gd_scene load_steps=3 format=3 uid="uid://ig386fapparw"]
+
+[ext_resource type="Script" uid="uid://qq5dbg12dc5l" path="res://ui/screen_components/debug/player_battle_menu/player_battle_menu.gd" id="1_t6lro"]
+[ext_resource type="PackedScene" uid="uid://hked8dt7umpy" path="res://ui/screen_components/_general_componets/buttons/sound_button/sound_button.tscn" id="2_o1ard"]
+
+[node name="PlayerBattleMenu" type="MarginContainer"]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+grow_horizontal = 0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("1_t6lro")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="KillMonster" parent="VBoxContainer" instance=ExtResource("2_o1ard")]
+layout_mode = 2
+text = "Kill Monster"
+
+[node name="AddCard" parent="VBoxContainer" instance=ExtResource("2_o1ard")]
+layout_mode = 2
+text = "Add Card"
+
+[node name="ToggleImmortality" parent="VBoxContainer" instance=ExtResource("2_o1ard")]
+layout_mode = 2
+text = "Toggle Immortality"
+
+[connection signal="pressed_and_sound_played" from="VBoxContainer/KillMonster" to="." method="_on_win_battle_pressed_and_sound_played"]
+[connection signal="pressed_and_sound_played" from="VBoxContainer/AddCard" to="." method="_on_add_card_pressed_and_sound_played"]
+[connection signal="pressed_and_sound_played" from="VBoxContainer/ToggleImmortality" to="." method="_on_toggle_immortality_pressed_and_sound_played"]

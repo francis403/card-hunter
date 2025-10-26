@@ -38,3 +38,7 @@ func _on_expand_world_pressed() -> void:
 
 func _on_game_complete_pressed() -> void:
 	BattleSignals.game_complete.emit()
+
+
+func _on_boss_encounter_pressed() -> void:
+	GameController.world_boss_monster_encountered.emit()
