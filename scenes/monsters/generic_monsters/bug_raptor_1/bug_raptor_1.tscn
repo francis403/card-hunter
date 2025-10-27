@@ -1,0 +1,34 @@
+[gd_scene load_steps=9 format=3 uid="uid://c7d0ktlc5od2r"]
+
+[ext_resource type="PackedScene" uid="uid://b77dqwv8b42lt" path="res://scenes/monsters/generic_monster/generic_monster.tscn" id="1_u1i5i"]
+[ext_resource type="Script" uid="uid://blquxctox4loa" path="res://scenes/monsters/generic_monsters/bug_raptor_1/bug_raptor_1.gd" id="2_by616"]
+[ext_resource type="Texture2D" uid="uid://b5gd5va5x8c3a" path="res://scenes/monsters/generic_monsters/bug_raptor_1/bug-raptor-1.png" id="2_eh7sv"]
+[ext_resource type="PackedScene" uid="uid://by053fy0oimg0" path="res://scenes/game_objects/states/move_and_single_attack_state/move_and_single_attack_state.tscn" id="3_5esey"]
+[ext_resource type="Script" uid="uid://clufwv38rhs7a" path="res://resources/configuration/tile_highlight_configuration/tile_highlight_configuration.gd" id="4_v6kwd"]
+[ext_resource type="PackedScene" uid="uid://c7xqpe3snou7" path="res://scenes/monsters/monster_body_parts/body_parts/head_body_part/head_body_part.tscn" id="6_tryrk"]
+[ext_resource type="PackedScene" uid="uid://cje0q5xds21f7" path="res://scenes/monsters/monster_body_parts/body_parts/back_body_part/back_body_part.tscn" id="7_ajxxd"]
+
+[sub_resource type="Resource" id="Resource_udh74"]
+script = ExtResource("4_v6kwd")
+metadata/_custom_type_script = "uid://clufwv38rhs7a"
+
+[node name="BugRaptor1" instance=ExtResource("1_u1i5i")]
+script = ExtResource("2_by616")
+monster_id = "bug_raptor_1"
+monster_texture = ExtResource("2_eh7sv")
+debug_mode = true
+_speed = 2
+
+[node name="StateMachine" parent="." index="2" node_paths=PackedStringArray("initial_state")]
+initial_state = NodePath("MoveAndSingleAttackState")
+
+[node name="MoveAndSingleAttackState" parent="StateMachine" index="0" instance=ExtResource("3_5esey")]
+max_range = 10
+highlight_config = SubResource("Resource_udh74")
+
+[node name="HeadBodyPart" parent="MonsterBodyPartContainer" index="0" instance=ExtResource("6_tryrk")]
+
+[node name="BackBodyPart" parent="MonsterBodyPartContainer" index="1" instance=ExtResource("7_ajxxd")]
+
+[node name="Sprite2D" parent="." index="5"]
+texture = ExtResource("2_eh7sv")

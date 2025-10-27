@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://by053fy0oimg0"]
 
-[ext_resource type="Script" path="res://scenes/game_objects/states/move_and_single_attack_state/move_and_single_attack_state.gd" id="1_1q0j1"]
+[ext_resource type="Script" uid="uid://cgvhsfpoyig6j" path="res://scenes/game_objects/states/move_and_single_attack_state/move_and_single_attack_state.gd" id="1_1q0j1"]
 [ext_resource type="Texture2D" uid="uid://dt0pn34ommgfx" path="res://assets/images/icons/monster_icons/behaviour_icons/melee_claw_behaviour.png" id="2_owkmj"]
 
 [node name="MoveAndSingleAttackState" type="Node"]
