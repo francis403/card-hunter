@@ -16,6 +16,14 @@ script = ExtResource("1_t6lro")
 layout_mode = 2
 theme_override_constants/separation = 0
 
+[node name="ToggleTileStatus" parent="VBoxContainer" instance=ExtResource("2_o1ard")]
+layout_mode = 2
+text = "Toggle Tile Status"
+
+[node name="HighlightOccupiedTiles" parent="VBoxContainer" instance=ExtResource("2_o1ard")]
+layout_mode = 2
+text = "Toggle Occupied tile"
+
 [node name="KillMonster" parent="VBoxContainer" instance=ExtResource("2_o1ard")]
 layout_mode = 2
 text = "Kill Monster"
@@ -28,6 +36,8 @@ text = "Add Card"
 layout_mode = 2
 text = "Toggle Immortality"
 
+[connection signal="pressed_and_sound_played" from="VBoxContainer/ToggleTileStatus" to="." method="_on_toggle_tile_status_pressed_and_sound_played"]
+[connection signal="pressed_and_sound_played" from="VBoxContainer/HighlightOccupiedTiles" to="." method="_on_highlight_occupied_tiles_pressed_and_sound_played"]
 [connection signal="pressed_and_sound_played" from="VBoxContainer/KillMonster" to="." method="_on_win_battle_pressed_and_sound_played"]
 [connection signal="pressed_and_sound_played" from="VBoxContainer/AddCard" to="." method="_on_add_card_pressed_and_sound_played"]
 [connection signal="pressed_and_sound_played" from="VBoxContainer/ToggleImmortality" to="." method="_on_toggle_immortality_pressed_and_sound_played"]

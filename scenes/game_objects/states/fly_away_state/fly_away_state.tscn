@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://cr61b4kmh0w3u"]
 
-[ext_resource type="Script" path="res://scenes/game_objects/states/fly_away_state/fly_away_state.gd" id="1_jolw4"]
+[ext_resource type="Script" uid="uid://b0yjb1sxhyugi" path="res://scenes/game_objects/states/fly_away_state/fly_away_state.gd" id="1_jolw4"]
 
-[node name="FlyAwayState" type="Node"]
+[node name="MoveAwayState" type="Node"]
 script = ExtResource("1_jolw4")

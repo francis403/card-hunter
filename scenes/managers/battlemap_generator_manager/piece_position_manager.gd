@@ -43,16 +43,15 @@ func place_node_in_tile(node: Node2D, tile: Tile, animate: bool = true):
 		return
 		
 	if tile.piece_in_tile:
+		##print("DEBUG: piece already in tile!: ", tile.to_vector())
 		return
 		
 	var center_tile_position: Vector2 = tile.global_position
 	var offset: Vector2 = Vector2.ZERO
 	center_tile_position.x += tile._x_size / 2
 	center_tile_position.y += tile._y_size / 2
+	
 	if node is Piece:
-		#update the old tile
-		if node._tile:
-			node._tile.piece_in_tile = null
 		node.set_piece_tile(tile)
 		tile.piece_in_tile = node
 		if node is GenericGiantMonster:

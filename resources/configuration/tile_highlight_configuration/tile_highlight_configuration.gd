@@ -38,7 +38,8 @@ func _specific_tile_location_config_match(_tile: Tile) -> bool:
 	if not self.use_specific_tile_location_config:
 		return false
 	var origin_target_distance: int = MovementUtils.distance_between_tiles(origin_tile, target_tile)
-	var origin_tile_distance: int = MovementUtils.distance_between_tiles(origin_tile, _tile)
+	#var origin_tile_distance: int = MovementUtils.distance_between_tiles(origin_tile, _tile)
+	var origin_tile_distance: int = MovementUtils.distance_between_tiles(target_tile, _tile)
 	
 	if self.ignore_tiles_close_to_origin and origin_target_distance > origin_tile_distance:
 		return true

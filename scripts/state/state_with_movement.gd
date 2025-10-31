@@ -12,6 +12,7 @@ func enter_state():
 	target = BattleController.get_player()
 	monster = get_parent().get_parent()
 	monster.set_state_icon(state_icon)
+	monster.next_move = null
 	
 func do_state_action():
 	super.do_state_action()

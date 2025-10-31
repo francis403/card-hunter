@@ -36,7 +36,7 @@ func _on_highlight_attacked_tiles_signal(
 	config: TileHighlightConfig
 ):
 	config.is_tile_attacked = true
-	highlight_tiles(source_tile, config)	
+	highlight_tiles(source_tile, config)
 
 func _on_get_monster_range_tiles_signal(
 	source_tile: Tile,

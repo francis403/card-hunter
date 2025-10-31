@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://onw2yx218q6"]
 
-[ext_resource type="Script" path="res://scenes/game_objects/battlemap/tile/tile.gd" id="1_3xxeu"]
+[ext_resource type="Script" uid="uid://bumc6bpwy5m2g" path="res://scenes/game_objects/battlemap/tile/tile.gd" id="1_3xxeu"]
 
 [node name="Tile" type="ReferenceRect"]
 custom_minimum_size = Vector2(40, 40)

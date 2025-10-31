@@ -25,12 +25,29 @@ signal piece_took_damage(damage: int)
 @export var movement_curve: Curve
 
 var base_speed: int
-var _tile: Tile
+
+## TODO: maybe rewrite this to be an array of tiles
+## Center tile of the monster location. 
+## In small monsters this is the only tile the monster will have
+## In bigger monters they have more than one tile
+var _tile: Tile:
+	set(value):
+		_tile = value
+		_front_tile = Vector2(
+			_tile._x_position - 1,
+			_tile._y_position
+		)
+
+## TODO: implement this
+## Represents the position of the tile right in front of the monster head 
+var _front_tile: Vector2
 
 func _init() -> void:
 	base_speed = _speed
 
 func set_piece_tile(tile: Tile):
+	if self._tile:
+		self._tile.piece_in_tile = null
 	_tile = tile
 
 

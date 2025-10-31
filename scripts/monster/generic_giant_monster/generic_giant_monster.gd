@@ -25,6 +25,9 @@ func _set_monster_in_sorrounding_tiles():
 	match type_of_giant_monster:
 		GiantMonsterSorroundingTiles.FULL_RADIUS:
 			_set_up_radius_tiles()
+		GiantMonsterSorroundingTiles.HORIZONTAL_LINE:
+			_set_up_horizontal_tiles()
+			
 
 func _set_up_radius_tiles():
 	var x: int = _tile._x_position
@@ -39,6 +42,21 @@ func _set_up_radius_tiles():
 				continue
 			tile.piece_in_tile = self
 			occupying_tiles.append(tile)
+
+## TODO: we need to take into consideration the monster angle
+func _set_up_horizontal_tiles():
+	print("TODO: ", _set_up_horizontal_tiles)
+	var x: int = _tile._x_position
+	var y: int = _tile._y_position
+	print("rotation: ", self.rotation)
+	var tile_1: Tile = BattleController.get_tile(x - 1, y)
+	if tile_1:
+		tile_1.piece_in_tile = self
+		occupying_tiles.append(tile_1)
+	var tile_2: Tile = BattleController.get_tile(x + 1, y)
+	if tile_2:
+		tile_2.piece_in_tile = self
+		occupying_tiles.append(tile_2)
 
 func update_giant_monster_tiles():
 	_clear_giant_monster_tiles()

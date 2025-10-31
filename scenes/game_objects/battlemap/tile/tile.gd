@@ -23,9 +23,21 @@ func _ready() -> void:
 	BattlemapSignals.canceled_player_input.connect(_on_player_input_signal)
 	BattlemapSignals.clear_player_highlighted_tiles.connect(_on_player_input_signal)
 	BattlemapSignals.clear_attack_highlight_tiles.connect(_on_clear_attacked_tiles_signal)
-	
+	SpecialSignals.tile_map_status_label_toggled_signal.connect(toggle_tile_status_label_visibility)
+	SpecialSignals.highlight_occupied_tiles.connect(toggle_highlight_occupied_tiles)
 	status_label.visible = show_status
 
+
+func toggle_tile_status_label_visibility():
+	status_label.visible = not status_label.visible
+
+func toggle_highlight_occupied_tiles():
+	if piece_in_tile:
+		self.border_color = Color.GREEN
+		self.border_width = 3
+	else:
+		self.border_color = Color.BLACK
+		self.border_width = 1
 
 func initialize_tile(
 	_border_color: Color,
@@ -52,7 +64,6 @@ func initialize_tile(
 func show_background():
 	background_button.visible = true
 
-
 func hide_background():
 	background_button.visible = false
 	
@@ -63,6 +74,9 @@ func show_attack_background():
 func hide_attack_background():
 	attack_rect.visible = false
 	is_tile_attacked = false
+
+func to_vector() -> Vector2:
+	return Vector2(_x_position, _y_position)
 
 func _on_player_input_signal():
 	self.hide_background()

@@ -1,6 +1,14 @@
-[gd_scene load_steps=2 format=3 uid="uid://bm3s6jrsg6gan"]
+[gd_scene load_steps=6 format=3 uid="uid://bm3s6jrsg6gan"]
 
-[ext_resource type="Script" path="res://scenes/game_objects/states/charge_state/charge_state.gd" id="1_wnbbw"]
+[ext_resource type="Script" uid="uid://b1b5vib8ul1j5" path="res://scenes/game_objects/states/charge_state/charge_state.gd" id="1_wnbbw"]
+[ext_resource type="Script" uid="uid://bmo3eknyoct12" path="res://resources/monster/state/state_change_condition/state_change_condition.gd" id="2_ppg87"]
+[ext_resource type="Script" uid="uid://b4wuvth2ekke3" path="res://resources/monster/state/state_condition/state_condition.gd" id="3_rw1os"]
+[ext_resource type="Script" uid="uid://bbawf6m7784ju" path="res://resources/monster/state/player_range_state_change_condition/player_range_state_change_condition.gd" id="4_esafn"]
+
+[sub_resource type="Resource" id="Resource_km4o0"]
+script = ExtResource("4_esafn")
+metadata/_custom_type_script = "uid://bbawf6m7784ju"
 
 [node name="ChargeState" type="Node"]
 script = ExtResource("1_wnbbw")
+state_change_conditions = Array[ExtResource("2_ppg87")]([SubResource("Resource_km4o0")])

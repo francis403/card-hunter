@@ -3,12 +3,14 @@ class_name MovendSingleAttackState
 
 @export var state_if_higher_than_max_range: String = ""
 @export var max_range: int = 1
-@export var highlight_config: TileHighlightConfig
-	
 
+## Attack shape
+@export var highlight_config: TileHighlightConfig
+
+## TODO: Maybe only calculate movement instead of always having to check in the action
 func enter_state():
 	super.enter_state()
-	print(enter_state)
+	print(enter_state, ": ", self.name)
 	self.do_state_action()
 	
 func do_state_action():
@@ -25,6 +27,8 @@ func do_state_action():
 		self.changed_state.emit(self, state_if_higher_than_max_range)
 		return
 	
+	self.check_and_apply_state_change_action()
+	
 	self.do_attack()
 	
 
@@ -35,15 +39,14 @@ func do_movement():
 	var next_turn_move_tile: Tile = monster.next_move
 	
 	if next_turn_move_tile:
+		##print("DEBUG: placing monster in: ", next_turn_move_tile.to_vector())
 		BattleController.battlemap.place_piece_in_tile(monster, next_turn_move_tile)
 	next_turn_move_tile = MovementUtils.get_movement_tile(
 		monster._tile,
 		target._tile,
 		monster._speed
 	)
-	BattlemapSignals.monster_prepared_move.emit(
-		next_turn_move_tile
-	)
+	monster.next_move = next_turn_move_tile
 	
 func do_attack():
 	preview_monster_attack_behaviour()
@@ -59,12 +62,7 @@ func preview_monster_attack_behaviour(recalculate_move: bool = false) -> void:
 
 func highlight_attack_tiles(source_tile: Tile):
 	# clean old attacked tiles
-	BattlemapSignals.clear_attack_highlight_tiles.emit()
-	var config: TileHighlightConfig = TileHighlightConfig.new()
-	config.area_type = Constants.AreaType.RADIUS
-	if highlight_config:
-		config = highlight_config 
-	BattlemapSignals.highlight_attack_tiles.emit(
-		source_tile,
-		config
-	)
+	highlight_config.origin_tile = monster._tile if not monster.next_move else monster.next_move
+	highlight_config.target_tile = target._tile
+	BattleController.battlemap.clear_highlighted_tiles()
+	BattleController.battlemap.highlight_attack_tiles(source_tile, highlight_config)

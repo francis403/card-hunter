@@ -18,7 +18,6 @@ func enter_state():
 	super.enter_state()
 	if not monster._tile:
 		return
-	print(enter_state)
 	target_tile = await _get_next_random_tile()
 	highlight_tile(target_tile)
 

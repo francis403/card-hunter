@@ -14,10 +14,42 @@ class_name Battlemap
 @onready var grid_array_holder_control: Control = $grid_array_holder_control
 @onready var grid_container: GridContainer = $grid_array_holder_control/GridContainer
 @onready var _piece_position_manager: PiecePositionManager = $PiecePositionManager
+@onready var _grid_highlight_manager: GridHighlightManager = $GridHighlightManager
 
 var tile_scene: PackedScene = preload("res://scenes/game_objects/battlemap/tile/tile.tscn")
 
 var grid_array = []
+
+func clear_highlighted_tiles():
+	BattlemapSignals.clear_attack_highlight_tiles.emit()
+	
+func highlight_tiles(
+	source_tile: Tile,
+	config: TileHighlightConfig
+):
+	_grid_highlight_manager.highlight_tiles(source_tile, config)
+
+func highlight_move_tiles(
+	source_tile: Tile,
+	config: TileHighlightConfig
+):
+	config.ignore_occupied_tiles = true
+	_grid_highlight_manager.highlight_tiles(source_tile, config)
+
+func highlight_attack_tiles(
+	source_tile: Tile,
+	config: TileHighlightConfig
+):
+	config.is_tile_attacked = true
+	highlight_tiles(source_tile, config)
+
+func get_monster_range_tiles(
+	source_tile: Tile,
+	config: TileHighlightConfig
+):
+	config.make_tile_clickable = false
+	var result: Array = highlight_tiles(source_tile, config)
+	BattlemapSignals.monster_range_tiles_generated.emit(result)
 
 func _ready() -> void:
 	_generate_battlemap()
@@ -32,7 +64,6 @@ func _generate_battlemap():
 			
 func _initialize_grid():
 	grid_container.columns = _number_of_columns
-	
 	
 func _populate_grid():
 	for grid_y in _number_of_rows:

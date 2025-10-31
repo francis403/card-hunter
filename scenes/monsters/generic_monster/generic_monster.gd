@@ -13,7 +13,7 @@ signal body_part_hit(body_part: BodyPart)
 @onready var power_effect_container: PowerEffectContainer = $PowerEffectContainer
 @onready var power_effect_ui: PowerEffectUI = $PowerEffectUI
 
-@onready var move_intent_container: MarginContainer = %MoveIntentContainer
+@onready var move_intent_container: MarginContainer = $StatusControl/MoveIntentContainer
 @onready var reward_manager: RewardManager = $RewardManager
 
 ## Indicator of what the monster is going to do
@@ -47,28 +47,31 @@ func on_monster_moved_by_player(new_tile: Tile) -> void:
 	self._tile = new_tile
 	state_machine.do_preview_action(true)
 
-## If the monster moves turn it to where it's going to move
-func on_monster_moved() -> void:
-	if not self.next_move:
-		return
-	var angle: float = (_tile.position.angle_to_point(self.next_move.position))
-	self.rotate(angle)
-
 ## TODO: improve the function
+## We shouldn;t be using sprite_2d.flip_h.
+## Maybe we can calculate using
 func _on_monster_prepared_move_signal(tile: Tile):
 	super._on_monster_prepared_move_signal(tile)
-	
 	if self.next_move:
-		move_intent_container.visible = true
+		if move_intent_container:
+			move_intent_container.visible = true
 		var angle: float = (_tile.position.angle_to_point(self.next_move.position))
 		move_intent_container.rotation = angle
 		var initial_rotation: float = sprite_2d.rotation
-		sprite_2d.rotation = _calculate_monster_orientation(self.next_move)
-		if initial_rotation != sprite_2d.rotation:
+		var _initial_flip: bool = sprite_2d.flip_h
+		var _new_rotation: float = _calculate_monster_orientation(self.next_move)
+		if _new_rotation != initial_rotation:
+			sprite_2d.rotation = _new_rotation
 			monster_body_part_container._rotate_body_parts(
 				self._tile,
 				initial_rotation,
-				sprite_2d.rotation
+				_new_rotation
+			)
+		if _initial_flip != sprite_2d.flip_h:
+			monster_body_part_container._rotate_body_parts(
+				self._tile,
+				initial_rotation,
+				deg_to_rad(rad_to_deg(initial_rotation) + 180)
 			)
 	else:
 		move_intent_container.visible = false
@@ -79,7 +82,7 @@ func _calculate_monster_orientation(move_tile: Tile) -> float:
 	monster_rotation_angle = move_tile.position.angle_to_point(self._tile.position) 
 	if (absf(monster_rotation_angle - PI) <= 0.1):
 		monster_rotation_angle = 0
-		sprite_2d.flip_h = true
+		sprite_2d.flip_h = not sprite_2d.flip_h
 	## if it's negative
 	if monster_rotation_angle < 0:
 		monster_rotation_angle += PI

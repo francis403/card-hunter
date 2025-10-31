@@ -54,7 +54,7 @@ monster_config = SubResource("Resource_thpje")
 debug_mode = true
 _health = 50
 _max_hp = 50
-_strength = 50
+_strength = 34
 
 [node name="RewardManager" parent="." index="0"]
 card_rewards = Array[ExtResource("7_qhp46")]([ExtResource("8_hhtw6"), ExtResource("9_56dmi")])
@@ -69,11 +69,9 @@ state_change_conditions = Array[ExtResource("12_s4wg8")]([SubResource("Resource_
 state_change_conditions = Array[ExtResource("12_s4wg8")]([SubResource("Resource_in7xo")])
 
 [node name="HeadBodyPart" parent="MonsterBodyPartContainer" index="0" instance=ExtResource("14_netfg")]
-min_angle = 45.0
-max_angle = 136.0
 
 [node name="BackBodyPart" parent="MonsterBodyPartContainer" index="1" instance=ExtResource("15_gyvj4")]
-min_angle = 224.0
+min_angle = 270.0
 max_angle = 320.0
 
 [node name="Sprite2D" parent="." index="5"]

@@ -1,8 +1,14 @@
 extends StateWithMovement
+
+## Charge the player, end up as close as possible to the player
 class_name ChargeState
 
+## Attack range
 @export var _range: int = 6
 @export var state_after_charging: String
+
+@export var highlight_moved_through_tiles: bool = true
+@export var hightlight_config: TileHighlightConfig
 
 var has_highleted_charge_tiles: bool = false
 var next_turn_move_tile: Tile = null
@@ -15,7 +21,7 @@ func enter_state():
 func do_state_action():
 	super.do_state_action()
 	print(do_state_action)
-	if not has_highleted_charge_tiles:
+	if not has_highleted_charge_tiles and highlight_moved_through_tiles:
 		_highlight_charge_tiles()
 		return
 	charge()
@@ -46,7 +52,6 @@ func _highlight_charge_tiles():
 		target._tile,
 		_range
 	)
-	
 	BattlemapSignals.highlight_attack_tiles.emit(
 		source_tile,
 		config

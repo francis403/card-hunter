@@ -13,21 +13,24 @@ func enter_state():
 	
 func do_state_action():
 	super.do_state_action()
-	do_movement()
 
 func do_movement():
-	print(do_movement)
 	if next_turn_move_tile:
 		BattleController.battlemap.place_piece_in_tile(monster, next_turn_move_tile)
 		next_turn_move_tile = null
+		monster.next_move = next_turn_move_tile
 		self.changed_state.emit(self, state_after_flying)
 		return
 		
 	next_turn_move_tile = MovementUtils.move_away_from_tile(
 		monster._tile,
 		target._tile,
-		monster._speed
+		fly_away_distance
 	)
+	## If we cannot actually move backwards do something else
+	if not next_turn_move_tile:
+		self.changed_state.emit(self, state_after_flying)
+		return
 	BattlemapSignals.monster_prepared_move.emit(
 		next_turn_move_tile
 	)

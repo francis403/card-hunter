@@ -1,14 +1,56 @@
-[gd_scene load_steps=7 format=3 uid="uid://c31jjlhj76slt"]
+[gd_scene load_steps=16 format=3 uid="uid://c31jjlhj76slt"]
 
 [ext_resource type="PackedScene" uid="uid://b77dqwv8b42lt" path="res://scenes/monsters/generic_monster/generic_monster.tscn" id="1_j3d8w"]
 [ext_resource type="Script" uid="uid://4w1kb2i7swpc" path="res://scenes/monsters/generic_monsters/beatle_spider_1/beatle_spider.gd" id="2_bs8qp"]
 [ext_resource type="Texture2D" uid="uid://dj7jwipy117ka" path="res://scenes/monsters/generic_monsters/beatle_spider_1/beatle_spider_1.png" id="3_dnm2k"]
 [ext_resource type="PackedScene" uid="uid://by053fy0oimg0" path="res://scenes/game_objects/states/move_and_single_attack_state/move_and_single_attack_state.tscn" id="4_kvp0n"]
 [ext_resource type="Script" uid="uid://clufwv38rhs7a" path="res://resources/configuration/tile_highlight_configuration/tile_highlight_configuration.gd" id="5_wafqo"]
+[ext_resource type="Script" uid="uid://bmo3eknyoct12" path="res://resources/monster/state/state_change_condition/state_change_condition.gd" id="6_dwbya"]
+[ext_resource type="PackedScene" uid="uid://c7xqpe3snou7" path="res://scenes/monsters/monster_body_parts/body_parts/head_body_part/head_body_part.tscn" id="6_sd1jm"]
+[ext_resource type="PackedScene" uid="uid://cje0q5xds21f7" path="res://scenes/monsters/monster_body_parts/body_parts/back_body_part/back_body_part.tscn" id="7_babg6"]
+[ext_resource type="Script" uid="uid://b4wuvth2ekke3" path="res://resources/monster/state/state_condition/state_condition.gd" id="7_lab14"]
 
 [sub_resource type="Resource" id="Resource_kvp0n"]
 script = ExtResource("5_wafqo")
+area_type = 4
+use_specific_tile_location_config = true
+ignore_tiles_away_from_origin = true
 metadata/_custom_type_script = "uid://clufwv38rhs7a"
+
+[sub_resource type="Resource" id="Resource_02jit"]
+script = ExtResource("7_lab14")
+state_condition = 3
+logical_operation = 2
+x = 2
+metadata/_custom_type_script = "uid://b4wuvth2ekke3"
+
+[sub_resource type="Resource" id="Resource_0pjkg"]
+script = ExtResource("6_dwbya")
+conditions = Array[ExtResource("7_lab14")]([SubResource("Resource_02jit")])
+state_name = "LongBite"
+metadata/_custom_type_script = "uid://bmo3eknyoct12"
+
+[sub_resource type="Resource" id="Resource_sd1jm"]
+script = ExtResource("5_wafqo")
+_range = 2
+area_type = 4
+use_specific_tile_location_config = true
+ignore_tiles_away_from_origin = true
+ignore_tiles_same_distance_from_origin = true
+metadata/_custom_type_script = "uid://clufwv38rhs7a"
+
+[sub_resource type="Resource" id="Resource_lab14"]
+script = ExtResource("7_lab14")
+state_condition = 3
+logical_operation = 2
+x = 2
+metadata/_custom_type_script = "uid://b4wuvth2ekke3"
+
+[sub_resource type="Resource" id="Resource_dwbya"]
+script = ExtResource("6_dwbya")
+conditions = Array[ExtResource("7_lab14")]([SubResource("Resource_lab14")])
+state_name = "MoveAndSingleAttackState"
+metadata/_custom_type_script = "uid://bmo3eknyoct12"
 
 [node name="BeatleSpider" instance=ExtResource("1_j3d8w")]
 script = ExtResource("2_bs8qp")
@@ -22,6 +64,16 @@ initial_state = NodePath("MoveAndSingleAttackState")
 [node name="MoveAndSingleAttackState" parent="StateMachine" index="0" instance=ExtResource("4_kvp0n")]
 max_range = 10
 highlight_config = SubResource("Resource_kvp0n")
+state_change_conditions = Array[ExtResource("6_dwbya")]([SubResource("Resource_0pjkg")])
+
+[node name="LongBite" parent="StateMachine" index="1" instance=ExtResource("4_kvp0n")]
+highlight_config = SubResource("Resource_sd1jm")
+state_change_conditions = Array[ExtResource("6_dwbya")]([SubResource("Resource_dwbya")])
+
+[node name="HeadBodyPart" parent="MonsterBodyPartContainer" index="0" instance=ExtResource("6_sd1jm")]
+
+[node name="BackBodyPart" parent="MonsterBodyPartContainer" index="1" instance=ExtResource("7_babg6")]
+min_angle = 271.0
 
 [node name="Sprite2D" parent="." index="5"]
 texture = ExtResource("3_dnm2k")
