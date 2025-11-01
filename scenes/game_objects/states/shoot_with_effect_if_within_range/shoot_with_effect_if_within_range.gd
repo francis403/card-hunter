@@ -75,10 +75,7 @@ func highlight_attack_tiles(source_tile: Tile):
 	BattlemapSignals.clear_attack_highlight_tiles.emit()
 	var config: TileHighlightConfig = TileHighlightConfig.new()
 	config.area_type = Constants.AreaType.RADIUS
-	BattlemapSignals.highlight_attack_tiles.emit(
-		source_tile,
-		config
-	)
+	BattleController.battlemap.highlight_attack_tiles(source_tile, config)
 	
 func highlight_tile(source_tile: Tile):
 	# clean old attacked tiles
@@ -86,7 +83,4 @@ func highlight_tile(source_tile: Tile):
 	var config: TileHighlightConfig = TileHighlightConfig.new()
 	config.ignore_origin = true
 	config.area_type = Constants.AreaType.SPECIFIC
-	BattlemapSignals.highlight_attack_tiles.emit(
-		source_tile,
-		config
-	)
+	BattleController.battlemap.highlight_attack_tiles(source_tile, config)

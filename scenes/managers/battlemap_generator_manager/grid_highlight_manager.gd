@@ -7,7 +7,7 @@ func _ready() -> void:
 	BattlemapSignals.clear_highlighted_tiles.connect(_on_clear_highlighted_tiles_signal)
 	BattlemapSignals.highlight_tiles.connect(_on_highlight_tiles_signal)
 	BattlemapSignals.highlight_move_tiles.connect(_on_hightlight_move_tiles_signal)
-	BattlemapSignals.highlight_attack_tiles.connect(_on_highlight_attacked_tiles_signal)
+	##BattlemapSignals.highlight_attack_tiles.connect(_on_highlight_attacked_tiles_signal)
 	BattlemapSignals.get_monster_range_tiles.connect(_on_get_monster_range_tiles_signal)
 	
 # TODO
