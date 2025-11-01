@@ -26,7 +26,6 @@ var _show_if_tile_is_occupied: bool = false
 func _ready() -> void:
 	BattlemapSignals.player_input_received.connect(_on_player_input_signal)
 	BattlemapSignals.canceled_player_input.connect(_on_player_input_signal)
-	BattlemapSignals.clear_player_highlighted_tiles.connect(_on_player_input_signal)
 	BattlemapSignals.clear_attack_highlight_tiles.connect(_on_clear_attacked_tiles_signal)
 	SpecialSignals.tile_map_status_label_toggled_signal.connect(toggle_tile_status_label_visibility)
 	SpecialSignals.highlight_occupied_tiles.connect(toggle_highlight_occupied_tiles)

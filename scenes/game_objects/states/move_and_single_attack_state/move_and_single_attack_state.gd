@@ -61,6 +61,8 @@ func preview_monster_attack_behaviour(recalculate_move: bool = false) -> void:
 	highlight_attack_tiles(source_tile)
 
 func highlight_attack_tiles(source_tile: Tile):
+	if not highlight_config:
+		return
 	# clean old attacked tiles
 	highlight_config.origin_tile = monster._tile if not monster.next_move else monster.next_move
 	highlight_config.target_tile = target._tile

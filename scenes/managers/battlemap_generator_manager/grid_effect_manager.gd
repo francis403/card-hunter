@@ -1,8 +1,8 @@
 extends Node
 class_name GridEffectManager
 
-func _ready() -> void:
-	BattlemapSignals.add_effect_to_tile.connect(_on_add_effect_to_tile_signal)
+#func _ready() -> void:
+	#BattlemapSignals.add_effect_to_tile.connect(_on_add_effect_to_tile_signal)
 	#BattlemapSignals.add_effect_type_to_tile.connect(_on_add_effect_type_to_tile_signal)
 
 

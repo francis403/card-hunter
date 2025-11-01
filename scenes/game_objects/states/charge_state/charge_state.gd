@@ -52,10 +52,7 @@ func _highlight_charge_tiles():
 		target._tile,
 		_range
 	)
-	BattlemapSignals.highlight_attack_tiles.emit(
-		source_tile,
-		config
-	)
+	BattleController.battlemap.highlight_attack_tiles(source_tile, config)
 	has_highleted_charge_tiles = true
 
 	

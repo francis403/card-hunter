@@ -5,15 +5,12 @@ signal battlemap_generated(battlemap_grid: Battlemap)
 signal highlight_tiles(source_tile: Tile, config: TileHighlightConfig)
 signal highlight_attack_tiles(source_tile: Tile, config: TileHighlightConfig)
 signal highlight_move_tiles(source_tile: Tile, config: TileHighlightConfig)
-signal clear_player_highlighted_tiles
 signal clear_attack_highlight_tiles
 signal clear_highlighted_tiles
 signal tile_picked_in_battlemap(tile: Tile)
 signal button_pressed_to_toggle_view_monster_parts
 
 # TODO: signals should be a response to something, not to tell the game to do something
-signal add_effect_to_tile(tile_effect: TileEffect, tile: Tile)
-signal add_effect_type_to_tile(tile_effect: Constants.TileEffectTypes, tile: Tile)
 signal get_monster_range_tiles(source_tile: Tile, config: TileHighlightConfig)
 signal monster_range_tiles_generated(monster_range_tiles: Array[Tile])
 # Select/Discard Card UI
@@ -76,5 +73,4 @@ signal node_completed(world_node_id: String)
 signal node_completed_and_freed(world_node_id: String)
 signal world_updated
 signal world_node_screen_completed(_advance_day: bool)
-## TODO(FA: 0.9): check if anything needs to be sent via this signal
 signal generate_new_world

@@ -37,10 +37,6 @@ func do_state_action():
 			tile_effect_resource.tile_effect_controller.instantiate()
 		tile_effect_controller.tile_effect_resource = tile_effect_resource
 		target_tile.add_tile_effect_v2(tile_effect_controller)
-		#BattlemapSignals.add_effect_type_to_tile.emit(
-			#Constants.TileEffectTypes.SPIDER_WEB,
-			#target_tile
-		#)
 
 	## if we are in range do something else
 	var is_state_changed: bool = self.check_and_apply_state_change_action()
@@ -66,11 +62,8 @@ func _get_next_random_tile() -> Tile:
 
 func highlight_tile(source_tile: Tile):
 	# clean old attacked tiles
-	BattlemapSignals.clear_attack_highlight_tiles.emit()
+	BattleController.battlemap.clear_highlighted_tiles()
 	var config: TileHighlightConfig = TileHighlightConfig.new()
 	config.ignore_origin = true
 	config.area_type = Constants.AreaType.SPECIFIC
-	BattlemapSignals.highlight_attack_tiles.emit(
-		source_tile,
-		config
-	)
+	BattleController.battlemap.highlight_attack_tiles(source_tile, config)

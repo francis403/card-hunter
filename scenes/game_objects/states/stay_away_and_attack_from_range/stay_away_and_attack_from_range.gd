@@ -60,7 +60,4 @@ func highlight_attack_tiles(source_tile: Tile):
 	var config: TileHighlightConfig = TileHighlightConfig.new()
 	config.area_type = Constants.AreaType.CROSS
 	config._range = _range
-	BattlemapSignals.highlight_attack_tiles.emit(
-		source_tile,
-		config
-	)
+	BattleController.battlemap.highlight_attack_tiles(source_tile, config)
