@@ -105,7 +105,6 @@ func _generate_world():
 	_village_node.reveal_connected_nodes()
 	self._save_world_state()
 
-## TODO(FA): Fix bugs
 func generate_new_world(
 	_new_world_generator_config: WorldGeneratorConfig
 ):
@@ -116,6 +115,7 @@ func generate_new_world(
 	self.world_generator_config = _new_world_generator_config.duplicate()
 	self.world_generator_config.initialize_config()
 	_generate_world()
+	File.update_player_position(_village_node)
 	File.progress.world_state.clear_and_update_world_state(_world_nodes)
 
 func _clean_world() -> void:

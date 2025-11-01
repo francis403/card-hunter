@@ -143,8 +143,7 @@ func _process_on_world_node_click():
 		on_node_click_event()
 	
 	self.show_player()
-	
-	File.progress.update_player_position(self)
+	File.update_player_position(self)
 	
 	## Tell the game to save 
 	BattlemapSignals.player_world_state_updated.emit(self)

@@ -66,6 +66,9 @@ func load_progress():
 	if save_data["progress"].has("player"):
 		_load_player_info()
 	
+func update_player_position(_world_node: GenericWorldNode):
+	self.progress.update_player_position(_world_node)
+	
 func _load_world_state():
 	if save_data["progress"]["world_state"].has("villages_saved"):
 		GameController.number_of_villages_saved = save_data["progress"]["world_state"]["villages_saved"]
