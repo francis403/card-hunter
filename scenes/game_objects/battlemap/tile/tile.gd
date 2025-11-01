@@ -7,7 +7,12 @@ var _y_position: int
 var _x_size: int = 40
 var _y_size: int = 40
 var is_tile_attacked: bool = false
-var piece_in_tile: Piece = null
+var piece_in_tile: Piece = null:
+	set(_value):
+		piece_in_tile = _value
+		_toggle_tile_occuppied_view()
+
+var _show_if_tile_is_occupied: bool = false
 
 @export var show_status: bool = false
 
@@ -32,7 +37,13 @@ func toggle_tile_status_label_visibility():
 	status_label.visible = not status_label.visible
 
 func toggle_highlight_occupied_tiles():
-	if piece_in_tile:
+	_show_if_tile_is_occupied = not _show_if_tile_is_occupied
+	_toggle_tile_occuppied_view()
+
+func _toggle_tile_occuppied_view():
+	if not _show_if_tile_is_occupied:
+		return
+	if self.piece_in_tile:
 		self.border_color = Color.GREEN
 		self.border_width = 3
 	else:
