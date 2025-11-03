@@ -161,20 +161,23 @@ func get_card_rewards() -> Array[CardResourceV2]:
 
 func apply_damage(
 	damage: int,
-	_origin_tile: Tile
+	_origin_tile: Tile,
+	_show_text: bool = true
 ):
-	var angle: float = rad_to_deg(
-		_tile.get_center().angle_to_point(
-			_origin_tile.get_center()
+	if _origin_tile:
+		var angle: float = rad_to_deg(
+			_tile.get_center().angle_to_point(
+				_origin_tile.get_center()
+			)
 		)
-	)
-	
-	monster_body_part_container.get_and_hit_body_parts(
-		fmod(angle + 360, 360), 
-		damage
-	)
-	hurtbox_component.trigger(str(damage))
-	super.apply_damage(damage, _origin_tile)
+		
+		monster_body_part_container.get_and_hit_body_parts(
+			fmod(angle + 360, 360), 
+			damage
+		)
+	if _show_text:
+		hurtbox_component.trigger(str(damage))
+	super.apply_damage(damage, _origin_tile, _show_text)
 	monster_health_bar.value = self._health
 
 func on_mouse_hover_enter():

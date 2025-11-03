@@ -46,14 +46,15 @@ func remove_power_effect(status_id: String):
 
 func apply_damage(
 	damage: int,
-	_origin_tile: Tile
+	_origin_tile: Tile,
+	_show_text: bool = false
 ):
 	if not self.is_player_damageable:
 		return
 	_play_hit_flash()
 	audio_stream_player.stream = PLAYER_HIT_1
 	audio_stream_player.play()
-	super.apply_damage(damage, _origin_tile)
+	super.apply_damage(damage, _origin_tile, _show_text)
 
 func _play_hit_flash():
 	if sprite_2d.material:

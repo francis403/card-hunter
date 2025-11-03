@@ -48,3 +48,7 @@ func clean_card_effect() -> void:
 	super.clean_card_effect()
 	if piece_attacked and piece_attacked.is_connected("body_part_hit", _on_monster_body_part_hit):
 		piece_attacked.disconnect("body_part_hit", _on_monster_body_part_hit)
+
+func revert_card_effect() -> bool:
+	piece_attacked.apply_damage(damage_dealt * -1, null, false)
+	return true

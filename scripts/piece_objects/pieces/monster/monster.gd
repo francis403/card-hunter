@@ -27,9 +27,10 @@ func end_monster_turn():
 
 func apply_damage(
 	damage: int,
-	_origin_tile: Tile
+	_origin_tile: Tile,
+	_show_text: bool = true
 ):
-	super.apply_damage(damage, _origin_tile)
+	super.apply_damage(damage, _origin_tile, _show_text)
 	BattlemapSignals.monster_hp_changed.emit(self._health, self._max_hp)
 
 func _die():

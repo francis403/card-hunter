@@ -53,7 +53,8 @@ func set_piece_tile(tile: Tile):
 
 func apply_damage(
 	damage: int,
-	_origin_tile: Tile
+	_origin_tile: Tile,
+	_show_text: bool = true
 ):
 	var damage_dealt_to_piece: int = damage * _damage_dealt_multiplier
 	self._health -= damage_dealt_to_piece
