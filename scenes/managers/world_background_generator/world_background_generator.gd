@@ -18,6 +18,10 @@ func _ready() -> void:
 		return
 	_spawn_background()
 
+func respawn_background():
+	_clear_background()
+	_spawn_background()
+
 func _spawn_background() -> void:
 	var screen_size = get_viewport().get_visible_rect().size
 	var sampling_rect = Rect2(Vector2.ZERO, screen_size)
@@ -37,14 +41,12 @@ func _spawn_background() -> void:
 func set_exclusion_zones(zones: Array[Vector2]) -> void:
 	exclusion_zones = zones
 	if is_inside_tree():
-		_clear_background()
-		_spawn_background()
+		respawn_background()
 
 func add_exclusion_zone(zone_position: Vector2) -> void:
 	exclusion_zones.append(zone_position)
 	if is_inside_tree():
-		_clear_background()
-		_spawn_background()
+		respawn_background()
 
 func _create_background_sprite(grass_position: Vector2) -> void:
 	var _sprite = TextureRect.new()

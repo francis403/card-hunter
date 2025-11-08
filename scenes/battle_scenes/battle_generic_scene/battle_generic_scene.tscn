@@ -120,6 +120,7 @@ offset_bottom = 81.0
 visible = false
 continue_as_soon_as_rewards_picked = true
 right_button_text = "Skip"
+show_right_button = false
 
 [node name="DrawPileMarker" type="Marker2D" parent="."]
 position = Vector2(49, 583)

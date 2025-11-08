@@ -25,6 +25,7 @@ func _ready() -> void:
 	boss_timer_label.text = "Days till next attack: " + str(GameController.days_till_attack)
 	# Setup grass exclusions after a frame to ensure all nodes are ready
 	world_nodes_table_component.instantiate_world()
+	world_nodes_table_component.world_generated.connect(_on_world_generated)
 	call_deferred("_setup_world_background_exclusion_zone")
 	
 func _clean_preview():
@@ -74,7 +75,8 @@ func _on_world_generation_triggered():
 	if not world_genator_config_generator:
 		return
 	world_nodes_table_component.generate_new_world(
-		world_genator_config_generator.generate_config()
+		world_genator_config_generator.generate_config(),
+		true
 	)
 
 func _on_world_node_screen_completed_signal(_advance_day: bool):
@@ -92,6 +94,9 @@ func _setup_world_background_exclusion_zone():
 		elif child.has_method("get_position"):
 			exclusion_zones.append(child.position)
 	world_background_generator.set_exclusion_zones(exclusion_zones)
+
+func _on_world_generated():
+	self._setup_world_background_exclusion_zone()
 
 func _on_forge_button_pressed():
 	var scene: ForgeCardScreen = Constants.forge_card_screen_scene.instantiate()

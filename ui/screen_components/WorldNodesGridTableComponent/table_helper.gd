@@ -3,7 +3,6 @@ class_name TableHelper
 
 var _table_center_point: Vector2
 var _seperation: int
-var _max_depth_world_generation: int
 
 ## Store all positions that can never have a node
 var _added_table_positions: Dictionary = {}
@@ -18,19 +17,15 @@ var _available_world_table_positions: Dictionary = {
 
 func init_table_helper(
 	table_center_point: Vector2,
-	max_depth_world_generation: int,
 	seperation: int
 ) -> void:
 	_table_center_point = table_center_point
-	_max_depth_world_generation = max_depth_world_generation
 	_seperation = seperation
 
 func clean():
 	_added_table_positions.clear()
 	_available_world_table_positions.clear()
 
-func set_max_depth(_value: int):
-	self._max_depth_world_generation = _value
 
 func _table_position_distance(
 	_table_node_a: GenericWorldNode,
@@ -99,6 +94,27 @@ func calculate_positions_in_radius(
 	
 	return screen_position
 
+## TODO: this is a quick fix to make sure the nodes don't overlap, but they could look better
+func calculate_positions_in_radius_hex(
+	center_node: GenericWorldNode,
+	table_position: Vector2
+) -> Vector2:
+	var center_table_position: Vector2 = center_node.table_position
+	var table_offset = table_position - center_table_position
+	
+	# Hex grid conversion: offset coordinates to screen position
+	# Using flat-top hexagon layout
+	var hex_width = _seperation
+	var hex_height = _seperation * sqrt(3) / 2
+	
+	# Calculate screen offset based on hex grid
+	var offset_x = table_offset.x * hex_width * 0.75
+	var offset_y = table_offset.y * hex_height * 0.90 + (int(table_position.x) % 2) * hex_height * 0.5 - (int(center_table_position.x) % 2) * hex_height * 0.5
+	
+	var screen_position = center_node.global_position + Vector2(offset_x, offset_y)
+	
+	return screen_position
+
 func store_adjacent_table_positions(
 	_node: GenericWorldNode,
 	_node_distance: int,
@@ -122,6 +138,9 @@ func store_adjacent_table_positions(
 			if not _available_world_table_positions.has(_distance_to_root):
 				_available_world_table_positions[_distance_to_root] = {}
 			elif _available_world_table_positions[_distance_to_root].has(_table_position):
+				continue
+			elif _table_position.y <= 2:
+				## Avoid putting it too far up the screen
 				continue
 			if self.is_position_already_added(_table_position):
 				_available_world_table_positions[_distance_to_root].erase(_table_position)

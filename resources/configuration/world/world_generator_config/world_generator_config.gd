@@ -156,6 +156,8 @@ func generate_node(
 	return world_node_scene
 
 func get_min_node_distance() -> int:
+	if _inserted_min_distances.is_empty():
+		return -1
 	return _inserted_min_distances[0]
 	
 func get_max_distance() -> int:
@@ -168,6 +170,8 @@ func _get_random_weighted_table_index(
 	var _possible_distances: Array[int] =\
 		_inserted_distances.filter(func (_distance): return _distance <= distance)
 	if not _possible_distances:
+		if _debug_mode:
+			print("DEBUG: distance ", distance, " not in _inserted_distances: ", _inserted_distances)
 		push_warning("WARNING: distance ", distance, " not in _inserted_distances: ", _inserted_distances)
 		return -1
 	return _possible_distances.pick_random()
@@ -193,20 +197,24 @@ func _remove_from_possible_if_max_reached(
 ):
 	if not generated_history.has(id):
 		if _debug_mode:
-			print("Tried removing ", id, " but it's not in generated history so skipping!")
+			print("DEBUG: Tried removing ", id, " but it's not in generated history so skipping!")
 		return
 	var number_of_generated: int = generated_history[id]
 	if number_of_generated >= max_generated:
 		## remove
+		if _debug_mode:
+			print("DEBUG: removing dictionary_to_remove_from[", distance_to_remove_from ,"] index: ", index_in_distance_to_remove_from)
 		dictionary_to_remove_from[distance_to_remove_from].remove_item_by_index(index_in_distance_to_remove_from)
 		if not dictionary_to_remove_from[distance_to_remove_from].is_empty():
 			return
 		dictionary_to_remove_from.erase(distance_to_remove_from)
 		var index: int = inserted_distances.find(distance_to_remove_from)
 		if index >= 0:
+			if _debug_mode:
+				print("DEBUG: removing inserted_distances[",index, "]")
 			inserted_distances.remove_at(index)
 	if _debug_mode:
-		print("(", id, ", ", number_of_generated ,", ", max_generated, ")")
+		print("DEBUG: (", id, ", ", number_of_generated ,", ", max_generated, ")")
 
 func _initialize_world_node_scene(
 	world_node_scene: GenericWorldNode,

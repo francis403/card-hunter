@@ -119,3 +119,4 @@ script = ExtResource("16_fcw2b")
 available_world_nodes = Array[ExtResource("1_fdfpp")]([SubResource("Resource_mixv6"), SubResource("Resource_5upvb"), SubResource("Resource_4cwlo"), SubResource("Resource_qctsw")])
 available_generic_monsters = Array[ExtResource("1_fdfpp")]([SubResource("Resource_qam74"), SubResource("Resource_jb2wl"), SubResource("Resource_443fq")])
 available_boss_monsters = Array[ExtResource("1_fdfpp")]([SubResource("Resource_rn4cb")])
+max_distance_to_village = 3

@@ -17,6 +17,7 @@ script = ExtResource("1_3wacw")
 world_genator_config_generator = NodePath("RandomWorldGeneratorManager")
 
 [node name="RandomWorldGeneratorManager" parent="." index="0" instance=ExtResource("11_pkvgt")]
+_min_numbers_of_nodes_to_generate = 10
 
 [node name="Background" parent="." index="1"]
 mouse_filter = 2

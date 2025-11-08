@@ -34,6 +34,10 @@ text = "Deforge Card"
 layout_mode = 2
 text = "Forge Card"
 
+[node name="GenerateNewWorld" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "GenerateNewWorld"
+
 [node name="BossEncounter" type="Button" parent="VBoxContainer"]
 layout_mode = 2
 text = "TriggerBossEncounter"
@@ -51,6 +55,7 @@ text = "Complete Game"
 [connection signal="pressed" from="VBoxContainer/ChangeWeaponButton" to="." method="_on_change_weapon_button_pressed"]
 [connection signal="pressed" from="VBoxContainer/DeforgeCardButton" to="." method="_on_deforge_card_button_pressed"]
 [connection signal="pressed" from="VBoxContainer/ForgeCardButton" to="." method="_on_forge_card_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/GenerateNewWorld" to="." method="_on_generate_new_world_pressed"]
 [connection signal="pressed" from="VBoxContainer/BossEncounter" to="." method="_on_boss_encounter_pressed"]
 [connection signal="pressed" from="VBoxContainer/BossDefeated" to="." method="_on_expand_world_pressed"]
 [connection signal="pressed" from="VBoxContainer/GameComplete" to="." method="_on_game_complete_pressed"]
