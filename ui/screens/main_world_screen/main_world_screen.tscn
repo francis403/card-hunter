@@ -1,9 +1,10 @@
-[gd_scene load_steps=12 format=3 uid="uid://baqwuitia2ptv"]
+[gd_scene load_steps=13 format=3 uid="uid://baqwuitia2ptv"]
 
 [ext_resource type="Script" uid="uid://com2ygiomxuyk" path="res://ui/screens/main_world_screen/main_world_screen.gd" id="1_3wacw"]
 [ext_resource type="PackedScene" uid="uid://dqlmwbtf0bya2" path="res://ui/screens/generic_screen/generic_screen.tscn" id="1_eplf0"]
 [ext_resource type="PackedScene" uid="uid://dtut6u4j637u8" path="res://scenes/managers/world_background_generator/world_background_generator.tscn" id="3_rcgnw"]
 [ext_resource type="Texture2D" uid="uid://dpb5sngqwaanu" path="res://assets/images/world/grass/grass_1.png" id="4_3m13u"]
+[ext_resource type="PackedScene" uid="uid://btfacaclmd360" path="res://scenes/battle_scenes/grasshopper_alligator_test_scene/grasshopper_alligator_test_scene.tscn" id="4_eqfei"]
 [ext_resource type="PackedScene" uid="uid://b3x2sadw27m6s" path="res://ui/deck/draw_pile/deck_ui.tscn" id="5_yl1ki"]
 [ext_resource type="Resource" uid="uid://b0pr2kyi1t77m" path="res://resources/configuration/world/world_generator_config/world_generation_config_crab_and_spider_world.tres" id="6_55ot5"]
 [ext_resource type="PackedScene" uid="uid://cmurt2gatahso" path="res://ui/screen_components/WorldNodesGridTableComponent/world_nodes_table_component.tscn" id="8_hy27n"]
@@ -18,6 +19,7 @@ world_genator_config_generator = NodePath("RandomWorldGeneratorManager")
 
 [node name="RandomWorldGeneratorManager" parent="." index="0" instance=ExtResource("11_pkvgt")]
 _min_numbers_of_nodes_to_generate = 10
+_possible_boss_monsters = Array[PackedScene]([ExtResource("4_eqfei")])
 
 [node name="Background" parent="." index="1"]
 mouse_filter = 2

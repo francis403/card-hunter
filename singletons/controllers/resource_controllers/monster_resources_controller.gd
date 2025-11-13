@@ -91,6 +91,11 @@ func get_random_boss_monster() -> GenericMonster:
 	var random_monster: GenericMonster = _boss_monsters_list.pick_random()
 	return random_monster.duplicate()
 	
+func get_specific_boss_monster(monster_id: String) -> GenericMonster:
+	if not _monsters_in_game_dictionary[_BOSS_MONSTER_DICTIONARY_FIELD].has(monster_id):
+		return null
+	return _monsters_in_game_dictionary[_BOSS_MONSTER_DICTIONARY_FIELD][monster_id]
+	
 func get_all_scene_file_paths(path: String) -> Array[String]:  
 	var file_paths: Array[String] = []  
 	var dir = DirAccess.open(path)  

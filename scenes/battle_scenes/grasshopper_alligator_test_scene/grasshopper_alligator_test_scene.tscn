@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://btfacaclmd360"]
+
+[ext_resource type="PackedScene" uid="uid://dn1s6gbout3xc" path="res://scenes/battle_scenes/battle_generic_scene/battle_generic_scene.tscn" id="1_rxmc1"]
+[ext_resource type="PackedScene" uid="uid://devokujw4owrj" path="res://scenes/monsters/boss_monsters/grasshopper_alligator_monster/grasshopper_alligator_monster.tscn" id="2_770ao"]
+
+[node name="GrasshopperAlligatorTest" instance=ExtResource("1_rxmc1")]
+is_boss_battle = true
+
+[node name="Battlemap" parent="." index="4" node_paths=PackedStringArray("monsters")]
+monsters = [NodePath("../monsters/GrasshopperAligatorMonster")]
+
+[node name="GrasshopperAligatorMonster" parent="monsters" index="0" instance=ExtResource("2_770ao")]

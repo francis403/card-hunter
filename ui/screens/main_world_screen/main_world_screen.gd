@@ -55,8 +55,6 @@ func _on_world_boss_monster_encountered_signal():
 func _on_debug_mode_toggled(is_debug_mode_on: bool) -> void:
 	player_menu.visible = is_debug_mode_on
 
-## TODO: This is probably what is causing the issue
-## TODO: need to add some event_resource or something
 func _prep_boss_battle() -> EventScreen:
 	var result: EventScreen = EventScreen.new()
 	result.title_text = "Suddently Shadows"
@@ -76,7 +74,7 @@ func _on_world_generation_triggered():
 		return
 	world_nodes_table_component.generate_new_world(
 		world_genator_config_generator.generate_config(),
-		true
+		false
 	)
 
 func _on_world_node_screen_completed_signal(_advance_day: bool):

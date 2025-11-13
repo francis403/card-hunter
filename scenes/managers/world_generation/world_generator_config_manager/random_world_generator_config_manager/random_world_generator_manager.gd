@@ -9,9 +9,21 @@ class_name RandomWorldGeneratorConfigManager
 
 @export var _max_world_generation_depth: int = 3
 
+## Possible boss monsters to be generated. Leave empty for full random
+@export var _possible_boss_monsters: Array[PackedScene] = []
+@export var _allow_duplicate_boss_monsters: bool = false
+
+var _possible_boss_monsters_to_generates: Array[PackedScene] = []
+
 var _random_weight_options: Array[int] = [5, 10, 10, 20, 30, 30, 40]
 var _total_number_of_nodes_to_generate: int
 var _total_number_of_monsters_added: int = 0
+
+func _ready() -> void:
+	for _packed_scene: PackedScene in _possible_boss_monsters:
+		_possible_boss_monsters_to_generates.append(
+			_packed_scene
+		)
 
 func generate_config() -> WorldGeneratorConfig:
 	var _result: WorldGeneratorConfig = WorldGeneratorConfig.new()
@@ -22,9 +34,9 @@ func generate_config() -> WorldGeneratorConfig:
 		_min_numbers_of_nodes_to_generate,
 		_max_numbers_of_nodes_to_generate
 	)
-	## TODO: calculate number of other nodes
+	## Calculate number of other nodes
 	var _number_of_special_nodes: int = _calculate_number_of_special_nodes()
-	## TODO: calculate number of monsters hunt node
+	## Calculate number of monsters hunt node
 	var _number_of_hunt_nodes: int = _total_number_of_nodes_to_generate - _number_of_special_nodes
 	
 	_result.available_generic_monsters = _get_monsters_entity_generator_config(_number_of_hunt_nodes)
@@ -94,15 +106,31 @@ func _get_monsters_entity_generator_config(
 		)
 	return _result
 	
+	## TODO(FA): Fix this come on
 func _get_boss_monsters_entity_generator_config() -> Array[WorldEntityGeneratorConfig]:
 	var _result: Array[WorldEntityGeneratorConfig] = []
+	var _world_entity_config: WorldEntityGeneratorConfig = null
+	var _picked_boss_monster: PackedScene = null
 	
-	var _world_entity_config: WorldEntityGeneratorConfig = _generate_entity_generator_config(
-		MonsterResourcesController.get_random_boss_monster(), 1
+	if _possible_boss_monsters_to_generates.is_empty():
+		#_picked_boss_monster = MonsterResourcesController.get_random_boss_monster()
+		print("ERROR: Still to implement where we just gert the monster and create the scene from it")
+	elif _allow_duplicate_boss_monsters:
+		_picked_boss_monster = _possible_boss_monsters_to_generates.pick_random()
+	else:
+		_picked_boss_monster = _possible_boss_monsters_to_generates.pop_at(
+			randi_range(
+				0,
+				_possible_boss_monsters_to_generates.size() - 1
+			)
+		)
+	## TODO(FA): We need to generate the battle scene via the monster
+	_world_entity_config = _generate_packed_entity_generator_config(
+		_picked_boss_monster,
+		1
 	)
-	_result.append(
-		_world_entity_config
-	)
+	#remove_child(_battle_scene)
+	_result.append(_world_entity_config)
 	return _result
 	
 func _generate_entity_generator_config(

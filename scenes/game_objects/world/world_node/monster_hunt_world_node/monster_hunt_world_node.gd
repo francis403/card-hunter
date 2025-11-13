@@ -3,7 +3,7 @@ class_name MonsterHuntWorldNode
 
 const REVEALED_NODE_SPRITE = preload("res://assets/images/nodes/revealed_node.png")
 const UNKOWN_NODE_SPRITE = preload("res://assets/images/nodes/question_mark_node-transparent.png")
-#const BATTLE_GENERIC_SCENE = preload("res://scenes/battle_scenes/battle_generic_scene/battle_generic_scene.tscn")
+const BATTLE_GENERIC_SCENE = preload("res://scenes/battle_scenes/battle_generic_scene/battle_generic_scene.tscn")
 
 const MONSTERS_DICTIONARY_FIELD: String = "monsters"
 
@@ -47,20 +47,25 @@ func clear_monsters():
 	self.monster_texture_rect.visible = false
 	self.monsters_in_node.clear()
 
-func generate_battle_scene() -> BattleGenericScene:
-	var battle_scene: BattleGenericScene = on_click_scene.instantiate()
+func generate_battle_scene(
+	_is_boss_battle: bool = false
+) -> BattleGenericScene:
+	var battle_scene: BattleGenericScene = null
+	if on_click_scene:
+		battle_scene = on_click_scene.instantiate()
+	else:
+		battle_scene = BATTLE_GENERIC_SCENE.instantiate()
+	battle_scene.is_boss_battle = _is_boss_battle
 	battle_scene.monsters.clear()
 	battle_scene.set_world_node(self)
 	for monster in monsters_in_node:
 		battle_scene.monsters.append(monster)
 	return battle_scene
 
-
 func show_monster():
 	if monsters_in_node.size() > 0:
 		monster_texture_rect.texture = monsters_in_node[0].get_texture()
 		monster_texture_rect.visible = true
-
 
 func convert_node_to_dictionary() -> Dictionary:
 	var result: Dictionary = super.convert_node_to_dictionary()

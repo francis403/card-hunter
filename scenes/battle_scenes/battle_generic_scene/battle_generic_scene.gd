@@ -3,6 +3,8 @@ class_name BattleGenericScene
 
 const deck_visualizer_scene = preload("res://ui/deck/deck_visualizer/deck_visualizer.tscn")
 
+static var my_node_scene_path: String = "res://scenes/battle_scenes/battle_generic_scene/battle_generic_scene.tscn"
+
 @onready var game_over_screen: GameOverScreen = $GameOverScreen
 @onready var hand: Hand = $Hand
 @onready var battlemap: Battlemap = $Battlemap
