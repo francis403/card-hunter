@@ -48,8 +48,8 @@ monster_id = "giant_bat_monster"
 monster_texture = ExtResource("3_lcpgw")
 monster_config = SubResource("Resource_g6vab")
 debug_mode = true
-_health = 200
-_max_hp = 200
+_health = 150
+_max_hp = 150
 _speed = 2
 _strength = 33
 
