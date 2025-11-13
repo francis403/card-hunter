@@ -6,6 +6,7 @@
 [sub_resource type="Resource" id="Resource_gxuwc"]
 script = ExtResource("2_dwic2")
 area_type = 4
+ignore_occupied_tiles = true
 
 [resource]
 script = ExtResource("1_77oaw")

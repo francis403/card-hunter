@@ -78,7 +78,8 @@ func discard_card(
 	_card.reparent(cards_being_discarded_container)
 	update_hand_positions()
 	await self.play_discard_card_animation(_card)
-	_card.queue_free()
+	if _card and not _card.is_queued_for_deletion():
+		_card.queue_free()
 
 ## Play discard card animation for card in hand
 func play_discard_card_animation(card: Card):
