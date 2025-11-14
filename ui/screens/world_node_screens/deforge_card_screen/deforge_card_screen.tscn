@@ -1,113 +1,70 @@
-[gd_scene load_steps=25 format=3 uid="uid://c8t61ybgmkahs"]
+[gd_scene load_steps=27 format=3 uid="uid://c8t61ybgmkahs"]
 
-[ext_resource type="Script" path="res://ui/screens/world_node_screens/deforge_card_screen/deforge_card_screen.gd" id="1_nfouu"]
+[ext_resource type="Script" uid="uid://cjqeymxnv5doo" path="res://ui/screens/world_node_screens/deforge_card_screen/deforge_card_screen.gd" id="1_nfouu"]
 [ext_resource type="PackedScene" uid="uid://hked8dt7umpy" path="res://ui/screen_components/_general_componets/buttons/sound_button/sound_button.tscn" id="2_4dcgl"]
 [ext_resource type="PackedScene" uid="uid://dv0qtkor6s0de" path="res://ui/screen_components/deck_container_component/deck_container_component.tscn" id="2_6t7sd"]
 [ext_resource type="PackedScene" uid="uid://d3vhms6yk456c" path="res://scenes/game_objects/cards/card/card.tscn" id="2_lj3tc"]
 [ext_resource type="Theme" uid="uid://bxlatu18hbfeu" path="res://assets/themes/generic_theme_1.tres" id="2_r2luk"]
-[ext_resource type="Script" path="res://resources/card/card_resource_v2/card_resource_v2.gd" id="3_jpurv"]
+[ext_resource type="Script" uid="uid://bsspisl6hdkmh" path="res://resources/card/card_resource_v2/card_resource_v2.gd" id="3_jpurv"]
 [ext_resource type="AudioStream" uid="uid://d4nqs2kfg56mh" path="res://assets/sound/sound_effects/knifeSlice.ogg" id="4_ggqec"]
 [ext_resource type="Resource" uid="uid://d37hu1uhqsq3o" path="res://resources/card/card_resource_v2/_card_resources_v2/attack_cards/long_slice_card_1.tres" id="5_k6nq3"]
-[ext_resource type="Script" path="res://resources/card/card_resource_v2/card_effect/card_effect.gd" id="5_muvp3"]
-[ext_resource type="Script" path="res://resources/card/card_resource_v2/card_effect/_card_effects/attack_card_effect/attack_card_effect.gd" id="6_wn2vl"]
-[ext_resource type="Script" path="res://resources/configuration/tile_highlight_configuration/tile_highlight_configuration.gd" id="7_44w0f"]
-[ext_resource type="Script" path="res://resources/card/card_resource_v2/card_effect/_card_effects/condition_card_effect/condition_card_effect.gd" id="8_0cvub"]
-[ext_resource type="Script" path="res://resources/card/card_resource_v2/card_effect/_card_effects/status_change_card_effect/status_change_card_effect.gd" id="9_mynou"]
-[ext_resource type="Script" path="res://resources/configuration/effect_configs/status_modifier_config/status_modifier_config.gd" id="10_ka3ih"]
-[ext_resource type="Script" path="res://resources/card/card_resource_v2/condition/condition.gd" id="11_ww188"]
-[ext_resource type="Script" path="res://resources/card/card_resource_v2/special_card_effect/special_card_effect_resource.gd" id="12_40esa"]
+[ext_resource type="Script" uid="uid://clo7yb32ydt37" path="res://resources/card/card_resource_v2/card_effect/card_effect.gd" id="5_muvp3"]
+[ext_resource type="Script" uid="uid://dpymrf8md1jo1" path="res://resources/card/card_resource_v2/card_effect/_card_effects/attack_card_effect/attack_card_effect.gd" id="6_wn2vl"]
+[ext_resource type="Texture2D" uid="uid://bgcpanftu2lor" path="res://assets/images/card/card_main_image/exclamation_mark.png" id="7_8xv1u"]
+[ext_resource type="Script" uid="uid://clufwv38rhs7a" path="res://resources/configuration/tile_highlight_configuration/tile_highlight_configuration.gd" id="7_44w0f"]
+[ext_resource type="Script" uid="uid://chyqcjvfndbak" path="res://resources/card/card_resource_v2/card_effect/_card_effects/condition_card_effect/condition_card_effect.gd" id="8_0cvub"]
+[ext_resource type="Script" uid="uid://qs3ypqmnyc18" path="res://resources/card/card_resource_v2/card_effect/_card_effects/status_change_card_effect/status_change_card_effect.gd" id="9_mynou"]
+[ext_resource type="Script" uid="uid://dscx6wxqge05q" path="res://resources/configuration/effect_configs/status_modifier_config/status_modifier_config.gd" id="10_ka3ih"]
+[ext_resource type="Script" uid="uid://0ehgq0gu1n0f" path="res://resources/card/card_resource_v2/condition/condition.gd" id="11_ww188"]
+[ext_resource type="Script" uid="uid://gcdjt0hw3kpk" path="res://resources/card/card_resource_v2/special_card_effect/special_card_effect_resource.gd" id="12_40esa"]
 [ext_resource type="PackedScene" uid="uid://c88o0llv6xfgp" path="res://ui/screen_components/card_module/card_modules_container_component/card_modules_container_component.tscn" id="15_u7acp"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_8xv1u"]
+font_size = 32
 
 [sub_resource type="Resource" id="Resource_eaid7"]
 script = ExtResource("7_44w0f")
-_range = 1
-min_range = 0.0
 area_type = 4
-ignore_occupied_tiles = false
-ignore_origin = true
-ignore_corners = false
-ignore_non_corners = false
-ignore_tiles_with_effects = false
-ignore_north_tiles = false
-ignore_south_tiles = false
-ignore_east_tiles = false
-ignore_west_tiles = false
-use_specific_tile_location_config = false
-ignore_tiles_close_to_origin = false
-ignore_tiles_away_from_origin = false
-ignore_tiles_same_distance_from_origin = false
 
 [sub_resource type="Resource" id="Resource_h7exl"]
 script = ExtResource("6_wn2vl")
 damage = 5
 tile_highlight_config = SubResource("Resource_eaid7")
-center_piece = 0
-update_next_card_effect_data = true
-top_section_background_color = Color(0.124, 0.15, 0.153, 1)
-bottom_section_background_color = Color(0.384, 0.384, 0.384, 1)
-id = ""
 title = "Deal 5 damage"
-stamina_cost = 5
-default_top_section_background_color = Color(0.124, 0.15, 0.153, 1)
-default_bottom_section_background_color = Color(0.384, 0.384, 0.384, 1)
 
 [sub_resource type="Resource" id="Resource_x7swj"]
 script = ExtResource("8_0cvub")
 condition = 1
 specific_monster_body_part = 5
-update_next_card_effect_data = true
-top_section_background_color = Color(0.124, 0.15, 0.153, 1)
-bottom_section_background_color = Color(0.384, 0.384, 0.384, 1)
-id = ""
 title = "On Back Hit"
 stamina_cost = -5
-default_top_section_background_color = Color(0.124, 0.15, 0.153, 1)
-default_bottom_section_background_color = Color(0.384, 0.384, 0.384, 1)
 
 [sub_resource type="Resource" id="Resource_1dtx7"]
 script = ExtResource("6_wn2vl")
-damage = 10
-center_piece = 0
-update_next_card_effect_data = true
-top_section_background_color = Color(0.124, 0.15, 0.153, 1)
-bottom_section_background_color = Color(0.384, 0.384, 0.384, 1)
-id = ""
 title = "Deal 10 Melee Damage"
 stamina_cost = 10
-default_top_section_background_color = Color(0.124, 0.15, 0.153, 1)
-default_bottom_section_background_color = Color(0.384, 0.384, 0.384, 1)
 
 [sub_resource type="Resource" id="Resource_te4mr"]
 script = ExtResource("10_ka3ih")
 stat = 1
-operation = 0
 value = 5.0
 
 [sub_resource type="Resource" id="Resource_86uck"]
 script = ExtResource("9_mynou")
 status_modifier_config = SubResource("Resource_te4mr")
-update_next_card_effect_data = true
-top_section_background_color = Color(0.124, 0.15, 0.153, 1)
-bottom_section_background_color = Color(0.384, 0.384, 0.384, 1)
-id = ""
 title = "Recover 5 stamina"
 stamina_cost = 0
-default_top_section_background_color = Color(0.124, 0.15, 0.153, 1)
-default_bottom_section_background_color = Color(0.384, 0.384, 0.384, 1)
 
-[sub_resource type="Resource" id="Resource_1mow1"]
+[sub_resource type="Resource" id="Resource_i44mb"]
 resource_local_to_scene = true
 script = ExtResource("3_jpurv")
 id = "back_stab_1"
 title = "Back Stab"
-rarity = 0
 description = "Deal 5 damage.
 On Back attacked: Deal another 10, and recover 5 stamina. "
 stamina_cost = 10
 tag_array = Array[String](["attack"])
-play_conditions = Array[ExtResource("11_ww188")]([])
 play_actions = Array[ExtResource("5_muvp3")]([SubResource("Resource_h7exl"), SubResource("Resource_x7swj"), SubResource("Resource_1dtx7"), SubResource("Resource_86uck")])
-special_effects = Array[ExtResource("12_40esa")]([])
 audio_stream = ExtResource("4_ggqec")
 
 [node name="DeforgeCardScreen" type="Control"]
@@ -131,18 +88,29 @@ theme = ExtResource("2_r2luk")
 [node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer"]
 layout_mode = 2
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="PanelContainer/VBoxContainer"]
+[node name="PagerHeaderContainer" type="HBoxContainer" parent="PanelContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="PanelContainer/VBoxContainer/HBoxContainer2"]
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer/VBoxContainer/PagerHeaderContainer"]
 layout_mode = 2
+size_flags_horizontal = 3
 theme_override_constants/margin_left = 10
 theme_override_constants/margin_top = 10
 
-[node name="BackButton" parent="PanelContainer/VBoxContainer/HBoxContainer2/MarginContainer" instance=ExtResource("2_4dcgl")]
+[node name="BackButton" parent="PanelContainer/VBoxContainer/PagerHeaderContainer/MarginContainer" instance=ExtResource("2_4dcgl")]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
 text = "Back"
+
+[node name="Page Title" type="Label" parent="PanelContainer/VBoxContainer/PagerHeaderContainer/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 6
+theme = ExtResource("2_r2luk")
+text = "Deforge Card"
+label_settings = SubResource("LabelSettings_8xv1u")
+horizontal_alignment = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/VBoxContainer"]
 layout_mode = 2
@@ -157,7 +125,7 @@ size_flags_stretch_ratio = 3.0
 unique_name_in_owner = true
 layout_mode = 2
 listen_for_card_clicks = true
-deck = Array[ExtResource("3_jpurv")]([SubResource("Resource_1mow1"), ExtResource("5_k6nq3")])
+deck = Array[ExtResource("3_jpurv")]([SubResource("Resource_i44mb"), ExtResource("5_k6nq3")])
 grid_column_size = 2
 
 [node name="CardToDeforge" type="MarginContainer" parent="PanelContainer/VBoxContainer/HBoxContainer"]
