@@ -2,7 +2,7 @@
 
 [ext_resource type="Theme" uid="uid://bxlatu18hbfeu" path="res://assets/themes/generic_theme_1.tres" id="1_b8lqu"]
 [ext_resource type="PackedScene" uid="uid://d3vhms6yk456c" path="res://scenes/game_objects/cards/card/card.tscn" id="1_jnrqc"]
-[ext_resource type="Script" path="res://ui/battlemap/player/discard_card_ui/discard_card_ui.gd" id="1_lasxw"]
+[ext_resource type="Script" uid="uid://c0dbeloht6x5m" path="res://ui/battlemap/player/discard_card_ui/discard_card_ui.gd" id="1_lasxw"]
 [ext_resource type="PackedScene" uid="uid://hked8dt7umpy" path="res://ui/screen_components/_general_componets/buttons/sound_button/sound_button.tscn" id="3_t7avb"]
 
 [node name="DiscardCardUI" type="MarginContainer"]

@@ -15,6 +15,12 @@ func _ready() -> void:
 	BattlemapSignals.player_health_changed.connect(_on_player_health_changed)
 	_initialize_player_stats()
 
+func _initialize_player_stats():
+	var _player_health: int = PlayerController.current_player_health
+	player_health_label.text = str(_player_health) + "/" + str(100)
+	health_progress_bar.value = _player_health
+	_animate_health_bar_based_on_percentage(_player_health)
+
 func _on_player_stamina_changed(_current_stamina: int):
 	_animate_progress_bar(stamina_progress_bar, _current_stamina)
 	player_stamina_label.text = str(_current_stamina) + "/" + str(50)
@@ -28,6 +34,15 @@ func _on_player_health_changed(_current_health: int):
 	elif _critical_health_effect_tween and _critical_health_effect_tween.is_running():
 		_critical_health_effect_tween.kill()
 		
+func _animate_health_bar_based_on_percentage(
+	_current_health: int
+) -> void:
+	var percentage: float = _current_health/100
+	if percentage < _critical_health_range:
+		_add_critical_health_effect()
+	elif _critical_health_effect_tween and _critical_health_effect_tween.is_running():
+		_critical_health_effect_tween.kill()
+	
 func _animate_progress_bar(_progress_bar: ProgressBar, value: int):
 	# Animate the change
 	var tween = create_tween()
@@ -44,6 +59,3 @@ func _add_critical_health_effect():
 	_critical_health_effect_tween.set_loops()
 	_critical_health_effect_tween.tween_property(health_progress_bar, "modulate:a", 0.5, 0.5)
 	_critical_health_effect_tween.tween_property(health_progress_bar, "modulate:a", 1.0, 0.5)
-
-func _initialize_player_stats():
-	player_health_label.text = str(PlayerController.current_player_health) + "/" + str(100)

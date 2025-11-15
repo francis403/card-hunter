@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://c8odj6fo4oi7c"]
 
-[ext_resource type="Script" path="res://ui/battlemap/player/player_stats/player_stats_ui.gd" id="1_h542a"]
+[ext_resource type="Script" uid="uid://ivi8ea2hqaxa" path="res://ui/battlemap/player/player_stats/player_stats_ui.gd" id="1_h542a"]
 [ext_resource type="Texture2D" uid="uid://c8tnqo3lekynj" path="res://assets/images/icons/player_stats/hearth_1.png" id="2_6x40f"]
 [ext_resource type="Theme" uid="uid://dleg6fota3kqt" path="res://assets/themes/player_stats_ui/player_stats_health.tres" id="3_ul362"]
 [ext_resource type="Theme" uid="uid://b7aymmo75dupe" path="res://assets/themes/player_stats_ui/player_stats_stamina.tres" id="4_27dpb"]
