@@ -22,13 +22,15 @@ func save():
 	file.store_var(save_data)
 	
 func load_save_file():
-	if !FileAccess.file_exists(SAVE_FILE_PATH):
+	if not self.has_save_file():
 		return
 	var file = FileAccess.open(SAVE_FILE_PATH, FileAccess.READ)
 	save_data = file.get_var()
 	load_settings()
 	load_progress()
-	
+
+func has_save_file() -> bool:
+	return FileAccess.file_exists(SAVE_FILE_PATH)
 
 func change_settings():
 	save_data["settings"]["volume"] = settings.volume

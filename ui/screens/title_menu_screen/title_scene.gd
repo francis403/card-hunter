@@ -3,10 +3,12 @@ class_name TitleScreenScene
 
 @onready var settings_screen: PanelContainer = $SettingsScreen
 @onready var menu_container: Menu = $MenuContainer
+@onready var continue_button: SoundButton = %Continue
 
 func _ready() -> void:
 	super._ready()
-	
+	if not File.has_save_file():
+		continue_button.disabled = true
 
 func _on_new_game_pressed() -> void:
 	File.delete_save()

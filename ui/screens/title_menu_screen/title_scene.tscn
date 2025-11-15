@@ -1,7 +1,7 @@
 [gd_scene load_steps=8 format=3 uid="uid://csbkict33rdjb"]
 
-[ext_resource type="Script" path="res://scripts/ui/menu/menu.gd" id="1_6syln"]
-[ext_resource type="Script" path="res://ui/screens/title_menu_screen/title_scene.gd" id="1_53urg"]
+[ext_resource type="Script" uid="uid://c8rcwjbjh7om" path="res://scripts/ui/menu/menu.gd" id="1_6syln"]
+[ext_resource type="Script" uid="uid://cthyg30011ws7" path="res://ui/screens/title_menu_screen/title_scene.gd" id="1_53urg"]
 [ext_resource type="Texture2D" uid="uid://cmoh263d11oxa" path="res://assets/images/background/ai-generated-background.webp" id="1_n70oj"]
 [ext_resource type="Theme" uid="uid://dmot8ul1c5l3n" path="res://assets/themes/theme_1.tres" id="2_a7ane"]
 [ext_resource type="AudioStream" uid="uid://dwcjod037iqrj" path="res://assets/sound/background_music/One Man Symphony - Collateral Damage (Free) - 15 CyberRace Theme 02.mp3" id="2_uom3r"]
