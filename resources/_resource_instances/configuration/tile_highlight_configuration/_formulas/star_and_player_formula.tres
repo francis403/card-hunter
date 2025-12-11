@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="Formula" load_steps=2 format=3 uid="uid://bliu6syjs1h3"]
+
+[ext_resource type="Script" uid="uid://bykm1sfwrcmbx" path="res://resources/configuration/tile_highlight_configuration/formula/formula.gd" id="1_ukuma"]
+
+[resource]
+script = ExtResource("1_ukuma")
+_formula = "( (y == x || y == -x) || (y == p_y && x == p_x) ) "
+metadata/_custom_type_script = "uid://bykm1sfwrcmbx"

@@ -93,27 +93,16 @@ func highligh_tiles_radius(
 	var radius = config._range
 	for radius_x in range(-radius, radius + 1):
 		for radius_y in range(-radius, radius + 1):
-			var tile_x = x + radius_x
-			var tile_y = y + radius_y
-			var radius_distance: int = abs(radius_x) + abs(radius_y)
-			var furthest_square_distance: int = max(abs(radius_x), abs(radius_y))
-			var tile: Tile = BattleController.get_tile(tile_x, tile_y)
-			if not tile:
+			var _tile_x = x + radius_x
+			var _tile_y = y + radius_y
+			var _tile: Tile = BattleController.get_tile(_tile_x, _tile_y)
+			if not config.is_tile_valid(
+				source_tile,
+				Vector2(radius_x, radius_y)
+			):
 				continue
-			if config.ignore_origin and radius_distance == 0:
-				continue
-			if furthest_square_distance <= config.min_range :
-				continue
-			if config.ignore_corners and radius_distance > radius:
-				continue
-			if config.ignore_non_corners and abs(radius_x) != abs(radius_y):
-				continue 
-			if config.ignore_tiles_with_effects and tile.has_effect():
-				continue
-			if config._specific_tile_location_config_match(tile):
-				continue
-			highlighted_tiles.append(tile)
-			_make_tile_clickable(tile_x, tile_y, config)
+			highlighted_tiles.append(_tile)
+			_make_tile_clickable(_tile_x, _tile_y, config)
 	return highlighted_tiles
 
 func highligh_tiles_cross(

@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://w530cnkei473"]
+[gd_scene load_steps=30 format=3 uid="uid://w530cnkei473"]
 
 [ext_resource type="PackedScene" uid="uid://b77dqwv8b42lt" path="res://scenes/monsters/generic_monster/generic_monster.tscn" id="1_ayxpp"]
 [ext_resource type="Script" uid="uid://b4xbgb71g48ym" path="res://scenes/monsters/generic_monsters/spider_monster/spider_monster.gd" id="2_bi3n2"]
@@ -20,7 +20,9 @@
 [ext_resource type="Script" uid="uid://bbawf6m7784ju" path="res://resources/monster/state/player_range_state_change_condition/player_range_state_change_condition.gd" id="16_v1bxf"]
 [ext_resource type="PackedScene" uid="uid://cje0q5xds21f7" path="res://scenes/monsters/monster_body_parts/body_parts/back_body_part/back_body_part.tscn" id="19_6e4ta"]
 [ext_resource type="Script" uid="uid://clufwv38rhs7a" path="res://resources/configuration/tile_highlight_configuration/tile_highlight_configuration.gd" id="19_ft8bc"]
+[ext_resource type="Script" uid="uid://bykm1sfwrcmbx" path="res://resources/configuration/tile_highlight_configuration/formula/formula.gd" id="19_r8dtd"]
 [ext_resource type="PackedScene" uid="uid://c7xqpe3snou7" path="res://scenes/monsters/monster_body_parts/body_parts/head_body_part/head_body_part.tscn" id="20_b80na"]
+[ext_resource type="Resource" uid="uid://bliu6syjs1h3" path="res://resources/_resource_instances/configuration/tile_highlight_configuration/_formulas/star_and_player_formula.tres" id="20_l1nlb"]
 
 [sub_resource type="Resource" id="Resource_mva3q"]
 script = ExtResource("4_axrlo")
@@ -49,9 +51,9 @@ smaller_than_state = "MoveAndSingleAttackState"
 
 [sub_resource type="Resource" id="Resource_r8dtd"]
 script = ExtResource("19_ft8bc")
+_range = 2
 area_type = 4
-use_specific_tile_location_config = true
-ignore_tiles_same_distance_from_origin = true
+formulas = Array[ExtResource("19_r8dtd")]([ExtResource("20_l1nlb")])
 metadata/_custom_type_script = "uid://clufwv38rhs7a"
 
 [node name="SpiderMonster" instance=ExtResource("1_ayxpp")]
