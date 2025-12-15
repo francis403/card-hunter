@@ -32,11 +32,17 @@ var base_speed: int
 ## In bigger monters they have more than one tile
 var _tile: Tile:
 	set(value):
+		if _tile:
+			previous_tile = _tile.clone()
+		#previous_tile = _tile.duplicate() if _tile else null
 		_tile = value
 		_front_tile = Vector2(
 			_tile._x_position - 1,
 			_tile._y_position
 		)
+
+## Store the position of the monster's previous tile
+var previous_tile: Tile = null
 
 ## TODO: implement this
 ## Represents the position of the tile right in front of the monster head 
@@ -48,7 +54,7 @@ func _init() -> void:
 func set_piece_tile(tile: Tile):
 	if self._tile:
 		self._tile.piece_in_tile = null
-	_tile = tile
+	self._tile = tile
 
 
 func apply_damage(

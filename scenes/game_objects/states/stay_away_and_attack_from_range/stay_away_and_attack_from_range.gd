@@ -2,57 +2,21 @@ extends StateWithMovement
 class_name StayAwayAndAttackFromRangeState
 
 @export var _range: int = 2
-
-
-func exit_state():
-	pass
 	
-func do_state_action():
-	super.do_state_action()
 	
-	var distance_to_player = MovementUtils.distance_between_tiles(
-		monster.next_move if monster.next_move else monster._tile,
-		target._tile
-	)
-	# only show when able to attack player
-	if distance_to_player > _range:
-		BattlemapSignals.clear_attack_highlight_tiles.emit()
-		return
-		
-	self.do_attack()
-	
-func do_movement():
-	var next_turn_move_tile: Tile = monster.next_move
-	
-	if next_turn_move_tile:
-		BattleController.battlemap.place_piece_in_tile(monster, next_turn_move_tile)
-	
-	next_turn_move_tile = MovementUtils.move_away_from_tile(
-		monster._tile,
-		target._tile,
-		monster._speed,
-		_range
-	)
-	
-	BattlemapSignals.monster_prepared_move.emit(
-		next_turn_move_tile
-	)
-	
-	self.check_and_apply_state_change_action()
-	
-func do_attack():
-	do_preview_action()
-	
-## TODO: add this default fumction to the parent
-func do_preview_action(recalculate_move: bool = false) -> void:
-	if monster.next_move and recalculate_move:
+func do_action():
+	if monster.next_move:
 		monster.next_move = null
-		self.do_movement()
 	var source_tile: Tile = monster.next_move
 	if not source_tile:
 		source_tile = monster._tile
 	highlight_attack_tiles(source_tile)
-
+	
+func do_calculate_next_action() -> bool:
+	if distance_to_player > _range:
+		BattlemapSignals.clear_attack_highlight_tiles.emit()
+		return false
+	return super.do_calculate_next_action()
 
 func highlight_attack_tiles(source_tile: Tile):
 	# clean old attacked tiles

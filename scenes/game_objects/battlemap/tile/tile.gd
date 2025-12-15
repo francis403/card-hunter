@@ -135,3 +135,14 @@ func _on_mouse_exited() -> void:
 	if not piece_in_tile:
 		return
 	piece_in_tile.on_mouse_hover_exit()
+	
+func clone() -> Tile:
+	var _result: Tile = Tile.new()
+	_result._x_position = self._x_position
+	_result._y_position = self._y_position
+	_result._x_size = self._x_size
+	_result._y_size = self._y_size
+	_result.is_tile_attacked = self.is_tile_attacked
+	_result.piece_in_tile = self.piece_in_tile
+	_result._show_if_tile_is_occupied = self._show_if_tile_is_occupied
+	return _result

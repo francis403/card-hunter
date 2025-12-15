@@ -60,7 +60,7 @@ signal monster_hp_changed(new_hp: int, max_hp: int)
 signal monster_prepared_move(tile: Tile)
 signal monster_prepared_attack(attacked_tiles: Array[Tile])
 signal monster_died
-signal monster_moved_by_player(new_tile: Tile)
+signal monster_moved_by_player(new_tile: Tile) ## Is this being used??
 signal monster_body_part_attacked(monster: MonsterPiece, bodyPart: BodyPart)
 
 

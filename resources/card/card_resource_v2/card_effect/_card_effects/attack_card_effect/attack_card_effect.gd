@@ -50,5 +50,7 @@ func clean_card_effect() -> void:
 		piece_attacked.disconnect("body_part_hit", _on_monster_body_part_hit)
 
 func revert_card_effect() -> bool:
+	if not piece_attacked or piece_attacked.is_queued_for_deletion():
+		return false
 	piece_attacked.apply_damage(damage_dealt * -1, null, false)
 	return true

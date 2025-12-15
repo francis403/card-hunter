@@ -83,6 +83,15 @@ func discard_card_from_player(_card: Card) -> void:
 	player.discard_card_from_hand(_card)
 	await player_hand.discard_card(_card)
 
+## TODO: Investigate if we need this
+func get_range_tiles(
+	source_tile: Tile,
+	config: TileHighlightConfig
+) -> Array[Tile]:
+	if not battlemap:
+		return []
+	return battlemap.get_range_tiles(source_tile, config)
+
 # SIGNALS
 
 func _on_player_turn_ended():

@@ -20,14 +20,18 @@ var tile_scene: PackedScene = preload("res://scenes/game_objects/battlemap/tile/
 
 var grid_array = []
 
+
+func get_grid_highlight_manager() -> GridHighlightManager:
+	return _grid_highlight_manager
+	
 func clear_highlighted_tiles():
 	BattlemapSignals.clear_attack_highlight_tiles.emit()
 	
 func highlight_tiles(
 	source_tile: Tile,
 	config: TileHighlightConfig
-):
-	_grid_highlight_manager.highlight_tiles(source_tile, config)
+) ->  Array[Tile]:
+	return _grid_highlight_manager.highlight_tiles(source_tile, config)
 
 func highlight_move_tiles(
 	source_tile: Tile,
@@ -43,13 +47,14 @@ func highlight_attack_tiles(
 	config.is_tile_attacked = true
 	highlight_tiles(source_tile, config)
 
-func get_monster_range_tiles(
+## TODO: Do we need this? 
+func get_range_tiles(
 	source_tile: Tile,
 	config: TileHighlightConfig
-):
-	config.make_tile_clickable = false
-	var result: Array = highlight_tiles(source_tile, config)
-	BattlemapSignals.monster_range_tiles_generated.emit(result)
+) -> Array[Tile]:
+	if not _grid_highlight_manager:
+		return []
+	return highlight_tiles(source_tile, config)
 
 func _ready() -> void:
 	_generate_battlemap()

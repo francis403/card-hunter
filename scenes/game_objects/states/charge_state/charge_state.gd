@@ -13,19 +13,31 @@ class_name ChargeState
 var has_highleted_charge_tiles: bool = false
 var next_turn_move_tile: Tile = null
 
-func enter_state():
-	super.enter_state()
-	print(enter_state)
-	self.do_state_action()
+#func enter_state():
+	#super.enter_state()
+	#print(enter_state)
+	#self.do_state_action()
 	
-func do_state_action():
-	super.do_state_action()
-	print(do_state_action)
+#func do_state_action():
+	#super.do_state_action()
+	#print(do_state_action)
+	#if not has_highleted_charge_tiles and highlight_moved_through_tiles:
+		#_highlight_charge_tiles()
+		#return
+	#charge()
+	#self.changed_state.emit(self, state_after_charging)
+
+func do_action():
 	if not has_highleted_charge_tiles and highlight_moved_through_tiles:
-		_highlight_charge_tiles()
 		return
 	charge()
+
+func do_calculate_next_action() -> bool:
+	if not has_highleted_charge_tiles and highlight_moved_through_tiles:
+		_highlight_charge_tiles()
+		return false
 	self.changed_state.emit(self, state_after_charging)
+	return true
 
 func _highlight_charge_tiles():
 	# clean old attacked tiles

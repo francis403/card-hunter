@@ -25,21 +25,20 @@ class_name ShootSpiderWebsIfWithinRange
 var target_tile: Tile = null
 var is_player_hit: bool = false
 
-func enter_state():
+func enter_state(
+	_state_action_config: StateActionConfig = StateActionConfig.new()
+):
 	super.enter_state()
 	print(enter_state)
 	target_tile = BattleController.get_player()._tile
 	highlight_tile(target_tile)
 
-func do_state_action():
+func do_state_action(
+	_state_action_config: StateActionConfig = StateActionConfig.new()
+):
 	super.do_state_action()
 	print(do_state_action)
 	BattlemapSignals.clear_attack_highlight_tiles.emit()
-	
-	#BattlemapSignals.add_effect_type_to_tile.emit(
-		#tile_effect_type,
-		#target_tile
-	#)
 	if target_tile and tile_effect_resource.tile_effect_controller:
 		var tile_effect_controller: BaseTileEffectController =\
 			tile_effect_resource.tile_effect_controller.instantiate()
@@ -48,8 +47,6 @@ func do_state_action():
 			tile_effect_controller
 		)
 	
-	#is_player_hit = target.has_power_effect(status_id)
-	#is_player_hit = false
 	is_player_hit = target.has_power_effect(
 		tile_effect_resource.power_effect.id
 	)
@@ -60,8 +57,8 @@ func do_state_action():
 		if close_range_state != "":
 			self.changed_state.emit(self, close_range_state)
 			return
-	## Oherwise, if player is not hit calculete the next target tile and behaviour
-	var is_state_changed: bool = self.check_and_apply_state_change_action()
+	## Oherwise, if player is not hit calculate the next target tile and behaviour
+	var is_state_changed: bool = self.do_calculate_next_action()
 	if is_state_changed:
 		BattlemapSignals.clear_attack_highlight_tiles.emit()
 		return

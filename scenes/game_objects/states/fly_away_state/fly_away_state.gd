@@ -6,14 +6,6 @@ class_name FlyAwayState
 
 var next_turn_move_tile: Tile = null
 
-func enter_state():
-	super.enter_state()
-	print(enter_state)
-	self.do_state_action()
-	
-func do_state_action():
-	super.do_state_action()
-
 func do_movement():
 	if next_turn_move_tile:
 		BattleController.battlemap.place_piece_in_tile(monster, next_turn_move_tile)
@@ -31,6 +23,4 @@ func do_movement():
 	if not next_turn_move_tile:
 		self.changed_state.emit(self, state_after_flying)
 		return
-	BattlemapSignals.monster_prepared_move.emit(
-		next_turn_move_tile
-	)
+	monster.next_move = next_turn_move_tile

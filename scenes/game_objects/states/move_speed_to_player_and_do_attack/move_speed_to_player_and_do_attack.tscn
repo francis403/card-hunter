@@ -1,17 +1,11 @@
-[gd_scene load_steps=4 format=3 uid="uid://xrdhr3l1djpf"]
+[gd_scene load_steps=5 format=3 uid="uid://xrdhr3l1djpf"]
 
-[ext_resource type="Script" path="res://scenes/game_objects/states/move_speed_to_player_and_do_attack/move_speed_to_player_and_do_attack.gd" id="1_r2skc"]
-[ext_resource type="Script" path="res://resources/configuration/tile_highlight_configuration/tile_highlight_configuration.gd" id="2_gqybm"]
+[ext_resource type="Script" uid="uid://byml8wls42vdh" path="res://scenes/game_objects/states/move_speed_to_player_and_do_attack/move_speed_to_player_and_do_attack.gd" id="1_r2skc"]
+[ext_resource type="Script" uid="uid://clufwv38rhs7a" path="res://resources/configuration/tile_highlight_configuration/tile_highlight_configuration.gd" id="2_gqybm"]
+[ext_resource type="Script" uid="uid://bykm1sfwrcmbx" path="res://resources/configuration/tile_highlight_configuration/formula/formula.gd" id="2_m4on5"]
 
 [sub_resource type="Resource" id="Resource_7pw7y"]
 script = ExtResource("2_gqybm")
-range = 1
-min_range = 0.0
-area_type = 0
-ignore_occupied_tiles = false
-ignore_origin = true
-ignore_corners = false
-ignore_tiles_with_effects = false
 
 [node name="MoveSpeedToPlayerAndDoAttack" type="Node"]
 script = ExtResource("1_r2skc")

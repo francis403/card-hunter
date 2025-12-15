@@ -9,17 +9,18 @@ var number_of_active_turns: int = 0
 
 signal changed_state(state: State, new_state: String)
 
-func enter_state():
+func enter_state(
+	_state_action_config: StateActionConfig = StateActionConfig.new()
+):
 	number_of_active_turns = 0
-	
-func exit_state():
-	pass
-	
-func do_state_action():
+
+func do_state_action(
+	_state_action_config: StateActionConfig = StateActionConfig.new()
+):
 	number_of_active_turns += 1
 
-func highlight_attack_action():
+func exit_state():
 	pass
 
-func do_preview_action(_recalculate_move: bool = false) -> void:
+func highlight_attack_action():
 	pass

@@ -1,5 +1,6 @@
-[gd_resource type="Resource" script_class="MoveOtherCardEffect" load_steps=5 format=3 uid="uid://don2d3okfgy06"]
+[gd_resource type="Resource" script_class="MoveOtherCardEffect" load_steps=6 format=3 uid="uid://don2d3okfgy06"]
 
+[ext_resource type="Script" uid="uid://bykm1sfwrcmbx" path="res://resources/configuration/tile_highlight_configuration/formula/formula.gd" id="1_3ni8q"]
 [ext_resource type="Script" uid="uid://clufwv38rhs7a" path="res://resources/configuration/tile_highlight_configuration/tile_highlight_configuration.gd" id="1_iwbcj"]
 [ext_resource type="Script" uid="uid://ba1pyljxjgnij" path="res://resources/card/card_resource_v2/card_effect/_card_effects/move_other_card_effect/move_other_card_effect.gd" id="2_ldnnv"]
 

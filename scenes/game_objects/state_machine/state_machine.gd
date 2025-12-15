@@ -19,18 +19,16 @@ func _ready() -> void:
 		initial_state.enter_state()
 		current_state = initial_state
 			
-func do_state_action():
+func do_state_action(
+	_state_action_config: StateActionConfig = StateActionConfig.new()
+):
 	if current_state:
-		current_state.do_state_action()
+		current_state.do_state_action(_state_action_config)
 
 func get_state_icon() -> Texture2D:
 	if current_state:
 		return current_state.state_icon
 	return null
-
-func do_preview_action(recalculate_move: bool = false):
-	if current_state:
-		current_state.do_preview_action(recalculate_move)
 
 func _on_state_change(state: State, new_state_name: String):
 	if state != current_state:

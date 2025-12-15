@@ -43,9 +43,19 @@ func play_monster_turn():
 	state_machine.do_state_action()
 	self.end_monster_turn()
 	
-func on_monster_moved_by_player(new_tile: Tile) -> void:
-	self._tile = new_tile
-	state_machine.do_preview_action(true)
+## Monster has already been moved by player
+func on_monster_moved_by_player(_new_tile: Tile) -> void:
+	#self._tile = new_tile
+	#state_machine.do_preview_action(true)
+	var _state_action_config: StateActionConfig = StateActionConfig.new()
+	_state_action_config.is_able_to_do_action = true
+	_state_action_config.is_able_to_change_state = false
+	_state_action_config.is_able_to_do_trigger_previous_attacked_tiles = false
+	_state_action_config.is_able_to_do_move = false
+	_state_action_config.is_able_to_do_calculate_next_move = true
+	_state_action_config.is_able_to_do_calculate_next_action = false
+	_state_action_config.should_keep_same_movement_logic = true 
+	state_machine.do_state_action(_state_action_config)
 
 ## TODO: improve the function
 ## We shouldn;t be using sprite_2d.flip_h.

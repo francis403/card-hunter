@@ -14,7 +14,9 @@ var target_tile: Tile = null
 func _ready() -> void:
 	BattleSignals.battle_start.connect(_on_battle_start_signal)
 
-func enter_state():
+func enter_state(
+	_state_action_config: StateActionConfig = StateActionConfig.new()
+):
 	super.enter_state()
 	if not monster._tile:
 		return
@@ -26,25 +28,24 @@ func _on_battle_start_signal():
 	target_tile = await _get_next_random_tile()
 	highlight_tile(target_tile)
 
-func do_state_action():
-	super.do_state_action()
-	
-	BattlemapSignals.clear_attack_highlight_tiles.emit()
+func do_movement():
+	pass
 
-	## if we start having a tile to add, add it there
+func do_action():
 	if target_tile:
 		var tile_effect_controller: BaseTileEffectController =\
 			tile_effect_resource.tile_effect_controller.instantiate()
 		tile_effect_controller.tile_effect_resource = tile_effect_resource
 		target_tile.add_tile_effect_v2(tile_effect_controller)
-
-	## if we are in range do something else
-	var is_state_changed: bool = self.check_and_apply_state_change_action()
+	
+func do_calculate_next_action() -> bool:
+	var is_state_changed: bool = super.do_calculate_next_action()
 	if is_state_changed:
-		return
+		return true
 	## get next target_tile and highlight
-	target_tile = await _get_next_random_tile()
+	target_tile = _get_next_random_tile()
 	highlight_tile(target_tile)
+	return false
 
 ## TODO: on battle start this is not working well
 func _get_next_random_tile() -> Tile:
@@ -52,12 +53,10 @@ func _get_next_random_tile() -> Tile:
 	tile_hightlight_configuration.area_type = Constants.AreaType.RADIUS
 	tile_hightlight_configuration._range = create_webs_range
 	tile_hightlight_configuration.ignore_tiles_with_effects = true
-	BattlemapSignals.get_monster_range_tiles.emit(monster._tile, tile_hightlight_configuration)
-	var tiles: Array[Tile] = await BattlemapSignals.monster_range_tiles_generated
-	
+	tile_hightlight_configuration.make_tile_clickable = false
+	var tiles: Array[Tile] = BattleController.get_range_tiles(monster._tile, tile_hightlight_configuration)
 	if tiles.is_empty():
 		return null
-	
 	return tiles.pick_random()
 
 func highlight_tile(source_tile: Tile):
