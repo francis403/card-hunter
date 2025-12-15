@@ -1,5 +1,6 @@
-[gd_resource type="Resource" script_class="MoveOtherCardEffect" load_steps=5 format=3 uid="uid://d2iqg4w3f4b2h"]
+[gd_resource type="Resource" script_class="MoveOtherCardEffect" load_steps=6 format=3 uid="uid://d2iqg4w3f4b2h"]
 
+[ext_resource type="Script" uid="uid://bykm1sfwrcmbx" path="res://resources/configuration/tile_highlight_configuration/formula/formula.gd" id="1_4x5g3"]
 [ext_resource type="Script" uid="uid://clufwv38rhs7a" path="res://resources/configuration/tile_highlight_configuration/tile_highlight_configuration.gd" id="1_imksu"]
 [ext_resource type="Script" uid="uid://ba1pyljxjgnij" path="res://resources/card/card_resource_v2/card_effect/_card_effects/move_other_card_effect/move_other_card_effect.gd" id="2_o51ir"]
 
@@ -14,6 +15,8 @@ script = ExtResource("1_imksu")
 _range = 2
 area_type = 4
 ignore_corners = true
+use_specific_tile_location_config = true
+ignore_tiles_away_from_origin = true
 
 [resource]
 script = ExtResource("2_o51ir")

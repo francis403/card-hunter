@@ -77,16 +77,27 @@ func _specific_tile_location_config_match(
 		return false
 	if not self.use_specific_tile_location_config:
 		return false
-	var origin_and_target_distance: int = MovementUtils.distance_between_tiles(origin_tile, target_tile)
-	#var origin_tile_distance: int = MovementUtils.distance_between_tiles(origin_tile, _tile)
-	var target_and_tile_distance: int = MovementUtils.distance_between_tiles(target_tile, _tile)
+	var _x_tile: Vector2 = _tile.to_vector()
+	var _o_tile: Vector2 = origin_tile.to_vector()
+	var _t_tile: Vector2 = target_tile.to_vector()
 	
-	if self.ignore_tiles_close_to_origin and origin_and_target_distance > target_and_tile_distance:
+	var _o_t_distance: int = MovementUtils.distance_between_tiles(origin_tile, target_tile)
+	var _o_x_distance: int = MovementUtils.distance_between_tiles(origin_tile, _tile)
+	var _t_x_distance: int = MovementUtils.distance_between_tiles(target_tile, _tile)
+	var _t_o_distance: int = MovementUtils.distance_between_tiles(target_tile, origin_tile)
+	
+	var _is_tile_away_from_origin: bool =\
+		_o_t_distance < _o_x_distance and _o_x_distance > _t_x_distance
+	var _is_tile_close_from_origin: bool =\
+		_t_x_distance > _o_x_distance and _t_o_distance < _t_x_distance
+	var _is_tile_equal_distance_from_origin: bool =\
+		_o_x_distance == _t_x_distance
+	
+	if self.ignore_tiles_close_to_origin and _is_tile_close_from_origin:
 		return true
-	if self.ignore_tiles_away_from_origin and origin_and_target_distance < target_and_tile_distance:
+	if self.ignore_tiles_away_from_origin and _is_tile_away_from_origin:
 		return true
-	## TODO(FIX): I think there is a bug here
-	if self.ignore_tiles_same_distance_from_origin and origin_and_target_distance == target_and_tile_distance:
+	if self.ignore_tiles_same_distance_from_origin and _is_tile_equal_distance_from_origin:
 		return true
 	return false
 	

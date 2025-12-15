@@ -9,6 +9,8 @@ script = ExtResource("1_iwbcj")
 _range = 2
 area_type = 4
 ignore_occupied_tiles = true
+use_specific_tile_location_config = true
+ignore_tiles_close_to_origin = true
 
 [sub_resource type="Resource" id="Resource_axsjv"]
 script = ExtResource("1_iwbcj")

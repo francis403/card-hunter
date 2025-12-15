@@ -1,10 +1,11 @@
-[gd_scene load_steps=20 format=3 uid="uid://c7d0ktlc5od2r"]
+[gd_scene load_steps=21 format=3 uid="uid://c7d0ktlc5od2r"]
 
 [ext_resource type="PackedScene" uid="uid://b77dqwv8b42lt" path="res://scenes/monsters/generic_monster/generic_monster.tscn" id="1_u1i5i"]
 [ext_resource type="Script" uid="uid://blquxctox4loa" path="res://scenes/monsters/generic_monsters/bug_raptor_1/bug_raptor_1.gd" id="2_by616"]
 [ext_resource type="Texture2D" uid="uid://b5gd5va5x8c3a" path="res://scenes/monsters/generic_monsters/bug_raptor_1/bug-raptor-1.png" id="2_eh7sv"]
 [ext_resource type="PackedScene" uid="uid://by053fy0oimg0" path="res://scenes/game_objects/states/move_and_single_attack_state/move_and_single_attack_state.tscn" id="3_5esey"]
 [ext_resource type="Script" uid="uid://clufwv38rhs7a" path="res://resources/configuration/tile_highlight_configuration/tile_highlight_configuration.gd" id="4_v6kwd"]
+[ext_resource type="Script" uid="uid://bykm1sfwrcmbx" path="res://resources/configuration/tile_highlight_configuration/formula/formula.gd" id="5_ab5fi"]
 [ext_resource type="Script" uid="uid://bmo3eknyoct12" path="res://resources/monster/state/state_change_condition/state_change_condition.gd" id="6_3ojxr"]
 [ext_resource type="PackedScene" uid="uid://bm3s6jrsg6gan" path="res://scenes/game_objects/states/charge_state/charge_state.tscn" id="6_ajxxd"]
 [ext_resource type="PackedScene" uid="uid://c7xqpe3snou7" path="res://scenes/monsters/monster_body_parts/body_parts/head_body_part/head_body_part.tscn" id="6_tryrk"]

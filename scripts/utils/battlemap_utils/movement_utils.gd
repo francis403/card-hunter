@@ -77,6 +77,39 @@ func distance_between_tiles(tile1: Tile, tile2: Tile) -> int:
 		)
 	)
 	
+func is_tile_between(tile_to_check: Tile, origin_tile: Tile, target_tile: Tile) -> bool:
+	if not tile_to_check or not origin_tile or not target_tile:
+		return false
+	
+	if tile_to_check == origin_tile or tile_to_check == target_tile:
+		return false
+	
+	var origin_to_target_distance = distance_between_tiles(origin_tile, target_tile)
+	var origin_to_check_distance = distance_between_tiles(origin_tile, tile_to_check)
+	var check_to_target_distance = distance_between_tiles(tile_to_check, target_tile)
+	
+	var total_distance_through_check = origin_to_check_distance + check_to_target_distance
+	var threshold = 1.0
+	
+	return abs(total_distance_through_check - origin_to_target_distance) <= threshold
+
+## Check if point a is between b and c
+func is_between(a: Vector2, b: Vector2, c: Vector2) -> bool:
+	# 1. Check if A is collinear with B and C using the 2D cross product (z-component)
+	# (B - A) x (C - A) should be zero (or very close to zero for floats)
+	var cross_product_z = (b.x - a.x) * (c.y - a.y) - (b.y - a.y) * (c.x - a.x)
+	if abs(cross_product_z) > 0.0001: # Tolerance for float comparison
+		return false # Not collinear
+
+	# 2. Check if A lies within the B-C segment (on the line)
+	# Dot product (A - B) . (C - B) should be positive, meaning A is in the direction of C from B
+	# AND dot product (A - C) . (B - C) should be positive, meaning A is in the direction of B from C
+	# (This ensures it's between B and C, not beyond C or B)
+	var dot_ab_cb = (a - b).dot(c - b)
+	var dot_ac_bc = (a - c).dot(b - c)
+
+	return dot_ab_cb >= 0 and dot_ac_bc >= 0
+
 func get_left_tile(tile: Tile):
 	if not tile:
 		return null
