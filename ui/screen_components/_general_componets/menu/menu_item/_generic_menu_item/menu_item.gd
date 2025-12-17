@@ -13,3 +13,8 @@ func _ready() -> void:
 	
 func _on_button_pressed_and_sound_played():
 	menu_item_clicked.emit()
+	
+## Mostly used if the menu item has some content that closes itself.
+## Overridable
+func close_content():
+	pass

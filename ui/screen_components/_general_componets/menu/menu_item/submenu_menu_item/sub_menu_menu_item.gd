@@ -24,6 +24,12 @@ func _ready() -> void:
 	menu_item_clicked.connect(_on_menu_item_clicked)
 	if not _node_with_sub_items:
 		_node_with_sub_items = self
+	_hide_child_menu_items()
+
+func _hide_child_menu_items():
+	for _child in self.get_children():
+		if _child is MenuItem:
+			_child.visible = false
 
 func _on_menu_item_clicked():
 	if not _sub_menu_instance:
@@ -33,12 +39,11 @@ func _on_menu_item_clicked():
 			_sub_menu_instance.open_menu()
 			_is_open = true
 		else:
-			_sub_menu_instance.close_menu()
-			_is_open = false
+			self.close_content()
 
 func _add_sub_menu():
 	if not _parent_node or not _sub_menu_scene:
-		push_warning("Validation Field for SubMenu Menu Item.")
+		push_warning("Validation Faild for SubMenu Menu Item.")
 		return
 	if not _sub_menu_scene.can_instantiate():
 		push_warning("Sub Menu Scene cannot be instantiated")
@@ -49,6 +54,7 @@ func _add_sub_menu():
 		if _menu_item is MenuItem:
 			_menu_item.get_parent().remove_child(_menu_item)
 			_sub_menu_instance.add_child(_menu_item)
+			_menu_item.visible = true
 			
 	#_parent_node.add_child(_sub_menu_instance)
 	if _add_menu_to_the_left:
@@ -60,3 +66,10 @@ func _add_sub_menu():
 	_parent_node.queue_redraw()
 	_sub_menu_instance.queue_redraw()
 	_is_open = true
+	
+func close_content():
+	super.close_content()
+	if _sub_menu_instance:
+		_sub_menu_instance.close_menu()
+	_is_open = false
+	
