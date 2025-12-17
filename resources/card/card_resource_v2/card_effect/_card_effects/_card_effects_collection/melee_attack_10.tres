@@ -1,7 +1,8 @@
-[gd_resource type="Resource" script_class="AttackCardEffect" load_steps=4 format=3 uid="uid://b7jfi626r7lu0"]
+[gd_resource type="Resource" script_class="AttackCardEffect" load_steps=5 format=3 uid="uid://b7jfi626r7lu0"]
 
 [ext_resource type="Script" uid="uid://dpymrf8md1jo1" path="res://resources/card/card_resource_v2/card_effect/_card_effects/attack_card_effect/attack_card_effect.gd" id="1_nmilh"]
 [ext_resource type="Script" uid="uid://clufwv38rhs7a" path="res://resources/configuration/tile_highlight_configuration/tile_highlight_configuration.gd" id="2_or0jy"]
+[ext_resource type="Script" uid="uid://bykm1sfwrcmbx" path="res://resources/configuration/tile_highlight_configuration/formula/formula.gd" id="2_sjli2"]
 
 [sub_resource type="Resource" id="Resource_xjk7e"]
 script = ExtResource("2_or0jy")

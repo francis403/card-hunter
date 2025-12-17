@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3 uid="uid://brhoqb5wsupc8"]
+
+[ext_resource type="Script" uid="uid://csudjqyvhhuyx" path="res://ui/screen_components/_general_componets/menu/menus/vertical_menu/vertical_menu.gd" id="1_4woqf"]
+
+[node name="VerticalMenu" type="MarginContainer"]
+offset_right = 58.0
+script = ExtResource("1_4woqf")
+
+[node name="VerticalMenuContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 6
+theme_override_constants/separation = 0

@@ -10,52 +10,50 @@ anchor_right = 1.0
 grow_horizontal = 0
 script = ExtResource("1_0vdgd")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
 layout_mode = 2
 theme = ExtResource("2_sboyk")
 
-[node name="QuestPickerButton" type="Button" parent="VBoxContainer"]
-layout_mode = 2
-text = "Quest Picker"
-
-[node name="WorldViewButton" type="Button" parent="VBoxContainer"]
-layout_mode = 2
-text = "World View"
-
-[node name="ChangeWeaponButton" type="Button" parent="VBoxContainer"]
+[node name="ChangeWeaponButton" type="Button" parent="HBoxContainer/VBoxContainer"]
 layout_mode = 2
 text = "Change Weapon"
 
-[node name="DeforgeCardButton" type="Button" parent="VBoxContainer"]
+[node name="GenerateBattleButton" type="Button" parent="HBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "Generate Battle"
+
+[node name="DeforgeCardButton" type="Button" parent="HBoxContainer/VBoxContainer"]
 layout_mode = 2
 text = "Deforge Card"
 
-[node name="ForgeCardButton" type="Button" parent="VBoxContainer"]
+[node name="ForgeCardButton" type="Button" parent="HBoxContainer/VBoxContainer"]
 layout_mode = 2
 text = "Forge Card"
 
-[node name="GenerateNewWorld" type="Button" parent="VBoxContainer"]
+[node name="GenerateNewWorld" type="Button" parent="HBoxContainer/VBoxContainer"]
 layout_mode = 2
 text = "GenerateNewWorld"
 
-[node name="BossEncounter" type="Button" parent="VBoxContainer"]
+[node name="BossEncounter" type="Button" parent="HBoxContainer/VBoxContainer"]
 layout_mode = 2
 text = "TriggerBossEncounter"
 
-[node name="BossDefeated" type="Button" parent="VBoxContainer"]
+[node name="BossDefeated" type="Button" parent="HBoxContainer/VBoxContainer"]
 layout_mode = 2
 text = "Boss Defeated"
 
-[node name="GameComplete" type="Button" parent="VBoxContainer"]
+[node name="GameComplete" type="Button" parent="HBoxContainer/VBoxContainer"]
 layout_mode = 2
 text = "Complete Game"
 
-[connection signal="pressed" from="VBoxContainer/QuestPickerButton" to="." method="_on_quest_picker_button_pressed"]
-[connection signal="pressed" from="VBoxContainer/WorldViewButton" to="." method="_on_world_view_button_pressed"]
-[connection signal="pressed" from="VBoxContainer/ChangeWeaponButton" to="." method="_on_change_weapon_button_pressed"]
-[connection signal="pressed" from="VBoxContainer/DeforgeCardButton" to="." method="_on_deforge_card_button_pressed"]
-[connection signal="pressed" from="VBoxContainer/ForgeCardButton" to="." method="_on_forge_card_button_pressed"]
-[connection signal="pressed" from="VBoxContainer/GenerateNewWorld" to="." method="_on_generate_new_world_pressed"]
-[connection signal="pressed" from="VBoxContainer/BossEncounter" to="." method="_on_boss_encounter_pressed"]
-[connection signal="pressed" from="VBoxContainer/BossDefeated" to="." method="_on_expand_world_pressed"]
-[connection signal="pressed" from="VBoxContainer/GameComplete" to="." method="_on_game_complete_pressed"]
+[connection signal="pressed" from="HBoxContainer/VBoxContainer/ChangeWeaponButton" to="." method="_on_change_weapon_button_pressed"]
+[connection signal="pressed" from="HBoxContainer/VBoxContainer/GenerateBattleButton" to="." method="_on_generate_battle_button_pressed"]
+[connection signal="pressed" from="HBoxContainer/VBoxContainer/DeforgeCardButton" to="." method="_on_deforge_card_button_pressed"]
+[connection signal="pressed" from="HBoxContainer/VBoxContainer/ForgeCardButton" to="." method="_on_forge_card_button_pressed"]
+[connection signal="pressed" from="HBoxContainer/VBoxContainer/GenerateNewWorld" to="." method="_on_generate_new_world_pressed"]
+[connection signal="pressed" from="HBoxContainer/VBoxContainer/BossEncounter" to="." method="_on_boss_encounter_pressed"]
+[connection signal="pressed" from="HBoxContainer/VBoxContainer/BossDefeated" to="." method="_on_expand_world_pressed"]
+[connection signal="pressed" from="HBoxContainer/VBoxContainer/GameComplete" to="." method="_on_game_complete_pressed"]

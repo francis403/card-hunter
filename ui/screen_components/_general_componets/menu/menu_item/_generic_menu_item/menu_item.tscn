@@ -1,0 +1,25 @@
+[gd_scene load_steps=3 format=3 uid="uid://duiqhlxde4hcv"]
+
+[ext_resource type="Script" uid="uid://dhwnaafdgn1xh" path="res://ui/screen_components/_general_componets/menu/menu_item/_generic_menu_item/menu_item.gd" id="1_i6m26"]
+[ext_resource type="PackedScene" uid="uid://hked8dt7umpy" path="res://ui/screen_components/_general_componets/buttons/sound_button/sound_button.tscn" id="2_lkw7p"]
+
+[node name="MenuItem" type="MarginContainer"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -4.0
+offset_top = -4.0
+offset_right = 54.0
+offset_bottom = 27.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 6
+size_flags_vertical = 4
+script = ExtResource("1_i6m26")
+_display_name = "Button"
+
+[node name="SoundButton" parent="." instance=ExtResource("2_lkw7p")]
+layout_mode = 2
+text = ""
