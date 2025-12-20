@@ -1,7 +1,13 @@
-[gd_scene load_steps=3 format=3 uid="uid://clw6ot57jagn8"]
+[gd_scene load_steps=9 format=3 uid="uid://clw6ot57jagn8"]
 
 [ext_resource type="Script" uid="uid://b65r7tm7pbw8m" path="res://ui/screen_components/debug/player_menu/player_menu.gd" id="1_0vdgd"]
-[ext_resource type="Theme" uid="uid://dmot8ul1c5l3n" path="res://assets/themes/theme_1.tres" id="2_sboyk"]
+[ext_resource type="PackedScene" uid="uid://h8r0bkj42ldt" path="res://ui/screen_components/_general_componets/menu/menus/MenuRoot/menu_root.tscn" id="2_ad80t"]
+[ext_resource type="PackedScene" uid="uid://brhoqb5wsupc8" path="res://ui/screen_components/_general_componets/menu/menus/vertical_menu/vertical_menu.tscn" id="3_cfaxc"]
+[ext_resource type="PackedScene" uid="uid://cfl5jtl6nbj3s" path="res://ui/screen_components/_general_componets/menu/menu_item/menu_item_with_scene/menu_item_with_scene.tscn" id="4_dr8je"]
+[ext_resource type="PackedScene" uid="uid://chi4whjeqmkui" path="res://ui/screens/forge_card_screen/forge_card_screen.tscn" id="5_xudqb"]
+[ext_resource type="PackedScene" uid="uid://c8t61ybgmkahs" path="res://ui/screens/world_node_screens/deforge_card_screen/deforge_card_screen.tscn" id="6_dlc2h"]
+[ext_resource type="PackedScene" uid="uid://chi8hmrw24v22" path="res://ui/screen_components/_general_componets/menu/menu_item/menu_item_with_submenu/menu_item_with_submenu.tscn" id="7_2lcwr"]
+[ext_resource type="PackedScene" uid="uid://duiqhlxde4hcv" path="res://ui/screen_components/_general_componets/menu/menu_item/_generic_menu_item/menu_item.tscn" id="8_wil5r"]
 
 [node name="PlayerMenu" type="MarginContainer"]
 anchors_preset = 1
@@ -10,50 +16,47 @@ anchor_right = 1.0
 grow_horizontal = 0
 script = ExtResource("1_0vdgd")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
+[node name="RootMenu" parent="." instance=ExtResource("2_ad80t")]
+unique_name_in_owner = true
 layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
+[node name="VerticalMenu2" parent="RootMenu" instance=ExtResource("3_cfaxc")]
 layout_mode = 2
-theme = ExtResource("2_sboyk")
 
-[node name="ChangeWeaponButton" type="Button" parent="HBoxContainer/VBoxContainer"]
+[node name="ForgeCardButton" parent="RootMenu/VerticalMenu2" instance=ExtResource("4_dr8je")]
 layout_mode = 2
-text = "Change Weapon"
+_scene = ExtResource("5_xudqb")
+_display_name = "Forge Card"
 
-[node name="GenerateBattleButton" type="Button" parent="HBoxContainer/VBoxContainer"]
+[node name="DeforgeCardButton" parent="RootMenu/VerticalMenu2" instance=ExtResource("4_dr8je")]
 layout_mode = 2
-text = "Generate Battle"
+_scene = ExtResource("6_dlc2h")
+_display_name = "Deforge Card"
 
-[node name="DeforgeCardButton" type="Button" parent="HBoxContainer/VBoxContainer"]
+[node name="GenerateMonsterHunt" parent="RootMenu/VerticalMenu2" node_paths=PackedStringArray("_parent_node") instance=ExtResource("7_2lcwr")]
 layout_mode = 2
-text = "Deforge Card"
+size_flags_horizontal = 3
+_parent_node = NodePath("../..")
+_display_name = "Generate Monster Battle"
 
-[node name="ForgeCardButton" type="Button" parent="HBoxContainer/VBoxContainer"]
+[node name="GenerateNewWorldButton" parent="RootMenu/VerticalMenu2" instance=ExtResource("8_wil5r")]
 layout_mode = 2
-text = "Forge Card"
+_display_name = "Generate New World"
 
-[node name="GenerateNewWorld" type="Button" parent="HBoxContainer/VBoxContainer"]
+[node name="TriggerBossEncounter" parent="RootMenu/VerticalMenu2" instance=ExtResource("8_wil5r")]
 layout_mode = 2
-text = "GenerateNewWorld"
+_display_name = "Trigger Boss Encounter"
 
-[node name="BossEncounter" type="Button" parent="HBoxContainer/VBoxContainer"]
+[node name="TriggerBossDefeated" parent="RootMenu/VerticalMenu2" instance=ExtResource("8_wil5r")]
 layout_mode = 2
-text = "TriggerBossEncounter"
+_display_name = "Trigger Boss Defeat"
 
-[node name="BossDefeated" type="Button" parent="HBoxContainer/VBoxContainer"]
+[node name="TriggerGameComplete" parent="RootMenu/VerticalMenu2" instance=ExtResource("8_wil5r")]
 layout_mode = 2
-text = "Boss Defeated"
+_display_name = "Complete Game"
 
-[node name="GameComplete" type="Button" parent="HBoxContainer/VBoxContainer"]
-layout_mode = 2
-text = "Complete Game"
-
-[connection signal="pressed" from="HBoxContainer/VBoxContainer/ChangeWeaponButton" to="." method="_on_change_weapon_button_pressed"]
-[connection signal="pressed" from="HBoxContainer/VBoxContainer/GenerateBattleButton" to="." method="_on_generate_battle_button_pressed"]
-[connection signal="pressed" from="HBoxContainer/VBoxContainer/DeforgeCardButton" to="." method="_on_deforge_card_button_pressed"]
-[connection signal="pressed" from="HBoxContainer/VBoxContainer/ForgeCardButton" to="." method="_on_forge_card_button_pressed"]
-[connection signal="pressed" from="HBoxContainer/VBoxContainer/GenerateNewWorld" to="." method="_on_generate_new_world_pressed"]
-[connection signal="pressed" from="HBoxContainer/VBoxContainer/BossEncounter" to="." method="_on_boss_encounter_pressed"]
-[connection signal="pressed" from="HBoxContainer/VBoxContainer/BossDefeated" to="." method="_on_expand_world_pressed"]
-[connection signal="pressed" from="HBoxContainer/VBoxContainer/GameComplete" to="." method="_on_game_complete_pressed"]
+[connection signal="menu_item_ready" from="RootMenu/VerticalMenu2/GenerateMonsterHunt" to="." method="_on_generate_monster_hunt_menu_item_ready"]
+[connection signal="menu_item_clicked" from="RootMenu/VerticalMenu2/GenerateNewWorldButton" to="." method="_on_generate_new_world_pressed"]
+[connection signal="menu_item_clicked" from="RootMenu/VerticalMenu2/TriggerBossEncounter" to="." method="_on_boss_encounter_pressed"]
+[connection signal="menu_item_clicked" from="RootMenu/VerticalMenu2/TriggerBossDefeated" to="." method="_on_expand_world_pressed"]
+[connection signal="menu_item_clicked" from="RootMenu/VerticalMenu2/TriggerGameComplete" to="." method="_on_game_complete_pressed"]

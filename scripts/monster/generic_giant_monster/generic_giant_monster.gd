@@ -22,6 +22,8 @@ func _ready() -> void:
 	_set_monster_in_sorrounding_tiles()
 	
 func _set_monster_in_sorrounding_tiles():
+	if not self._tile:
+		return
 	match type_of_giant_monster:
 		GiantMonsterSorroundingTiles.FULL_RADIUS:
 			_set_up_radius_tiles()

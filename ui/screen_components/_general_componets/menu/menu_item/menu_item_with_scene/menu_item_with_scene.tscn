@@ -1,0 +1,8 @@
+[gd_scene load_steps=3 format=3 uid="uid://cfl5jtl6nbj3s"]
+
+[ext_resource type="PackedScene" uid="uid://duiqhlxde4hcv" path="res://ui/screen_components/_general_componets/menu/menu_item/_generic_menu_item/menu_item.tscn" id="1_xa6x0"]
+[ext_resource type="Script" uid="uid://fe6xxi17dq6s" path="res://ui/screen_components/_general_componets/menu/menu_item/menu_item_with_scene/menu_item_with_scene.gd" id="2_dhykq"]
+
+[node name="SceneMenuItem" instance=ExtResource("1_xa6x0")]
+script = ExtResource("2_dhykq")
+_scene = null

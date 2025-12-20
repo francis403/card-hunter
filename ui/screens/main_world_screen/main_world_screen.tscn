@@ -108,4 +108,3 @@ text = "World Screen"
 
 [node name="PlayerMenu" parent="." index="10"]
 unique_name_in_owner = true
-visible = false

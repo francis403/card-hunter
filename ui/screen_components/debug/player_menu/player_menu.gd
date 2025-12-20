@@ -1,11 +1,30 @@
 extends MarginContainer
-
-## TODO: need to add a generic screen that also has this menu
 class_name PlayerMenu
 
-func _on_change_weapon_button_pressed() -> void:
-	if !get_parent() is PickClassScreen:
-		get_tree().change_scene_to_packed(Constants.pick_class_screen_scene)
+func _setup_monster_battle_scenes(
+	_sub_menu_item: MenuItemWithSubMenu
+):
+	var _generic_monster_list: Array[GenericMonster] =\
+		MonsterResourcesController._generic_monsters_list
+	#var _hunt_scenes: Array[PackedScene] = []
+	## Name - PackedScene
+	var _hunt_scenes: Array[Dictionary] = []
+	for _monster: GenericMonster in _generic_monster_list:
+		var _hunt_scene: BattleGenericScene =\
+			load(BattleGenericScene.my_node_scene_path).instantiate()
+		_hunt_scene.add_child(_monster)
+		_monster.owner = _hunt_scene
+		_hunt_scene.monsters.append(_monster)
+		var _packed_scene: PackedScene = PackedScene.new()
+		_packed_scene.pack(_hunt_scene)
+		_hunt_scenes.append(
+			{
+				"scene": _packed_scene,
+			 	"display_name": _monster.monster_id
+			}
+		)
+		#_hunt_scenes.append(_packed_scene)
+	_sub_menu_item.add_extra_menu_items_scenes(_hunt_scenes)
 
 func _on_generate_battle_button_pressed() -> void:
 	## TODO: show sub menu that has all monsters
@@ -38,3 +57,13 @@ func _on_boss_encounter_pressed() -> void:
 
 func _on_generate_new_world_pressed() -> void:
 	BattleSignals.world_generation_triggered.emit()
+
+
+func _on_generate_monster_hunt_ready() -> void:
+	pass # Replace with function body.
+
+
+func _on_generate_monster_hunt_menu_item_ready(
+	_menu_item: MenuItem
+) -> void:
+	_setup_monster_battle_scenes(_menu_item)

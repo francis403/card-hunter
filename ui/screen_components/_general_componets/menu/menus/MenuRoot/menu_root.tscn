@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://h8r0bkj42ldt"]
+[gd_scene load_steps=3 format=3 uid="uid://h8r0bkj42ldt"]
 
 [ext_resource type="Script" uid="uid://btq7ifxsdwv21" path="res://ui/screen_components/_general_componets/menu/menus/MenuRoot/menu_root.gd" id="1_bjjxh"]
+[ext_resource type="Theme" uid="uid://bxlatu18hbfeu" path="res://assets/themes/generic_theme_1.tres" id="1_ebkhy"]
 
 [node name="MenuRoot" type="MarginContainer"]
 anchors_preset = 1
@@ -10,6 +11,7 @@ offset_left = -58.0
 offset_bottom = 54.0
 grow_horizontal = 0
 size_flags_horizontal = 8
+theme = ExtResource("1_ebkhy")
 script = ExtResource("1_bjjxh")
 
 [node name="PanelContainer" type="PanelContainer" parent="."]

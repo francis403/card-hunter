@@ -17,6 +17,9 @@ func enter_state(
 	monster = get_parent().get_parent()
 	monster.set_state_icon(state_icon)
 	monster.next_move = null
+	if not monster or not monster._tile:
+		push_warning("Monster missconfiguration")
+		return
 	if _state_action_config.is_able_to_do_calculate_next_move:
 		self.do_calculate_next_move()
 	do_update_variables_after_movement()

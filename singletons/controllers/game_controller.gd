@@ -4,6 +4,8 @@ signal days_till_attack_modified(days: int)
 signal world_boss_monster_encountered
 signal debug_mode_toggled(is_debug_mode: bool)
 
+const BATTLE_GENERIC_SCENE = preload("res://scenes/battle_scenes/battle_generic_scene/battle_generic_scene.tscn")
+
 var is_showing_battle_scene: bool = false
 var debug_mode_enabled: bool = false
 
@@ -81,3 +83,14 @@ func _prep_thank_you_event() -> EventScreen:
 	result.accept_button_scene = null
 	return result
 	
+func generate_battle_scene(
+	_monster: GenericMonster,
+	_is_boss_battle: bool = false,
+	_world_node: GenericWorldNode = null
+) -> BattleGenericScene:
+	var battle_scene: BattleGenericScene = BATTLE_GENERIC_SCENE.instantiate()
+	battle_scene.is_boss_battle = _is_boss_battle
+	battle_scene.monsters.clear()
+	battle_scene.monsters.append(_monster)
+	battle_scene.set_world_node(_world_node)
+	return battle_scene

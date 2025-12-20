@@ -1,15 +1,18 @@
 extends MenuItem
 
 ## Create a SubMenu of menu items
-class_name SubMenuMenuItem
+class_name MenuItemWithSubMenu
 
 @export_group("Node to add menu item to")
 @export var _parent_node: Control = null
 @export var _add_menu_to_the_left: bool = true
 
-@export_group("Menu Items to add")
-## Items for the sub_menu item
-#@export var _menu_items: Array[MenuItem]
+@export_group("Extra Menu Items to add")
+## Extra items to add as menu_items
+@export var _extra_menu_items: Array[MenuItem]
+
+## REQUIRES MENU ITEM SCENE.
+@export var _menu_item_scene: PackedScene
 
 @export_group("SubMenu Scene")
 @export var _sub_menu_scene: PackedScene = null
@@ -19,12 +22,35 @@ var _node_with_sub_items: Node = null
 var _is_open: bool = false
 var _sub_menu_instance: Node = null
 
+
 func _ready() -> void:
 	super._ready()
 	menu_item_clicked.connect(_on_menu_item_clicked)
 	if not _node_with_sub_items:
 		_node_with_sub_items = self
+	_add_extra_menu_items()
 	_hide_child_menu_items()
+
+func _add_extra_menu_items():
+	pass
+
+## Do we want this to trigger on click or on ready
+## Receives a dictionary array of packedScene - display_name
+func add_extra_menu_items_scenes(
+	_extra_scenes: Array[Dictionary]
+):
+	if not _menu_item_scene or not _menu_item_scene.can_instantiate():
+		push_warning("No Menu Item scene set.")
+		return
+	for _extra_scene: Dictionary in _extra_scenes:
+		var _menu_item_instance: MenuItem = _menu_item_scene.instantiate()
+		_menu_item_instance._display_name = "Test"
+		if _extra_scene.has("display_name"):
+			_menu_item_instance._display_name = _extra_scene["display_name"]
+		var _packed_scene: PackedScene = _extra_scene["scene"]
+		if _menu_item_instance is MenuItemWithScene:
+			_menu_item_instance._scene = _packed_scene
+			self.add_child(_menu_item_instance)
 
 func _hide_child_menu_items():
 	for _child in self.get_children():
@@ -72,4 +98,3 @@ func close_content():
 	if _sub_menu_instance:
 		_sub_menu_instance.close_menu()
 	_is_open = false
-	

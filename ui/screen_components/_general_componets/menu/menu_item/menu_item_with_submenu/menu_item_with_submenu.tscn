@@ -1,0 +1,13 @@
+[gd_scene load_steps=5 format=3 uid="uid://chi8hmrw24v22"]
+
+[ext_resource type="PackedScene" uid="uid://duiqhlxde4hcv" path="res://ui/screen_components/_general_componets/menu/menu_item/_generic_menu_item/menu_item.tscn" id="1_o6y4a"]
+[ext_resource type="Script" uid="uid://dm6k36k5tkkha" path="res://ui/screen_components/_general_componets/menu/menu_item/menu_item_with_submenu/menu_item_with_submenu.gd" id="2_7rrcm"]
+[ext_resource type="PackedScene" uid="uid://cfl5jtl6nbj3s" path="res://ui/screen_components/_general_componets/menu/menu_item/menu_item_with_scene/menu_item_with_scene.tscn" id="3_m3wil"]
+[ext_resource type="PackedScene" uid="uid://brhoqb5wsupc8" path="res://ui/screen_components/_general_componets/menu/menus/vertical_menu/vertical_menu.tscn" id="3_v8osm"]
+
+[node name="SubMenuMenuItem" node_paths=PackedStringArray("_extra_menu_items") instance=ExtResource("1_o6y4a")]
+script = ExtResource("2_7rrcm")
+_add_menu_to_the_left = true
+_extra_menu_items = []
+_menu_item_scene = ExtResource("3_m3wil")
+_sub_menu_scene = ExtResource("3_v8osm")

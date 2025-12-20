@@ -86,6 +86,8 @@ func _prep_battle_arena_monsters():
 		battlemap.monsters.append_array(monsters)
 		battlemap.update_monsters()
 		for monster in monsters:
+			if monster.get_parent():
+				monster.get_parent().remove_child(monster)
 			monsters_node.add_child(monster)
 		#battlemap.update_monsters()
 	

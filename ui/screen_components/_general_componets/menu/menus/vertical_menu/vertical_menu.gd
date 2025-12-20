@@ -16,6 +16,5 @@ func _on_ready_per_menu_item(
 func close_menu():
 	super.close_menu()
 	for _child in vertical_menu_container.get_children():
-		#if _child.has_method("close_content"):
 		if _child is MenuItem:
 			_child.close_content()

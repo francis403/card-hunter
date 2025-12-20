@@ -18,6 +18,8 @@ enum Deck_Type_Enum {
 @onready var audio_stream_player: AudioStreamPlayer = $AudioStreamPlayer
 
 func _ready() -> void:
+	if not self.has_connections("gui_input"):
+		self.connect("gui_input", _on_gui_input)
 	if deck_type == Deck_Type_Enum.DRAW_DECK:
 		BattlemapSignals.draw_pile_updated.connect(_on_deck_finished_prepping_signal)
 		#margin_container.add_theme_constant_override("margin_left", self.size.y)
