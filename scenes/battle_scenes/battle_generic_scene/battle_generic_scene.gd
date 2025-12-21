@@ -30,9 +30,6 @@ var _number_of_monsters_defeated: int = 0
 
 var _world_node: GenericWorldNode = null
 
-func _init() -> void:
-	GameController.is_showing_battle_scene = true
-
 func _ready() -> void:
 	GameController.debug_mode_toggled.connect(_debug_mode_enabled_signal)
 	BattlemapSignals.player_turn_started.connect(_on_player_turn_started_signal)
@@ -56,6 +53,7 @@ func _ready() -> void:
 	_prep_battle_arena_monsters()
 	battle_scene_rewards_manager.set_rewards_to_reward_screen()
 	BattleSignals.battle_scene_finished_loading.emit(self)
+	GameController.is_showing_battle_scene = true
 	BattleSignals.battle_start.emit()
 
 func _debug_mode_enabled_signal(_enabled: bool):
