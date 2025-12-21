@@ -4,12 +4,17 @@ class_name PlayerMenu
 func _setup_monster_battle_scenes(
 	_sub_menu_item: MenuItemWithSubMenu
 ):
-	var _generic_monster_list: Array[GenericMonster] =\
+	var _monster_list: Array[GenericMonster] =\
 		MonsterResourcesController._generic_monsters_list
+	var _boss_monster_list: Array[GenericMonster] =\
+		MonsterResourcesController._boss_monsters_list
+	var _all_monsters_list: Array[GenericMonster] = []
+	_all_monsters_list.append_array(_monster_list)
+	_all_monsters_list.append_array(_boss_monster_list)
 	#var _hunt_scenes: Array[PackedScene] = []
 	## Name - PackedScene
 	var _hunt_scenes: Array[Dictionary] = []
-	for _monster: GenericMonster in _generic_monster_list:
+	for _monster: GenericMonster in _all_monsters_list:
 		var _hunt_scene: BattleGenericScene =\
 			load(BattleGenericScene.my_node_scene_path).instantiate()
 		_hunt_scene.add_child(_monster)
