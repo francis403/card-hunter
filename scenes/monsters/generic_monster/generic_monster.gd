@@ -37,6 +37,10 @@ func _ready() -> void:
 	monster_health_bar.max_value = self._max_hp if _max_hp >= _health else _health
 	monster_health_bar.value = self._health
 
+## Trigger on battle start, trigger the monster behaviour
+func on_battle_start_signal():
+	state_machine.current_state.enter_state()
+
 ## Play the monster turn
 func play_monster_turn():
 	super.play_monster_turn()

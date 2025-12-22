@@ -11,8 +11,6 @@ class_name CreateSpiderWebsIfOutsideOfRange
 
 var target_tile: Tile = null
 
-func _ready() -> void:
-	BattleSignals.battle_start.connect(_on_battle_start_signal)
 
 func enter_state(
 	_state_action_config: StateActionConfig = StateActionConfig.new()
@@ -23,10 +21,6 @@ func enter_state(
 	target_tile = await _get_next_random_tile()
 	highlight_tile(target_tile)
 
-func _on_battle_start_signal():
-	print(_on_battle_start_signal)
-	target_tile = await _get_next_random_tile()
-	highlight_tile(target_tile)
 
 func do_movement():
 	pass

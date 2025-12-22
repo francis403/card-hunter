@@ -11,6 +11,7 @@ func _ready() -> void:
 func play_monster_turn():
 	pass
 
+## Triggered when the battle is ready to start
 func on_battle_start_signal():
 	pass
 	

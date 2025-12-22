@@ -16,7 +16,7 @@ func _ready() -> void:
 			states[child.name.to_lower()] = child
 			child.changed_state.connect(_on_state_change)
 	if initial_state:
-		initial_state.enter_state()
+		#initial_state.enter_state()
 		current_state = initial_state
 			
 func do_state_action(

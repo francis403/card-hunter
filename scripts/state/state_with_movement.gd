@@ -6,6 +6,9 @@ var monster: GenericMonster
 
 var distance_to_player: int = 0
 
+## TODO: Attack tiles to highlight during do_action
+@export var attack_tiles_highlight: TileHighlightConfig = null
+
 ## Conditions to change state
 @export var state_change_conditions: Array[StateChangeCondtion]
 
@@ -73,7 +76,8 @@ func do_movement():
 	if next_turn_move_tile:
 		BattleController.battlemap.place_piece_in_tile(monster, next_turn_move_tile)
 	
-## Calculates the monster next move
+## Calculates the monster next move. 
+## By default moves toward the target (player)
 ## If _should_keep_same_movement_logic is true:
 ## - The direction the monster previously moved should be kept
 ## - If no direction, then no movement
@@ -95,7 +99,15 @@ func do_calculate_next_move(
 	
 ## Do any special actions
 func do_action():
-	pass
+	if not attack_tiles_highlight:
+		return
+	attack_tiles_highlight.origin_tile = monster._tile if not monster.next_move else monster.next_move
+	attack_tiles_highlight.target_tile = target._tile
+	BattleController.battlemap.clear_highlighted_tiles()
+	BattleController.battlemap.highlight_attack_tiles(
+		attack_tiles_highlight.origin_tile,
+		attack_tiles_highlight
+	)
 	
 ## Highlight any attack tiles
 func do_attack():

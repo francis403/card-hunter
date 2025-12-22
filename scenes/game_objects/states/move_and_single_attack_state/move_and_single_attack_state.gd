@@ -7,7 +7,6 @@ class_name MovendSingleAttackState
 ## Attack shape
 @export var highlight_config: TileHighlightConfig
 
-
 func do_action():
 	preview_monster_attack_behaviour()
 

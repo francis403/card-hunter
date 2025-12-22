@@ -42,7 +42,8 @@ func place_node_in_tile(node: Node2D, tile: Tile, animate: bool = true):
 	if not tile or not node:
 		return
 		
-	if tile.piece_in_tile:
+	if not node_can_move_to_tile(node, tile):
+	#if tile.piece_in_tile:
 		##print("DEBUG: piece already in tile!: ", tile.to_vector())
 		return
 		
@@ -68,7 +69,6 @@ func place_node_in_tile(node: Node2D, tile: Tile, animate: bool = true):
 func move_player_x_right(x: int):
 	move_piece_x_right(_player, x)
 
-
 func move_piece_x_right(piece: Piece, x: int, animate: bool = true) -> void:
 	var new_tile = BattleController.battlemap.get_tile(piece._tile._x_position + x, piece._tile._y_position)
 	if not new_tile:
@@ -81,3 +81,14 @@ func move_piece_x_right(piece: Piece, x: int, animate: bool = true) -> void:
 		animate_piece_to_position(piece, target_position)
 	else:
 		piece.position = target_position
+
+func node_can_move_to_tile(
+	_node_to_place: Node2D,
+	_tile_to_move: Tile
+) -> bool:
+	var _is_piece_in_tile: bool = _tile_to_move.piece_in_tile != null
+	if not _node_to_place is GenericGiantMonster:
+		return not _is_piece_in_tile
+	if _is_piece_in_tile:
+		return _tile_to_move.piece_in_tile == _node_to_place
+	return true

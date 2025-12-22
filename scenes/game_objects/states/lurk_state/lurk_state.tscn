@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://dya8jns33mvj8"]
+
+[ext_resource type="Script" uid="uid://d0t30qncwnxdi" path="res://scenes/game_objects/states/lurk_state/lurk_state.gd" id="1_2dxgn"]
+
+[node name="LurkState" type="Node"]
+script = ExtResource("1_2dxgn")
