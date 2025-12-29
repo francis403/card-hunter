@@ -114,3 +114,27 @@ func get_left_tile(tile: Tile):
 	if not tile:
 		return null
 	return BattleController.get_tile(tile._x_position - 1, tile._y_position)
+
+func get_tiles_for_config(
+	_source_tile: Tile,
+	_config: TileHighlightConfig
+) -> Array[Tile]:
+	if not _source_tile or not _config:
+		push_warning("Invalid parameters supplied for get_tiles_for_config")
+		return []
+	var _result: Array[Tile] = []
+	var x: int = _source_tile._x_position
+	var y: int = _source_tile._y_position
+	var radius = _config._range
+	for radius_x in range(-radius, radius + 1):
+		for radius_y in range(-radius, radius + 1):
+			var _tile_x = x + radius_x
+			var _tile_y = y + radius_y
+			var _tile: Tile = BattleController.get_tile(_tile_x, _tile_y)
+			if not _config.is_tile_valid(
+				_source_tile,
+				Vector2(radius_x, radius_y)
+			):
+				continue
+			_result.append(_tile)
+	return _result

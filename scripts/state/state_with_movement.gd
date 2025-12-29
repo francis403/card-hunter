@@ -6,9 +6,14 @@ var monster: GenericMonster
 
 var distance_to_player: int = 0
 
+
 ## TODO: Attack tiles to highlight during do_action
 @export var attack_tiles_highlight: TileHighlightConfig = null
 
+## TODO: Defines the monster movement behaviour.
+## If more than one tile is returned pick a random one
+## If null moves up to player at speed
+@export var move_tiles_possibilities: TileHighlightConfig = null
 ## Conditions to change state
 @export var state_change_conditions: Array[StateChangeCondtion]
 
@@ -41,8 +46,14 @@ func do_state_action(
 	## Move the monster
 	if _state_action_config.is_able_to_do_move:
 		self.do_movement()
+	## Calculate the monster's next action
+	var _new_action: bool = false
+	if _state_action_config.is_able_to_do_calculate_next_action:
+		_new_action = self.do_calculate_next_action()
+	if _new_action:
+		return
 	if _state_action_config.is_able_to_do_calculate_next_move:
-		self.do_calculate_next_move(
+		monster.next_move = self.do_calculate_next_move(
 			_state_action_config.should_keep_same_movement_logic
 		)
 	self.do_update_variables_after_movement()
@@ -51,10 +62,6 @@ func do_state_action(
 		self.do_action()
 	if _state_action_config.is_able_to_do_attack:
 		self.do_attack()
-	## Calculate the monster's next action
-	var _new_action: bool = false
-	if _state_action_config.is_able_to_do_calculate_next_action:
-		_new_action = self.do_calculate_next_action()
 
 ## -- Override this functions to define the behaviour --
 func do_update_variables_after_movement():
@@ -76,6 +83,8 @@ func do_movement():
 	if next_turn_move_tile:
 		BattleController.battlemap.place_piece_in_tile(monster, next_turn_move_tile)
 	
+	
+	
 ## Calculates the monster next move. 
 ## By default moves toward the target (player)
 ## If _should_keep_same_movement_logic is true:
@@ -83,15 +92,21 @@ func do_movement():
 ## - If no direction, then no movement
 func do_calculate_next_move(
 	_should_keep_same_movement_logic: bool = false
-):
+) -> Tile:
 	if not target or not monster:
-		monster.next_move = null
-		return
-	## TODO
+		return null
 	if _should_keep_same_movement_logic:
-		monster.next_move = _get_same_direction_monster_movement()
-		return
-	monster.next_move = MovementUtils.get_movement_tile(
+		return _get_same_direction_monster_movement()
+	if not move_tiles_possibilities:
+		return _move_towards_player()
+	else:
+		return MovementUtils.get_tiles_for_config(
+			monster._tile,
+			move_tiles_possibilities
+		).pick_random()
+
+func _move_towards_player() -> Tile:
+	return MovementUtils.get_movement_tile(
 		monster._tile,
 		target._tile,
 		monster._speed

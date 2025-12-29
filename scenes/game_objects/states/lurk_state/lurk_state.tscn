@@ -1,6 +1,15 @@
-[gd_scene load_steps=2 format=3 uid="uid://dya8jns33mvj8"]
+[gd_scene load_steps=5 format=3 uid="uid://dya8jns33mvj8"]
 
 [ext_resource type="Script" uid="uid://d0t30qncwnxdi" path="res://scenes/game_objects/states/lurk_state/lurk_state.gd" id="1_2dxgn"]
+[ext_resource type="Script" uid="uid://bykm1sfwrcmbx" path="res://resources/configuration/tile_highlight_configuration/formula/formula.gd" id="2_ni5l7"]
+[ext_resource type="Script" uid="uid://clufwv38rhs7a" path="res://resources/configuration/tile_highlight_configuration/tile_highlight_configuration.gd" id="3_hlpt5"]
+
+[sub_resource type="Resource" id="Resource_i0ulu"]
+script = ExtResource("3_hlpt5")
+use_specific_tile_location_config = true
+ignore_tiles_close_to_origin = true
+metadata/_custom_type_script = "uid://clufwv38rhs7a"
 
 [node name="LurkState" type="Node"]
 script = ExtResource("1_2dxgn")
+move_tiles_possibilities = SubResource("Resource_i0ulu")

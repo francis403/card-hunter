@@ -1,0 +1,2 @@
+extends GenericGiantMonster
+class_name GiantWormMonster

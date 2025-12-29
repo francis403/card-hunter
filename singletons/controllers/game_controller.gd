@@ -6,6 +6,9 @@ signal debug_mode_toggled(is_debug_mode: bool)
 
 const BATTLE_GENERIC_SCENE = preload("res://scenes/battle_scenes/battle_generic_scene/battle_generic_scene.tscn")
 
+## Expresses the number of bosses to defeat before finding the last boss 
+const NUMBER_OF_VILLAGES_TO_SAVE: int = 3
+
 var is_showing_battle_scene: bool = false
 var debug_mode_enabled: bool = false
 
@@ -27,7 +30,7 @@ func _ready() -> void:
 func _on_boss_battle_complete_signal():
 	self.days_till_attack = 5
 	self.number_of_villages_saved += 1
-	if number_of_villages_saved < 2:
+	if number_of_villages_saved < NUMBER_OF_VILLAGES_TO_SAVE:
 		ScreenUtils.open_event_screen(
 			get_parent(),
 			_prep_new_world_event()
