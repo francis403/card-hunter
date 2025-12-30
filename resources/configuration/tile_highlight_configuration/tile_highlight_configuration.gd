@@ -25,6 +25,16 @@ class_name TileHighlightConfig
 @export var ignore_tiles_same_distance_from_origin: bool = false
 
 @export_group("Special Tile Highlight configuration")
+## Is a formula to be used to create more complex patterns.
+## (0, 0) is the origin tile, and (0, 1) will be the tile up from the origin tile
+## Available variables:
+## x -> relative x position to origin tile
+## y -> relative y position to origin tile
+## p_x -> player_x relative to origin tile
+## p_y -> player_y relative to origin tile
+## m_x -> monster_x relative to origin tile
+## m_y -> monster_y relative to origin tile
+## d_p_t -> total distance to player relative to (x, y)
 @export var formulas: Array[Formula] = []
 
 var is_tile_attacked: bool = false

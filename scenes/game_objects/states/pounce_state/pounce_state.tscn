@@ -1,0 +1,37 @@
+[gd_scene load_steps=8 format=3 uid="uid://10j1ivgeq7d8"]
+
+[ext_resource type="Script" uid="uid://cm45vn412y2sx" path="res://scenes/game_objects/states/pounce_state/pounce_state.gd" id="1_ql1fi"]
+[ext_resource type="Script" uid="uid://bykm1sfwrcmbx" path="res://resources/configuration/tile_highlight_configuration/formula/formula.gd" id="2_sqr4g"]
+[ext_resource type="Script" uid="uid://clufwv38rhs7a" path="res://resources/configuration/tile_highlight_configuration/tile_highlight_configuration.gd" id="3_sdnjp"]
+
+[sub_resource type="Resource" id="Resource_sqr4g"]
+script = ExtResource("2_sqr4g")
+_formula = "d_p_t == 0"
+metadata/_custom_type_script = "uid://bykm1sfwrcmbx"
+
+[sub_resource type="Resource" id="Resource_6yt1t"]
+script = ExtResource("3_sdnjp")
+_range = 4
+min_range = 2.0
+area_type = 4
+formulas = Array[ExtResource("2_sqr4g")]([SubResource("Resource_sqr4g")])
+metadata/_custom_type_script = "uid://clufwv38rhs7a"
+
+[sub_resource type="Resource" id="Resource_sdnjp"]
+script = ExtResource("2_sqr4g")
+_formula = "d_p_t < 2"
+metadata/_custom_type_script = "uid://bykm1sfwrcmbx"
+
+[sub_resource type="Resource" id="Resource_6vx6v"]
+script = ExtResource("3_sdnjp")
+_range = 4
+min_range = 2.0
+area_type = 4
+ignore_occupied_tiles = true
+formulas = Array[ExtResource("2_sqr4g")]([SubResource("Resource_sdnjp")])
+metadata/_custom_type_script = "uid://clufwv38rhs7a"
+
+[node name="PounceState" type="Node"]
+script = ExtResource("1_ql1fi")
+attack_tiles_highlight = SubResource("Resource_6yt1t")
+move_tiles_possibilities = SubResource("Resource_6vx6v")

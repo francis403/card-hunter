@@ -66,10 +66,16 @@ func move_away_from_tile(
 	
 
 func distance_between_tiles(tile1: Tile, tile2: Tile) -> int:
-	var x1 = tile1._x_position
-	var x2 = tile2._x_position
-	var y1 = tile1._y_position
-	var y2 = tile2._y_position
+	return distance_between_vectors(tile1.to_vector(), tile2.to_vector())
+	
+func distance_between_vectors(
+	_v1: Vector2,
+	_v2: Vector2
+) -> int:
+	var x1 = _v1.x
+	var x2 = _v2.x
+	var y1 = _v1.y
+	var y2 = _v2.y
 	return round(
 		pow(
 			pow((x2 - x1), 2) + pow((y2 - y1), 2),

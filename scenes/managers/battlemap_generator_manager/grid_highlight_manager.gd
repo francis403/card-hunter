@@ -55,7 +55,8 @@ func highlight_tiles(
 		return []
 	var highlighted_tiles: Array[Tile] = []
 	var area_type: Constants.AreaType = config.area_type
-	if area_type == Constants.AreaType.RADIUS:
+	if area_type == Constants.AreaType.RADIUS\
+		or area_type == Constants.AreaType.INHERIT:
 		highlighted_tiles.append_array(
 			highligh_tiles_radius(
 				source_tile,

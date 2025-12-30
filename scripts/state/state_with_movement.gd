@@ -29,7 +29,7 @@ func enter_state(
 		push_warning("Monster missconfiguration")
 		return
 	if _state_action_config.is_able_to_do_calculate_next_move:
-		self.do_calculate_next_move()
+		monster.next_move = self.do_calculate_next_move()
 	do_update_variables_after_movement()
 	if _state_action_config.is_able_to_do_action:
 		self.do_action()
@@ -84,7 +84,6 @@ func do_movement():
 		BattleController.battlemap.place_piece_in_tile(monster, next_turn_move_tile)
 	
 	
-	
 ## Calculates the monster next move. 
 ## By default moves toward the target (player)
 ## If _should_keep_same_movement_logic is true:
@@ -100,10 +99,13 @@ func do_calculate_next_move(
 	if not move_tiles_possibilities:
 		return _move_towards_player()
 	else:
-		return MovementUtils.get_tiles_for_config(
+		var _possible_moves: Array[Tile] = MovementUtils.get_tiles_for_config(
 			monster._tile,
 			move_tiles_possibilities
-		).pick_random()
+		)
+		if _possible_moves.is_empty():
+			return null
+		return _possible_moves.pick_random()
 
 func _move_towards_player() -> Tile:
 	return MovementUtils.get_movement_tile(

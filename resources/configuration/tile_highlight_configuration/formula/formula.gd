@@ -24,6 +24,10 @@ func is_point_in_formula(
 	_relative_point: Vector2,
 	_relative_player_position: Vector2
 ) -> bool:
+	var _player_distance: int = MovementUtils.distance_between_vectors(
+		_relative_player_position,
+		_relative_point
+	)
 	var inputs = {
 		"x": _relative_point.x,
 		"y": _relative_point.y,
@@ -31,6 +35,7 @@ func is_point_in_formula(
 		"p_y": _relative_player_position.y,
 		"m_x": _relative_player_position.x,
 		"m_y": _relative_player_position.y,
+		"d_p_t": _player_distance
 	}
 	var _result = _expression.parse(_formula, inputs.keys())
 	
