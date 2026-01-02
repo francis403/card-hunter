@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="Formula" load_steps=2 format=3 uid="uid://b36yhyglx43po"]
+
+[ext_resource type="Script" uid="uid://bykm1sfwrcmbx" path="res://resources/configuration/tile_highlight_configuration/formula/formula.gd" id="1_l3tje"]
+
+[resource]
+script = ExtResource("1_l3tje")
+_formula = "d_p_t == 0"
+metadata/_custom_type_script = "uid://bykm1sfwrcmbx"

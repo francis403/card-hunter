@@ -26,7 +26,6 @@ func change_state_if_condition_applies(
 	monster: GenericMonster,
 	current_state: State
 ) -> bool:
-	print(change_state_if_condition_applies)
 	var result: bool = false
 	if run_other_conditions_before:
 		result = super.change_state_if_condition_applies(monster, current_state)

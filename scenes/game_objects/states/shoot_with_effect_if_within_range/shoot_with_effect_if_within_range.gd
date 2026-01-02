@@ -25,20 +25,8 @@ class_name ShootSpiderWebsIfWithinRange
 var target_tile: Tile = null
 var is_player_hit: bool = false
 
-func enter_state(
-	_state_action_config: StateActionConfig = StateActionConfig.new()
-):
-	super.enter_state()
-	print(enter_state)
-	target_tile = BattleController.get_player()._tile
-	highlight_tile(target_tile)
-
-func do_state_action(
-	_state_action_config: StateActionConfig = StateActionConfig.new()
-):
-	super.do_state_action()
-	print(do_state_action)
-	BattlemapSignals.clear_attack_highlight_tiles.emit()
+func do_action():
+	super.do_action()
 	if target_tile and tile_effect_resource.tile_effect_controller:
 		var tile_effect_controller: BaseTileEffectController =\
 			tile_effect_resource.tile_effect_controller.instantiate()
@@ -46,6 +34,8 @@ func do_state_action(
 		target_tile.add_tile_effect_v2(
 			tile_effect_controller
 		)
+	else:
+		target_tile = BattleController.get_player()._tile
 	
 	is_player_hit = target.has_power_effect(
 		tile_effect_resource.power_effect.id

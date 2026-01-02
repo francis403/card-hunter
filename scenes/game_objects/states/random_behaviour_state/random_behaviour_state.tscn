@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://chalurlnises"]
+
+[ext_resource type="Script" uid="uid://238npxtx73pw" path="res://scenes/game_objects/states/random_behaviour_state/random_behaviour_state.gd" id="1_c70eu"]
+
+[node name="RandomBehaviourState" type="Node"]
+script = ExtResource("1_c70eu")

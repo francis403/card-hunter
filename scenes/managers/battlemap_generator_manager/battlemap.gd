@@ -43,9 +43,9 @@ func highlight_move_tiles(
 func highlight_attack_tiles(
 	source_tile: Tile,
 	config: TileHighlightConfig
-):
+) -> Array[Tile]:
 	config.is_tile_attacked = true
-	highlight_tiles(source_tile, config)
+	return highlight_tiles(source_tile, config)
 
 ## TODO: Do we need this? 
 func get_range_tiles(

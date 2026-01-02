@@ -1,12 +1,18 @@
 extends State
+
+## State with the following order:
+## 1. do_trigger_attacked_tiles()
+## 2. do_movement -> place piece in monster.next_move tile
+## 3. do_calculate_next_action() -> see if new behaviour change is required
+## 4. do_calculate_next_move() -> calculate monster.next_move tile
+## 5. do_action() -> do state main functionality
+## 6. do_attack() -> optional
 class_name StateWithMovement
 
-var target: PlayerPiece
-var monster: GenericMonster
-
 var distance_to_player: int = 0
+var _tiles_targeted_for_attack: Array[Tile] = []
 
-
+@export_group("Basic Behaviour Configuration")
 ## TODO: Attack tiles to highlight during do_action
 @export var attack_tiles_highlight: TileHighlightConfig = null
 
@@ -17,14 +23,16 @@ var distance_to_player: int = 0
 ## Conditions to change state
 @export var state_change_conditions: Array[StateChangeCondtion]
 
+@export_group("Special Attack Configurations")
+## Should the attack tiles be calculated from the monster future position or corrent position
+@export var use_monster_next_move_as_origin_tile: bool = true
+## Effect to add to tiles and/or pieces
+@export var on_hit_tile_effect_resource: TileEffectResource
+
 func enter_state(
 	_state_action_config: StateActionConfig = StateActionConfig.new()
 ):
 	super.enter_state()
-	target = BattleController.get_player()
-	monster = get_parent().get_parent()
-	monster.set_state_icon(state_icon)
-	monster.next_move = null
 	if not monster or not monster._tile:
 		push_warning("Monster missconfiguration")
 		return
@@ -71,10 +79,13 @@ func do_update_variables_after_movement():
 	)
 
 func do_trigger_attacked_tiles():
-	BattlemapSignals.deal_damage_to_attacked_squares.emit(
-		monster._tile,
-		monster._strength
-	)
+	if target and target._tile.is_tile_attacked:
+		target.hit_player(
+			monster._tile,
+			monster._strength
+		)
+		self.player_hit_during_turn = true
+	_add_tile_effect()
 
 func do_movement():
 	if not monster:
@@ -99,6 +110,9 @@ func do_calculate_next_move(
 	if not move_tiles_possibilities:
 		return _move_towards_player()
 	else:
+		## TODO: Think, does it make sense for the monster movement to be angled to the player?
+		move_tiles_possibilities.origin_tile = monster._tile
+		move_tiles_possibilities.target_tile = target._tile
 		var _possible_moves: Array[Tile] = MovementUtils.get_tiles_for_config(
 			monster._tile,
 			move_tiles_possibilities
@@ -114,19 +128,22 @@ func _move_towards_player() -> Tile:
 		monster._speed
 	)
 	
-## Do any special actions
+## Do any special actions.
+## Runs every turn (including when enter_state)
 func do_action():
 	if not attack_tiles_highlight:
 		return
-	attack_tiles_highlight.origin_tile = monster._tile if not monster.next_move else monster.next_move
+	attack_tiles_highlight.origin_tile = monster._tile\
+		if not monster.next_move or not self.use_monster_next_move_as_origin_tile\
+		else monster.next_move
 	attack_tiles_highlight.target_tile = target._tile
 	BattleController.battlemap.clear_highlighted_tiles()
-	BattleController.battlemap.highlight_attack_tiles(
+	_tiles_targeted_for_attack = BattleController.battlemap.highlight_attack_tiles(
 		attack_tiles_highlight.origin_tile,
 		attack_tiles_highlight
 	)
 	
-## Highlight any attack tiles
+## Highlight any attack tiles. Not required
 func do_attack():
 	pass
 	
@@ -155,3 +172,16 @@ func _get_same_direction_monster_movement() -> Tile:
 	var _previous_move_direction: Vector2 = (_planned_move_tile_vector - _previous_tile_vector).normalized()
 	var _result: Vector2 = _current_tile_vector + (_previous_move_direction * _distance)
 	return  BattleController.get_tile(_result.x, _result.y)
+	
+	
+func _add_tile_effect():
+	if not self.on_hit_tile_effect_resource\
+		 or not on_hit_tile_effect_resource.tile_effect_controller.can_instantiate() :
+		return
+	var tile_effect_controller: BaseTileEffectController =\
+			on_hit_tile_effect_resource.tile_effect_controller.instantiate()
+	tile_effect_controller.tile_effect_resource = self.on_hit_tile_effect_resource
+	for _tile: Tile in _tiles_targeted_for_attack:
+		_tile.add_tile_effect_v2(
+			tile_effect_controller
+		)

@@ -5,7 +5,8 @@ enum StateConditionEnum {
 	ALWAYS,
 	RANGE_TO_PLAYER,
 	SELF_HP_PERCENTANGE,
-	AFTER_X_TURNS
+	AFTER_X_TURNS,
+	ON_PLAYER_HIT
 }
 
 enum LogicalOperationEnum {
@@ -35,6 +36,8 @@ func is_condition_matched(
 			return monster_health_comparison(monster)
 		StateConditionEnum.AFTER_X_TURNS:
 			return logical_operation_comparison(current_state.number_of_active_turns)
+		StateConditionEnum.ON_PLAYER_HIT:
+			return on_player_hit_condition(current_state)
 	return result
 
 func distance_to_player_comparison(
@@ -70,3 +73,8 @@ func logical_operation_comparison(y: int) -> bool:
 		LogicalOperationEnum.DIFFERENT_THAN:
 			return y != x
 	return false
+	
+func on_player_hit_condition(
+	_current_state: State
+) -> bool:
+	return _current_state.player_hit_during_turn

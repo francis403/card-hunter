@@ -40,6 +40,6 @@ func _on_state_change(state: State, new_state_name: String):
 		
 	if current_state:
 		current_state.exit_state()
-		
 	new_state.enter_state()
 	current_state = new_state
+	new_state.after_enter_state()

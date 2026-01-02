@@ -1,8 +1,17 @@
-[gd_scene load_steps=3 format=3 uid="uid://cvfuga8sci420"]
+[gd_scene load_steps=7 format=3 uid="uid://cvfuga8sci420"]
 
-[ext_resource type="Script" path="res://scenes/game_objects/states/shoot_with_effect_if_within_range/shoot_with_effect_if_within_range.gd" id="1_3bq5h"]
+[ext_resource type="Script" uid="uid://djboi2cbde8m1" path="res://scenes/game_objects/states/shoot_with_effect_if_within_range/shoot_with_effect_if_within_range.gd" id="1_3bq5h"]
+[ext_resource type="Script" uid="uid://bykm1sfwrcmbx" path="res://resources/configuration/tile_highlight_configuration/formula/formula.gd" id="2_55jh0"]
 [ext_resource type="Texture2D" uid="uid://deoj2fp6s1lym" path="res://assets/images/icons/monster_icons/behaviour_icons/red_range_behaviour_icon.png" id="2_aafpu"]
+[ext_resource type="Resource" uid="uid://b36yhyglx43po" path="res://resources/_resource_instances/configuration/tile_highlight_configuration/_formulas/player_single_tile.tres" id="3_2s7pd"]
+[ext_resource type="Script" uid="uid://clufwv38rhs7a" path="res://resources/configuration/tile_highlight_configuration/tile_highlight_configuration.gd" id="3_r8p5p"]
+
+[sub_resource type="Resource" id="Resource_2s7pd"]
+script = ExtResource("3_r8p5p")
+formulas = Array[ExtResource("2_55jh0")]([ExtResource("3_2s7pd")])
+metadata/_custom_type_script = "uid://clufwv38rhs7a"
 
 [node name="ShootWithEffectIfWithinRangeState" type="Node"]
 script = ExtResource("1_3bq5h")
+attack_tiles_highlight = SubResource("Resource_2s7pd")
 state_icon = ExtResource("2_aafpu")

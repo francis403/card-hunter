@@ -6,6 +6,7 @@ class_name TileHighlightConfig
 @export var _range: int = 1
 @export var min_range: float = 0
 @export var area_type: Constants.AreaType = Constants.AreaType.INHERIT
+@export var include_target_tile_by_default: bool = false
 @export var ignore_occupied_tiles: bool = false
 @export var ignore_origin: bool = true
 @export var ignore_corners: bool = false
@@ -22,7 +23,13 @@ class_name TileHighlightConfig
 @export var use_specific_tile_location_config: bool = false
 @export var ignore_tiles_close_to_origin: bool = false
 @export var ignore_tiles_away_from_origin: bool = false
+@export var ignore_tiles_not_inbetween_origin_and_target: bool = false
 @export var ignore_tiles_same_distance_from_origin: bool = false
+
+@export_group("Origin - Target Direction config")
+## Use only tiles the same direction (vector) between origin and target
+@export var origin_target_direction_tiles_only: bool = false
+@export var direction_accepted_range: float = 0.1
 
 @export_group("Special Tile Highlight configuration")
 ## Is a formula to be used to create more complex patterns.
@@ -37,10 +44,12 @@ class_name TileHighlightConfig
 ## d_p_t -> total distance to player relative to (x, y)
 @export var formulas: Array[Formula] = []
 
+@export_group("Debug Config")
+@export var enable_debug: bool = false
+
 var is_tile_attacked: bool = false
 var make_tile_clickable: bool = true
 
-## Used in the Specific Tile Location Configs
 var origin_tile: Tile = null
 var target_tile: Tile = null
 
@@ -61,23 +70,52 @@ func is_tile_valid(
 	)
 	if not _tile:
 		return false
+	#if GameController.debug_mode_enabled:
+	if enable_debug:
+		print("DEBUG: checking ", _tile.to_vector())
 	if self.ignore_origin and _radius_distance == 0:
+		GeneralUtils.debug_log("DEBUG:  ignoring origin", enable_debug)
 		return false
+	if self.include_target_tile_by_default and\
+		target_tile and _tile.to_vector() == target_tile.to_vector():
+		GeneralUtils.debug_log("DEBUG:  including target tile", enable_debug)
+		return true
 	if furthest_square_distance <= self.min_range :
 		return false
 	if self.ignore_corners and _radius_distance > self._range:
+		GeneralUtils.debug_log("DEBUG:  ignoring corners", enable_debug)
 		return false
 	if self.ignore_non_corners and abs(_radius_x) != abs(_radius_y):
+		GeneralUtils.debug_log("DEBUG:  ignoring non-corners", enable_debug)
 		return false
 	if self.ignore_tiles_with_effects and _tile.has_effect():
+		GeneralUtils.debug_log("DEBUG:  ignoring tile with effects", enable_debug)
 		return false
 	if self._specific_tile_location_config_match(_tile):
+		GeneralUtils.debug_log(
+			"DEBUG: ignoring due to specific_tile_location config",
+			enable_debug
+		)
+		return false
+	if not self._is_point_in_direction_range(
+		_tile
+	):
+		GeneralUtils.debug_log(
+			"DEBUG: ignoring due to not pointing in right direction",
+			enable_debug
+		)
 		return false
 	if not _is_point_in_formulas(
 		_origin_tile.to_vector(),
 		_radius_distance_from_origin
 	):
+		GeneralUtils.debug_log(
+			"DEBUG: ignoring due to not in formula",
+			enable_debug
+		)
 		return false
+	if enable_debug:
+		print("DEBUG: Found tile ", _tile.to_vector())
 	return true
 
 func _specific_tile_location_config_match(
@@ -102,6 +140,8 @@ func _specific_tile_location_config_match(
 		_t_x_distance > _o_x_distance and _t_o_distance < _t_x_distance
 	var _is_tile_equal_distance_from_origin: bool =\
 		_o_x_distance == _t_x_distance
+	var _is_tile_inbetween_origin_and_target: bool =\
+		_o_t_distance > _o_x_distance and _t_x_distance  < _t_o_distance  
 	
 	if self.ignore_tiles_close_to_origin and _is_tile_close_from_origin:
 		return true
@@ -109,7 +149,25 @@ func _specific_tile_location_config_match(
 		return true
 	if self.ignore_tiles_same_distance_from_origin and _is_tile_equal_distance_from_origin:
 		return true
+	if self.ignore_tiles_not_inbetween_origin_and_target and not _is_tile_inbetween_origin_and_target:
+		return true
 	return false
+
+## TODO: test
+func _is_point_in_direction_range(
+	_tile: Tile
+) -> bool:
+	if not self.origin_target_direction_tiles_only:
+		return true
+	var _result: bool = false
+	var _tile_vector: Vector2 = _tile.to_vector()
+	var _origin_vector: Vector2 = origin_tile.to_vector()
+	var _target_vector: Vector2 = target_tile.to_vector()
+	var _origin_to_target_direction: Vector2 = _origin_vector.direction_to(_target_vector)
+	var _tile_to_target_direction: Vector2 = _tile_vector.direction_to(_target_vector)
+	var _total_distance: float = _origin_to_target_direction.distance_to(_tile_to_target_direction)
+	_result = _total_distance <= direction_accepted_range
+	return _result
 	
 ## The point needs to be in relation to the origin tile
 func _is_point_in_formulas(

@@ -1,0 +1,2 @@
+extends StateWithMovement
+class_name GenericState
