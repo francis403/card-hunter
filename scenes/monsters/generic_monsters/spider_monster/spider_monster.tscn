@@ -79,9 +79,8 @@ state_change_conditions = Array[ExtResource("13_hcas0")]([SubResource("Resource_
 state_icon = ExtResource("10_rf0dk")
 
 [node name="ShootSpiderWebsIfWithinRangeState" parent="StateMachine" index="1" instance=ExtResource("6_15hyu")]
-tile_effect_resource = ExtResource("16_3bvni")
-maximum_distance_to_player = 2
 state_change_conditions = Array[ExtResource("13_hcas0")]([SubResource("Resource_wj8nu")])
+on_hit_tile_effect_resource = ExtResource("16_3bvni")
 
 [node name="MoveAndSingleAttackState" parent="StateMachine" index="2" instance=ExtResource("6_glkbu")]
 state_if_higher_than_max_range = "ShootSpiderWebsIfWithinRangeState"

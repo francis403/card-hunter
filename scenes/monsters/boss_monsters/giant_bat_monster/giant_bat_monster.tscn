@@ -53,8 +53,8 @@ metadata/_custom_type_script = "uid://bmo3eknyoct12"
 [sub_resource type="Resource" id="Resource_v1ak8"]
 script = ExtResource("15_rwlj1")
 common_x = 2
-equal_state = "MoveSpeedToPlayerAndDoAttack"
-smaller_than_state = "MoveSpeedToPlayerAndDoAttack"
+equal_state = "MoveSpeedToPlayerAndAttack_GenericState"
+smaller_than_state = "MoveSpeedToPlayerAndAttack_GenericState"
 metadata/_custom_type_script = "uid://bbawf6m7784ju"
 
 [sub_resource type="Resource" id="Resource_xmy47"]
