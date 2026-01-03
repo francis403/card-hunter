@@ -1,11 +1,14 @@
 extends Piece
 class_name MonsterPiece
 
-var next_move: Tile = null
+var next_move: Tile = null:
+	set(value):
+		next_move = value
+		_on_move_intent_updated()
 
 func _ready() -> void:
 	BattleSignals.battle_start.connect(on_battle_start_signal)
-	BattlemapSignals.monster_prepared_move.connect(_on_monster_prepared_move_signal)
+	#BattlemapSignals.monster_prepared_move.connect(_on_monster_prepared_move_signal)
 
 ## Main function for the monster
 func play_monster_turn():
@@ -14,9 +17,15 @@ func play_monster_turn():
 ## Triggered when the battle is ready to start
 func on_battle_start_signal():
 	pass
+
+func _on_move_intent_updated(
+	#_current_tile: Tile,
+	#_next_move: Tile
+):
+	pass
 	
-func _on_monster_prepared_move_signal(tile: Tile):
-	next_move = tile
+#func _on_monster_prepared_move_signal(tile: Tile):
+	#next_move = tile
 
 func on_monster_moved_by_player(_new_tile: Tile) -> void:
 	pass

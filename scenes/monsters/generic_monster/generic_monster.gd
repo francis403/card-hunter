@@ -61,11 +61,14 @@ func on_monster_moved_by_player(_new_tile: Tile) -> void:
 	_state_action_config.should_keep_same_movement_logic = true 
 	state_machine.do_state_action(_state_action_config)
 
+func _on_move_intent_updated():
+	_on_monster_prepared_move_signal()
+
 ## TODO: improve the function
 ## We shouldn;t be using sprite_2d.flip_h.
 ## Maybe we can calculate using
-func _on_monster_prepared_move_signal(tile: Tile):
-	super._on_monster_prepared_move_signal(tile)
+func _on_monster_prepared_move_signal():
+	#super._on_monster_prepared_move_signal(tile)
 	if self.next_move:
 		if move_intent_container:
 			move_intent_container.visible = true
