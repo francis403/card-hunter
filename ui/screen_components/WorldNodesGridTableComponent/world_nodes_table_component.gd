@@ -101,8 +101,11 @@ func instantiate_world():
 func _generate_world(
 	_world_gen_config: WorldGeneratorConfig
 ):
-	_current_world_generation_config = _world_gen_config
-	_number_of_nodes_to_generate = _calculate_total_number_of_nodes(_world_gen_config)
+	_current_world_generation_config = _world_gen_config.duplicate()
+	_current_world_generation_config.initialize_config()
+	_number_of_nodes_to_generate = _calculate_total_number_of_nodes(
+		_current_world_generation_config
+	)
 	if self._debug_enabled:
 		print("DEBUG: total number of nodes to generate ", _number_of_nodes_to_generate)
 	_village_node = _place_village()

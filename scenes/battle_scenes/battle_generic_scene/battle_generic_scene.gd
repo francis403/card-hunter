@@ -139,6 +139,13 @@ func _on_battle_won():
 func _prep_loss_screen():
 	game_over_screen.title_label.text = "You Lose"
 	game_over_screen.reward_component.visible = false
+	game_over_screen.override_left_button = true
+	game_over_screen.left_button_pressed.connect(_on_lose_screen_continue_button)
+
+func _on_lose_screen_continue_button():
+	get_tree().change_scene_to_file("res://ui/screens/title_menu_screen/title_scene.tscn")
+	get_tree().paused = false
+	self.queue_free()
 
 func _prep_win_screen():
 	game_over_screen.title_label.text = "You Win"

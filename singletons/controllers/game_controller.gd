@@ -91,9 +91,14 @@ func generate_battle_scene(
 	_is_boss_battle: bool = false,
 	_world_node: GenericWorldNode = null
 ) -> BattleGenericScene:
-	var battle_scene: BattleGenericScene = BATTLE_GENERIC_SCENE.instantiate()
-	battle_scene.is_boss_battle = _is_boss_battle
-	battle_scene.monsters.clear()
-	battle_scene.monsters.append(_monster)
-	battle_scene.set_world_node(_world_node)
-	return battle_scene
+	var _hunt_scene: BattleGenericScene =\
+		load(BattleGenericScene.my_node_scene_path).instantiate().duplicate()
+	_hunt_scene.is_boss_battle = _is_boss_battle
+	_hunt_scene.monsters.clear()
+	var _monster_to_add: GenericMonster = _monster.duplicate()
+	_hunt_scene.monsters.append(_monster_to_add)
+	_hunt_scene.add_child(_monster_to_add)
+	_monster_to_add.owner = _hunt_scene
+	if _world_node:
+		_hunt_scene.set_world_node(_world_node)
+	return _hunt_scene

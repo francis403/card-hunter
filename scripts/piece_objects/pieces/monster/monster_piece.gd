@@ -8,7 +8,6 @@ var next_move: Tile = null:
 
 func _ready() -> void:
 	BattleSignals.battle_start.connect(on_battle_start_signal)
-	#BattlemapSignals.monster_prepared_move.connect(_on_monster_prepared_move_signal)
 
 ## Main function for the monster
 func play_monster_turn():
@@ -18,14 +17,8 @@ func play_monster_turn():
 func on_battle_start_signal():
 	pass
 
-func _on_move_intent_updated(
-	#_current_tile: Tile,
-	#_next_move: Tile
-):
+func _on_move_intent_updated():
 	pass
-	
-#func _on_monster_prepared_move_signal(tile: Tile):
-	#next_move = tile
 
 func on_monster_moved_by_player(_new_tile: Tile) -> void:
 	pass

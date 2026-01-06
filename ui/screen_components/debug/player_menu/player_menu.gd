@@ -15,11 +15,9 @@ func _setup_monster_battle_scenes(
 	## Name - PackedScene
 	var _hunt_scenes: Array[Dictionary] = []
 	for _monster: GenericMonster in _all_monsters_list:
-		var _hunt_scene: BattleGenericScene =\
-			load(BattleGenericScene.my_node_scene_path).instantiate()
-		_hunt_scene.add_child(_monster)
-		_monster.owner = _hunt_scene
-		_hunt_scene.monsters.append(_monster)
+		var _hunt_scene: BattleGenericScene = GameController.generate_battle_scene(
+			_monster
+		)
 		var _packed_scene: PackedScene = PackedScene.new()
 		_packed_scene.pack(_hunt_scene)
 		_hunt_scenes.append(

@@ -11,11 +11,11 @@ var progress: Progress
 
 func _ready() -> void:
 	BattlemapSignals.player_world_state_updated.connect(_on_player_world_state_updated_signal)
-	settings = Settings.new()
-	progress = Progress.new()
+	_reset_file()
 
 func delete_save():
 	DirAccess.remove_absolute(SAVE_FILE_PATH)
+	_reset_file()
 
 func save():
 	var file = FileAccess.open(SAVE_FILE_PATH, FileAccess.WRITE)
@@ -70,6 +70,10 @@ func load_progress():
 	
 func update_player_position(_world_node: GenericWorldNode):
 	self.progress.update_player_position(_world_node)
+	
+func _reset_file():
+	settings = Settings.new()
+	progress = Progress.new()
 	
 func _load_world_state():
 	if save_data["progress"]["world_state"].has("villages_saved"):

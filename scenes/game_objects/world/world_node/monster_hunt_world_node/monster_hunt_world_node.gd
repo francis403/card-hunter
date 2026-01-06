@@ -59,7 +59,7 @@ func generate_battle_scene(
 	battle_scene.monsters.clear()
 	battle_scene.set_world_node(self)
 	for monster in monsters_in_node:
-		battle_scene.monsters.append(monster)
+		battle_scene.monsters.append(monster.duplicate())
 	return battle_scene
 
 func show_monster():
@@ -88,7 +88,9 @@ func load_node_from_dictionary(node_state: Dictionary):
 			push_error(load_node_from_dictionary, ": ERROR while loading monster ", monster_id)
 			continue
 		var monster_scene: PackedScene = load(monster.scene_file_path)
-		self.monsters_in_node.append(monster_scene.instantiate())
+		self.monsters_in_node.append(
+			monster_scene.instantiate().duplicate()
+		)
 
 func copy_properties_into_node(node: GenericWorldNode):
 	super.copy_properties_into_node(node)

@@ -68,7 +68,6 @@ func _on_move_intent_updated():
 ## We shouldn;t be using sprite_2d.flip_h.
 ## Maybe we can calculate using
 func _on_monster_prepared_move_signal():
-	#super._on_monster_prepared_move_signal(tile)
 	if self.next_move:
 		if move_intent_container:
 			move_intent_container.visible = true

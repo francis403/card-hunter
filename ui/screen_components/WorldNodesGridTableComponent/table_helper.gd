@@ -175,7 +175,8 @@ func block_adjancent_table_positions(
 				_node_table_pos.y + radius_y
 			)
 			var _distance: int = self.distance_between_two_points(_table_center_point, _table_position)
-			_available_world_table_positions[_distance].erase(_table_position)
+			if _available_world_table_positions.has(_distance):
+				_available_world_table_positions[_distance].erase(_table_position)
 
 func _show_available_pos() -> void:
 	print("DEBUG: Showing available positions!")
