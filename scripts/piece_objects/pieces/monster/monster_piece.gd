@@ -6,6 +6,15 @@ var next_move: Tile = null:
 		next_move = value
 		_on_move_intent_updated()
 
+## Default target for monster. 
+## By default should be player
+## TODO: I should probably use this in the state_with_movement
+var target_tile: Tile
+
+## Holds the orientation of the monster to the target_tile
+## Basically represents the direction the monster is looking at
+var _self_target_orientation: Vector2
+
 func _ready() -> void:
 	BattleSignals.battle_start.connect(on_battle_start_signal)
 
@@ -45,3 +54,9 @@ func get_sprite() -> Sprite2D:
 
 func highlight_attack_action() -> void:
 	pass
+
+func _update_piece_orientation_tiles(_center_tile: Tile):
+	if BattleController.get_player():
+		target_tile = BattleController.get_player()._tile
+	var _direction: Vector2 = _tile.direction_to(target_tile)
+	_self_target_orientation = (_tile.to_vector() + _direction)

@@ -19,7 +19,6 @@ var _show_if_tile_is_occupied: bool = false
 @onready var background_button: Button = $BackgroundButton
 @onready var status_label: Label = $StatusLabel
 @onready var attack_rect: ColorRect = $AttackRect
-
 @onready var tile_effects_container: Control = %TileEffectsContainer
 
 
@@ -105,6 +104,65 @@ func remove_tile_effects():
 func has_effect() -> bool:
 	return tile_effects_container.get_children().size() > 0
 
+func direction_to(_other: Tile) -> Vector2:
+	if not _other:
+		return Vector2.ZERO
+	#return self.to_vector().direction_to(_other.to_vector())
+	return (_other.to_vector() - self.to_vector()).normalized()
+
+func is_tile_between_tiles(
+	_a_tile: Tile,
+	_b_tile: Tile,
+	_include_distance_zero: bool = false
+) -> bool:
+	var _cur_tile_pos: Vector2 = self.to_vector()
+	var _a_tile_pos: Vector2 = _a_tile.to_vector()
+	var _b_tile_pos: Vector2 = _b_tile.to_vector()
+	
+	var _a_b_distance: int = MovementUtils.distance_between_tiles(_a_tile, _b_tile)
+	var _cur_a_distance: int = MovementUtils.distance_between_tiles(self, _a_tile)
+	var _cur_b_distance: int = MovementUtils.distance_between_tiles(self, _b_tile)
+	
+	if _include_distance_zero and\
+		(_cur_a_distance == _a_b_distance or _cur_b_distance == _a_b_distance):
+			return true
+	
+	return _cur_a_distance < _a_b_distance and _cur_b_distance < _a_b_distance
+
+## TODO: needs testing
+## Checks if both self and _other tile are in the same general direction to target
+func is_in_general_direction_to_other(
+	_other: Tile,
+	_target: Vector2
+) -> bool:
+	if not _other:
+		return false
+	var _self_direction: Vector2 = (self.to_vector() - _target).normalized().ceil()
+	var _other_direction: Vector2 = (_other.to_vector() - _target).normalized().ceil()
+	if _self_direction == _other_direction:
+		return true
+	#if (_self_direction.x == 0 or _self_direction.y == 0):
+		#if _self_direction.x == 0:
+			#return _self_direction.y == _other_direction.y
+		#return _self_direction.x == _other_direction.x
+	#return false
+	return MovementUtils.distance_between_vectors(_self_direction, _other_direction) <= 1
+
+func is_other_opposite_direction_to_self(
+	_other: Tile,
+	_target: Vector2
+) -> bool:
+	if not _other:
+		return false
+	var _s_vector: Vector2 = self.to_vector()
+	var _o_vector: Vector2 = _other.to_vector()
+	var _self_target_direction: Vector2 = (_s_vector - _target).normalized()
+	var _other_self_direction: Vector2 = (_o_vector - _s_vector).normalized()
+	#var _target_other_direction: Vector2 = (_o_vector - _s_vector).normalized().ceil()
+	var _is_opposite_direction: bool =\
+		#MovementUtils.distance_between_vectors(_self_target_direction, _target_other_direction) > 1
+		MovementUtils.distance_between_vectors(_self_target_direction, _other_self_direction) > 1
+	return _is_opposite_direction
 
 func _on_background_button_pressed() -> void:
 	BattlemapSignals.tile_picked_in_battlemap.emit(self)

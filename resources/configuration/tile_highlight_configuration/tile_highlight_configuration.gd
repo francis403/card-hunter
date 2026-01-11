@@ -25,9 +25,18 @@ class_name TileHighlightConfig
 @export var ignore_tiles_away_from_origin: bool = false
 @export var ignore_tiles_not_inbetween_origin_and_target: bool = false
 @export var ignore_tiles_same_distance_from_origin: bool = false
+@export_group("Monster orientation configs")
+## Should the monster only attack in the players general direction
+@export var ignore_tiles_opposite_target_orientation:  bool = false
+## Should the monster only attack opposite of the players general direction
+@export var ignore_tiles_in_target_orientation:  bool = false
+## Use a range instead of just general direction or not. 
+## Range 0 is a line
+@export var use_range_tile_player_orientation:  bool = false
 
 @export_group("Origin - Target Direction config")
-## Use only tiles the same direction (vector) between origin and target
+## Use only tiles the same direction (vector) between origin and target.
+## Accepts given range
 @export var origin_target_direction_tiles_only: bool = false
 @export var direction_accepted_range: float = 0.1
 
@@ -93,7 +102,13 @@ func is_tile_valid(
 		return false
 	if self._specific_tile_location_config_match(_tile):
 		GeneralUtils.debug_log(
-			"DEBUG: ignoring due to specific_tile_location config",
+			"DEBUG: ignoring due to specific_tile_location config %s" % _tile.to_vector(),
+			enable_debug
+		)
+		return false
+	if self._should_ignore_tile_based_on_orientation(_tile):
+		GeneralUtils.debug_log(
+			"DEBUG: ignoring due to orientation %s" % _tile.to_vector(),
 			enable_debug
 		)
 		return false
@@ -153,7 +168,6 @@ func _specific_tile_location_config_match(
 		return true
 	return false
 
-## TODO: test
 func _is_point_in_direction_range(
 	_tile: Tile
 ) -> bool:
@@ -168,6 +182,24 @@ func _is_point_in_direction_range(
 	var _total_distance: float = _origin_to_target_direction.distance_to(_tile_to_target_direction)
 	_result = _total_distance <= direction_accepted_range
 	return _result
+	
+## If true ignore tile
+func _should_ignore_tile_based_on_orientation(
+	_tile: Tile
+) -> bool:
+	var _tile_vector: Vector2 = _tile.to_vector()
+	if not origin_tile or not target_tile:
+		return false
+	var _origin_vector: Vector2 = origin_tile.to_vector()
+	var _target_vector: Vector2 = target_tile.to_vector()
+	var tiles_are_opposite_orientation: bool =\
+		origin_tile.is_other_opposite_direction_to_self(_tile, _target_vector)
+	
+	if ignore_tiles_opposite_target_orientation and not tiles_are_opposite_orientation:
+		return true
+	if ignore_tiles_in_target_orientation and tiles_are_opposite_orientation:
+		return true
+	return false
 	
 ## The point needs to be in relation to the origin tile
 func _is_point_in_formulas(

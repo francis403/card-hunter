@@ -36,17 +36,10 @@ var _tile: Tile:
 			previous_tile = _tile.clone()
 		#previous_tile = _tile.duplicate() if _tile else null
 		_tile = value
-		_front_tile = Vector2(
-			_tile._x_position - 1,
-			_tile._y_position
-		)
+		_update_piece_orientation_tiles(_tile)
 
 ## Store the position of the monster's previous tile
 var previous_tile: Tile = null
-
-## TODO: implement this
-## Represents the position of the tile right in front of the monster head 
-var _front_tile: Vector2
 
 func _init() -> void:
 	base_speed = _speed
@@ -95,4 +88,7 @@ func on_mouse_hover_enter():
 	pass
 
 func on_mouse_hover_exit():
+	pass
+	
+func _update_piece_orientation_tiles(_center_tile: Tile):
 	pass

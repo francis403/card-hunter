@@ -3,54 +3,46 @@
 [ext_resource type="PackedScene" uid="uid://b77dqwv8b42lt" path="res://scenes/monsters/generic_monster/generic_monster.tscn" id="1_j3d8w"]
 [ext_resource type="Script" uid="uid://4w1kb2i7swpc" path="res://scenes/monsters/generic_monsters/beatle_spider_1/beatle_spider.gd" id="2_bs8qp"]
 [ext_resource type="Texture2D" uid="uid://dj7jwipy117ka" path="res://scenes/monsters/generic_monsters/beatle_spider_1/beatle_spider_1.png" id="3_dnm2k"]
-[ext_resource type="PackedScene" uid="uid://by053fy0oimg0" path="res://scenes/game_objects/states/move_and_single_attack_state/move_and_single_attack_state.tscn" id="4_kvp0n"]
+[ext_resource type="Script" uid="uid://bykm1sfwrcmbx" path="res://resources/configuration/tile_highlight_configuration/formula/formula.gd" id="5_lab14"]
 [ext_resource type="Script" uid="uid://clufwv38rhs7a" path="res://resources/configuration/tile_highlight_configuration/tile_highlight_configuration.gd" id="5_wafqo"]
 [ext_resource type="Script" uid="uid://bmo3eknyoct12" path="res://resources/monster/state/state_change_condition/state_change_condition.gd" id="6_dwbya"]
 [ext_resource type="PackedScene" uid="uid://c7xqpe3snou7" path="res://scenes/monsters/monster_body_parts/body_parts/head_body_part/head_body_part.tscn" id="6_sd1jm"]
 [ext_resource type="PackedScene" uid="uid://cje0q5xds21f7" path="res://scenes/monsters/monster_body_parts/body_parts/back_body_part/back_body_part.tscn" id="7_babg6"]
 [ext_resource type="Script" uid="uid://b4wuvth2ekke3" path="res://resources/monster/state/state_condition/state_condition.gd" id="7_lab14"]
+[ext_resource type="Script" uid="uid://bbawf6m7784ju" path="res://resources/monster/state/player_range_state_change_condition/player_range_state_change_condition.gd" id="9_0pjkg"]
+[ext_resource type="PackedScene" uid="uid://dj1s2wk08ejm" path="res://scenes/game_objects/states/_generic_state/generic_state.tscn" id="9_02jit"]
 
-[sub_resource type="Resource" id="Resource_kvp0n"]
+[sub_resource type="Resource" id="Resource_7hyhv"]
 script = ExtResource("5_wafqo")
-area_type = 4
+_range = 3
+include_target_tile_by_default = true
 use_specific_tile_location_config = true
-ignore_tiles_away_from_origin = true
+ignore_tiles_not_inbetween_origin_and_target = true
+origin_target_direction_tiles_only = true
 metadata/_custom_type_script = "uid://clufwv38rhs7a"
 
-[sub_resource type="Resource" id="Resource_02jit"]
-script = ExtResource("7_lab14")
-state_condition = 3
-logical_operation = 2
-x = 2
-metadata/_custom_type_script = "uid://b4wuvth2ekke3"
+[sub_resource type="Resource" id="Resource_bxwi4"]
+script = ExtResource("9_0pjkg")
+common_x = 3
+smaller_than_state = "MoveAndAttack_GenericState"
+metadata/_custom_type_script = "uid://bbawf6m7784ju"
 
-[sub_resource type="Resource" id="Resource_0pjkg"]
-script = ExtResource("6_dwbya")
-conditions = Array[ExtResource("7_lab14")]([SubResource("Resource_02jit")])
-state_name = "LongBite"
-metadata/_custom_type_script = "uid://bmo3eknyoct12"
-
-[sub_resource type="Resource" id="Resource_sd1jm"]
+[sub_resource type="Resource" id="Resource_mio72"]
 script = ExtResource("5_wafqo")
 _range = 2
 area_type = 4
-use_specific_tile_location_config = true
-ignore_tiles_away_from_origin = true
-ignore_tiles_same_distance_from_origin = true
+include_target_tile_by_default = true
+ignore_non_corners = true
+ignore_tiles_not_inbetween_origin_and_target = true
+ignore_tiles_opposite_target_orientation = true
+enable_debug = true
 metadata/_custom_type_script = "uid://clufwv38rhs7a"
 
-[sub_resource type="Resource" id="Resource_lab14"]
-script = ExtResource("7_lab14")
-state_condition = 3
-logical_operation = 2
-x = 2
-metadata/_custom_type_script = "uid://b4wuvth2ekke3"
-
-[sub_resource type="Resource" id="Resource_dwbya"]
-script = ExtResource("6_dwbya")
-conditions = Array[ExtResource("7_lab14")]([SubResource("Resource_lab14")])
-state_name = "MoveAndSingleAttackState"
-metadata/_custom_type_script = "uid://bmo3eknyoct12"
+[sub_resource type="Resource" id="Resource_7fbt2"]
+script = ExtResource("9_0pjkg")
+common_x = 3
+bigger_than_state = "LongBite_GenericState"
+metadata/_custom_type_script = "uid://bbawf6m7784ju"
 
 [node name="BeatleSpider" instance=ExtResource("1_j3d8w")]
 script = ExtResource("2_bs8qp")
@@ -59,16 +51,17 @@ monster_texture = ExtResource("3_dnm2k")
 _max_hp = null
 
 [node name="StateMachine" parent="." index="2" node_paths=PackedStringArray("initial_state")]
-initial_state = NodePath("MoveAndSingleAttackState")
+initial_state = NodePath("LongBite_GenericState")
 
-[node name="MoveAndSingleAttackState" parent="StateMachine" index="0" instance=ExtResource("4_kvp0n")]
-max_range = 10
-highlight_config = SubResource("Resource_kvp0n")
-state_change_conditions = Array[ExtResource("6_dwbya")]([SubResource("Resource_0pjkg")])
+[node name="LongBite_GenericState" parent="StateMachine" index="0" instance=ExtResource("9_02jit")]
+attack_tiles_highlight = SubResource("Resource_7hyhv")
+state_change_conditions = Array[ExtResource("6_dwbya")]([SubResource("Resource_bxwi4")])
+use_monster_next_move_as_origin_tile = false
 
-[node name="LongBite" parent="StateMachine" index="1" instance=ExtResource("4_kvp0n")]
-highlight_config = SubResource("Resource_sd1jm")
-state_change_conditions = Array[ExtResource("6_dwbya")]([SubResource("Resource_dwbya")])
+[node name="MoveAndAttack_GenericState" parent="StateMachine" index="1" instance=ExtResource("9_02jit")]
+attack_tiles_highlight = SubResource("Resource_mio72")
+state_change_conditions = Array[ExtResource("6_dwbya")]([SubResource("Resource_7fbt2")])
+use_monster_next_move_as_origin_tile = false
 
 [node name="HeadBodyPart" parent="MonsterBodyPartContainer" index="0" instance=ExtResource("6_sd1jm")]
 

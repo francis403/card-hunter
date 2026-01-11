@@ -53,7 +53,8 @@ func _on_player_canceled_input_signal():
 
 func _disable_ui():
 	_current_selected_card = null
-	card.visible = false
+	if card and not card.is_queued_for_deletion():
+		card.visible = false
 	self.visible = false
 	self.discard_button.visible = false
 	self.process_mode = Node.PROCESS_MODE_DISABLED

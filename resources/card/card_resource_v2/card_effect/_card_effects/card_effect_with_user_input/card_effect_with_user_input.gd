@@ -31,6 +31,8 @@ func _get_user_input(config: TileHighlightConfig, piece: Piece = null) -> Tile:
 	# freeze hand
 	BattlemapSignals.awaiting_player_input.emit()
 
+	config.origin_tile = piece_to_move._tile
+	config.target_tile = target_tile
 	# show possible squares and await input
 	BattlemapSignals.highlight_tiles.emit(
 		piece_to_move._tile,

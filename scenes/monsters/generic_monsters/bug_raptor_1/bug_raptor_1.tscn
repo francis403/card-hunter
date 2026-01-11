@@ -1,44 +1,73 @@
-[gd_scene load_steps=21 format=3 uid="uid://c7d0ktlc5od2r"]
+[gd_scene load_steps=25 format=3 uid="uid://c7d0ktlc5od2r"]
 
 [ext_resource type="PackedScene" uid="uid://b77dqwv8b42lt" path="res://scenes/monsters/generic_monster/generic_monster.tscn" id="1_u1i5i"]
 [ext_resource type="Script" uid="uid://blquxctox4loa" path="res://scenes/monsters/generic_monsters/bug_raptor_1/bug_raptor_1.gd" id="2_by616"]
 [ext_resource type="Texture2D" uid="uid://b5gd5va5x8c3a" path="res://scenes/monsters/generic_monsters/bug_raptor_1/bug-raptor-1.png" id="2_eh7sv"]
-[ext_resource type="PackedScene" uid="uid://by053fy0oimg0" path="res://scenes/game_objects/states/move_and_single_attack_state/move_and_single_attack_state.tscn" id="3_5esey"]
+[ext_resource type="PackedScene" uid="uid://dj1s2wk08ejm" path="res://scenes/game_objects/states/_generic_state/generic_state.tscn" id="4_tqntk"]
 [ext_resource type="Script" uid="uid://clufwv38rhs7a" path="res://resources/configuration/tile_highlight_configuration/tile_highlight_configuration.gd" id="4_v6kwd"]
 [ext_resource type="Script" uid="uid://bykm1sfwrcmbx" path="res://resources/configuration/tile_highlight_configuration/formula/formula.gd" id="5_ab5fi"]
 [ext_resource type="Script" uid="uid://bmo3eknyoct12" path="res://resources/monster/state/state_change_condition/state_change_condition.gd" id="6_3ojxr"]
 [ext_resource type="PackedScene" uid="uid://bm3s6jrsg6gan" path="res://scenes/game_objects/states/charge_state/charge_state.tscn" id="6_ajxxd"]
 [ext_resource type="PackedScene" uid="uid://c7xqpe3snou7" path="res://scenes/monsters/monster_body_parts/body_parts/head_body_part/head_body_part.tscn" id="6_tryrk"]
 [ext_resource type="Script" uid="uid://b4wuvth2ekke3" path="res://resources/monster/state/state_condition/state_condition.gd" id="7_r3h5n"]
-[ext_resource type="PackedScene" uid="uid://cr61b4kmh0w3u" path="res://scenes/game_objects/states/fly_away_state/fly_away_state.tscn" id="9_r3h5n"]
+[ext_resource type="Script" uid="uid://bbawf6m7784ju" path="res://resources/monster/state/player_range_state_change_condition/player_range_state_change_condition.gd" id="9_jxjlr"]
 [ext_resource type="PackedScene" uid="uid://cje0q5xds21f7" path="res://scenes/monsters/monster_body_parts/body_parts/back_body_part/back_body_part.tscn" id="11_r3h5n"]
 
-[sub_resource type="Resource" id="Resource_udh74"]
+[sub_resource type="Resource" id="Resource_sjcj5"]
 script = ExtResource("4_v6kwd")
-area_type = 4
+_range = 5
+include_target_tile_by_default = true
+ignore_origin = false
 use_specific_tile_location_config = true
-ignore_tiles_away_from_origin = true
+ignore_tiles_not_inbetween_origin_and_target = true
+origin_target_direction_tiles_only = true
 metadata/_custom_type_script = "uid://clufwv38rhs7a"
 
-[sub_resource type="Resource" id="Resource_tqntk"]
+[sub_resource type="Resource" id="Resource_cnwrr"]
+script = ExtResource("5_ab5fi")
+_formula = "d_p_t == 1"
+metadata/_custom_type_script = "uid://bykm1sfwrcmbx"
+
+[sub_resource type="Resource" id="Resource_el01n"]
+script = ExtResource("4_v6kwd")
+_range = 5
+use_specific_tile_location_config = true
+ignore_tiles_not_inbetween_origin_and_target = true
+origin_target_direction_tiles_only = true
+formulas = Array[ExtResource("5_ab5fi")]([SubResource("Resource_cnwrr")])
+metadata/_custom_type_script = "uid://clufwv38rhs7a"
+
+[sub_resource type="Resource" id="Resource_5r5go"]
+script = ExtResource("9_jxjlr")
+common_x = 2
+equal_state = "MoveAndSlash_GenericState"
+smaller_than_state = "MoveAndSlash_GenericState"
+metadata/_custom_type_script = "uid://bbawf6m7784ju"
+
+[sub_resource type="Resource" id="Resource_m5gdo"]
+script = ExtResource("4_v6kwd")
+area_type = 4
+ignore_tiles_opposite_target_orientation = true
+enable_debug = true
+metadata/_custom_type_script = "uid://clufwv38rhs7a"
+
+[sub_resource type="Resource" id="Resource_whdhe"]
+script = ExtResource("9_jxjlr")
+common_x = 3
+bigger_than_state = "ChargeState"
+metadata/_custom_type_script = "uid://bbawf6m7784ju"
+
+[sub_resource type="Resource" id="Resource_ujvrw"]
 script = ExtResource("7_r3h5n")
-state_condition = 1
-logical_operation = 4
-x = 3
+state_condition = 3
+logical_operation = 2
+x = 2
 metadata/_custom_type_script = "uid://b4wuvth2ekke3"
 
-[sub_resource type="Resource" id="Resource_ch7me"]
-script = ExtResource("7_r3h5n")
-state_condition = 1
-logical_operation = 1
-x = 1
-metadata/_custom_type_script = "uid://b4wuvth2ekke3"
-
-[sub_resource type="Resource" id="Resource_r3h5n"]
-resource_name = "Range Equal to 3 Then Charge"
+[sub_resource type="Resource" id="Resource_jfxw2"]
 script = ExtResource("6_3ojxr")
-conditions = Array[ExtResource("7_r3h5n")]([SubResource("Resource_tqntk"), SubResource("Resource_ch7me")])
-state_name = "ChargeState"
+conditions = Array[ExtResource("7_r3h5n")]([SubResource("Resource_ujvrw")])
+state_name = "RadiusAttack_GenericState"
 metadata/_custom_type_script = "uid://bmo3eknyoct12"
 
 [sub_resource type="Resource" id="Resource_3ojxr"]
@@ -46,25 +75,24 @@ script = ExtResource("4_v6kwd")
 area_type = 4
 metadata/_custom_type_script = "uid://clufwv38rhs7a"
 
-[sub_resource type="Resource" id="Resource_jxjlr"]
-script = ExtResource("7_r3h5n")
-state_condition = 1
-logical_operation = 4
-x = 2
-metadata/_custom_type_script = "uid://b4wuvth2ekke3"
+[sub_resource type="Resource" id="Resource_c3l48"]
+script = ExtResource("9_jxjlr")
+common_x = 3
+bigger_than_state = "ChargeState"
+equal_state = "ChargeState"
+metadata/_custom_type_script = "uid://bbawf6m7784ju"
 
-[sub_resource type="Resource" id="Resource_gr73v"]
+[sub_resource type="Resource" id="Resource_rp244"]
 script = ExtResource("7_r3h5n")
 state_condition = 3
 logical_operation = 2
 x = 2
 metadata/_custom_type_script = "uid://b4wuvth2ekke3"
 
-[sub_resource type="Resource" id="Resource_ewdfm"]
-resource_name = "Close to Player and has done the same attack 2"
+[sub_resource type="Resource" id="Resource_lhwjk"]
 script = ExtResource("6_3ojxr")
-conditions = Array[ExtResource("7_r3h5n")]([SubResource("Resource_jxjlr"), SubResource("Resource_gr73v")])
-state_name = "MoveAwayState"
+conditions = Array[ExtResource("7_r3h5n")]([SubResource("Resource_rp244")])
+state_name = "MoveAndSlash_GenericState"
 metadata/_custom_type_script = "uid://bmo3eknyoct12"
 
 [node name="BugRaptor1" instance=ExtResource("1_u1i5i")]
@@ -75,28 +103,21 @@ _speed = 2
 _strength = 20
 
 [node name="StateMachine" parent="." index="2" node_paths=PackedStringArray("initial_state")]
-initial_state = NodePath("MoveAndSlash")
+initial_state = NodePath("ChargeState")
 
-[node name="MoveAndSlash" parent="StateMachine" index="0" instance=ExtResource("3_5esey")]
-state_if_higher_than_max_range = "ChargeState"
-max_range = 10
-highlight_config = SubResource("Resource_udh74")
-state_change_conditions = Array[ExtResource("6_3ojxr")]([SubResource("Resource_r3h5n")])
+[node name="ChargeState" parent="StateMachine" index="0" instance=ExtResource("6_ajxxd")]
+attack_tiles_highlight = SubResource("Resource_sjcj5")
+move_tiles_possibilities = SubResource("Resource_el01n")
+state_change_conditions = Array[ExtResource("6_3ojxr")]([SubResource("Resource_5r5go")])
 
-[node name="RadiusAttack" parent="StateMachine" index="1" instance=ExtResource("3_5esey")]
-state_if_higher_than_max_range = "MoveAwayState"
-max_range = 3
-highlight_config = SubResource("Resource_3ojxr")
-state_change_conditions = Array[ExtResource("6_3ojxr")]([SubResource("Resource_ewdfm")])
+[node name="MoveAndSlash_GenericState" parent="StateMachine" index="1" instance=ExtResource("4_tqntk")]
+attack_tiles_highlight = SubResource("Resource_m5gdo")
+state_change_conditions = Array[ExtResource("6_3ojxr")]([SubResource("Resource_whdhe"), SubResource("Resource_jfxw2")])
+use_monster_next_move_as_origin_tile = false
 
-[node name="ChargeState" parent="StateMachine" index="2" instance=ExtResource("6_ajxxd")]
-_range = 3
-state_after_charging = "RadiusAttack"
-state_change_conditions = Array[ExtResource("6_3ojxr")]([])
-
-[node name="MoveAwayState" parent="StateMachine" index="3" instance=ExtResource("9_r3h5n")]
-fly_away_distance = 3
-state_after_flying = "MoveAndSlash"
+[node name="RadiusAttack_GenericState" parent="StateMachine" index="2" instance=ExtResource("4_tqntk")]
+attack_tiles_highlight = SubResource("Resource_3ojxr")
+state_change_conditions = Array[ExtResource("6_3ojxr")]([SubResource("Resource_c3l48"), SubResource("Resource_lhwjk")])
 
 [node name="HeadBodyPart" parent="MonsterBodyPartContainer" index="0" instance=ExtResource("6_tryrk")]
 

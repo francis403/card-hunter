@@ -1,14 +1,35 @@
-[gd_scene load_steps=6 format=3 uid="uid://bm3s6jrsg6gan"]
+[gd_scene load_steps=7 format=3 uid="uid://bm3s6jrsg6gan"]
 
 [ext_resource type="Script" uid="uid://b1b5vib8ul1j5" path="res://scenes/game_objects/states/charge_state/charge_state.gd" id="1_wnbbw"]
-[ext_resource type="Script" uid="uid://bmo3eknyoct12" path="res://resources/monster/state/state_change_condition/state_change_condition.gd" id="2_ppg87"]
-[ext_resource type="Script" uid="uid://b4wuvth2ekke3" path="res://resources/monster/state/state_condition/state_condition.gd" id="3_rw1os"]
-[ext_resource type="Script" uid="uid://bbawf6m7784ju" path="res://resources/monster/state/player_range_state_change_condition/player_range_state_change_condition.gd" id="4_esafn"]
+[ext_resource type="Script" uid="uid://bykm1sfwrcmbx" path="res://resources/configuration/tile_highlight_configuration/formula/formula.gd" id="2_rw1os"]
+[ext_resource type="Script" uid="uid://clufwv38rhs7a" path="res://resources/configuration/tile_highlight_configuration/tile_highlight_configuration.gd" id="3_esafn"]
 
-[sub_resource type="Resource" id="Resource_km4o0"]
-script = ExtResource("4_esafn")
-metadata/_custom_type_script = "uid://bbawf6m7784ju"
+[sub_resource type="Resource" id="Resource_rw1os"]
+script = ExtResource("3_esafn")
+_range = 6
+include_target_tile_by_default = true
+ignore_origin = false
+use_specific_tile_location_config = true
+ignore_tiles_not_inbetween_origin_and_target = true
+origin_target_direction_tiles_only = true
+metadata/_custom_type_script = "uid://clufwv38rhs7a"
+
+[sub_resource type="Resource" id="Resource_cnwrr"]
+script = ExtResource("2_rw1os")
+_formula = "d_p_t == 2"
+metadata/_custom_type_script = "uid://bykm1sfwrcmbx"
+
+[sub_resource type="Resource" id="Resource_esafn"]
+script = ExtResource("3_esafn")
+_range = 6
+use_specific_tile_location_config = true
+ignore_tiles_not_inbetween_origin_and_target = true
+origin_target_direction_tiles_only = true
+formulas = Array[ExtResource("2_rw1os")]([SubResource("Resource_cnwrr")])
+metadata/_custom_type_script = "uid://clufwv38rhs7a"
 
 [node name="ChargeState" type="Node"]
 script = ExtResource("1_wnbbw")
-state_change_conditions = Array[ExtResource("2_ppg87")]([SubResource("Resource_km4o0")])
+attack_tiles_highlight = SubResource("Resource_rw1os")
+move_tiles_possibilities = SubResource("Resource_esafn")
+use_monster_next_move_as_origin_tile = false
