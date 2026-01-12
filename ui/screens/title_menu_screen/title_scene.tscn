@@ -73,6 +73,10 @@ unique_name_in_owner = true
 layout_mode = 2
 text = "Continue"
 
+[node name="SoundButton" parent="MenuContainer" instance=ExtResource("7_uacp8")]
+layout_mode = 2
+text = "Cardpedium"
+
 [node name="Settings" parent="MenuContainer" instance=ExtResource("7_uacp8")]
 unique_name_in_owner = true
 layout_mode = 2
@@ -98,6 +102,7 @@ offset_bottom = 25.0
 
 [connection signal="pressed_and_sound_played" from="MenuContainer/NewGame" to="." method="_on_new_game_pressed"]
 [connection signal="pressed_and_sound_played" from="MenuContainer/Continue" to="." method="_on_continue_pressed"]
+[connection signal="pressed_and_sound_played" from="MenuContainer/SoundButton" to="." method="_on_unlockable_content_pressed"]
 [connection signal="pressed_and_sound_played" from="MenuContainer/Settings" to="." method="_on_settings_pressed"]
 [connection signal="pressed_and_sound_played" from="MenuContainer/Credits" to="." method="_on_credits_pressed"]
 [connection signal="pressed_and_sound_played" from="MenuContainer/Exit" to="." method="_on_exit_pressed"]

@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://de1lhh284xmap"]
+[gd_scene load_steps=12 format=3 uid="uid://de1lhh284xmap"]
 
 [ext_resource type="Texture2D" uid="uid://1lwus3xnrrcy" path="res://ui/screens/quest_picker/scroll_background.jpg" id="1_fo3qx"]
 [ext_resource type="Script" uid="uid://bnpi8f0fy12ms" path="res://ui/screens/pick_class_screen/pick_class_screen.gd" id="1_uhqi0"]
@@ -9,6 +9,8 @@
 [ext_resource type="Resource" uid="uid://bw0axal1uv0jp" path="res://resources/player/player_class/player_class_resources/archer_class.tres" id="4_orbci"]
 [ext_resource type="Resource" uid="uid://btmk8nbikbsox" path="res://resources/player/player_class/player_class_resources/great_sword_class.tres" id="5_4x74p"]
 [ext_resource type="Resource" uid="uid://cabahpy2a8xvv" path="res://resources/player/player_class/player_class_resources/ninja_class.tres" id="6_yj5y6"]
+[ext_resource type="Theme" uid="uid://bxlatu18hbfeu" path="res://assets/themes/generic_theme_1.tres" id="9_5r8i7"]
+[ext_resource type="PackedScene" uid="uid://di5dyqut7oexw" path="res://ui/screen_components/sub_screens/weapon_description_subscreen/weapon_description_subscreen.tscn" id="10_g5jtp"]
 
 [node name="PickClassScreen" type="Control"]
 layout_mode = 3
@@ -36,10 +38,13 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/margin_top = 20
-theme_override_constants/margin_bottom = 20
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_bottom = 10
 
-[node name="Title" type="Label" parent="MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 0
@@ -47,29 +52,45 @@ theme = ExtResource("2_7a2qm")
 theme_override_font_sizes/font_size = 64
 text = "Pick your weapon"
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+[node name="WeaponDescriptionSubContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme = ExtResource("9_5r8i7")
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="WeaponDescriptionSubscreen" parent="MarginContainer/VBoxContainer/WeaponDescriptionSubContainer" instance=ExtResource("10_g5jtp")]
+unique_name_in_owner = true
 layout_mode = 2
 
 [node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
-size_flags_vertical = 3
-theme_override_constants/margin_top = 80
-theme_override_constants/margin_bottom = 60
+size_flags_vertical = 10
+theme_override_constants/margin_top = 30
+theme_override_constants/margin_bottom = 30
 
-[node name="GridContainer" type="GridContainer" parent="MarginContainer/VBoxContainer/MarginContainer"]
+[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/VBoxContainer/MarginContainer"]
 layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 3
-theme_override_constants/h_separation = 20
-columns = 5
+size_flags_vertical = 8
+vertical_scroll_mode = 0
 
-[node name="GreatSwordClassContainer" parent="MarginContainer/VBoxContainer/MarginContainer/GridContainer" instance=ExtResource("4_adaab")]
+[node name="WeaponsContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/MarginContainer/ScrollContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 10
+alignment = 1
+
+[node name="GreatSwordClassContainer" parent="MarginContainer/VBoxContainer/MarginContainer/ScrollContainer/WeaponsContainer" instance=ExtResource("4_adaab")]
 layout_mode = 2
 title = "Shield and Sword"
 
-[node name="GreatSwordClassContainer2" parent="MarginContainer/VBoxContainer/MarginContainer/GridContainer" instance=ExtResource("4_adaab")]
+[node name="GreatSwordClassContainer2" parent="MarginContainer/VBoxContainer/MarginContainer/ScrollContainer/WeaponsContainer" instance=ExtResource("4_adaab")]
 layout_mode = 2
 title = "Bow"
 
-[node name="GreatSwordClassContainer3" parent="MarginContainer/VBoxContainer/MarginContainer/GridContainer" instance=ExtResource("4_adaab")]
+[node name="GreatSwordClassContainer3" parent="MarginContainer/VBoxContainer/MarginContainer/ScrollContainer/WeaponsContainer" instance=ExtResource("4_adaab")]
 layout_mode = 2
+title = ""

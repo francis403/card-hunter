@@ -2,10 +2,11 @@
 
 [ext_resource type="Resource" uid="uid://c52h8udn2ffm4" path="res://resources/player_deck/decks/generic_deck/great_sword_starting_deck.tres" id="1_8hddd"]
 [ext_resource type="Texture2D" uid="uid://da24gy550h2xp" path="res://assets/game_objects/card_parts/card_icons/sword.tres" id="2_yecv1"]
-[ext_resource type="Script" path="res://resources/player/player_class/player_class.gd" id="3_t60bu"]
+[ext_resource type="Script" uid="uid://bhi1nlll7e7tv" path="res://resources/player/player_class/player_class.gd" id="3_t60bu"]
 
 [resource]
 script = ExtResource("3_t60bu")
 player_class_name = "Great Sword"
 player_class_icon = ExtResource("2_yecv1")
 default_class_deck = ExtResource("1_8hddd")
+description = "Cut the monsters in half with your incredibly strong attacks. Beware! You are much slower than normal."

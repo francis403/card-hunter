@@ -1,0 +1,8 @@
+[gd_scene load_steps=3 format=3 uid="uid://bna0cyn771n82"]
+
+[ext_resource type="Script" uid="uid://bmxnw70gqup1o" path="res://singletons/refs/refs.gd" id="1_7de7c"]
+[ext_resource type="PackedScene" uid="uid://cupm3r3yhcopw" path="res://ui/screen_components/class_picker_component/class_picker_component.tscn" id="2_whqgq"]
+
+[node name="Refs" type="Node"]
+script = ExtResource("1_7de7c")
+weapon_picker_component_scene = ExtResource("2_whqgq")

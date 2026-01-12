@@ -1,0 +1,64 @@
+[gd_scene load_steps=6 format=3 uid="uid://di5dyqut7oexw"]
+
+[ext_resource type="Theme" uid="uid://bxlatu18hbfeu" path="res://assets/themes/generic_theme_1.tres" id="1_2go54"]
+[ext_resource type="Script" uid="uid://b5mv0154snnh3" path="res://ui/screen_components/sub_screens/weapon_description_subscreen/weapon_description_subscreen.gd" id="2_8vu4v"]
+[ext_resource type="Resource" uid="uid://c4m3chcraaxeq" path="res://resources/player/player_class/player_class_resources/all_rounder_class.tres" id="3_8vu4v"]
+[ext_resource type="PackedScene" uid="uid://cupm3r3yhcopw" path="res://ui/screen_components/class_picker_component/class_picker_component.tscn" id="3_xhi6g"]
+[ext_resource type="PackedScene" uid="uid://hked8dt7umpy" path="res://ui/screen_components/_general_componets/buttons/sound_button/sound_button.tscn" id="4_c7h1c"]
+
+[node name="WeaponDescriptionSubscreen" type="PanelContainer"]
+custom_minimum_size = Vector2(300, 325)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -126.5
+offset_top = -134.5
+offset_right = 126.5
+offset_bottom = 134.5
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+theme = ExtResource("1_2go54")
+script = ExtResource("2_8vu4v")
+player_class = ExtResource("3_8vu4v")
+description = "Test Class Description"
+button_text = "Start the Hunt"
+
+[node name="MarginContainer2" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 40
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 40
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer2"]
+layout_mode = 2
+
+[node name="ClassPickerComponent" parent="MarginContainer2/VBoxContainer" instance=ExtResource("3_xhi6g")]
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="ClassDescription" type="Label" parent="MarginContainer2/VBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+size_flags_vertical = 0
+text = "Test Class Description"
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer2/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 10
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="SoundButton" parent="MarginContainer2/VBoxContainer/MarginContainer" instance=ExtResource("4_c7h1c")]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+text = "Start the Hunt"

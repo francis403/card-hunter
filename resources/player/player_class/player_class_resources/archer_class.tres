@@ -2,10 +2,11 @@
 
 [ext_resource type="Resource" uid="uid://c2013uvhxp01r" path="res://resources/player_deck/decks/generic_deck/bow_deck.tres" id="1_8b4bo"]
 [ext_resource type="Texture2D" uid="uid://dvy3u1j4j237v" path="res://assets/game_objects/card_parts/card_icons/bow.tres" id="2_gdw61"]
-[ext_resource type="Script" path="res://resources/player/player_class/player_class.gd" id="3_ogchd"]
+[ext_resource type="Script" uid="uid://bhi1nlll7e7tv" path="res://resources/player/player_class/player_class.gd" id="3_ogchd"]
 
 [resource]
 script = ExtResource("3_ogchd")
 player_class_name = "Bow & Arrow"
 player_class_icon = ExtResource("2_gdw61")
 default_class_deck = ExtResource("1_8b4bo")
+description = "Strike from afar and don't let the monsters get close with your enhanced mobility!"
