@@ -36,3 +36,11 @@ func close_event_screen():
 
 func initiate_battle_scene(battle_scene: BattleGenericScene):
 	get_tree().root.add_child(battle_scene)	
+
+
+## TODO: I should do a show screen autoload class
+func show_deck_visualizer_screen(_deck: PlayerDeck):
+	var deck_visualizer_instance: DeckVisualizer = Constants.deck_visualizer_scene.instantiate()
+	deck_visualizer_instance.deck = PlayerController.get_deck()._deck
+	deck_visualizer_instance.z_index = 2
+	get_tree().root.add_child(deck_visualizer_instance)

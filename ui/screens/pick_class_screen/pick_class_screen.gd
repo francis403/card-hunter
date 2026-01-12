@@ -32,6 +32,7 @@ func _populate_weapon_description_subscreen():
 		weapon_description_subscreen.reload_ui()
 		PlayerController.replace_deck(class_choices[0].default_class_deck)
 	weapon_description_subscreen.on_container_button_clicked.connect(_on_container_button_clicked)
+	weapon_description_subscreen.on_cards_preview_button_clicked.connect(_on_card_preview_button_clicked)
 
 func _on_class_pick_instance_clicked(
 	_instance: ClassPickerComponent
@@ -41,3 +42,8 @@ func _on_class_pick_instance_clicked(
 	
 func _on_container_button_clicked():
 	get_tree().change_scene_to_packed(Constants.main_world_scroll_scene)
+	
+func _on_card_preview_button_clicked():
+	ScreenUtils.show_deck_visualizer_screen(
+		weapon_description_subscreen.player_class.default_class_deck
+	)
