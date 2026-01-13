@@ -6,6 +6,8 @@ signal debug_mode_toggled(is_debug_mode: bool)
 
 const BATTLE_GENERIC_SCENE = preload("res://scenes/battle_scenes/battle_generic_scene/battle_generic_scene.tscn")
 
+const DEFAULT_DAYS_TILL_ATTACK: int = 5
+
 ## Expresses the number of bosses to defeat before finding the last boss 
 const NUMBER_OF_VILLAGES_TO_SAVE: int = 3
 
@@ -13,7 +15,7 @@ var is_showing_battle_scene: bool = false
 var debug_mode_enabled: bool = false
 
 ## days till the boss
-var days_till_attack: int = 5:
+var days_till_attack: int = DEFAULT_DAYS_TILL_ATTACK:
 	set(value):
 		days_till_attack = value
 		days_till_attack_modified.emit(days_till_attack)
@@ -25,9 +27,10 @@ var number_of_villages_saved: int = 0
 
 func _ready() -> void:
 	BattleSignals.boss_battle_complete.connect(_on_boss_battle_complete_signal)
-	BattleSignals.game_complete.connect(_on_game_complete_signal)
+	BattleSignals.game_complete.connect(complete_game)
 
 func _on_boss_battle_complete_signal():
+	File.meta_progress.update_bosses_defeated()
 	self.days_till_attack = 5
 	self.number_of_villages_saved += 1
 	if number_of_villages_saved < NUMBER_OF_VILLAGES_TO_SAVE:
@@ -37,9 +40,12 @@ func _on_boss_battle_complete_signal():
 		)
 		self.process_mode = Node.PROCESS_MODE_ALWAYS
 	else:
-		_on_game_complete_signal()
+		complete_game()
 
-func _on_game_complete_signal():
+func complete_game():
+	## Update meta_progress
+	File.meta_progress.update_games_completed(true)
+	File.change_meta_progress()
 	ScreenUtils.open_event_screen(
 		get_parent(),
 		_prep_thank_you_event()

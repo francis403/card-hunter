@@ -124,7 +124,8 @@ func _on_monster_died_signal():
 		BattleSignals.battle_won.emit()
 
 func _on_battle_lost_signal():
-	#game_over_screen.title_label.text = "You Lost"
+	File.meta_progress.update_games_completed(false)
+	File.change_meta_progress()
 	_prep_loss_screen()
 	_show_game_over_screen()
 

@@ -3,11 +3,13 @@ extends Node
 const SAVE_FILE_PATH = "user://card_hunter.save"
 var save_data: Dictionary = {
 	"settings": {},
-	"progress": {}
+	"progress": {},
+	meta_progress.SAVE_FILE_ID: {}
 }
 
 var settings: Settings
 var progress: Progress
+var meta_progress: MetaProgress
 
 func _ready() -> void:
 	BattlemapSignals.player_world_state_updated.connect(_on_player_world_state_updated_signal)
@@ -17,6 +19,12 @@ func delete_save():
 	DirAccess.remove_absolute(SAVE_FILE_PATH)
 	_reset_file()
 
+func delete_current_run_progress():
+	self.progress = Progress.new()
+	save_data["progress"] = {}
+	save()
+	load_progress()
+	
 func save():
 	var file = FileAccess.open(SAVE_FILE_PATH, FileAccess.WRITE)
 	file.store_var(save_data)
@@ -28,9 +36,21 @@ func load_save_file():
 	save_data = file.get_var()
 	load_settings()
 	load_progress()
+	load_meta_data()
+
+func load_metadata():
+	if not self.has_save_file():
+		return
+	var file = FileAccess.open(SAVE_FILE_PATH, FileAccess.READ)
+	save_data = file.get_var()
+	load_meta_data()
 
 func has_save_file() -> bool:
 	return FileAccess.file_exists(SAVE_FILE_PATH)
+	
+func has_run_in_progress() -> bool:
+	return has_save_file() and save_data and save_data.has("progress")\
+		and save_data["progress"] and save_data["progress"].has("player_world_node_id")
 
 func change_settings():
 	save_data["settings"]["volume"] = settings.volume
@@ -47,6 +67,10 @@ func change_progress():
 	save_data["progress"]["player"]["forged_cards"] = PlayerController._forged_cards
 	save_data["progress"]["player"]["player_node_id"] = progress.current_world_node_id
 	save()
+	
+func change_meta_progress():
+	save_data[meta_progress.SAVE_FILE_ID] = meta_progress.get_meta_progress()
+	save()
 
 func convert_player_card_modules_to_dictionary() -> Dictionary:
 	var result: Dictionary = {}
@@ -61,12 +85,19 @@ func load_settings():
 		self.settings.volume = save_data["settings"]["volume"]
 		
 func load_progress():
-	if save_data["progress"].has("player_world_node_id"):
-		self.progress.current_world_node_id = save_data["progress"]["player_world_node_id"]
-	if save_data["progress"].has("world_state"):
-		_load_world_state()
-	if save_data["progress"].has("player"):
-		_load_player_info()
+	progress.load_progress(save_data["progress"])
+	#if save_data["progress"].has("player_world_node_id"):
+		#self.progress.current_world_node_id = save_data["progress"]["player_world_node_id"]
+	#if save_data["progress"].has("world_state"):
+		#_load_world_state()
+	#if save_data["progress"].has("player"):
+		#_load_player_info()
+
+func load_meta_data():
+	if not save_data.has(meta_progress.SAVE_FILE_ID):
+		return
+	var meta_progress_dict: Dictionary = save_data[meta_progress.SAVE_FILE_ID]
+	meta_progress.load_meta_progress(meta_progress_dict)
 	
 func update_player_position(_world_node: GenericWorldNode):
 	self.progress.update_player_position(_world_node)
@@ -74,13 +105,14 @@ func update_player_position(_world_node: GenericWorldNode):
 func _reset_file():
 	settings = Settings.new()
 	progress = Progress.new()
+	meta_progress = MetaProgress.new()
 	
 func _load_world_state():
 	if save_data["progress"]["world_state"].has("villages_saved"):
 		GameController.number_of_villages_saved = save_data["progress"]["world_state"]["villages_saved"]
 	if save_data["progress"]["world_state"].has("days_left"):
 		GameController.days_till_attack = save_data["progress"]["world_state"]["days_left"]
-	self.progress.load_world(save_data["progress"]["world_state"])
+	progress.load_world(save_data["progress"]["world_state"])
 
 ## TODO: this can probably be done a lot better
 func _load_player_info():
