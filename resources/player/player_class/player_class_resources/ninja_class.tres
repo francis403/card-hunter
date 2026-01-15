@@ -13,3 +13,4 @@ player_class_name = "Dual Blades"
 player_class_icon = SubResource("AtlasTexture_clk1l")
 default_class_deck = ExtResource("1_4roh7")
 description = "Perform a multitude of attacks and move out of the way before the monster can ever hit you."
+start_locked = true

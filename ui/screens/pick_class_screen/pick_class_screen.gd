@@ -22,7 +22,13 @@ func _populate_actual_content():
 			Refs.weapon_picker_component_scene.instantiate()
 		class_pick_instance.title = player_class.player_class_name
 		class_pick_instance.player_class = player_class
-		class_pick_instance.card_back_texture = player_class.player_class_icon
+		class_pick_instance.is_locked = not LockedContentController.is_unlocked(player_class.player_class_name)
+		if class_pick_instance.is_locked:
+			class_pick_instance.card_back_texture = Refs.locked_card_back_texture
+			class_pick_instance._enable_click = false
+			class_pick_instance.title = "???????"
+		else:
+			class_pick_instance.card_back_texture = player_class.player_class_icon
 		class_pick_instance.class_picker_clicked.connect(_on_class_pick_instance_clicked)
 		weapons_container.add_child(class_pick_instance)
 

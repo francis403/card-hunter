@@ -10,6 +10,7 @@ var number_of_games_completed_successfully: int = 0
 var number_of_games_completed_unsuccessfully: int = 0
 var number_of_bosses_defeated: int = 0
 var number_of_cards_forged: int = 0
+var unlocked_content: Dictionary = {}
 
 func update_games_completed(_successfully: bool):
 	if _successfully:
@@ -27,9 +28,10 @@ func get_meta_progress() -> Dictionary:
 		"nr_lost_games": number_of_games_completed_successfully,
 		"nr_bosses_defeated": number_of_bosses_defeated,
 		"nr_cards_forged": number_of_cards_forged,
+		"unlocked_content": unlocked_content
 	}
 	return _result
-	
+
 func load_meta_progress(
 	_save_file: Dictionary
 ):
@@ -41,3 +43,16 @@ func load_meta_progress(
 		self.number_of_bosses_defeated = _save_file["nr_bosses_defeated"]
 	if _save_file.has("nr_cards_forged"):
 		self.number_of_cards_forged = _save_file["nr_cards_forged"]
+	if _save_file.has("unlocked_content"):
+		_load_unlocked_content(_save_file["unlocked_content"])
+
+## TODO: do we really have to go through all of them?
+func add_unlocked_content(content_id: String):
+	unlocked_content[content_id] = true
+	
+## TODO: on game load we need to get the LockedContentController populated
+func _load_unlocked_content(_dict: Dictionary):
+	for key in _dict.keys():
+		LockedContentController.unlocked_content[key] = true
+		
+	

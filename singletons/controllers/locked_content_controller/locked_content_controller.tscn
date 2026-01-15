@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://bl5yjmegifjw7"]
+
+[ext_resource type="Script" uid="uid://c4sgi0di2gp0x" path="res://singletons/controllers/locked_content_controller/locked_content_controller.gd" id="1_nspc4"]
+
+[node name="LockedContentController" type="Node"]
+script = ExtResource("1_nspc4")
+weapons_path = "res://resources/player/player_class/player_class_resources"

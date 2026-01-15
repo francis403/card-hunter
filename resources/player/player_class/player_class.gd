@@ -4,5 +4,7 @@ class_name PlayerClass
 @export var player_class_name: String
 @export var player_class_icon: AtlasTexture
 @export var default_class_deck: PlayerDeck
-
 @export_multiline var description: String
+
+@export_group("Interaction Configuration")
+@export var start_locked: bool = false

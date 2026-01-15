@@ -38,13 +38,6 @@ func load_save_file():
 	load_progress()
 	load_meta_data()
 
-func load_metadata():
-	if not self.has_save_file():
-		return
-	var file = FileAccess.open(SAVE_FILE_PATH, FileAccess.READ)
-	save_data = file.get_var()
-	load_meta_data()
-
 func has_save_file() -> bool:
 	return FileAccess.file_exists(SAVE_FILE_PATH)
 	
@@ -71,6 +64,7 @@ func change_progress():
 func change_meta_progress():
 	save_data[meta_progress.SAVE_FILE_ID] = meta_progress.get_meta_progress()
 	save()
+	
 
 func convert_player_card_modules_to_dictionary() -> Dictionary:
 	var result: Dictionary = {}
@@ -94,8 +88,6 @@ func load_progress():
 		#_load_player_info()
 
 func load_meta_data():
-	if not save_data.has(meta_progress.SAVE_FILE_ID):
-		return
 	var meta_progress_dict: Dictionary = save_data[meta_progress.SAVE_FILE_ID]
 	meta_progress.load_meta_progress(meta_progress_dict)
 	
