@@ -1,0 +1,26 @@
+[gd_scene load_steps=5 format=3 uid="uid://bv7mkchsvtrse"]
+
+[ext_resource type="Script" uid="uid://ca47hr8onwqis" path="res://ui/screen_components/debug/pick_class_screen_debug_menu/class_debug_menu.gd" id="1_jt51m"]
+[ext_resource type="PackedScene" uid="uid://h8r0bkj42ldt" path="res://ui/screen_components/_general_componets/menu/menus/MenuRoot/menu_root.tscn" id="1_laiw6"]
+[ext_resource type="PackedScene" uid="uid://brhoqb5wsupc8" path="res://ui/screen_components/_general_componets/menu/menus/vertical_menu/vertical_menu.tscn" id="2_jt51m"]
+[ext_resource type="PackedScene" uid="uid://duiqhlxde4hcv" path="res://ui/screen_components/_general_componets/menu/menu_item/_generic_menu_item/menu_item.tscn" id="3_ckebo"]
+
+[node name="ClassDebugMenu" type="MarginContainer"]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+grow_horizontal = 0
+script = ExtResource("1_jt51m")
+
+[node name="RootMenu" parent="." instance=ExtResource("1_laiw6")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="VerticalMenu2" parent="RootMenu" instance=ExtResource("2_jt51m")]
+layout_mode = 2
+
+[node name="UnlockAllClassesButton" parent="RootMenu/VerticalMenu2" instance=ExtResource("3_ckebo")]
+layout_mode = 2
+_display_name = "Unlock All Classes"
+
+[connection signal="menu_item_clicked" from="RootMenu/VerticalMenu2/UnlockAllClassesButton" to="." method="_unlock_all_classes"]

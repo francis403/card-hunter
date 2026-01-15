@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://de1lhh284xmap"]
+[gd_scene load_steps=13 format=3 uid="uid://de1lhh284xmap"]
 
 [ext_resource type="Texture2D" uid="uid://1lwus3xnrrcy" path="res://ui/screens/quest_picker/scroll_background.jpg" id="1_fo3qx"]
 [ext_resource type="Script" uid="uid://bnpi8f0fy12ms" path="res://ui/screens/pick_class_screen/pick_class_screen.gd" id="1_uhqi0"]
@@ -11,6 +11,7 @@
 [ext_resource type="Resource" uid="uid://cabahpy2a8xvv" path="res://resources/player/player_class/player_class_resources/ninja_class.tres" id="6_yj5y6"]
 [ext_resource type="Theme" uid="uid://bxlatu18hbfeu" path="res://assets/themes/generic_theme_1.tres" id="9_5r8i7"]
 [ext_resource type="PackedScene" uid="uid://di5dyqut7oexw" path="res://ui/screen_components/sub_screens/weapon_description_subscreen/weapon_description_subscreen.tscn" id="10_g5jtp"]
+[ext_resource type="PackedScene" uid="uid://bv7mkchsvtrse" path="res://ui/screen_components/debug/pick_class_screen_debug_menu/class_debug_menu.tscn" id="12_nv3gq"]
 
 [node name="PickClassScreen" type="Control"]
 layout_mode = 3
@@ -94,3 +95,9 @@ title = "Bow"
 [node name="GreatSwordClassContainer3" parent="MarginContainer/VBoxContainer/MarginContainer/ScrollContainer/WeaponsContainer" instance=ExtResource("4_adaab")]
 layout_mode = 2
 title = ""
+
+[node name="ClassDebugMenu" parent="." instance=ExtResource("12_nv3gq")]
+visible = false
+layout_mode = 1
+offset_left = -24.0
+offset_bottom = 24.0

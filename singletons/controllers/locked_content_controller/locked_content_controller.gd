@@ -6,7 +6,7 @@ extends Node
 
 @export_dir var weapons_path: String
 
-var unlocked_content: Dictionary = {
+var unlockable_content: Dictionary = {
 	## ID -> bool
 }
 
@@ -18,16 +18,16 @@ func _load_weapons_availability():
 	var weapons_resources_paths: Array[String] = get_all_file_paths(weapons_path)
 	for weapon_path in weapons_resources_paths:
 		var weapon: PlayerClass = load(weapon_path)
-		unlocked_content[weapon.player_class_name] = not weapon.start_locked
+		unlockable_content[weapon.player_class_name] = not weapon.start_locked
 
 func is_unlocked(unlock_id: String) -> bool:
-	return unlocked_content.get(unlock_id, true)
+	return unlockable_content.get(unlock_id, true)
 
 func unlock_content(
 	unlock_id: String,
 	_should_save: bool = true
 ):
-	unlocked_content[unlock_id] = true
+	unlockable_content[unlock_id] = true
 	File.meta_progress.add_unlocked_content(unlock_id)
 	if _should_save:
 		File.change_meta_progress()  # Save immediately

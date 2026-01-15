@@ -53,6 +53,6 @@ func add_unlocked_content(content_id: String):
 ## TODO: on game load we need to get the LockedContentController populated
 func _load_unlocked_content(_dict: Dictionary):
 	for key in _dict.keys():
-		LockedContentController.unlocked_content[key] = true
+		LockedContentController.unlockable_content[key] = true
 		
 	
