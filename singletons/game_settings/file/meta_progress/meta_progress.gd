@@ -46,7 +46,6 @@ func load_meta_progress(
 	if _save_file.has("unlocked_content"):
 		_load_unlocked_content(_save_file["unlocked_content"])
 
-## TODO: do we really have to go through all of them?
 func add_unlocked_content(content_id: String):
 	unlocked_content[content_id] = true
 	
@@ -54,5 +53,6 @@ func add_unlocked_content(content_id: String):
 func _load_unlocked_content(_dict: Dictionary):
 	for key in _dict.keys():
 		LockedContentController.unlockable_content[key] = true
-		
+	## after loading the game we update it again. This can't be smart right?
+	LockedContentController.check_weapons_availability()
 	

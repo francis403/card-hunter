@@ -63,6 +63,35 @@ enum ModulePlacementRule {
 	CANNOT_FOLLOW_SAME_TYPE
 }
 
+enum LogicalOperationEnum {
+	EQUAL,
+	BIGGER_THAN,
+	BIGGER_OR_EQUAL,
+	SMALLER_THAN,
+	SMALLER_OR_EQUAL,
+	DIFFERENT_THAN
+}
+
+func logical_operation_comparison(
+	logical_operation: LogicalOperationEnum,
+	x: int,
+	y: int
+) -> bool:
+	match logical_operation:
+		LogicalOperationEnum.EQUAL:
+			return y == x
+		LogicalOperationEnum.BIGGER_THAN:
+			return y > x
+		LogicalOperationEnum.BIGGER_OR_EQUAL:
+			return y >= x
+		LogicalOperationEnum.SMALLER_THAN:
+			return y < x
+		LogicalOperationEnum.SMALLER_OR_EQUAL:
+			return y <= x
+		LogicalOperationEnum.DIFFERENT_THAN:
+			return y != x
+	return false
+
 # Constanst
 
 var quest_picker_screen_scroll_scene: PackedScene = load("res://ui/screens/quest_picker/quest_picker_screen.tscn")

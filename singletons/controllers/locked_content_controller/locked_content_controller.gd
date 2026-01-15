@@ -10,14 +10,26 @@ var unlockable_content: Dictionary = {
 	## ID -> bool
 }
 
+var _weapons_references: Array[PlayerClass] = []
+
 func _ready() -> void:
 	_load_weapons_availability()
 		
+
+## Do i really need to go through all the weapons every time?
+func check_weapons_availability(_should_save: bool = false):
+	for weapon in _weapons_references:
+		var _weapon_id: String = weapon.player_class_name
+		if is_unlocked(_weapon_id):
+			continue
+		if weapon.is_unlock_condition_encountered():
+			self.unlock_content(weapon.player_class_name, _should_save)
 
 func _load_weapons_availability():
 	var weapons_resources_paths: Array[String] = get_all_file_paths(weapons_path)
 	for weapon_path in weapons_resources_paths:
 		var weapon: PlayerClass = load(weapon_path)
+		_weapons_references.append(weapon)
 		unlockable_content[weapon.player_class_name] = not weapon.start_locked
 
 func is_unlocked(unlock_id: String) -> bool:

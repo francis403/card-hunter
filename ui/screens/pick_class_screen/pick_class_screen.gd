@@ -37,8 +37,10 @@ func _populate_weapon_description_subscreen():
 		weapon_description_subscreen.player_class = class_choices[0]
 		weapon_description_subscreen.reload_ui()
 		PlayerController.replace_deck(class_choices[0].default_class_deck)
-	weapon_description_subscreen.on_container_button_clicked.connect(_on_container_button_clicked)
-	weapon_description_subscreen.on_cards_preview_button_clicked.connect(_on_card_preview_button_clicked)
+	if not weapon_description_subscreen.is_connected("on_container_button_clicked", _on_container_button_clicked):
+		weapon_description_subscreen.on_container_button_clicked.connect(_on_container_button_clicked)
+	if not weapon_description_subscreen.is_connected("on_cards_preview_button_clicked", _on_card_preview_button_clicked):
+		weapon_description_subscreen.on_cards_preview_button_clicked.connect(_on_card_preview_button_clicked)
 
 func _on_class_pick_instance_clicked(
 	_instance: ClassPickerComponent

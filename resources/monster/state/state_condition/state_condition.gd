@@ -9,17 +9,8 @@ enum StateConditionEnum {
 	ON_PLAYER_HIT
 }
 
-enum LogicalOperationEnum {
-	EQUAL,
-	BIGGER_THAN,
-	BIGGER_OR_EQUAL,
-	SMALLER_THAN,
-	SMALLER_OR_EQUAL,
-	DIFFERENT_THAN
-}
-
 @export var state_condition: StateConditionEnum
-@export var logical_operation: LogicalOperationEnum
+@export var logical_operation: Constants.LogicalOperationEnum
 @export var x: int = 0
 
 func is_condition_matched(
@@ -59,20 +50,11 @@ func monster_health_comparison(
 	return logical_operation_comparison(value)
 
 func logical_operation_comparison(y: int) -> bool:
-	match logical_operation:
-		LogicalOperationEnum.EQUAL:
-			return y == x
-		LogicalOperationEnum.BIGGER_THAN:
-			return y > x
-		LogicalOperationEnum.BIGGER_OR_EQUAL:
-			return y >= x
-		LogicalOperationEnum.SMALLER_THAN:
-			return y < x
-		LogicalOperationEnum.SMALLER_OR_EQUAL:
-			return y <= x
-		LogicalOperationEnum.DIFFERENT_THAN:
-			return y != x
-	return false
+	return Constants.logical_operation_comparison(
+		logical_operation,
+		x,
+		y
+	)
 	
 func on_player_hit_condition(
 	_current_state: State

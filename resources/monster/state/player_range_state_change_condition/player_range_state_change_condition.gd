@@ -61,15 +61,15 @@ func get_range_conditions() -> Array[StateCondition]:
 	var smaller_than_x: int = common_x if common_x > 0 else low_range_for_equal_behaviour
 	
 	condition_bigger_than.x = bigger_than_x
-	condition_bigger_than.logical_operation = StateCondition.LogicalOperationEnum.BIGGER_THAN
+	condition_bigger_than.logical_operation = Constants.LogicalOperationEnum.BIGGER_THAN
 	condition_bigger_than.state_condition = StateCondition.StateConditionEnum.RANGE_TO_PLAYER
 	
 	condition_equal.x = common_x
-	condition_equal.logical_operation = StateCondition.LogicalOperationEnum.EQUAL
+	condition_equal.logical_operation = Constants.LogicalOperationEnum.EQUAL
 	condition_equal.state_condition = StateCondition.StateConditionEnum.RANGE_TO_PLAYER
 	
 	condition_smaller_than.x = smaller_than_x
-	condition_smaller_than.logical_operation = StateCondition.LogicalOperationEnum.SMALLER_THAN
+	condition_smaller_than.logical_operation = Constants.LogicalOperationEnum.SMALLER_THAN
 	condition_smaller_than.state_condition = StateCondition.StateConditionEnum.RANGE_TO_PLAYER
 	
 	result.append(condition_bigger_than)
