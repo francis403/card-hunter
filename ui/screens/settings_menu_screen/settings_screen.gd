@@ -25,3 +25,7 @@ func open_screen(parent_node: Node):
 
 func _on_exit_button_pressed() -> void:
 	get_tree().quit()
+
+
+func _on_save_button_pressed() -> void:
+	File.save()

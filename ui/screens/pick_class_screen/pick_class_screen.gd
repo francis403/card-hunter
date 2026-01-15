@@ -45,6 +45,10 @@ func _populate_weapon_description_subscreen():
 func _on_class_pick_instance_clicked(
 	_instance: ClassPickerComponent
 ):
+	## If it's already in the screen we just load it
+	if weapon_description_subscreen.player_class == _instance.player_class:
+		get_tree().change_scene_to_packed(Constants.main_world_scroll_scene)
+		return
 	weapon_description_subscreen.player_class = _instance.player_class
 	weapon_description_subscreen.reload_ui()
 	

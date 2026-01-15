@@ -26,9 +26,9 @@ func is_unlock_condition_encountered() -> bool:
 	match unlock_condition:
 		UnlockConditionEnum.NUMBER_OF_BOSSES_DEFEATED:
 			meta_value = File.meta_progress.number_of_bosses_defeated
-			
-	return meta_value >= 0 and Constants.logical_operation_comparison(
+	var _result: bool = meta_value >= 0 and Constants.logical_operation_comparison(
 			logical_op,
-			meta_value,
-			value
+			value,
+			meta_value
 	)
+	return _result

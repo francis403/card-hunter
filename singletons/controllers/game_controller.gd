@@ -90,7 +90,13 @@ func _prep_thank_you_event() -> EventScreen:
 	result.description_text = "Thank you for playing my game.\n It's still in a very rough phase but it means a lot to me.\n" 
 	result.accept_button_text = "Close the game now" 
 	result.accept_button_scene = null
+	result.on_accept_button_pressed_signal.connect(_close_game)
 	return result
+	
+func _close_game(_event_screen: EventScreen):
+	File.delete_current_run_progress()
+	File.save()
+	get_tree().quit()
 	
 func generate_battle_scene(
 	_monster: GenericMonster,

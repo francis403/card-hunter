@@ -62,6 +62,9 @@ func change_progress():
 	save()
 	
 func change_meta_progress():
+	if not save_data:
+		push_warning("No save_data available!")
+		return
 	save_data[meta_progress.SAVE_FILE_ID] = meta_progress.get_meta_progress()
 	save()
 	
@@ -80,14 +83,11 @@ func load_settings():
 		
 func load_progress():
 	progress.load_progress(save_data["progress"])
-	#if save_data["progress"].has("player_world_node_id"):
-		#self.progress.current_world_node_id = save_data["progress"]["player_world_node_id"]
-	#if save_data["progress"].has("world_state"):
-		#_load_world_state()
-	#if save_data["progress"].has("player"):
-		#_load_player_info()
 
 func load_meta_data():
+	if not save_data or not meta_progress or not save_data.has(meta_progress.SAVE_FILE_ID):
+		push_warning("Issue while loading metadata!")
+		return
 	var meta_progress_dict: Dictionary = save_data[meta_progress.SAVE_FILE_ID]
 	meta_progress.load_meta_progress(meta_progress_dict)
 	
