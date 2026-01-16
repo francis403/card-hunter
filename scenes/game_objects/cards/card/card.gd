@@ -81,7 +81,7 @@ func _play_card():
 	if not card_can_be_played:
 		return
 	BattleController._current_card_being_played = self
-	if card_resource.card_finished_playing.get_connections().size() == 0:
+	if not card_resource.card_finished_playing.is_connected(_on_card_finished_playing):
 		card_resource.card_finished_playing.connect(_on_card_finished_playing)
 	await card_resource.play_card()
 	self.card_played.emit()
@@ -89,8 +89,12 @@ func _play_card():
 func _revert_played_card():
 	card_resource.revert_all_played_card_effects()
 	BattleController._current_card_being_played = null
-
+	
 func _on_card_finished_playing():
+	GeneralUtils.debug_log(
+		"-- Card %s finished playing" % [self.card_resource.id],
+		GameController.debug_mode_enabled
+	)
 	BattleController._current_card_being_played = null
 	if card_resource.tag_array.has("one_use"):
 		BattlemapSignals.card_removed_from_deck.emit()

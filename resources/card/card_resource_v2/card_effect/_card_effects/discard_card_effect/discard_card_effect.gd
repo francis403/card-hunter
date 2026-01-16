@@ -8,8 +8,7 @@ func card_effect():
 	discarded_cards_array.clear()
 	for card in selected_cards:
 		discarded_cards_array.append(card.card_resource)
-		BattlemapSignals.card_discarded_by_other_card.emit(card)
-		await card._discard_card()
+		await BattleController.discard_card_from_player(card)
 		card.card_discarded_by_effect.emit()
 			
 func revert_card_effect():

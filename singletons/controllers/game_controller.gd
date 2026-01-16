@@ -104,7 +104,7 @@ func generate_battle_scene(
 	_world_node: GenericWorldNode = null
 ) -> BattleGenericScene:
 	var _hunt_scene: BattleGenericScene =\
-		load(BattleGenericScene.my_node_scene_path).instantiate().duplicate()
+		Refs.generic_battle_scene.instantiate().duplicate()
 	_hunt_scene.is_boss_battle = _is_boss_battle
 	_hunt_scene.monsters.clear()
 	var _monster_to_add: GenericMonster = _monster.duplicate()

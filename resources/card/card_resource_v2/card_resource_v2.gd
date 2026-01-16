@@ -41,13 +41,25 @@ var is_forged: bool = false
 func play_card() -> bool:
 	if not _is_card_playable():
 		return false
+	GeneralUtils.debug_log(
+		"Starting to play card %s" % [self.id],
+		GameController.debug_mode_enabled
+	)
 	for condition in play_conditions:
 		if not condition.is_condition_meet():
+			GeneralUtils.debug_log(
+				"Card %s not playable due to condition" % [self.id],
+				GameController.debug_mode_enabled
+			)
 			return false
 	var previous_action_data: CardEffectData = null
 	var should_update_card_effect_data: bool = true
 	var response: CardEffectResponse = CardEffectResponse.new()
-	for action in play_actions:
+	for action: CardEffect in play_actions:
+		GeneralUtils.debug_log(
+			"- Processing action %s." % [action.id],
+			GameController.debug_mode_enabled
+		)
 		action.card_effect_data = null
 		if should_update_card_effect_data and previous_action_data:
 			action.card_effect_data = _get_effect_data_with_input_udpated(
@@ -64,6 +76,10 @@ func play_card() -> bool:
 	if not response.should_rollback():
 		self._after_card_is_played()
 		_revertable_play_actions.clear()
+	GeneralUtils.debug_log(
+		"Finished playing card %s." % [self.id],
+		GameController.debug_mode_enabled
+	)
 	return true
 	
 

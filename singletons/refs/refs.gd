@@ -8,3 +8,4 @@ extends Node
 
 @export_group("Screens Scenes")
 @export var deck_visualizer_scene: PackedScene
+@export var generic_battle_scene: PackedScene

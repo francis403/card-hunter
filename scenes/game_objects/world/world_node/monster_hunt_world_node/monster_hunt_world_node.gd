@@ -25,7 +25,12 @@ func on_node_click_event():
 	if not _is_click_event_processable():
 		return
 	if !GameController.is_showing_battle_scene:
-		var battle_scene: BattleGenericScene = generate_battle_scene()
+		#var battle_scene: BattleGenericScene = generate_battle_scene()
+		var battle_scene: BattleGenericScene = GameController.generate_battle_scene(
+			monsters_in_node[0].duplicate(),
+			false,
+			self
+		)
 		self._is_already_clicked = true
 		get_tree().root.add_child(battle_scene)
 	else:

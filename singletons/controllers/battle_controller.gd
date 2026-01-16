@@ -78,10 +78,19 @@ func get_random_tile(_center_tile: Tile, _config: TileHighlightConfig) -> Tile:
 	return null
 	
 func discard_card_from_player(_card: Card) -> void:
+	GeneralUtils.debug_log(
+		"-- Discarding card %s from player" % [_card.card_resource.id],
+		GameController.debug_mode_enabled
+	)
 	if not player:
+		push_warning("Issue discarding card from player hand!")
 		return
 	player.discard_card_from_hand(_card)
 	await player_hand.discard_card(_card)
+	GeneralUtils.debug_log(
+		"-- Finished discarding card %s from player." % [_card.card_resource.id],
+		GameController.debug_mode_enabled
+	)
 
 ## TODO: Investigate if we need this
 func get_range_tiles(
@@ -96,6 +105,10 @@ func get_range_tiles(
 
 func _on_player_turn_ended():
 	player_turn_stats = PlayerTurnStats.new()
+	GeneralUtils.debug_log(
+		"---- Player turn ended ------",
+		GameController.debug_mode_enabled
+	)
 
 func _on_card_discarded_from_hand(_index: int):
 	player_turn_stats.total_number_of_cards_discarded += 1

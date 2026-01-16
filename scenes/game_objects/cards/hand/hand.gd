@@ -80,6 +80,8 @@ func discard_card(
 	await self.play_discard_card_animation(_card)
 	if _card and not _card.is_queued_for_deletion():
 		_card.queue_free()
+	else:
+		push_warning("Issue when freeing card!")
 
 ## Play discard card animation for card in hand
 func play_discard_card_animation(card: Card):
