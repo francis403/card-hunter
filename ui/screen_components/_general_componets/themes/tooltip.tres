@@ -1,0 +1,32 @@
+[gd_resource type="Theme" load_steps=7 format=3 uid="uid://d3apevgtgvqpo"]
+
+[ext_resource type="FontFile" uid="uid://chi8wqpda8bhw" path="res://ui/screen_components/_general_componets/fonts/rubik/Rubik-Regular.ttf" id="1_5pq0d"]
+[ext_resource type="FontFile" uid="uid://dcir35mutjy8j" path="res://ui/screen_components/_general_componets/fonts/rubik/Rubik-Bold.ttf" id="1_jc567"]
+[ext_resource type="FontFile" uid="uid://dtw7srwsdo2up" path="res://ui/screen_components/_general_componets/fonts/rubik/Rubik-Light.ttf" id="2_icmxj"]
+[ext_resource type="FontFile" uid="uid://bmoqvr23qkm8b" path="res://ui/screen_components/_general_componets/fonts/rubik/Rubik-BoldItalic.ttf" id="2_l5dlq"]
+[ext_resource type="FontFile" uid="uid://diko3og5obi0b" path="res://ui/screen_components/_general_componets/fonts/rubik/Rubik-Italic.ttf" id="3_b6n8v"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0osyi"]
+bg_color = Color(0, 0, 0, 0.7764706)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.12156863, 0.12156863, 0.11764706, 1)
+border_blend = true
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+expand_margin_left = 24.0
+expand_margin_top = 12.0
+expand_margin_right = 24.0
+expand_margin_bottom = 12.0
+
+[resource]
+PanelContainer/styles/panel = SubResource("StyleBoxFlat_0osyi")
+RichTextLabel/fonts/bold_font = ExtResource("1_jc567")
+RichTextLabel/fonts/bold_italics_font = ExtResource("2_l5dlq")
+RichTextLabel/fonts/italics_font = ExtResource("3_b6n8v")
+RichTextLabel/fonts/mono_font = ExtResource("2_icmxj")
+RichTextLabel/fonts/normal_font = ExtResource("1_5pq0d")

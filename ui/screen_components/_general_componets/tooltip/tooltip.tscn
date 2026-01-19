@@ -1,0 +1,30 @@
+[gd_scene load_steps=3 format=3 uid="uid://bqt8h2x6vwp3k"]
+
+[ext_resource type="Script" uid="uid://bkudux6cidhge" path="res://ui/screen_components/_general_componets/tooltip/tooltip.gd" id="1_tooltip"]
+[ext_resource type="Theme" uid="uid://d3apevgtgvqpo" path="res://ui/screen_components/_general_componets/themes/tooltip.tres" id="1_xg34t"]
+
+[node name="Tooltip" type="PanelContainer"]
+z_index = 50
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -0.5
+offset_right = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+tooltip_text = "Test test"
+mouse_filter = 2
+theme = ExtResource("1_xg34t")
+script = ExtResource("1_tooltip")
+
+[node name="ContentRichTextLabel" type="RichTextLabel" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
+bbcode_enabled = true
+text = "Temp explanation"
+fit_content = true
+autowrap_mode = 0
