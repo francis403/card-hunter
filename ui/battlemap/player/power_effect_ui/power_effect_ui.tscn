@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://bh35brnxe12lh"]
 
-[ext_resource type="Script" path="res://ui/battlemap/player/power_effect_ui/power_effect_ui.gd" id="1_miwec"]
+[ext_resource type="Script" uid="uid://dmg4p5q5ax4jr" path="res://ui/battlemap/player/power_effect_ui/power_effect_ui.gd" id="1_miwec"]
 
 [node name="PowerEffectUI" type="MarginContainer"]
 offset_right = 12.0
