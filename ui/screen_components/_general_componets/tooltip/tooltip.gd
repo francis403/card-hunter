@@ -29,8 +29,7 @@ func _ready() -> void:
 	call_deferred("_connect_parent_signals")
 
 func _input(event: InputEvent) -> void:
-	if visible and follow_mouse and event is InputEventMouseMotion:
-		#self.global_position = get_global_mouse_position() + position_offset
+	if event is InputEventMouseMotion:
 		_update_position()
 
 func _setup_timer() -> void:
@@ -43,7 +42,8 @@ func _setup_timer() -> void:
 func _setup_container() -> void:
 	self.visible = false
 	self.modulate.a = 0.0
-	#tooltip_container.scale = Vector2(0.8, 0.8)
+	self.scale = Vector2(0.8, 0.8)
+	set_process_input(false)
 	_update_content()
 
 
@@ -79,10 +79,8 @@ func _update_content() -> void:
 
 
 func _update_position() -> void:
-
 	var mouse_pos = get_viewport().get_mouse_position()
 	var viewport_size = get_viewport().get_visible_rect().size
-	#var tooltip_size = tooltip_container.size
 	var tooltip_size = self.size
 	var final_pos = mouse_pos + position_offset
 
@@ -103,7 +101,6 @@ func _update_position() -> void:
 	final_pos.x = clamp(final_pos.x, margin, viewport_size.x - tooltip_size.x - margin)
 	final_pos.y = clamp(final_pos.y, margin, viewport_size.y - tooltip_size.y - margin)
 
-	#tooltip_container.global_position = final_pos
 	self.global_position = final_pos
 
 
@@ -121,7 +118,7 @@ func _on_delay_timeout() -> void:
 
 
 func toggle_on() -> void:
-	if not tooltip_text:
+	if not display_text:
 		return
 
 	_update_content()
@@ -129,21 +126,24 @@ func toggle_on() -> void:
 	if _show_tween:
 		_show_tween.kill()
 
-	#tooltip_container.visible = true
 	self.visible = true
+	set_process_input(follow_mouse)
 	_update_position()
 
 	_show_tween = create_tween()
 	_show_tween.set_parallel(true)
 	_show_tween.set_ease(Tween.EASE_OUT)
 	_show_tween.set_trans(Tween.TRANS_BACK)
-	#_show_tween.tween_property(tooltip_container, "modulate:a", 1.0, AnimationConstants.TOOLTIP_SHOW_DURATION)
-	#_show_tween.tween_property(tooltip_container, "scale", Vector2.ONE, AnimationConstants.TOOLTIP_SHOW_DURATION)
 	_show_tween.tween_property(self, "modulate:a", 1.0, AnimationConstants.TOOLTIP_SHOW_DURATION)
 	_show_tween.tween_property(self, "scale", Vector2.ONE, AnimationConstants.TOOLTIP_SHOW_DURATION)
 
 
 func toggle_off() -> void:
+	if not visible:
+		return
+
+	set_process_input(false)
+
 	if _show_tween:
 		_show_tween.kill()
 
@@ -151,9 +151,6 @@ func toggle_off() -> void:
 	_show_tween.set_parallel(true)
 	_show_tween.set_ease(Tween.EASE_IN)
 	_show_tween.set_trans(Tween.TRANS_QUAD)
-	#_show_tween.tween_property(tooltip_container, "modulate:a", 0.0, AnimationConstants.TOOLTIP_HIDE_DURATION)
-	#_show_tween.tween_property(tooltip_container, "scale", Vector2(0.8, 0.8), AnimationConstants.TOOLTIP_HIDE_DURATION)
-	#_show_tween.chain().tween_callback(func(): tooltip_container.visible = false)
 	_show_tween.tween_property(self, "modulate:a", 0.0, AnimationConstants.TOOLTIP_HIDE_DURATION)
 	_show_tween.tween_property(self, "scale", Vector2(0.8, 0.8), AnimationConstants.TOOLTIP_HIDE_DURATION)
 	_show_tween.chain().tween_callback(func(): self.visible = false)

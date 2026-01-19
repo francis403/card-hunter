@@ -87,10 +87,6 @@ func discard_card_from_player(_card: Card) -> void:
 		return
 	player.discard_card_from_hand(_card)
 	await player_hand.discard_card(_card)
-	GeneralUtils.debug_log(
-		"-- Finished discarding card %s from player." % [_card.card_resource.id],
-		GameController.debug_mode_enabled
-	)
 
 ## TODO: Investigate if we need this
 func get_range_tiles(
