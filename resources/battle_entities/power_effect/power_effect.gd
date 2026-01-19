@@ -9,6 +9,8 @@ const BASE_POWER_NODE_CONTROLLER: PackedScene = preload("res://scenes/resource_c
 @export var id: String
 @export var title: String
 @export var description: String
+@export var icon: Texture2D  ## Custom icon for this status effect (12-16px recommended)
+@export var abbreviation: String = ""  ## Short label (1-2 chars) shown on icon
 
 @export_group("Power Duration")
 @export var is_never_ending: bool = false

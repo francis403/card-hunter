@@ -30,5 +30,14 @@ texture = ExtResource("1_x2m06")
 shape = SubResource("CircleShape2D_dysk7")
 
 [node name="PowerEffectUI" parent="." instance=ExtResource("6_j3yem")]
-offset_top = 9.0
-offset_bottom = 24.0
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -10.0
+offset_top = 10.0
+offset_right = 10.0
+offset_bottom = 25.0
+grow_horizontal = 2
+grow_vertical = 2

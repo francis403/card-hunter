@@ -2,15 +2,26 @@ extends MarginContainer
 class_name PowerEffectIndicator
 
 @onready var tooltip: Tooltip = %Tooltip
+@onready var base_texture_rect: TextureRect = %BaseTextureRect
+@onready var icon_texture_rect: TextureRect = %IconTextureRect
+@onready var label: Label = %Label
 
 @export var power_effect: PowerEffect
 
 
 func _ready() -> void:
-	if power_effect and tooltip:
-		var _tooltip_text = "[b]%s[/b]\n%s" % [power_effect.title, power_effect.description]
-		tooltip.set_display_text(_tooltip_text)
-		_setup_compact_tooltip_style()
+	if power_effect:
+		if tooltip:
+			var _tooltip_text = "[b]%s[/b]\n%s" % [power_effect.title, power_effect.description]
+			tooltip.set_display_text(_tooltip_text)
+			_setup_compact_tooltip_style()
+		if icon_texture_rect and power_effect.icon:
+			icon_texture_rect.texture = power_effect.icon
+		if label:
+			if power_effect.abbreviation:
+				label.text = power_effect.abbreviation
+			else:
+				label.text = ""
 
 
 func _setup_compact_tooltip_style() -> void:

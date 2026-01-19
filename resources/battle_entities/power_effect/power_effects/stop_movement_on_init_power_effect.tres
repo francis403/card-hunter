@@ -1,6 +1,7 @@
-[gd_resource type="Resource" script_class="PowerEffect" load_steps=9 format=3 uid="uid://2sr6h7cdpkii"]
+[gd_resource type="Resource" script_class="PowerEffect" load_steps=10 format=3 uid="uid://2sr6h7cdpkii"]
 
 [ext_resource type="PackedScene" uid="uid://i650y26vx1dc" path="res://scenes/resource_controllers/card/card_controller_v2/card_effect_controller/power_effect_controllers/base_power_node_controller/base_power_node_controller.tscn" id="1_llf2s"]
+[ext_resource type="Texture2D" uid="uid://btbd3n1d3jqn6" path="res://assets/images/icons/tiles/spider-web-png-34733.png" id="2_jjtue"]
 [ext_resource type="Script" uid="uid://c33vyipa7ff1v" path="res://resources/battle_entities/power_effect/power_effect.gd" id="2_n1swv"]
 [ext_resource type="Script" uid="uid://6vk40iscvhue" path="res://resources/battle_entities/trigger_effect_event/trigger_effect_event.gd" id="3_6l6h1"]
 [ext_resource type="PackedScene" uid="uid://b10tsdd4yth4m" path="res://scenes/resource_controllers/battle_entities/trigger_effect_event/trigger_effect_events/status_modifier_trigger_effect/status_modifier_trigger_effect.tscn" id="4_2181d"]
@@ -24,4 +25,5 @@ script = ExtResource("2_n1swv")
 id = "stop_movement_on_init"
 title = "Stuck In a Spider Web"
 description = "Piece get's stuck in a spider web for 2 turns."
+icon = ExtResource("2_jjtue")
 trigger_effect_event = Array[ExtResource("3_6l6h1")]([SubResource("Resource_s36km")])
