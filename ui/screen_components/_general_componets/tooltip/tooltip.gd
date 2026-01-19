@@ -14,6 +14,7 @@ enum TooltipPosition {
 @export var show_delay: float = AnimationConstants.TOOLTIP_DEFAULT_DELAY
 @export var position_offset: Vector2 = Vector2(10, 10)
 @export var preferred_position: TooltipPosition = TooltipPosition.AUTO
+@export var follow_mouse: bool = true
 
 @onready var content_rich_text_label: RichTextLabel = %ContentRichTextLabel
 
@@ -27,6 +28,9 @@ func _ready() -> void:
 	_setup_container()
 	call_deferred("_connect_parent_signals")
 
+func _input(event: InputEvent) -> void:
+	if visible and follow_mouse and event is InputEventMouseMotion:
+		self.global_position = get_global_mouse_position() + position_offset
 
 func _setup_timer() -> void:
 	_delay_timer = Timer.new()
