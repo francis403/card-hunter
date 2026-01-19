@@ -15,6 +15,7 @@ enum UnlockConditionEnum {
 ## TODO: make a configuration file for this
 @export_group("Unlock Configurations - only valid if it starts locked")
 @export var start_locked: bool = false
+@export_multiline var override_default_unlock_description: String
 @export var unlock_condition: UnlockConditionEnum
 @export var logical_op: Constants.LogicalOperationEnum
 @export var value: int
@@ -32,3 +33,12 @@ func is_unlock_condition_encountered() -> bool:
 			meta_value
 	)
 	return _result
+	
+func get_unlock_condition_description() -> String:
+	if override_default_unlock_description and not override_default_unlock_description.is_empty():
+		return override_default_unlock_description
+	var _result: String = ""
+	match unlock_condition:
+		UnlockConditionEnum.NUMBER_OF_BOSSES_DEFEATED:
+			_result = "Defeat %s bosses" % value
+	return ""

@@ -4,6 +4,7 @@
 [ext_resource type="Theme" uid="uid://d3apevgtgvqpo" path="res://ui/screen_components/_general_componets/themes/tooltip.tres" id="1_xg34t"]
 
 [node name="Tooltip" type="PanelContainer"]
+top_level = true
 z_index = 50
 anchors_preset = 8
 anchor_left = 0.5

@@ -27,10 +27,21 @@ func _populate_actual_content():
 			class_pick_instance.card_back_texture = Refs.locked_card_back_texture
 			class_pick_instance._enable_click = false
 			class_pick_instance.title = "???????"
+			_add_unlock_tooltip(player_class, class_pick_instance)
 		else:
 			class_pick_instance.card_back_texture = player_class.player_class_icon
 		class_pick_instance.class_picker_clicked.connect(_on_class_pick_instance_clicked)
 		weapons_container.add_child(class_pick_instance)
+
+func _add_unlock_tooltip(
+	_player_class: PlayerClass,
+	_parent_node: Node
+):
+	var _tooltip: Tooltip = Refs.tooltip_component_scene.instantiate()
+	_tooltip.display_text = _player_class.get_unlock_condition_description()
+	_tooltip.preferred_position = Tooltip.TooltipPosition.AUTO
+	_tooltip.position_offset = Vector2.ONE * 20 + Vector2(10, 0)
+	_parent_node.add_child(_tooltip)
 
 func _populate_weapon_description_subscreen():
 	if not class_choices.is_empty():

@@ -14,5 +14,6 @@ player_class_icon = SubResource("AtlasTexture_clk1l")
 default_class_deck = ExtResource("1_4roh7")
 description = "Perform a multitude of attacks and move out of the way before the monster can ever hit you."
 start_locked = true
+override_default_unlock_description = "Defeat your first boss"
 logical_op = 2
 value = 1

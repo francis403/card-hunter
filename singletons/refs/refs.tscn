@@ -1,14 +1,16 @@
-[gd_scene load_steps=6 format=3 uid="uid://bna0cyn771n82"]
+[gd_scene load_steps=7 format=3 uid="uid://bna0cyn771n82"]
 
 [ext_resource type="Script" uid="uid://bmxnw70gqup1o" path="res://singletons/refs/refs.gd" id="1_7de7c"]
 [ext_resource type="Texture2D" uid="uid://fo7nqp5q3egr" path="res://assets/game_objects/card_parts/card_icons/to_unlock_small.tres" id="2_n5sn8"]
 [ext_resource type="PackedScene" uid="uid://cupm3r3yhcopw" path="res://ui/screen_components/class_picker_component/class_picker_component.tscn" id="2_whqgq"]
 [ext_resource type="PackedScene" uid="uid://batadjgkdfx6f" path="res://ui/deck/deck_visualizer/deck_visualizer.tscn" id="3_hmw8e"]
+[ext_resource type="PackedScene" uid="uid://bqt8h2x6vwp3k" path="res://ui/screen_components/_general_componets/tooltip/tooltip.tscn" id="4_ech4e"]
 [ext_resource type="PackedScene" uid="uid://dn1s6gbout3xc" path="res://scenes/battle_scenes/battle_generic_scene/battle_generic_scene.tscn" id="5_de68a"]
 
 [node name="Refs" type="Node"]
 script = ExtResource("1_7de7c")
 locked_card_back_texture = ExtResource("2_n5sn8")
 weapon_picker_component_scene = ExtResource("2_whqgq")
+tooltip_component_scene = ExtResource("4_ech4e")
 deck_visualizer_scene = ExtResource("3_hmw8e")
 generic_battle_scene = ExtResource("5_de68a")
