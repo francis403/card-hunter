@@ -1,6 +1,6 @@
-[gd_resource type="Resource" script_class="PlayerDeck" load_steps=11 format=3 uid="uid://c2013uvhxp01r"]
+[gd_resource type="Resource" script_class="PlayerDeck" load_steps=12 format=3 uid="uid://c2013uvhxp01r"]
 
-[ext_resource type="Script" path="res://resources/card/card_resource_v2/card_resource_v2.gd" id="1_ky8xb"]
+[ext_resource type="Script" uid="uid://bsspisl6hdkmh" path="res://resources/card/card_resource_v2/card_resource_v2.gd" id="1_ky8xb"]
 [ext_resource type="Resource" uid="uid://dro3beix0jtk4" path="res://resources/card/card_resource_v2/_card_resources_v2/attack_cards/basic_arrow_card_1.tres" id="2_s2r6x"]
 [ext_resource type="Resource" uid="uid://djlopuaxk13fn" path="res://resources/card/card_resource_v2/_card_resources_v2/move_cards/dash_card_1.tres" id="3_hoatk"]
 [ext_resource type="Resource" uid="uid://cmf6ja37sck5y" path="res://resources/card/card_resource_v2/_card_resources_v2/move_cards/move_card_1.tres" id="4_t6g7p"]
@@ -8,9 +8,10 @@
 [ext_resource type="Resource" uid="uid://bnbqi4hpeshi7" path="res://resources/card/card_resource_v2/_card_resources_v2/status_change_cards/breathe_card_1.tres" id="6_g2xqw"]
 [ext_resource type="Resource" uid="uid://dvk1a1vyglgvc" path="res://resources/card/card_resource_v2/_card_resources_v2/power_cards/double_speed_power_card_1.tres" id="7_moujd"]
 [ext_resource type="Resource" uid="uid://c5evsapdpvc2b" path="res://resources/card/card_resource_v2/_card_resources_v2/attack_cards/sneak_attack_1.tres" id="8_i2tbc"]
-[ext_resource type="Script" path="res://resources/player_deck/player_deck.gd" id="8_jbroi"]
+[ext_resource type="Script" uid="uid://dusmulm07q0tk" path="res://resources/player_deck/player_deck.gd" id="8_jbroi"]
 [ext_resource type="Resource" uid="uid://dl1moktvst0io" path="res://resources/card/card_resource_v2/_card_resources_v2/move_cards/emergency_retreat_1.tres" id="9_22c8m"]
+[ext_resource type="Resource" uid="uid://cp142jaqew3cw" path="res://resources/card/card_resource_v2/_card_resources_v2/tile_effect_cards/web_trap_card_1.tres" id="10_h4hkm"]
 
 [resource]
 script = ExtResource("8_jbroi")
-_deck = Array[ExtResource("1_ky8xb")]([ExtResource("2_s2r6x"), ExtResource("2_s2r6x"), ExtResource("2_s2r6x"), ExtResource("3_hoatk"), ExtResource("4_t6g7p"), ExtResource("4_t6g7p"), ExtResource("4_t6g7p"), ExtResource("5_1b6au"), ExtResource("6_g2xqw"), ExtResource("7_moujd"), ExtResource("8_i2tbc"), ExtResource("9_22c8m")])
+_deck = Array[ExtResource("1_ky8xb")]([ExtResource("2_s2r6x"), ExtResource("2_s2r6x"), ExtResource("2_s2r6x"), ExtResource("3_hoatk"), ExtResource("4_t6g7p"), ExtResource("4_t6g7p"), ExtResource("4_t6g7p"), ExtResource("5_1b6au"), ExtResource("6_g2xqw"), ExtResource("7_moujd"), ExtResource("8_i2tbc"), ExtResource("9_22c8m"), ExtResource("10_h4hkm")])

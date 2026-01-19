@@ -6,5 +6,5 @@ class_name StatusModifierTriggerEffectEventResource
 func _init_trigger_effect(target: Piece) -> BaseTriggerEffectEvent:
 	var result: BaseTriggerEffectEvent = super._init_trigger_effect(target)
 	if result is StatusModifierTriggerEffectEvent:
-		result.status_modifier_config = status_modifier_config
+		result.status_modifier_config = status_modifier_config.duplicate()
 	return result
