@@ -1,16 +1,16 @@
-[gd_scene load_steps=20 format=3 uid="uid://1d3a4erkukv4"]
+[gd_scene load_steps=19 format=3 uid="uid://1d3a4erkukv4"]
 
 [ext_resource type="PackedScene" uid="uid://b77dqwv8b42lt" path="res://scenes/monsters/generic_monster/generic_monster.tscn" id="1_qt0ur"]
 [ext_resource type="Script" uid="uid://dnnonm8tmtf6w" path="res://scenes/monsters/boss_monsters/giant_worm_monster/giant_monster.gd" id="2_gjxxe"]
 [ext_resource type="PackedScene" uid="uid://cvfuga8sci420" path="res://scenes/game_objects/states/shoot_with_effect_if_within_range/shoot_with_effect_if_within_range.tscn" id="3_ypjrt"]
-[ext_resource type="Resource" uid="uid://c7l87falpdmsi" path="res://resources/battle_entities/power_effect/power_effects/take_more_damage_on_init_power_effect.tres" id="4_mn6d0"]
 [ext_resource type="Script" uid="uid://7j3ej11ew0uu" path="res://resources/configuration/monster_configurations/monster_config/monster_config.gd" id="4_wn57k"]
 [ext_resource type="Script" uid="uid://bmo3eknyoct12" path="res://resources/monster/state/state_change_condition/state_change_condition.gd" id="5_dnoba"]
-[ext_resource type="Script" uid="uid://dvu05x3ia85mm" path="res://resources/battle_entities/tile_effect_resource/tile_effect_resource.gd" id="5_llsew"]
+[ext_resource type="Script" uid="uid://bsspisl6hdkmh" path="res://resources/card/card_resource_v2/card_resource_v2.gd" id="5_mn6d0"]
+[ext_resource type="Resource" uid="uid://c7ml1pqlvfib4" path="res://resources/card/card_resource_v2/_card_resources_v2/power_cards/double_strength_power_card_1.tres" id="6_llsew"]
 [ext_resource type="Script" uid="uid://b4wuvth2ekke3" path="res://resources/monster/state/state_condition/state_condition.gd" id="6_mn6d0"]
-[ext_resource type="PackedScene" uid="uid://cabbway55or47" path="res://scenes/resource_controllers/card/card_controller_v2/card_effect_controller/tile_effect_controllers/base_tile_effect_controller/base_tile_effect_controller.tscn" id="6_wn57k"]
-[ext_resource type="Texture2D" uid="uid://hmj58uofdwme" path="res://assets/images/icons/tiles/Blood-PNG-Background-Image (1).png" id="7_6tef8"]
 [ext_resource type="PackedScene" uid="uid://xrdhr3l1djpf" path="res://scenes/game_objects/states/move_speed_to_player_and_do_attack/move_speed_to_player_and_do_attack.tscn" id="7_llsew"]
+[ext_resource type="Resource" uid="uid://bnds0fxs33yqg" path="res://resources/card/card_resource_v2/_card_resources_v2/move_cards/push_card_1.tres" id="7_wn57k"]
+[ext_resource type="Resource" uid="uid://dgb7w0axp0pyl" path="res://resources/card/card_resource_v2/_card_resources_v2/move_cards/pull_card_1.tres" id="8_6tef8"]
 [ext_resource type="Texture2D" uid="uid://dt0pn34ommgfx" path="res://assets/images/icons/monster_icons/behaviour_icons/melee_claw_behaviour.png" id="8_wn57k"]
 [ext_resource type="PackedScene" uid="uid://bm3s6jrsg6gan" path="res://scenes/game_objects/states/charge_state/charge_state.tscn" id="9_6tef8"]
 [ext_resource type="PackedScene" uid="uid://cr61b4kmh0w3u" path="res://scenes/game_objects/states/fly_away_state/fly_away_state.tscn" id="10_pw4hv"]
@@ -19,12 +19,6 @@
 [sub_resource type="Resource" id="Resource_6tef8"]
 script = ExtResource("4_wn57k")
 metadata/_custom_type_script = "uid://7j3ej11ew0uu"
-
-[sub_resource type="Resource" id="Resource_pw4hv"]
-script = ExtResource("5_llsew")
-id = "bloodied_tile_effect"
-power_effect = ExtResource("4_mn6d0")
-tile_effect_icon = ExtResource("7_6tef8")
 
 [sub_resource type="Resource" id="Resource_7nvag"]
 script = ExtResource("6_mn6d0")
@@ -47,18 +41,13 @@ monster_texture = ExtResource("14_llsew")
 monster_config = SubResource("Resource_6tef8")
 _max_hp = null
 
+[node name="RewardManager" parent="." index="0"]
+card_rewards = Array[ExtResource("5_mn6d0")]([ExtResource("6_llsew"), ExtResource("7_wn57k"), ExtResource("8_6tef8")])
+
 [node name="StateMachine" parent="." index="2" node_paths=PackedStringArray("initial_state")]
 initial_state = NodePath("ShootBloodIfWithinRangeState")
 
 [node name="ShootBloodIfWithinRangeState" parent="StateMachine" index="0" instance=ExtResource("3_ypjrt")]
-status_id = "bloodied_status_effect"
-tile_effect_type = 1
-tile_effect_resource = SubResource("Resource_pw4hv")
-maximum_distance_to_player = 3
-out_of_range_state = ""
-min_distance_to_player = 3
-close_range_state = "ChargeState"
-player_hit_state = "ChargeState"
 state_change_conditions = Array[ExtResource("5_dnoba")]([SubResource("Resource_ojp2u")])
 
 [node name="MoveSpeedToPlayerAndDoAttack" parent="StateMachine" index="1" instance=ExtResource("7_llsew")]
@@ -66,7 +55,6 @@ state_if_outside_range = "ShootBloodIfWithinRangeState"
 state_icon = ExtResource("8_wn57k")
 
 [node name="ChargeState" parent="StateMachine" index="2" instance=ExtResource("9_6tef8")]
-state_after_charging = "MoveSpeedToPlayerAndDoAttack"
 
 [node name="FlyAwayState" parent="StateMachine" index="3" instance=ExtResource("10_pw4hv")]
 state_after_flying = "ShootBloodIfWithinRangeState"

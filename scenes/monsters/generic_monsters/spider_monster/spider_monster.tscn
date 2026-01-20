@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=3 uid="uid://w530cnkei473"]
+[gd_scene load_steps=33 format=3 uid="uid://w530cnkei473"]
 
 [ext_resource type="PackedScene" uid="uid://b77dqwv8b42lt" path="res://scenes/monsters/generic_monster/generic_monster.tscn" id="1_ayxpp"]
 [ext_resource type="Script" uid="uid://b4xbgb71g48ym" path="res://scenes/monsters/generic_monsters/spider_monster/spider_monster.gd" id="2_bi3n2"]
@@ -12,6 +12,7 @@
 [ext_resource type="Script" uid="uid://bsspisl6hdkmh" path="res://resources/card/card_resource_v2/card_resource_v2.gd" id="7_jninh"]
 [ext_resource type="Resource" uid="uid://d0tjdvgepml65" path="res://resources/card/card_resource_v2/_card_resources_v2/status_change_cards/health_potion_1.tres" id="8_ifip4"]
 [ext_resource type="Resource" uid="uid://b7dsj5bdapmyx" path="res://resources/card/card_resource_v2/_card_resources_v2/status_change_cards/poison_potion_1.tres" id="9_ja34g"]
+[ext_resource type="Resource" uid="uid://cp142jaqew3cw" path="res://resources/card/card_resource_v2/_card_resources_v2/tile_effect_cards/web_trap_card_1.tres" id="10_dtvci"]
 [ext_resource type="Texture2D" uid="uid://btbd3n1d3jqn6" path="res://assets/images/icons/tiles/spider-web-png-34733.png" id="10_rf0dk"]
 [ext_resource type="Resource" uid="uid://cdfg8pprgsw28" path="res://resources/monster/state/state_condition/conditions/player_in_range_3.tres" id="13_4dkmf"]
 [ext_resource type="Script" uid="uid://bmo3eknyoct12" path="res://resources/monster/state/state_change_condition/state_change_condition.gd" id="13_hcas0"]
@@ -80,7 +81,7 @@ _max_hp = 10
 _strength = 20
 
 [node name="RewardManager" parent="." index="0"]
-card_rewards = Array[ExtResource("7_jninh")]([ExtResource("8_ifip4"), ExtResource("9_ja34g")])
+card_rewards = Array[ExtResource("7_jninh")]([ExtResource("8_ifip4"), ExtResource("9_ja34g"), ExtResource("10_dtvci"), ExtResource("10_dtvci")])
 
 [node name="StateMachine" parent="." index="2" node_paths=PackedStringArray("initial_state")]
 initial_state = NodePath("CreateSpiderWebsIfOutOfRange")

@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=3 uid="uid://devokujw4owrj"]
+[gd_scene load_steps=33 format=3 uid="uid://devokujw4owrj"]
 
 [ext_resource type="PackedScene" uid="uid://b77dqwv8b42lt" path="res://scenes/monsters/generic_monster/generic_monster.tscn" id="1_exraa"]
 [ext_resource type="Script" uid="uid://1wohvbr3vee0" path="res://scenes/monsters/boss_monsters/grasshopper_alligator_monster/grasshopper_alligator_monster.gd" id="2_3jkax"]
@@ -10,6 +10,7 @@
 [ext_resource type="Resource" uid="uid://bu7gcqxkp3gqp" path="res://resources/card/card_resource_v2/_card_resources_v2/move_cards/teleport_card_1.tres" id="5_vs7pb"]
 [ext_resource type="Resource" uid="uid://dgb7w0axp0pyl" path="res://resources/card/card_resource_v2/_card_resources_v2/move_cards/pull_card_1.tres" id="6_nao2u"]
 [ext_resource type="Script" uid="uid://b4wuvth2ekke3" path="res://resources/monster/state/state_condition/state_condition.gd" id="6_trsir"]
+[ext_resource type="Resource" uid="uid://dvk1a1vyglgvc" path="res://resources/card/card_resource_v2/_card_resources_v2/power_cards/double_speed_power_card_1.tres" id="7_5vue3"]
 [ext_resource type="PackedScene" uid="uid://xrdhr3l1djpf" path="res://scenes/game_objects/states/move_speed_to_player_and_do_attack/move_speed_to_player_and_do_attack.tscn" id="7_ed00j"]
 [ext_resource type="Script" uid="uid://bbawf6m7784ju" path="res://resources/monster/state/player_range_state_change_condition/player_range_state_change_condition.gd" id="7_flw8x"]
 [ext_resource type="Texture2D" uid="uid://dt0pn34ommgfx" path="res://assets/images/icons/monster_icons/behaviour_icons/melee_claw_behaviour.png" id="8_flw8x"]
@@ -90,7 +91,7 @@ _max_hp = 150
 _strength = 30
 
 [node name="RewardManager" parent="." index="0"]
-card_rewards = Array[ExtResource("4_1xjp6")]([ExtResource("5_vs7pb"), ExtResource("6_nao2u")])
+card_rewards = Array[ExtResource("4_1xjp6")]([ExtResource("5_vs7pb"), ExtResource("6_nao2u"), ExtResource("7_5vue3")])
 
 [node name="StateMachine" parent="." index="2" node_paths=PackedStringArray("initial_state")]
 initial_state = NodePath("LurkState")
