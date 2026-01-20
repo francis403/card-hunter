@@ -64,9 +64,6 @@ func on_monster_moved_by_player(_new_tile: Tile) -> void:
 func _on_move_intent_updated():
 	_on_monster_prepared_move_signal()
 
-## TODO: improve the function
-## We shouldn;t be using sprite_2d.flip_h.
-## Maybe we can calculate using
 func _on_monster_prepared_move_signal():
 	if self.next_move:
 		if move_intent_container:
@@ -74,7 +71,6 @@ func _on_monster_prepared_move_signal():
 		var angle: float = (_tile.position.angle_to_point(self.next_move.position))
 		move_intent_container.rotation = angle
 		var initial_rotation: float = sprite_2d.rotation
-		var _initial_flip: bool = sprite_2d.flip_h
 		var _new_rotation: float = _calculate_monster_orientation(self.next_move)
 		if _new_rotation != initial_rotation:
 			sprite_2d.rotation = _new_rotation
@@ -83,28 +79,31 @@ func _on_monster_prepared_move_signal():
 				initial_rotation,
 				_new_rotation
 			)
-		if _initial_flip != sprite_2d.flip_h:
-			monster_body_part_container._rotate_body_parts(
-				self._tile,
-				initial_rotation,
-				deg_to_rad(rad_to_deg(initial_rotation) + 180)
-			)
 	else:
 		move_intent_container.visible = false
 
 func _calculate_monster_orientation(move_tile: Tile) -> float:
-	## An angle of 0 is looking to the left
-	var monster_rotation_angle: float = 1.5
-	monster_rotation_angle = move_tile.position.angle_to_point(self._tile.position) 
-	if (absf(monster_rotation_angle - PI) <= 0.1):
-		monster_rotation_angle = 0
-		sprite_2d.flip_h = not sprite_2d.flip_h
-	## if it's negative
-	if monster_rotation_angle < 0:
-		monster_rotation_angle += PI
-	if monster_rotation_angle > 1.6:
-		monster_rotation_angle -= PI
-	return monster_rotation_angle
+	## Sprite faces LEFT at rotation=0
+	## Combine horizontal flip with rotation to avoid upside-down (180° rotation)
+	var angle: float = self._tile.position.angle_to_point(move_tile.position)
+
+	var rotation: float
+	if abs(angle) < PI / 2:
+		## Target in RIGHT half - flip sprite horizontally, use angle directly
+		sprite_2d.scale.x = -abs(sprite_2d.scale.x)
+		rotation = angle
+	else:
+		## Target in LEFT half - no flip, offset angle by PI
+		sprite_2d.scale.x = abs(sprite_2d.scale.x)
+		rotation = angle - PI
+
+	## Normalize to [-PI, PI] range
+	while rotation > PI:
+		rotation -= TAU
+	while rotation < -PI:
+		rotation += TAU
+
+	return rotation
 	
 
 func set_state_icon(icon: Texture2D = null):
