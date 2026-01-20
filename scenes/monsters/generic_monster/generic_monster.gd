@@ -87,23 +87,23 @@ func _calculate_monster_orientation(move_tile: Tile) -> float:
 	## Combine horizontal flip with rotation to avoid upside-down (180° rotation)
 	var angle: float = self._tile.position.angle_to_point(move_tile.position)
 
-	var rotation: float
+	var _rotation: float
 	if abs(angle) < PI / 2:
 		## Target in RIGHT half - flip sprite horizontally, use angle directly
 		sprite_2d.scale.x = -abs(sprite_2d.scale.x)
-		rotation = angle
+		_rotation = angle
 	else:
 		## Target in LEFT half - no flip, offset angle by PI
 		sprite_2d.scale.x = abs(sprite_2d.scale.x)
-		rotation = angle - PI
+		_rotation = angle - PI
 
 	## Normalize to [-PI, PI] range
-	while rotation > PI:
-		rotation -= TAU
-	while rotation < -PI:
-		rotation += TAU
+	while _rotation > PI:
+		_rotation -= TAU
+	while _rotation < -PI:
+		_rotation += TAU
 
-	return rotation
+	return _rotation
 	
 
 func set_state_icon(icon: Texture2D = null):

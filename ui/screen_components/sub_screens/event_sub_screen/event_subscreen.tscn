@@ -1,0 +1,26 @@
+[gd_scene load_steps=4 format=3 uid="uid://cjixkt6364j28"]
+
+[ext_resource type="PackedScene" uid="uid://cnyfearbvst72" path="res://ui/screen_components/_general_componets/screens/container_screen/container_screen.tscn" id="1_b05du"]
+[ext_resource type="Theme" uid="uid://cw81t5h4tn30e" path="res://assets/themes/title_theme.tres" id="2_w60f0"]
+[ext_resource type="Script" uid="uid://1qrgxtlnpswh" path="res://ui/screen_components/sub_screens/event_sub_screen/event_subscreen.gd" id="3_script"]
+
+[node name="EventSubSCreen" instance=ExtResource("1_b05du")]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -112.0
+offset_top = -83.5
+offset_right = 112.0
+offset_bottom = 83.5
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("3_script")
+event_config = null
+
+[node name="Title" parent="MarginContainer2/VBoxContainer" index="0"]
+theme = ExtResource("2_w60f0")
+
+[node name="CloseButton" parent="MarginContainer2/VBoxContainer/ButtonContainer/HBoxButtonContainer" index="0"]
+size_flags_horizontal = 6

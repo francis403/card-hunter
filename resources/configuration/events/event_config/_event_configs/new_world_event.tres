@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="EventConfig" load_steps=6 format=3 uid="uid://dfux1r6urire8"]
+
+[ext_resource type="Script" uid="uid://bybfuot41hpbh" path="res://resources/configuration/events/event_config/event_config.gd" id="1_config"]
+[ext_resource type="Script" uid="uid://75ubodet5xn3" path="res://resources/configuration/events/event_button_config/event_button_config.gd" id="2_btn_config"]
+[ext_resource type="Script" uid="uid://ci6lxrp1d26ep" path="res://resources/configuration/events/event_button_action/event_button_actions/predefined_actions_button.gd" id="2_i3rwt"]
+
+[sub_resource type="Resource" id="Resource_4fxk8"]
+script = ExtResource("2_i3rwt")
+predefined_action = null
+id = null
+metadata/_custom_type_script = "uid://ci6lxrp1d26ep"
+
+[sub_resource type="Resource" id="save_village_button"]
+script = ExtResource("2_btn_config")
+button_text = "Save the village!"
+action = SubResource("Resource_4fxk8")
+
+[resource]
+script = ExtResource("1_config")
+title = "New Village to save"
+description = "You've managed to save one village, but there's still one more village that needs your help."
+buttons = Array[ExtResource("2_btn_config")]([SubResource("save_village_button")])

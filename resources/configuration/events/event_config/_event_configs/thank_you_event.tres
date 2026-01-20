@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="EventConfig" load_steps=6 format=3 uid="uid://dl176ben18fge"]
+
+[ext_resource type="Script" uid="uid://bybfuot41hpbh" path="res://resources/configuration/events/event_config/event_config.gd" id="1_config"]
+[ext_resource type="Script" uid="uid://75ubodet5xn3" path="res://resources/configuration/events/event_button_config/event_button_config.gd" id="2_btn_config"]
+[ext_resource type="Script" uid="uid://cq8qm0jakxh14" path="res://resources/configuration/events/event_button_action/event_button_actions/close_game_event_button.gd" id="2_xwytj"]
+
+[sub_resource type="Resource" id="Resource_3t8iu"]
+script = ExtResource("2_xwytj")
+metadata/_custom_type_script = "uid://cq8qm0jakxh14"
+
+[sub_resource type="Resource" id="close_button"]
+script = ExtResource("2_btn_config")
+button_text = "Close the game now"
+action = SubResource("Resource_3t8iu")
+
+[resource]
+script = ExtResource("1_config")
+title = "Many thanks"
+description = "Thank you for playing my game.
+It's still in a very rough phase but it means a lot to me."
+buttons = Array[ExtResource("2_btn_config")]([SubResource("close_button")])
