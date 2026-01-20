@@ -1,6 +1,14 @@
 extends Control
 class_name MainWorldScreen
 
+const BOSS_EVENTS: Array[EventConfig] = [
+	preload("res://resources/configuration/events/event_config/_event_configs/boss_encounter_giant_bat_event.tres"),
+	preload("res://resources/configuration/events/event_config/_event_configs/boss_encounter_giant_worm_event.tres"),
+	preload("res://resources/configuration/events/event_config/_event_configs/boss_encounter_grasshopper_event.tres"),
+]
+
+var possible_boss_events: Array[EventConfig] = []
+
 @export var world_genator_config_generator: WorldGeneratorConfigManager
 
 @onready var world_nodes: MarginContainer = $WorldNodes
@@ -26,6 +34,8 @@ func _ready() -> void:
 	# Setup grass exclusions after a frame to ensure all nodes are ready
 	world_nodes_table_component.instantiate_world()
 	world_nodes_table_component.world_generated.connect(_on_world_generated)
+	possible_boss_events = BOSS_EVENTS.duplicate()
+	possible_boss_events.shuffle()
 	call_deferred("_setup_world_background_exclusion_zone")
 	
 func _clean_preview():
@@ -47,22 +57,15 @@ func _on_days_till_attack_modified_signal(days: int):
 	
 func _on_world_boss_monster_encountered_signal():
 	PlayerController.current_world_node = null
-	ScreenUtils.open_event_screen(
-		get_parent(),
-		_prep_boss_battle()
+	var boss_event = possible_boss_events.pop_front()
+	EventController.show_event_via_resource(
+		boss_event,
+		get_parent()
 	)
-	
+
 func _on_debug_mode_toggled(is_debug_mode_on: bool) -> void:
 	player_menu.visible = is_debug_mode_on
 
-func _prep_boss_battle() -> EventScreen:
-	var result: EventScreen = EventScreen.new()
-	result.title_text = "Suddently Shadows"
-	result.description_text = "After completing your last quest, you suddenlty notice the sun is out.\n" + \
-		"Suddently, a giant Bat appears out of nowhere."
-	result.accept_button_text = "To the Hunt" 
-	result.accept_button_scene = world_nodes_table_component.get_random_world_boss_scene()
-	return result
 
 func _on_battle_won_signal():
 	world_nodes.process_mode = Node.PROCESS_MODE_ALWAYS

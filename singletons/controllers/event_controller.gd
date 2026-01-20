@@ -2,7 +2,7 @@ extends Node
 
 enum EventID {
 	THANK_YOU,
-	NEW_WORLD,
+	NEW_WORLD
 }
 
 var EVENT_CONFIGS: Dictionary = {
@@ -25,6 +25,19 @@ func show_event(
 	screen.setup_with_config(config)
 
 	var target_parent = parent if parent else get_tree().root
+	target_parent.add_child(screen)
+
+	return screen
+	
+func show_event_via_resource(
+	_event: EventConfig,
+	_parent: Node = null
+) -> EventSubScreen:
+	#_current_event_id = 123
+	var screen: EventSubScreen = Refs.event_subscreen.instantiate()
+	screen.setup_with_config(_event)
+
+	var target_parent = _parent if _parent else get_tree().root
 	target_parent.add_child(screen)
 
 	return screen

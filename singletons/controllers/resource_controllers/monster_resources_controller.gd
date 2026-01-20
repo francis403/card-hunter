@@ -67,6 +67,13 @@ func _load_monsters_from_files(
 			_dictionary_to_append[monster.monster_id] = monster
 			_array_to_append.append(monster)
 
+func get_monster(monster_id: String) -> GenericMonster:
+	if _monsters_in_game_dictionary[_GENERIC_MONSTER_DICTIONARY_FIELD].has(monster_id):
+		return _monsters_in_game_dictionary[_GENERIC_MONSTER_DICTIONARY_FIELD][monster_id]
+	if _monsters_in_game_dictionary[_BOSS_MONSTER_DICTIONARY_FIELD].has(monster_id):
+		return _monsters_in_game_dictionary[_BOSS_MONSTER_DICTIONARY_FIELD][monster_id]
+	return null
+	
 func get_specific_monster(monster_id: String) -> GenericMonster:
 	if not _monsters_in_game_dictionary[_GENERIC_MONSTER_DICTIONARY_FIELD].has(monster_id):
 		return null
