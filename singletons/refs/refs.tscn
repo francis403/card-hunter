@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://bna0cyn771n82"]
+[gd_scene load_steps=11 format=3 uid="uid://bna0cyn771n82"]
 
 [ext_resource type="Script" uid="uid://bmxnw70gqup1o" path="res://singletons/refs/refs.gd" id="1_7de7c"]
 [ext_resource type="Texture2D" uid="uid://fo7nqp5q3egr" path="res://assets/game_objects/card_parts/card_icons/to_unlock_small.tres" id="2_n5sn8"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://bqt8h2x6vwp3k" path="res://ui/screen_components/_general_componets/tooltip/tooltip.tscn" id="4_ech4e"]
 [ext_resource type="PackedScene" uid="uid://dn1s6gbout3xc" path="res://scenes/battle_scenes/battle_generic_scene/battle_generic_scene.tscn" id="5_de68a"]
 [ext_resource type="PackedScene" uid="uid://cjixkt6364j28" path="res://ui/screen_components/sub_screens/event_sub_screen/event_subscreen.tscn" id="5_fa4dk"]
+[ext_resource type="PackedScene" uid="uid://c8t61ybgmkahs" path="res://ui/screens/world_node_screens/deforge_card_screen/deforge_card_screen.tscn" id="6_sl8rd"]
 [ext_resource type="Resource" uid="uid://dl176ben18fge" path="res://resources/configuration/events/event_config/_event_configs/thank_you_event.tres" id="8_u8et4"]
 [ext_resource type="Resource" uid="uid://dfux1r6urire8" path="res://resources/configuration/events/event_config/_event_configs/new_world_event.tres" id="9_1g4n2"]
 
@@ -16,6 +17,7 @@ locked_card_back_texture = ExtResource("2_n5sn8")
 weapon_picker_component_scene = ExtResource("2_whqgq")
 tooltip_component_scene = ExtResource("4_ech4e")
 event_subscreen = ExtResource("5_fa4dk")
+deforge_card_screen_scene = ExtResource("6_sl8rd")
 deck_visualizer_scene = ExtResource("3_hmw8e")
 generic_battle_scene = ExtResource("5_de68a")
 thank_you_event_scene = ExtResource("8_u8et4")

@@ -2,11 +2,12 @@
 
 [ext_resource type="Script" uid="uid://bybfuot41hpbh" path="res://resources/configuration/events/event_config/event_config.gd" id="1_config"]
 [ext_resource type="Script" uid="uid://75ubodet5xn3" path="res://resources/configuration/events/event_button_config/event_button_config.gd" id="2_btn_config"]
-[ext_resource type="Script" uid="uid://cq8qm0jakxh14" path="res://resources/configuration/events/event_button_action/event_button_actions/close_game_event_button.gd" id="2_xwytj"]
+[ext_resource type="Script" uid="uid://ci6lxrp1d26ep" path="res://resources/configuration/events/event_button_action/event_button_actions/predefined_actions_button.gd" id="2_xwytj"]
 
 [sub_resource type="Resource" id="Resource_3t8iu"]
 script = ExtResource("2_xwytj")
-metadata/_custom_type_script = "uid://cq8qm0jakxh14"
+predefined_action = 2
+metadata/_custom_type_script = "uid://ci6lxrp1d26ep"
 
 [sub_resource type="Resource" id="close_button"]
 script = ExtResource("2_btn_config")
