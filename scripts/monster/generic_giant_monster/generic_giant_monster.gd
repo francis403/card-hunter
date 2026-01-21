@@ -47,10 +47,8 @@ func _set_up_radius_tiles():
 
 ## TODO: we need to take into consideration the monster angle
 func _set_up_horizontal_tiles():
-	print("TODO: ", _set_up_horizontal_tiles)
 	var x: int = _tile._x_position
 	var y: int = _tile._y_position
-	print("rotation: ", self.rotation)
 	var tile_1: Tile = BattleController.get_tile(x - 1, y)
 	if tile_1:
 		tile_1.piece_in_tile = self

@@ -4,16 +4,9 @@ class_name GridHighlightManager
 @export var battlemap: Battlemap = null
 
 func _ready() -> void:
-	BattlemapSignals.clear_highlighted_tiles.connect(_on_clear_highlighted_tiles_signal)
 	BattlemapSignals.highlight_tiles.connect(_on_highlight_tiles_signal)
 	BattlemapSignals.highlight_move_tiles.connect(_on_hightlight_move_tiles_signal)
-	##BattlemapSignals.highlight_attack_tiles.connect(_on_highlight_attacked_tiles_signal)
 	BattlemapSignals.get_monster_range_tiles.connect(_on_get_monster_range_tiles_signal)
-	
-# TODO
-func _on_clear_highlighted_tiles_signal():
-	pass
-
 
 func _on_highlight_tiles_signal(
 	source_tile: Tile,
@@ -74,7 +67,7 @@ func highlight_tiles(
 			config
 		)
 	elif area_type == Constants.AreaType.SHOTGUN:
-		print("TODO: shotgun movement")
+		pass
 	elif area_type == Constants.AreaType.LINE:
 		highligh_tiles_line(
 			source_tile,

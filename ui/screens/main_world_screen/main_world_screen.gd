@@ -49,9 +49,6 @@ func _update_days_till_attack(_days: int):
 func _on_battle_start_signal():
 	world_nodes.process_mode = Node.PROCESS_MODE_DISABLED
 
-func _on_node_complete_signal():
-	pass
-
 func _on_days_till_attack_modified_signal(days: int):
 	_update_days_till_attack(days)
 	

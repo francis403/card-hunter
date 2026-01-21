@@ -40,7 +40,6 @@ func _ready() -> void:
 
 func _on_forge_button_pressed() -> void:
 	if not _is_valid_card_forge():
-		print(_on_forge_button_pressed, ": invalid")
 		return
 	_built_card.card_resource = display_card.card_resource.duplicate()
 	_built_card.card_resource.title = card_title_input.text

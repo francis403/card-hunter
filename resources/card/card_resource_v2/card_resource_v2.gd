@@ -211,6 +211,7 @@ func _read_card_modules_from_dictionary(dict: Dictionary):
 	for key in dict.keys():
 		var _card_module: CardModule = CardModuleController.get_card_module(key)
 		if not _card_module:
+			_card_module = CardModule.new()
 			_card_module.from_dictionary(dict[key])
 		_append_card_module(_card_module)
 		

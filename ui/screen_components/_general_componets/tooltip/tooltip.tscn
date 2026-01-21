@@ -15,7 +15,6 @@ offset_left = -0.5
 offset_right = 0.5
 grow_horizontal = 2
 grow_vertical = 2
-tooltip_text = "Test test"
 mouse_filter = 2
 theme = ExtResource("1_xg34t")
 script = ExtResource("1_tooltip")

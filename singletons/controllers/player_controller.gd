@@ -7,8 +7,6 @@ const STARTING_DECK: PlayerDeck =\
 ## Representation of the deck the player currently has equiped
 var _deck: PlayerDeck = STARTING_DECK
 
-var _player_class: PlayerClass
-
 ## Contains all card modules the player has available
 var _available_card_modules: Array[CardModule] = []
 
@@ -30,9 +28,6 @@ func _ready() -> void:
 func _load_save_data():
 	if File.progress.current_player_deck:
 		_deck = File.progress.current_player_deck
-	
-func _load_deck(player_dictionary: Dictionary):
-	_deck._load(player_dictionary)
 
 ## At some point we are going to initiate deck based on class
 func replace_deck(other_deck: PlayerDeck):

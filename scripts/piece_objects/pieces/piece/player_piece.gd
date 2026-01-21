@@ -73,7 +73,6 @@ func _on_battle_start_signal():
 	BattlemapSignals.player_turn_started.emit()
 
 func _on_card_discarded_from_hand_reverted_signal(card_resource: CardResourceV2):
-	print(_on_card_discarded_from_hand_reverted_signal)
 	## I should probably make sure we manage to revert first
 	current_card_in_hand_size += 1
 	var index_of_discarded_card: int = _find_index_of_discarded_card(card_resource.id)
@@ -83,7 +82,6 @@ func _on_card_discarded_from_hand_reverted_signal(card_resource: CardResourceV2)
 
 func _find_index_of_discarded_card(card_id: String) -> int:
 	for i in range(discard_pile.size() - 1, -1, -1):
-		print(_find_index_of_discarded_card, ": ", i)
 		if discard_pile[i].id == card_id:
 			return i
 	return -1

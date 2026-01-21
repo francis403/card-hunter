@@ -183,7 +183,6 @@ func _play_discard_card_animation(
 
 ## TODO: Play some sort of animation
 func _on_card_discared_from_hand_reverted_signal(card_resource: CardResourceV2):
-	print(_on_card_discared_from_hand_reverted_signal)
 	var card_instance: Card = self._instantiate_card(card_resource)
 	card_instance.modulate.a = 1.0
 

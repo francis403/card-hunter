@@ -24,7 +24,7 @@ func _on_new_game_pressed() -> void:
 	get_tree().change_scene_to_packed(Constants.pick_class_screen_scene)
 
 func _on_unlockable_content_pressed() -> void:
-	print("TODO: implement")
+	pass
 
 func _on_settings_pressed() -> void:
 	ScreenUtils.open_settings_screen(get_parent())

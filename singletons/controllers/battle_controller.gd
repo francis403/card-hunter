@@ -36,7 +36,6 @@ func _on_battle_scene_finished_loading_signal(_loaded_battle_scene: BattleGeneri
 		push_error(_on_battle_scene_finished_loading_signal, " ERROR: player_hand not initiated in battle")
 	
 func _on_battlemap_generated_signal(map: Battlemap):
-	print(_on_battlemap_generated_signal)
 	self.battlemap = map
 	if battlemap:
 		self.player = battlemap.player
@@ -74,9 +73,6 @@ func get_monster() -> MonsterPiece:
 func get_tile(x: int, y: int) -> Tile:
 	return battlemap.get_tile(x, y)
 
-func get_random_tile(_center_tile: Tile, _config: TileHighlightConfig) -> Tile:
-	return null
-	
 func discard_card_from_player(_card: Card) -> void:
 	GeneralUtils.debug_log(
 		"-- Discarding card %s from player" % [_card.card_resource.id],

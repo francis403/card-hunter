@@ -130,10 +130,6 @@ func _on_monster_body_part_hit(body_part: BodyPart):
 	#BattlemapSignals.monster_body_part_attacked.emit(self, body_part)
 	self.body_part_hit.emit(body_part)
 	
-## TODO: I don't think I need this function
-func get_sprite() -> Sprite2D:
-	return sprite_2d
-
 func get_texture() -> Texture2D:
 	if monster_texture:
 		return monster_texture

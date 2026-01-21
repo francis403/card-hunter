@@ -18,5 +18,4 @@ func apply_deck_manipulation():
 		DeckEffectEnum.DRAW_N_RANDOM_CARDS:
 			BattlemapSignals.draw_pile_draw_cards_requested.emit(n)
 		DeckEffectEnum.DRAW_N_SPECIFIC_CARDS:
-			print("TODO: DRAW_N_SPECIFIC_CARDS")
 			pass

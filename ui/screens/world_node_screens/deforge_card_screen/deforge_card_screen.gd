@@ -29,7 +29,6 @@ func _remove_preview():
 
 func _on_card_selected_for_deforge(_card: Card):
 	var card_resource: CardResourceV2 = _card.card_resource
-	print(_on_card_selected_for_deforge, ": ", card_resource.id)
 	card.card_resource = card_resource.duplicate()
 	card.initialize_card()
 	card_modules_container_component.set_grid_elems_by_card(card.card_resource)
