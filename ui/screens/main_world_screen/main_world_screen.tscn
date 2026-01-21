@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://baqwuitia2ptv"]
+[gd_scene load_steps=14 format=3 uid="uid://baqwuitia2ptv"]
 
 [ext_resource type="Script" uid="uid://com2ygiomxuyk" path="res://ui/screens/main_world_screen/main_world_screen.gd" id="1_3wacw"]
 [ext_resource type="PackedScene" uid="uid://dqlmwbtf0bya2" path="res://ui/screens/generic_screen/generic_screen.tscn" id="1_eplf0"]
@@ -9,6 +9,7 @@
 [ext_resource type="Resource" uid="uid://b0pr2kyi1t77m" path="res://resources/configuration/world/world_generator_config/world_generation_config_crab_and_spider_world.tres" id="6_55ot5"]
 [ext_resource type="PackedScene" uid="uid://cmurt2gatahso" path="res://ui/screen_components/WorldNodesGridTableComponent/world_nodes_table_component.tscn" id="8_hy27n"]
 [ext_resource type="PackedScene" uid="uid://uwj0c5r8hb8l" path="res://scenes/managers/world_generation/world_generator_config_manager/random_world_generator_config_manager/random_world_generator_config_manager.tscn" id="11_pkvgt"]
+[ext_resource type="PackedScene" uid="uid://bqt8h2x6vwp3k" path="res://ui/screen_components/_general_componets/tooltip/tooltip.tscn" id="12_pch0q"]
 [ext_resource type="PackedScene" uid="uid://cnmfofjavj5t2" path="res://ui/screen_components/_general_componets/buttons/image_button/image_button.tscn" id="21_sawn2"]
 [ext_resource type="AudioStream" uid="uid://2dk82vkfonp7" path="res://assets/sound/sound_effects/button_clicks/click5.ogg" id="22_p38ha"]
 [ext_resource type="Theme" uid="uid://bxlatu18hbfeu" path="res://assets/themes/generic_theme_1.tres" id="25_14g2u"]
@@ -72,12 +73,26 @@ mouse_filter = 0
 title = "Deck"
 deck_type = 0
 
+[node name="Tooltip" parent="BottomMargin/DeckUI" index="2" instance=ExtResource("12_pch0q")]
+layout_mode = 2
+display_text = "Show current deck"
+position_offset = Vector2(30, 10)
+preferred_position = 4
+
 [node name="ForgeButton" parent="BottomMargin" index="1" instance=ExtResource("21_sawn2")]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 8
 _audio_stream = ExtResource("22_p38ha")
 _under_text = "Forge Card"
+
+[node name="Tooltip" parent="BottomMargin/ForgeButton" index="3" instance=ExtResource("12_pch0q")]
+layout_mode = 0
+anchors_preset = 0
+display_text = "Forge a card 
+from all card parts."
+position_offset = Vector2(30, 30)
+preferred_position = 3
 
 [node name="Screen" parent="." index="9"]
 mouse_filter = 2

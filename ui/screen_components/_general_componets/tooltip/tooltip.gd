@@ -10,7 +10,7 @@ enum TooltipPosition {
 	RIGHT
 }
 
-@export var display_text: String
+@export_multiline var display_text: String
 @export var show_delay: float = AnimationConstants.TOOLTIP_DEFAULT_DELAY
 @export var position_offset: Vector2 = Vector2(10, 10)
 @export var preferred_position: TooltipPosition = TooltipPosition.AUTO

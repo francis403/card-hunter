@@ -99,7 +99,6 @@ var main_world_scroll_scene: PackedScene = load("res://ui/screens/main_world_scr
 var pick_class_screen_scene: PackedScene = load("res://ui/screens/pick_class_screen/pick_class_screen.tscn")
 var deforge_card_screen_scene: PackedScene = load("res://ui/screens/world_node_screens/deforge_card_screen/deforge_card_screen.tscn")
 var forge_card_screen_scene = load("res://ui/screens/forge_card_screen/forge_card_screen.tscn")
-var event_screen_scene: PackedScene = load("res://ui/screens/event_screen/event_screen.tscn")
 var deck_visualizer_scene: PackedScene = load("res://ui/deck/deck_visualizer/deck_visualizer.tscn")
 var card_scene: PackedScene = load("res://scenes/game_objects/cards/card/card.tscn")
 
