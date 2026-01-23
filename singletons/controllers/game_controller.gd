@@ -64,10 +64,14 @@ func _toggle_debug_mode():
 func generate_battle_scene(
 	_monster: GenericMonster,
 	_is_boss_battle: bool = false,
-	_world_node: GenericWorldNode = null
+	_world_node: GenericWorldNode = null,
+	_is_tutorial_battle: bool = false
 ) -> BattleGenericScene:
-	var _hunt_scene: BattleGenericScene =\
-		Refs.generic_battle_scene.instantiate().duplicate()
+	var _hunt_scene: BattleGenericScene = null
+	if not _is_tutorial_battle:
+		_hunt_scene = Refs.generic_battle_scene.instantiate().duplicate()
+	else:
+		_hunt_scene = Refs.battle_tutorial_scene.instantiate().duplicate()
 	_hunt_scene.is_boss_battle = _is_boss_battle
 	_hunt_scene.monsters.clear()
 	var _monster_to_add: GenericMonster = _monster.duplicate()

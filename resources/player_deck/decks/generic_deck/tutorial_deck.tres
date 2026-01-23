@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="PlayerDeck" load_steps=7 format=3 uid="uid://hj8ltv521ehm"]
+
+[ext_resource type="Script" uid="uid://bsspisl6hdkmh" path="res://resources/card/card_resource_v2/card_resource_v2.gd" id="1_hlcyf"]
+[ext_resource type="Resource" uid="uid://cmf6ja37sck5y" path="res://resources/card/card_resource_v2/_card_resources_v2/move_cards/move_card_1.tres" id="4_db07c"]
+[ext_resource type="Resource" uid="uid://y866rrfg7pyy" path="res://resources/card/card_resource_v2/_card_resources_v2/attack_cards/slice_card_1.tres" id="5_2vk1g"]
+[ext_resource type="Resource" uid="uid://d0tjdvgepml65" path="res://resources/card/card_resource_v2/_card_resources_v2/status_change_cards/health_potion_1.tres" id="5_ur3rl"]
+[ext_resource type="Resource" uid="uid://bnbqi4hpeshi7" path="res://resources/card/card_resource_v2/_card_resources_v2/status_change_cards/breathe_card_1.tres" id="6_fbwy7"]
+[ext_resource type="Script" uid="uid://dusmulm07q0tk" path="res://resources/player_deck/player_deck.gd" id="11_bdvng"]
+
+[resource]
+script = ExtResource("11_bdvng")
+_deck = Array[ExtResource("1_hlcyf")]([ExtResource("4_db07c"), ExtResource("5_ur3rl"), ExtResource("6_fbwy7"), ExtResource("5_2vk1g")])

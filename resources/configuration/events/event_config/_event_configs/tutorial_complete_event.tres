@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="EventConfig" load_steps=6 format=3 uid="uid://d3kr5m2p7bxqh"]
+
+[ext_resource type="Script" uid="uid://bybfuot41hpbh" path="res://resources/configuration/events/event_config/event_config.gd" id="1_config"]
+[ext_resource type="Script" uid="uid://75ubodet5xn3" path="res://resources/configuration/events/event_button_config/event_button_config.gd" id="2_btn_config"]
+[ext_resource type="Script" uid="uid://ci6lxrp1d26ep" path="res://resources/configuration/events/event_button_action/event_button_actions/predefined_actions_button.gd" id="3_action"]
+
+[sub_resource type="Resource" id="Resource_action"]
+script = ExtResource("3_action")
+predefined_action = 4
+metadata/_custom_type_script = "uid://ci6lxrp1d26ep"
+
+[sub_resource type="Resource" id="continue_button"]
+script = ExtResource("2_btn_config")
+button_text = "Begin Your Journey"
+action = SubResource("Resource_action")
+
+[resource]
+script = ExtResource("1_config")
+title = "Training Complete!"
+description = "Well done! You've mastered the basics of monster hunting.
+
+Now you're ready to venture into the world and face real challenges.
+
+Good luck, Hunter!"
+buttons = Array[ExtResource("2_btn_config")]([SubResource("continue_button")])

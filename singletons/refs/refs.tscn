@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://bna0cyn771n82"]
+[gd_scene load_steps=14 format=3 uid="uid://bna0cyn771n82"]
 
 [ext_resource type="Script" uid="uid://bmxnw70gqup1o" path="res://singletons/refs/refs.gd" id="1_7de7c"]
 [ext_resource type="Texture2D" uid="uid://fo7nqp5q3egr" path="res://assets/game_objects/card_parts/card_icons/to_unlock_small.tres" id="2_n5sn8"]
@@ -10,6 +10,9 @@
 [ext_resource type="PackedScene" uid="uid://c8t61ybgmkahs" path="res://ui/screens/world_node_screens/deforge_card_screen/deforge_card_screen.tscn" id="6_sl8rd"]
 [ext_resource type="Resource" uid="uid://dl176ben18fge" path="res://resources/configuration/events/event_config/_event_configs/thank_you_event.tres" id="8_u8et4"]
 [ext_resource type="Resource" uid="uid://dfux1r6urire8" path="res://resources/configuration/events/event_config/_event_configs/new_world_event.tres" id="9_1g4n2"]
+[ext_resource type="PackedScene" uid="uid://1lxlfsvl30ki" path="res://scenes/battle_scenes/tutorial_battle_scene/tutorial_battle_scene.tscn" id="9_ps0q3"]
+[ext_resource type="Resource" uid="uid://dxdqsobblpi64" path="res://resources/configuration/events/event_config/_event_configs/tutorial_welcome_event.tres" id="11_43guj"]
+[ext_resource type="Resource" uid="uid://d3kr5m2p7bxqh" path="res://resources/configuration/events/event_config/_event_configs/tutorial_complete_event.tres" id="12_xpgpn"]
 
 [node name="Refs" type="Node"]
 script = ExtResource("1_7de7c")
@@ -20,5 +23,8 @@ event_subscreen = ExtResource("5_fa4dk")
 deforge_card_screen_scene = ExtResource("6_sl8rd")
 deck_visualizer_scene = ExtResource("3_hmw8e")
 generic_battle_scene = ExtResource("5_de68a")
+battle_tutorial_scene = ExtResource("9_ps0q3")
 thank_you_event_scene = ExtResource("8_u8et4")
 new_village_event_scene = ExtResource("9_1g4n2")
+tutorial_welcome_event = ExtResource("11_43guj")
+tutorial_complete_event = ExtResource("12_xpgpn")

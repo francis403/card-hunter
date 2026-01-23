@@ -89,8 +89,16 @@ _under_text = "Forge Card"
 [node name="Tooltip" parent="BottomMargin/ForgeButton" index="3" instance=ExtResource("12_pch0q")]
 layout_mode = 0
 anchors_preset = 0
-display_text = "Forge a card 
-from all card parts."
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 0.0
+offset_right = 1.0
+grow_horizontal = 1
+grow_vertical = 1
+display_text = "Forge a card using
+your card modules."
 position_offset = Vector2(30, 30)
 preferred_position = 3
 

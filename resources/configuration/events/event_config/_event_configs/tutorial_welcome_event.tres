@@ -1,0 +1,37 @@
+[gd_resource type="Resource" script_class="EventConfig" load_steps=8 format=3 uid="uid://dxdqsobblpi64"]
+
+[ext_resource type="Script" uid="uid://bybfuot41hpbh" path="res://resources/configuration/events/event_config/event_config.gd" id="1_config"]
+[ext_resource type="Script" uid="uid://75ubodet5xn3" path="res://resources/configuration/events/event_button_config/event_button_config.gd" id="2_btn_config"]
+[ext_resource type="Script" uid="uid://ci6lxrp1d26ep" path="res://resources/configuration/events/event_button_action/event_button_actions/predefined_actions_button.gd" id="2_db7di"]
+
+[sub_resource type="Resource" id="Resource_67npv"]
+script = ExtResource("2_db7di")
+predefined_action = 3
+metadata/_custom_type_script = "uid://ci6lxrp1d26ep"
+
+[sub_resource type="Resource" id="Resource_2ty2r"]
+script = ExtResource("2_btn_config")
+button_text = "Start Tutorial"
+action = SubResource("Resource_67npv")
+metadata/_custom_type_script = "uid://75ubodet5xn3"
+
+[sub_resource type="Resource" id="Resource_uwddv"]
+script = ExtResource("2_db7di")
+predefined_action = 4
+metadata/_custom_type_script = "uid://ci6lxrp1d26ep"
+
+[sub_resource type="Resource" id="Resource_db7di"]
+script = ExtResource("2_btn_config")
+button_text = "Skip"
+action = SubResource("Resource_uwddv")
+metadata/_custom_type_script = "uid://75ubodet5xn3"
+
+[resource]
+script = ExtResource("1_config")
+title = "Welcome, Hunter!"
+description = "Before you venture into the wilds, let's practice the basics of hunting.
+
+You'll learn how to play cards, manage your stamina, and defeat monsters.
+
+Would you like to begin the training?"
+buttons = Array[ExtResource("2_btn_config")]([SubResource("Resource_2ty2r"), SubResource("Resource_db7di")])

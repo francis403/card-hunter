@@ -16,12 +16,14 @@ enum TooltipPosition {
 @export var preferred_position: TooltipPosition = TooltipPosition.AUTO
 @export var follow_mouse: bool = true
 
+@export_group("Visibility Configuration")
+@export var display_on_hover: bool = true
+
 @onready var content_rich_text_label: RichTextLabel = %ContentRichTextLabel
 
 var _delay_timer: Timer
 var _show_tween: Tween
 var _parent_control: Control = null
-
 
 func _ready() -> void:
 	_setup_timer()
@@ -37,7 +39,6 @@ func _setup_timer() -> void:
 	_delay_timer.one_shot = true
 	_delay_timer.timeout.connect(_on_delay_timeout)
 	add_child(_delay_timer)
-
 
 func _setup_container() -> void:
 	self.visible = false
@@ -105,6 +106,8 @@ func _update_position() -> void:
 
 
 func _on_parent_mouse_entered() -> void:
+	if not display_on_hover:
+		return
 	_delay_timer.start(show_delay)
 
 

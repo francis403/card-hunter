@@ -1,0 +1,15 @@
+[gd_scene load_steps=4 format=3 uid="uid://1lxlfsvl30ki"]
+
+[ext_resource type="PackedScene" uid="uid://dn1s6gbout3xc" path="res://scenes/battle_scenes/battle_generic_scene/battle_generic_scene.tscn" id="1_xt0sf"]
+[ext_resource type="Script" uid="uid://dfl8kij4keagv" path="res://scenes/battle_scenes/tutorial_battle_scene/tutorial_battle_scene.gd" id="2_k6jft"]
+[ext_resource type="Resource" uid="uid://hj8ltv521ehm" path="res://resources/player_deck/decks/generic_deck/tutorial_deck.tres" id="2_vpi5e"]
+
+[node name="TutorialBattleScene" instance=ExtResource("1_xt0sf")]
+script = ExtResource("2_k6jft")
+
+[node name="Battlemap" parent="." index="4" node_paths=PackedStringArray("monsters")]
+monsters = [null]
+
+[node name="Player" parent="." index="5"]
+is_player_damageable = false
+replace_deck = ExtResource("2_vpi5e")

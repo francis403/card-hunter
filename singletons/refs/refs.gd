@@ -12,7 +12,11 @@ extends Node
 @export var deforge_card_screen_scene: PackedScene
 @export var deck_visualizer_scene: PackedScene
 @export var generic_battle_scene: PackedScene
+@export_subgroup("Tutorial Scenes")
+@export var battle_tutorial_scene: PackedScene
 
 @export_group("Event Resources")
 @export var thank_you_event_scene: EventConfig
 @export var new_village_event_scene: EventConfig
+@export var tutorial_welcome_event: EventConfig
+@export var tutorial_complete_event: EventConfig

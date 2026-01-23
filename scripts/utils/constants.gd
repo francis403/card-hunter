@@ -93,8 +93,6 @@ func logical_operation_comparison(
 	return false
 
 # Constanst
-
-var quest_picker_screen_scroll_scene: PackedScene = load("res://ui/screens/quest_picker/quest_picker_screen.tscn")
 var main_world_scroll_scene: PackedScene = load("res://ui/screens/main_world_screen/main_world_screen.tscn")
 var pick_class_screen_scene: PackedScene = load("res://ui/screens/pick_class_screen/pick_class_screen.tscn")
 var deforge_card_screen_scene: PackedScene = load("res://ui/screens/world_node_screens/deforge_card_screen/deforge_card_screen.tscn")

@@ -36,6 +36,7 @@ ScreenUtils="*res://scripts/utils/screen_utils/screen_utils.gd"
 CardModuleController="*res://singletons/controllers/resource_controllers/card_module_controller.gd"
 CardResourcesController="*res://singletons/controllers/resource_controllers/card_resources_controller.gd"
 MonsterResourcesController="*res://singletons/controllers/resource_controllers/monster_resources_controller.gd"
+TutorialController="*res://singletons/controllers/tutorial_controller.gd"
 
 [debug]
 

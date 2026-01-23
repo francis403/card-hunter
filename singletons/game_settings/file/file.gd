@@ -27,12 +27,18 @@ func delete_current_run_progress():
 	
 func save():
 	var file = FileAccess.open(SAVE_FILE_PATH, FileAccess.WRITE)
+	if not file:
+		push_error("Failed to save game: ", FileAccess.get_open_error())
+		return
 	file.store_var(save_data)
 	
 func load_save_file():
 	if not self.has_save_file():
 		return
 	var file = FileAccess.open(SAVE_FILE_PATH, FileAccess.READ)
+	if not file:
+		push_warning("Failed to read save file: ", FileAccess.get_open_error())
+		return
 	save_data = file.get_var()
 	load_settings()
 	load_progress()

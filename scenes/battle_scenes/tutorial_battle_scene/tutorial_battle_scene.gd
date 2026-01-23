@@ -1,0 +1,2 @@
+extends BattleGenericScene
+class_name TutorialBattleScene
