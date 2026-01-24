@@ -20,3 +20,4 @@ extends Node
 @export var new_village_event_scene: EventConfig
 @export var tutorial_welcome_event: EventConfig
 @export var tutorial_complete_event: EventConfig
+@export var battle_tutorial_complete_event: EventConfig

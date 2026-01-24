@@ -19,6 +19,14 @@ const CARD_WIDTH: int = 170
 
 var has_drawn_hand_before: bool = false
 
+# TODO: This is O(n), we can probably do O(1)
+func get_cards() -> Array[Card]:
+	var result: Array[Card] = []
+	for _child: Node in hand_container.get_children():
+		if _child is Card:
+			result.append(_child)
+	return result
+
 func _ready() -> void:
 	_clean_preview()
 	BattlemapSignals.awaiting_player_input.connect(_on_input_awaiting_signal)

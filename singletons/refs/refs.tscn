@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://bna0cyn771n82"]
+[gd_scene load_steps=15 format=3 uid="uid://bna0cyn771n82"]
 
 [ext_resource type="Script" uid="uid://bmxnw70gqup1o" path="res://singletons/refs/refs.gd" id="1_7de7c"]
 [ext_resource type="Texture2D" uid="uid://fo7nqp5q3egr" path="res://assets/game_objects/card_parts/card_icons/to_unlock_small.tres" id="2_n5sn8"]
@@ -13,6 +13,7 @@
 [ext_resource type="PackedScene" uid="uid://1lxlfsvl30ki" path="res://scenes/battle_scenes/tutorial_battle_scene/tutorial_battle_scene.tscn" id="9_ps0q3"]
 [ext_resource type="Resource" uid="uid://dxdqsobblpi64" path="res://resources/configuration/events/event_config/_event_configs/tutorial_welcome_event.tres" id="11_43guj"]
 [ext_resource type="Resource" uid="uid://d3kr5m2p7bxqh" path="res://resources/configuration/events/event_config/_event_configs/tutorial_complete_event.tres" id="12_xpgpn"]
+[ext_resource type="Resource" uid="uid://13gma4r8yu3g" path="res://resources/configuration/events/event_config/_event_configs/battle_tutorial_complete_event.tres" id="13_btce"]
 
 [node name="Refs" type="Node"]
 script = ExtResource("1_7de7c")
@@ -28,3 +29,4 @@ thank_you_event_scene = ExtResource("8_u8et4")
 new_village_event_scene = ExtResource("9_1g4n2")
 tutorial_welcome_event = ExtResource("11_43guj")
 tutorial_complete_event = ExtResource("12_xpgpn")
+battle_tutorial_complete_event = ExtResource("13_btce")

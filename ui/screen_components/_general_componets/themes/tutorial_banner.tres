@@ -1,0 +1,29 @@
+[gd_resource type="Theme" load_steps=4 format=3 uid="uid://ddc0kv7k10702"]
+
+[ext_resource type="FontFile" uid="uid://chi8wqpda8bhw" path="res://ui/screen_components/_general_componets/fonts/rubik/Rubik-Regular.ttf" id="1_font"]
+[ext_resource type="FontFile" uid="uid://dcir35mutjy8j" path="res://ui/screen_components/_general_componets/fonts/rubik/Rubik-Bold.ttf" id="2_bold"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_banner"]
+content_margin_left = 32.0
+content_margin_top = 16.0
+content_margin_right = 32.0
+content_margin_bottom = 20.0
+bg_color = Color(0.08, 0.08, 0.1, 0.92)
+border_width_bottom = 3
+border_color = Color(0.713726, 0.580392, 0.305882, 0.8)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[resource]
+Label/colors/font_color = Color(0.95, 0.95, 0.92, 1)
+Label/colors/font_shadow_color = Color(0, 0, 0, 0.5)
+Label/font_sizes/font_size = 18
+Label/fonts/font = ExtResource("1_font")
+PanelContainer/styles/panel = SubResource("StyleBoxFlat_banner")
+RichTextLabel/colors/default_color = Color(0.95, 0.95, 0.92, 1)
+RichTextLabel/font_sizes/bold_font_size = 20
+RichTextLabel/font_sizes/normal_font_size = 18
+RichTextLabel/fonts/bold_font = ExtResource("2_bold")
+RichTextLabel/fonts/normal_font = ExtResource("1_font")

@@ -10,6 +10,7 @@ func is_tutorial_completed() -> bool:
 	return File.meta_progress.unlocked_content.has("tutorial_completed")
 
 func mark_tutorial_completed() -> void:
+	self.should_show_tutorial = false
 	File.meta_progress.add_unlocked_content("tutorial_completed")
 	File.change_meta_progress()
 

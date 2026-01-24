@@ -1,8 +1,10 @@
-[gd_scene load_steps=4 format=3 uid="uid://1lxlfsvl30ki"]
+[gd_scene load_steps=6 format=3 uid="uid://1lxlfsvl30ki"]
 
 [ext_resource type="PackedScene" uid="uid://dn1s6gbout3xc" path="res://scenes/battle_scenes/battle_generic_scene/battle_generic_scene.tscn" id="1_xt0sf"]
 [ext_resource type="Script" uid="uid://dfl8kij4keagv" path="res://scenes/battle_scenes/tutorial_battle_scene/tutorial_battle_scene.gd" id="2_k6jft"]
 [ext_resource type="Resource" uid="uid://hj8ltv521ehm" path="res://resources/player_deck/decks/generic_deck/tutorial_deck.tres" id="2_vpi5e"]
+[ext_resource type="PackedScene" uid="uid://bqt8h2x6vwp3k" path="res://ui/screen_components/_general_componets/tooltip/tooltip.tscn" id="4_lxipr"]
+[ext_resource type="PackedScene" uid="uid://bdqgp3bxkwh8s" path="res://ui/screen_components/tutorial/tutorial_banner.tscn" id="5_k6jft"]
 
 [node name="TutorialBattleScene" instance=ExtResource("1_xt0sf")]
 script = ExtResource("2_k6jft")
@@ -13,3 +15,81 @@ monsters = [null]
 [node name="Player" parent="." index="5"]
 is_player_damageable = false
 replace_deck = ExtResource("2_vpi5e")
+
+[node name="PlayerToolTip" parent="Player" index="5" instance=ExtResource("4_lxipr")]
+display_text = "[b]You[/b]
+This is you! 
+You can move in the battlemap with movement cards."
+position_offset = Vector2(10, 20)
+preferred_position = 1
+follow_mouse = false
+display_on_hover = false
+display_on_mouse_position = false
+
+[node name="HandTooltip" parent="Hand" index="2" instance=ExtResource("4_lxipr")]
+layout_mode = 2
+display_text = "[b]Your cards[/b]
+This is your hand. Cards have a stamina cost (top left)
+Cards also perform actions you can see via the description."
+position_offset = Vector2(425, -100)
+follow_mouse = false
+display_on_hover = false
+display_on_mouse_position = false
+
+[node name="Tooltip" parent="UINodes/PlayerStatsUI" index="1" instance=ExtResource("4_lxipr")]
+layout_mode = 2
+display_text = "[b]Your stats[/b]
+Green represents your health.
+Yellow your stamina.
+You need stamina to play cards."
+position_offset = Vector2(60, 100)
+follow_mouse = false
+display_on_hover = false
+display_on_mouse_position = false
+
+[node name="Tooltip" parent="UINodes/DrawPile" index="2" instance=ExtResource("4_lxipr")]
+visible = false
+layout_mode = 2
+display_text = "[b]Draw Cards[/b]
+This is your draw pile. 
+Click it to see your cards!"
+preferred_position = 4
+follow_mouse = false
+display_on_hover = false
+display_on_mouse_position = false
+
+[node name="Tooltip" parent="UINodes/BottomRightContainer/EndTurnButton" index="1" instance=ExtResource("4_lxipr")]
+visible = false
+layout_mode = 0
+anchors_preset = 0
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 0.0
+offset_right = 1.0
+grow_horizontal = 1
+grow_vertical = 1
+display_text = "[b]Finish your turn[/b]
+End your turn to draw cards 
+and get some stamina back!"
+preferred_position = 1
+follow_mouse = false
+display_on_hover = false
+display_on_mouse_position = false
+
+[node name="Tooltip" parent="UINodes/BottomRightContainer/DiscardPile" index="2" instance=ExtResource("4_lxipr")]
+visible = false
+layout_mode = 2
+display_text = "[b]Played Cards end up here[/b]
+This is your discard pile.
+Click it to see the cards you've played."
+preferred_position = 1
+follow_mouse = false
+display_on_hover = false
+display_on_mouse_position = false
+
+[node name="TutorialBannerLayer" type="CanvasLayer" parent="." index="12"]
+layer = 10
+
+[node name="TutorialBanner" parent="TutorialBannerLayer" index="0" instance=ExtResource("5_k6jft")]

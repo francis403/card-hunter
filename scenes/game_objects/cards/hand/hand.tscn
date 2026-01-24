@@ -1,13 +1,13 @@
 [gd_scene load_steps=4 format=3 uid="uid://sun7m5vx06ud"]
 
-[ext_resource type="Script" path="res://scenes/game_objects/cards/hand/hand.gd" id="1_0n70x"]
+[ext_resource type="Script" uid="uid://d2xy1y2ngswnn" path="res://scenes/game_objects/cards/hand/hand.gd" id="1_0n70x"]
 
 [sub_resource type="Curve" id="Curve_c2nja"]
 _data = [Vector2(0, 0), 0.0, 6.0, 0, 0, Vector2(0.5, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), -6.0, 0.0, 0, 0]
 point_count = 3
 
 [sub_resource type="Curve" id="Curve_qv51g"]
-min_value = -1.0
+_limits = [-1.0, 1.0, 0.0, 1.0]
 _data = [Vector2(0, -1), 0.0, 6.0, 0, 0, Vector2(0.5, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 6.0, 0.0, 0, 0]
 point_count = 3
 

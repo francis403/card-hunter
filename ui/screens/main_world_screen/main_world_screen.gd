@@ -34,8 +34,12 @@ func _ready() -> void:
 	# Setup grass exclusions after a frame to ensure all nodes are ready
 	world_nodes_table_component.instantiate_world()
 	world_nodes_table_component.world_generated.connect(_on_world_generated)
+	## Set boss list
 	possible_boss_events = BOSS_EVENTS.duplicate()
 	possible_boss_events.shuffle()
+	## Show tutorial message
+	if TutorialController.should_show_tutorial:
+		EventController.show_event(EventController.EventID.TUTORIAL_WELCOME, self)
 	call_deferred("_setup_world_background_exclusion_zone")
 	
 func _clean_preview():

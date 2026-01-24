@@ -3,13 +3,15 @@ extends Node
 enum EventID {
 	TUTORIAL_WELCOME,
 	THANK_YOU,
-	NEW_WORLD
+	NEW_WORLD,
+	BATTLE_TUTORIAL_COMPLETE
 }
 
 var EVENT_CONFIGS: Dictionary = {
 	EventID.THANK_YOU: Refs.thank_you_event_scene,
 	EventID.NEW_WORLD: Refs.new_village_event_scene,
-	EventID.TUTORIAL_WELCOME: Refs.tutorial_welcome_event
+	EventID.TUTORIAL_WELCOME: Refs.tutorial_welcome_event,
+	EventID.BATTLE_TUTORIAL_COMPLETE: Refs.battle_tutorial_complete_event
 }
 
 func show_event(

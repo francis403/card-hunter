@@ -18,6 +18,7 @@ enum TooltipPosition {
 
 @export_group("Visibility Configuration")
 @export var display_on_hover: bool = true
+@export var display_on_mouse_position: bool = true
 
 @onready var content_rich_text_label: RichTextLabel = %ContentRichTextLabel
 
@@ -49,7 +50,7 @@ func _setup_container() -> void:
 
 
 func _connect_parent_signals() -> void:
-	var parent = get_parent()
+	var parent: Node = get_parent()
 	if parent is Control:
 		_parent_control = parent
 		if not _parent_control.mouse_entered.is_connected(_on_parent_mouse_entered):
@@ -80,10 +81,15 @@ func _update_content() -> void:
 
 
 func _update_position() -> void:
-	var mouse_pos = get_viewport().get_mouse_position()
-	var viewport_size = get_viewport().get_visible_rect().size
-	var tooltip_size = self.size
-	var final_pos = mouse_pos + position_offset
+	var _parent: Node = get_parent()
+	var mouse_pos: Vector2 = Vector2.ZERO
+	if display_on_mouse_position:
+		mouse_pos = get_viewport().get_mouse_position()
+	elif _parent is Node2D or _parent is Control:
+		mouse_pos = _parent.global_position
+	var viewport_size: Vector2 = get_viewport().get_visible_rect().size
+	var tooltip_size: Vector2 = self.size
+	var final_pos: Vector2 = mouse_pos + position_offset
 
 	match preferred_position:
 		TooltipPosition.ABOVE:
@@ -112,6 +118,8 @@ func _on_parent_mouse_entered() -> void:
 
 
 func _on_parent_mouse_exited() -> void:
+	if not display_on_hover:
+		return
 	_delay_timer.stop()
 	toggle_off()
 
