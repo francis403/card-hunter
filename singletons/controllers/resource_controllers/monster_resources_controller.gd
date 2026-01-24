@@ -103,17 +103,21 @@ func get_specific_boss_monster(monster_id: String) -> GenericMonster:
 		return null
 	return _monsters_in_game_dictionary[_BOSS_MONSTER_DICTIONARY_FIELD][monster_id]
 	
-func get_all_scene_file_paths(path: String) -> Array[String]:  
-	var file_paths: Array[String] = []  
-	var dir = DirAccess.open(path)  
-	dir.list_dir_begin()  
-	var file_name = dir.get_next()  
-	while file_name != "":  
-		var file_path = path + "/" + file_name  
-		if dir.current_is_dir():  
-			file_paths += get_all_scene_file_paths(file_path)  
+func get_all_scene_file_paths(path: String) -> Array[String]:
+	var file_paths: Array[String] = []
+	var dir = DirAccess.open(path)
+	dir.list_dir_begin()
+	var file_name = dir.get_next()
+	while file_name != "":
+		var file_path = path + "/" + file_name
+		if dir.current_is_dir():
+			file_paths += get_all_scene_file_paths(file_path)
 		else:
+			# In exported builds, .tscn files become .tscn.remap
+			# Strip .remap suffix so load() can find the actual resource
+			if file_path.ends_with(".remap"):
+				file_path = file_path.substr(0, file_path.length() - 6)
 			if file_path.ends_with(".tscn"):
-				file_paths.append(file_path)  
-		file_name = dir.get_next()  
+				file_paths.append(file_path)
+		file_name = dir.get_next()
 	return file_paths

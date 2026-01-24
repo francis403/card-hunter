@@ -44,16 +44,20 @@ func unlock_content(
 	if _should_save:
 		File.change_meta_progress()  # Save immediately
 
-func get_all_file_paths(path: String) -> Array[String]:  
-	var file_paths: Array[String] = []  
-	var dir = DirAccess.open(path)  
-	dir.list_dir_begin()  
-	var file_name = dir.get_next()  
-	while file_name != "":  
-		var file_path = path + "/" + file_name  
-		if dir.current_is_dir():  
-			file_paths += get_all_file_paths(file_path)  
-		else:  
-			file_paths.append(file_path)  
-		file_name = dir.get_next()  
+func get_all_file_paths(path: String) -> Array[String]:
+	var file_paths: Array[String] = []
+	var dir = DirAccess.open(path)
+	dir.list_dir_begin()
+	var file_name = dir.get_next()
+	while file_name != "":
+		var file_path = path + "/" + file_name
+		if dir.current_is_dir():
+			file_paths += get_all_file_paths(file_path)
+		else:
+			# In exported builds, .tres files become .tres.remap
+			# Strip .remap suffix so load() can find the actual resource
+			if file_path.ends_with(".remap"):
+				file_path = file_path.substr(0, file_path.length() - 6)
+			file_paths.append(file_path)
+		file_name = dir.get_next()
 	return file_paths

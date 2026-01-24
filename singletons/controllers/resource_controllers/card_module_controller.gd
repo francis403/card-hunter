@@ -28,18 +28,22 @@ func _init_card_modules_in_game_dictionary():
 	var _elapsed_time = Time.get_ticks_msec() - _time_start
 	print(_init_card_modules_in_game_dictionary, ": finished loading card modules in ", _elapsed_time  ,"ms! Loaded: ", _card_modules_in_game.size(), " modules")
 
-func get_all_file_paths(path: String) -> Array[String]:  
-	var file_paths: Array[String] = []  
-	var dir = DirAccess.open(path)  
-	dir.list_dir_begin()  
-	var file_name = dir.get_next()  
-	while file_name != "":  
-		var file_path = path + "/" + file_name  
-		if dir.current_is_dir():  
-			file_paths += get_all_file_paths(file_path)  
-		else:  
-			file_paths.append(file_path)  
-		file_name = dir.get_next()  
+func get_all_file_paths(path: String) -> Array[String]:
+	var file_paths: Array[String] = []
+	var dir = DirAccess.open(path)
+	dir.list_dir_begin()
+	var file_name = dir.get_next()
+	while file_name != "":
+		var file_path = path + "/" + file_name
+		if dir.current_is_dir():
+			file_paths += get_all_file_paths(file_path)
+		else:
+			# In exported builds, .tres files become .tres.remap
+			# Strip .remap suffix so load() can find the actual resource
+			if file_path.ends_with(".remap"):
+				file_path = file_path.substr(0, file_path.length() - 6)
+			file_paths.append(file_path)
+		file_name = dir.get_next()
 	return file_paths
 	
 func get_card_module(id: String) -> CardModule:
