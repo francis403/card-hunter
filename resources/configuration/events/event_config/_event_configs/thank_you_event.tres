@@ -6,7 +6,7 @@
 
 [sub_resource type="Resource" id="Resource_3t8iu"]
 script = ExtResource("2_xwytj")
-predefined_action = 2
+predefined_action = 6
 metadata/_custom_type_script = "uid://ci6lxrp1d26ep"
 
 [sub_resource type="Resource" id="close_button"]

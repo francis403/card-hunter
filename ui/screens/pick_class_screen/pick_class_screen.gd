@@ -11,7 +11,7 @@ func _ready() -> void:
 	_populate_actual_content()
 	_populate_weapon_description_subscreen()
 	## set the tutorial message to appear after the class is picked
-	TutorialController.should_show_tutorial = true
+	TutorialController.should_show_tutorial = File.should_show_tutorial()
 
 
 func _hide_preview_content():

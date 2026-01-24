@@ -97,6 +97,12 @@ func load_meta_data():
 	var meta_progress_dict: Dictionary = save_data[meta_progress.SAVE_FILE_ID]
 	meta_progress.load_meta_progress(meta_progress_dict)
 	
+func should_show_tutorial() -> bool:
+	if not meta_progress:
+		return true
+	
+	return not meta_progress.has_completed_tutorial
+
 func update_player_position(_world_node: GenericWorldNode):
 	self.progress.update_player_position(_world_node)
 	

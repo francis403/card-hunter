@@ -6,6 +6,7 @@ class_name MetaProgress
 
 const SAVE_FILE_ID: String = "meta_progress"
 
+var has_completed_tutorial: bool = false
 var number_of_games_completed_successfully: int = 0
 var number_of_games_completed_unsuccessfully: int = 0
 var number_of_bosses_defeated: int = 0
@@ -24,6 +25,7 @@ func update_bosses_defeated():
 
 func get_meta_progress() -> Dictionary:
 	var _result: Dictionary = {
+		"has_completed_tutorial": has_completed_tutorial,
 		"nr_victorious_games": number_of_games_completed_successfully,
 		"nr_lost_games": number_of_games_completed_successfully,
 		"nr_bosses_defeated": number_of_bosses_defeated,
@@ -35,6 +37,8 @@ func get_meta_progress() -> Dictionary:
 func load_meta_progress(
 	_save_file: Dictionary
 ):
+	if _save_file.has("has_completed_tutorial"):
+		self.has_completed_tutorial = _save_file["has_completed_tutorial"]
 	if _save_file.has("nr_victorious_games"):
 		self.number_of_games_completed_successfully = _save_file["nr_victorious_games"]
 	if _save_file.has("nr_lost_games"):

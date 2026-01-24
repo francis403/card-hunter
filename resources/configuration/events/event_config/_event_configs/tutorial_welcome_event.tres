@@ -17,7 +17,7 @@ metadata/_custom_type_script = "uid://75ubodet5xn3"
 
 [sub_resource type="Resource" id="Resource_uwddv"]
 script = ExtResource("2_db7di")
-predefined_action = 4
+predefined_action = 5
 metadata/_custom_type_script = "uid://ci6lxrp1d26ep"
 
 [sub_resource type="Resource" id="Resource_db7di"]
@@ -28,7 +28,7 @@ metadata/_custom_type_script = "uid://75ubodet5xn3"
 
 [resource]
 script = ExtResource("1_config")
-title = "Welcome, Hunter!"
+title = "Welcome Hunter!"
 description = "Before you venture into the wilds, let's practice the basics of hunting.
 
 You'll learn how to play cards, manage your stamina, and defeat monsters.

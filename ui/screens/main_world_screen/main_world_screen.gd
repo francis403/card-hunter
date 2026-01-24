@@ -19,6 +19,7 @@ var possible_boss_events: Array[EventConfig] = []
 @onready var player_menu: PlayerMenu = %PlayerMenu
 @onready var world_background_generator: WorldBackgroundGenerator = $WorldBackgroundGenerator
 @onready var village_node_marker: Marker2D = $VillageNodeMarker
+@onready var tutorial_banner: TutorialBanner = $TutorialBannerLayer/TutorialBanner
 
 func _ready() -> void:
 	BattleSignals.battle_start.connect(_on_battle_start_signal)
@@ -40,6 +41,9 @@ func _ready() -> void:
 	## Show tutorial message
 	if TutorialController.should_show_tutorial:
 		EventController.show_event(EventController.EventID.TUTORIAL_WELCOME, self)
+	## Show world tutorial if battle tutorial completed but world tutorial not done
+	elif TutorialController.is_tutorial_completed() and not TutorialController.is_world_tutorial_completed():
+		call_deferred("_start_world_tutorial")
 	call_deferred("_setup_world_background_exclusion_zone")
 	
 func _clean_preview():
@@ -103,3 +107,13 @@ func _on_world_generated():
 func _on_forge_button_pressed():
 	var scene: ForgeCardScreen = Constants.forge_card_screen_scene.instantiate()
 	get_tree().root.add_child(scene)
+
+func _start_world_tutorial() -> void:
+	tutorial_banner.tutorial_completed.connect(_on_world_tutorial_completed)
+	world_nodes.process_mode = Node.PROCESS_MODE_DISABLED
+	tutorial_banner.start_tutorial()
+	
+
+func _on_world_tutorial_completed() -> void:
+	TutorialController.mark_world_tutorial_completed()
+	world_nodes.process_mode = Node.PROCESS_MODE_INHERIT

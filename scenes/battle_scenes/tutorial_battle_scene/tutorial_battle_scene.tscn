@@ -1,10 +1,58 @@
-[gd_scene load_steps=6 format=3 uid="uid://1lxlfsvl30ki"]
+[gd_scene load_steps=15 format=3 uid="uid://1lxlfsvl30ki"]
 
 [ext_resource type="PackedScene" uid="uid://dn1s6gbout3xc" path="res://scenes/battle_scenes/battle_generic_scene/battle_generic_scene.tscn" id="1_xt0sf"]
 [ext_resource type="Script" uid="uid://dfl8kij4keagv" path="res://scenes/battle_scenes/tutorial_battle_scene/tutorial_battle_scene.gd" id="2_k6jft"]
 [ext_resource type="Resource" uid="uid://hj8ltv521ehm" path="res://resources/player_deck/decks/generic_deck/tutorial_deck.tres" id="2_vpi5e"]
 [ext_resource type="PackedScene" uid="uid://bqt8h2x6vwp3k" path="res://ui/screen_components/_general_componets/tooltip/tooltip.tscn" id="4_lxipr"]
 [ext_resource type="PackedScene" uid="uid://bdqgp3bxkwh8s" path="res://ui/screen_components/tutorial/tutorial_banner.tscn" id="5_k6jft"]
+[ext_resource type="Script" uid="uid://ce0urrlsiovm" path="res://ui/screen_components/tutorial/text_with_index.gd" id="6_twi"]
+
+[sub_resource type="Resource" id="Resource_twi_0"]
+script = ExtResource("6_twi")
+index = -1
+text = "In this tutorial you will learn everything you need to know about the battle system.
+Right-click to continue."
+
+[sub_resource type="Resource" id="Resource_twi_1"]
+script = ExtResource("6_twi")
+text = "These are your stats.
+Right-click to continue."
+
+[sub_resource type="Resource" id="Resource_twi_2"]
+script = ExtResource("6_twi")
+index = 1
+text = "This is your [b]Hand[/b].
+Right-click to continue."
+
+[sub_resource type="Resource" id="Resource_twi_3"]
+script = ExtResource("6_twi")
+index = 2
+text = "This is your [b]Draw Pile[/b].
+Right-click to continue."
+
+[sub_resource type="Resource" id="Resource_twi_4"]
+script = ExtResource("6_twi")
+index = 3
+text = "This is your [b]Discard Pile[/b].
+Right-click to continue."
+
+[sub_resource type="Resource" id="Resource_twi_5"]
+script = ExtResource("6_twi")
+index = 4
+text = "This is the [b]Monster[/b] you need to defeat.
+Right-click to continue."
+
+[sub_resource type="Resource" id="Resource_twi_6"]
+script = ExtResource("6_twi")
+index = 5
+text = "This is [b]You[/b] - don't get too close to the monster!
+Right-click to continue."
+
+[sub_resource type="Resource" id="Resource_twi_7"]
+script = ExtResource("6_twi")
+index = 6
+text = "Click [b]End Turn[/b] when you're done playing cards.
+Right-click to finish."
 
 [node name="TutorialBattleScene" instance=ExtResource("1_xt0sf")]
 script = ExtResource("2_k6jft")
@@ -92,4 +140,7 @@ display_on_mouse_position = false
 [node name="TutorialBannerLayer" type="CanvasLayer" parent="." index="12"]
 layer = 10
 
-[node name="TutorialBanner" parent="TutorialBannerLayer" index="0" instance=ExtResource("5_k6jft")]
+[node name="TutorialBanner" parent="TutorialBannerLayer" index="0" node_paths=PackedStringArray("tooltips") instance=ExtResource("5_k6jft")]
+title_text = "[b]Battle Tutorial[/b]"
+banner_texts = Array[ExtResource("6_twi")]([SubResource("Resource_twi_0"), SubResource("Resource_twi_1"), SubResource("Resource_twi_2"), SubResource("Resource_twi_3"), SubResource("Resource_twi_4"), SubResource("Resource_twi_5"), SubResource("Resource_twi_6"), SubResource("Resource_twi_7")])
+tooltips = [NodePath("../../UINodes/PlayerStatsUI/Tooltip"), NodePath("../../Hand/HandTooltip"), NodePath("../../UINodes/DrawPile/Tooltip"), NodePath("../../UINodes/BottomRightContainer/DiscardPile/Tooltip"), NodePath("../../Player/PlayerToolTip"), NodePath("../../UINodes/BottomRightContainer/EndTurnButton/Tooltip")]

@@ -18,7 +18,7 @@ func generate_tutorial_battle():
 	var monster: GenericMonster = MonsterResourcesController.get_monster(TUTORIAL_MONSTER_ID)
 	if not monster:
 		push_warning("Tutorial monster not found: %s" % TUTORIAL_MONSTER_ID)
-		return 
+		return
 	self.is_in_tutorial_battle = true
 	var _hunt_scene: BattleGenericScene = GameController.generate_battle_scene(
 		monster,
@@ -27,4 +27,11 @@ func generate_tutorial_battle():
 		true
 	)
 	get_tree().root.add_child(_hunt_scene)
+
+func is_world_tutorial_completed() -> bool:
+	return File.meta_progress.unlocked_content.has("world_tutorial_completed")
+
+func mark_world_tutorial_completed() -> void:
+	File.meta_progress.has_completed_tutorial = true
+	File.change_meta_progress()
 	

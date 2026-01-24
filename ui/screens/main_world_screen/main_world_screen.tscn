@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://baqwuitia2ptv"]
+[gd_scene load_steps=20 format=3 uid="uid://baqwuitia2ptv"]
 
 [ext_resource type="Script" uid="uid://com2ygiomxuyk" path="res://ui/screens/main_world_screen/main_world_screen.gd" id="1_3wacw"]
 [ext_resource type="PackedScene" uid="uid://dqlmwbtf0bya2" path="res://ui/screens/generic_screen/generic_screen.tscn" id="1_eplf0"]
@@ -13,6 +13,35 @@
 [ext_resource type="PackedScene" uid="uid://cnmfofjavj5t2" path="res://ui/screen_components/_general_componets/buttons/image_button/image_button.tscn" id="21_sawn2"]
 [ext_resource type="AudioStream" uid="uid://2dk82vkfonp7" path="res://assets/sound/sound_effects/button_clicks/click5.ogg" id="22_p38ha"]
 [ext_resource type="Theme" uid="uid://bxlatu18hbfeu" path="res://assets/themes/generic_theme_1.tres" id="25_14g2u"]
+[ext_resource type="PackedScene" uid="uid://bdqgp3bxkwh8s" path="res://ui/screen_components/tutorial/tutorial_banner.tscn" id="26_tutbn"]
+[ext_resource type="Script" uid="uid://ce0urrlsiovm" path="res://ui/screen_components/tutorial/text_with_index.gd" id="27_twi"]
+
+[sub_resource type="Resource" id="Resource_wtwi_0"]
+script = ExtResource("27_twi")
+index = -1
+text = "Welcome to the World Map!
+in this map, you will explore the world, fighting monsters and finding different events.
+To do that, simply click on one of the highligthed nodes after this tutorial.
+Right-click to continue."
+
+[sub_resource type="Resource" id="Resource_wtwi_1"]
+script = ExtResource("27_twi")
+text = "This is your [b]Village[/b] - your safe haven.
+Right-click to continue."
+
+[sub_resource type="Resource" id="Resource_aq3fg"]
+script = ExtResource("27_twi")
+index = 1
+text = "View your  [b]deck[/b] to create new cards from modules.
+Right-click to finish."
+metadata/_custom_type_script = "uid://ce0urrlsiovm"
+
+[sub_resource type="Resource" id="Resource_wtwi_2"]
+script = ExtResource("27_twi")
+index = 2
+text = "Use the [b]Forge[/b] to create new cards from modules.
+You get this modules from treasure chests and hunting monsters
+Right-click to finish."
 
 [node name="MainWorldScreen" node_paths=PackedStringArray("world_genator_config_generator") instance=ExtResource("1_eplf0")]
 script = ExtResource("1_3wacw")
@@ -74,6 +103,7 @@ title = "Deck"
 deck_type = 0
 
 [node name="Tooltip" parent="BottomMargin/DeckUI" index="2" instance=ExtResource("12_pch0q")]
+visible = false
 layout_mode = 2
 display_text = "Show current deck"
 position_offset = Vector2(30, 10)
@@ -87,6 +117,7 @@ _audio_stream = ExtResource("22_p38ha")
 _under_text = "Forge Card"
 
 [node name="Tooltip" parent="BottomMargin/ForgeButton" index="3" instance=ExtResource("12_pch0q")]
+visible = false
 layout_mode = 0
 anchors_preset = 0
 anchor_left = 0.0
@@ -97,8 +128,8 @@ offset_left = 0.0
 offset_right = 1.0
 grow_horizontal = 1
 grow_vertical = 1
-display_text = "Forge a card using
-your card modules."
+display_text = "Forge a card using your
+ card modules."
 position_offset = Vector2(30, 30)
 preferred_position = 3
 
@@ -131,3 +162,39 @@ text = "World Screen"
 
 [node name="PlayerMenu" parent="." index="10"]
 unique_name_in_owner = true
+
+[node name="VillageTooltipAnchor" type="Control" parent="." index="11"]
+anchors_preset = 0
+offset_left = 551.0
+offset_top = 280.0
+offset_right = 611.0
+offset_bottom = 340.0
+
+[node name="Tooltip" parent="VillageTooltipAnchor" index="0" instance=ExtResource("12_pch0q")]
+layout_mode = 0
+anchors_preset = 0
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 0.0
+offset_right = 1.0
+grow_horizontal = 1
+grow_vertical = 1
+display_text = "[b]Your Village[/b]
+This is your home base.
+Defend it from the monsters!"
+position_offset = Vector2(30, 10)
+preferred_position = 4
+follow_mouse = false
+display_on_hover = false
+display_on_mouse_position = false
+
+[node name="TutorialBannerLayer" type="CanvasLayer" parent="." index="12"]
+layer = 10
+
+[node name="TutorialBanner" parent="TutorialBannerLayer" index="0" node_paths=PackedStringArray("tooltips") instance=ExtResource("26_tutbn")]
+visible = false
+title_text = "[b]World Map Tutorial[/b]"
+banner_texts = Array[ExtResource("27_twi")]([SubResource("Resource_wtwi_0"), SubResource("Resource_wtwi_1"), SubResource("Resource_aq3fg"), SubResource("Resource_wtwi_2")])
+tooltips = [NodePath("../../VillageTooltipAnchor/Tooltip"), NodePath("../../BottomMargin/DeckUI/Tooltip"), NodePath("../../BottomMargin/ForgeButton/Tooltip")]
