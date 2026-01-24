@@ -1,9 +1,8 @@
-[gd_scene load_steps=33 format=3 uid="uid://devokujw4owrj"]
+[gd_scene load_steps=26 format=3 uid="uid://devokujw4owrj"]
 
 [ext_resource type="PackedScene" uid="uid://b77dqwv8b42lt" path="res://scenes/monsters/generic_monster/generic_monster.tscn" id="1_exraa"]
 [ext_resource type="Script" uid="uid://1wohvbr3vee0" path="res://scenes/monsters/boss_monsters/grasshopper_alligator_monster/grasshopper_alligator_monster.gd" id="2_3jkax"]
 [ext_resource type="Texture2D" uid="uid://dghp5uhgaxtkr" path="res://scenes/monsters/boss_monsters/grasshopper_alligator_monster/crocodile_1.png" id="2_shnwd"]
-[ext_resource type="PackedScene" uid="uid://cvfuga8sci420" path="res://scenes/game_objects/states/shoot_with_effect_if_within_range/shoot_with_effect_if_within_range.tscn" id="3_5bocn"]
 [ext_resource type="Script" uid="uid://bsspisl6hdkmh" path="res://resources/card/card_resource_v2/card_resource_v2.gd" id="4_1xjp6"]
 [ext_resource type="PackedScene" uid="uid://dya8jns33mvj8" path="res://scenes/game_objects/states/lurk_state/lurk_state.tscn" id="4_trsir"]
 [ext_resource type="Script" uid="uid://bmo3eknyoct12" path="res://resources/monster/state/state_change_condition/state_change_condition.gd" id="5_dc0nc"]
@@ -20,9 +19,7 @@
 [ext_resource type="Script" uid="uid://bykm1sfwrcmbx" path="res://resources/configuration/tile_highlight_configuration/formula/formula.gd" id="13_jxte3"]
 [ext_resource type="PackedScene" uid="uid://cje0q5xds21f7" path="res://scenes/monsters/monster_body_parts/body_parts/back_body_part/back_body_part.tscn" id="13_trsir"]
 [ext_resource type="Script" uid="uid://clufwv38rhs7a" path="res://resources/configuration/tile_highlight_configuration/tile_highlight_configuration.gd" id="14_5vue3"]
-[ext_resource type="Script" uid="uid://dfigx7r800apg" path="res://scenes/game_objects/states/random_behaviour_state/weighten_state_option/weighted_state_option.gd" id="14_jxte3"]
 [ext_resource type="PackedScene" uid="uid://10j1ivgeq7d8" path="res://scenes/game_objects/states/pounce_state/pounce_state.tscn" id="17_vs7pb"]
-[ext_resource type="PackedScene" uid="uid://chalurlnises" path="res://scenes/game_objects/states/random_behaviour_state/random_behaviour_state.tscn" id="19_nxxct"]
 
 [sub_resource type="Resource" id="Resource_ef51f"]
 script = ExtResource("7_flw8x")
@@ -55,30 +52,8 @@ metadata/_custom_type_script = "uid://b4wuvth2ekke3"
 [sub_resource type="Resource" id="Resource_nxxct"]
 script = ExtResource("5_dc0nc")
 conditions = Array[ExtResource("6_trsir")]([SubResource("Resource_nao2u")])
-state_name = "RandomBehaviourState"
-metadata/_custom_type_script = "uid://bmo3eknyoct12"
-
-[sub_resource type="Resource" id="Resource_jxte3"]
-script = ExtResource("14_jxte3")
 state_name = "MoveSpeedToPlayerAndDoAttack"
-weight = 7.0
-
-[sub_resource type="Resource" id="Resource_5vue3"]
-script = ExtResource("14_jxte3")
-state_name = "FlyAwayState"
-weight = 3.0
-
-[sub_resource type="Resource" id="Resource_7nvag"]
-script = ExtResource("6_trsir")
-state_condition = 1
-logical_operation = 4
-x = 3
-
-[sub_resource type="Resource" id="Resource_ojp2u"]
-resource_name = "InChargeRange"
-script = ExtResource("5_dc0nc")
-conditions = Array[ExtResource("6_trsir")]([SubResource("Resource_7nvag")])
-state_name = "ChargeState"
+metadata/_custom_type_script = "uid://bmo3eknyoct12"
 
 [node name="GrasshopperAligatorMonster" instance=ExtResource("1_exraa")]
 script = ExtResource("2_3jkax")
@@ -105,18 +80,12 @@ state_icon = ExtResource("11_nao2u")
 attack_tiles_highlight = SubResource("Resource_qgkqn")
 state_change_conditions = Array[ExtResource("5_dc0nc")]([SubResource("Resource_nxxct")])
 
-[node name="RandomBehaviourState" parent="StateMachine" index="2" instance=ExtResource("19_nxxct")]
-weighted_states = Array[ExtResource("14_jxte3")]([SubResource("Resource_jxte3"), SubResource("Resource_5vue3")])
-
-[node name="ShootBloodIfWithinRangeState" parent="StateMachine" index="3" instance=ExtResource("3_5bocn")]
-state_change_conditions = Array[ExtResource("5_dc0nc")]([SubResource("Resource_ojp2u")])
-
-[node name="MoveSpeedToPlayerAndDoAttack" parent="StateMachine" index="4" instance=ExtResource("7_ed00j")]
-state_if_outside_range = "ShootBloodIfWithinRangeState"
+[node name="MoveSpeedToPlayerAndDoAttack" parent="StateMachine" index="2" instance=ExtResource("7_ed00j")]
+state_if_outside_range = "FlyAwayState"
 state_icon = ExtResource("8_flw8x")
 
-[node name="FlyAwayState" parent="StateMachine" index="5" instance=ExtResource("10_1xjp6")]
-state_after_flying = "ShootBloodIfWithinRangeState"
+[node name="FlyAwayState" parent="StateMachine" index="3" instance=ExtResource("10_1xjp6")]
+state_after_flying = "LurkState"
 
 [node name="HeadBodyPart" parent="MonsterBodyPartContainer" index="0" instance=ExtResource("12_dc0nc")]
 
@@ -127,4 +96,4 @@ min_angle = 271.0
 texture = ExtResource("2_shnwd")
 
 [node name="MoveIntentContainer" parent="StatusControl" index="0"]
-visible = false
+visible = true
