@@ -1,23 +1,19 @@
 [gd_resource type="Resource" script_class="CardResourceV2" load_steps=8 format=3 uid="uid://dro3beix0jtk4"]
 
 [ext_resource type="AudioStream" uid="uid://d4nqs2kfg56mh" path="res://assets/sound/sound_effects/knifeSlice.ogg" id="1_b6xb6"]
-[ext_resource type="Script" path="res://resources/card/card_resource_v2/card_effect/card_effect.gd" id="1_qe8bf"]
+[ext_resource type="Script" uid="uid://clo7yb32ydt37" path="res://resources/card/card_resource_v2/card_effect/card_effect.gd" id="1_qe8bf"]
 [ext_resource type="Texture2D" uid="uid://6v8xk72huumm" path="res://assets/images/card/card_main_image/Arrow.png" id="2_17qdw"]
-[ext_resource type="Script" path="res://resources/card/card_resource_v2/condition/condition.gd" id="2_epf0a"]
+[ext_resource type="Script" uid="uid://0ehgq0gu1n0f" path="res://resources/card/card_resource_v2/condition/condition.gd" id="2_epf0a"]
 [ext_resource type="Resource" uid="uid://cimdrpe6wn0m1" path="res://resources/card/card_resource_v2/card_effect/_card_effects/_card_effects_collection/range_attack_10.tres" id="3_6opfi"]
-[ext_resource type="Script" path="res://resources/card/card_resource_v2/card_resource_v2.gd" id="3_tixnu"]
-[ext_resource type="Script" path="res://resources/card/card_resource_v2/special_card_effect/special_card_effect_resource.gd" id="4_s6rgn"]
+[ext_resource type="Script" uid="uid://bsspisl6hdkmh" path="res://resources/card/card_resource_v2/card_resource_v2.gd" id="3_tixnu"]
+[ext_resource type="Script" uid="uid://gcdjt0hw3kpk" path="res://resources/card/card_resource_v2/special_card_effect/special_card_effect_resource.gd" id="4_s6rgn"]
 
 [resource]
 script = ExtResource("3_tixnu")
 id = "basic_arrow_1"
 title = "Basic Arrow"
-rarity = 0
-description = "Shoot your arrow. Deal 10 damage."
+description = "Shoot an arrow. Deal 10 damage."
 stamina_cost = 10
-tag_array = Array[String]([])
-play_conditions = Array[ExtResource("2_epf0a")]([])
 play_actions = Array[ExtResource("1_qe8bf")]([ExtResource("3_6opfi")])
-special_effects = Array[ExtResource("4_s6rgn")]([])
 audio_stream = ExtResource("1_b6xb6")
 card_image = ExtResource("2_17qdw")
