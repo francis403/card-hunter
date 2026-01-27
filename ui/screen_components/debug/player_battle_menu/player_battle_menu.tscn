@@ -1,7 +1,9 @@
-[gd_scene load_steps=3 format=3 uid="uid://ig386fapparw"]
+[gd_scene load_steps=5 format=3 uid="uid://ig386fapparw"]
 
 [ext_resource type="Script" uid="uid://qq5dbg12dc5l" path="res://ui/screen_components/debug/player_battle_menu/player_battle_menu.gd" id="1_t6lro"]
-[ext_resource type="PackedScene" uid="uid://hked8dt7umpy" path="res://ui/screen_components/_general_componets/buttons/sound_button/sound_button.tscn" id="2_o1ard"]
+[ext_resource type="PackedScene" uid="uid://h8r0bkj42ldt" path="res://ui/screen_components/_general_componets/menu/menus/MenuRoot/menu_root.tscn" id="2_fpyhf"]
+[ext_resource type="PackedScene" uid="uid://brhoqb5wsupc8" path="res://ui/screen_components/_general_componets/menu/menus/vertical_menu/vertical_menu.tscn" id="3_lsuo6"]
+[ext_resource type="PackedScene" uid="uid://duiqhlxde4hcv" path="res://ui/screen_components/_general_componets/menu/menu_item/_generic_menu_item/menu_item.tscn" id="4_dmdqy"]
 
 [node name="PlayerBattleMenu" type="MarginContainer"]
 anchors_preset = 1
@@ -12,32 +14,34 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource("1_t6lro")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="MenuRoot" parent="." instance=ExtResource("2_fpyhf")]
 layout_mode = 2
-theme_override_constants/separation = 0
 
-[node name="ToggleTileStatus" parent="VBoxContainer" instance=ExtResource("2_o1ard")]
+[node name="VerticalMenu" parent="MenuRoot" instance=ExtResource("3_lsuo6")]
 layout_mode = 2
-text = "Toggle Tile Status"
 
-[node name="HighlightOccupiedTiles" parent="VBoxContainer" instance=ExtResource("2_o1ard")]
+[node name="ToggleTileStatus" parent="MenuRoot/VerticalMenu" instance=ExtResource("4_dmdqy")]
 layout_mode = 2
-text = "Toggle Occupied tile"
+_display_name = "Toggle Tile Status"
 
-[node name="KillMonster" parent="VBoxContainer" instance=ExtResource("2_o1ard")]
+[node name="HighlightOccupiedTiles" parent="MenuRoot/VerticalMenu" instance=ExtResource("4_dmdqy")]
 layout_mode = 2
-text = "Kill Monster"
+_display_name = "Toggle Occupied tile"
 
-[node name="AddCard" parent="VBoxContainer" instance=ExtResource("2_o1ard")]
+[node name="WinBattle" parent="MenuRoot/VerticalMenu" instance=ExtResource("4_dmdqy")]
 layout_mode = 2
-text = "Add Card"
+_display_name = "Win Battle"
 
-[node name="ToggleImmortality" parent="VBoxContainer" instance=ExtResource("2_o1ard")]
+[node name="AddCardViaScreen" parent="MenuRoot/VerticalMenu" instance=ExtResource("4_dmdqy")]
 layout_mode = 2
-text = "Toggle Immortality"
+_display_name = "Add Card Via Screen"
 
-[connection signal="pressed_and_sound_played" from="VBoxContainer/ToggleTileStatus" to="." method="_on_toggle_tile_status_pressed_and_sound_played"]
-[connection signal="pressed_and_sound_played" from="VBoxContainer/HighlightOccupiedTiles" to="." method="_on_highlight_occupied_tiles_pressed_and_sound_played"]
-[connection signal="pressed_and_sound_played" from="VBoxContainer/KillMonster" to="." method="_on_win_battle_pressed_and_sound_played"]
-[connection signal="pressed_and_sound_played" from="VBoxContainer/AddCard" to="." method="_on_add_card_pressed_and_sound_played"]
-[connection signal="pressed_and_sound_played" from="VBoxContainer/ToggleImmortality" to="." method="_on_toggle_immortality_pressed_and_sound_played"]
+[node name="ToggleImmortality" parent="MenuRoot/VerticalMenu" instance=ExtResource("4_dmdqy")]
+layout_mode = 2
+_display_name = "Toggle Immortality"
+
+[connection signal="menu_item_clicked" from="MenuRoot/VerticalMenu/ToggleTileStatus" to="." method="_on_toggle_tile_status_pressed_and_sound_played"]
+[connection signal="menu_item_clicked" from="MenuRoot/VerticalMenu/HighlightOccupiedTiles" to="." method="_on_highlight_occupied_tiles_pressed_and_sound_played"]
+[connection signal="menu_item_clicked" from="MenuRoot/VerticalMenu/WinBattle" to="." method="_on_win_battle_pressed_and_sound_played"]
+[connection signal="menu_item_clicked" from="MenuRoot/VerticalMenu/AddCardViaScreen" to="." method="_on_add_card_via_screen_menu_item_clicked"]
+[connection signal="menu_item_clicked" from="MenuRoot/VerticalMenu/ToggleImmortality" to="." method="_on_toggle_immortality_pressed_and_sound_played"]

@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://batadjgkdfx6f"]
 
 [ext_resource type="Texture2D" uid="uid://1lwus3xnrrcy" path="res://ui/screens/quest_picker/scroll_background.jpg" id="1_10fyn"]
-[ext_resource type="Script" path="res://ui/deck/deck_visualizer/deck_visualizer.gd" id="1_hh88s"]
+[ext_resource type="Script" uid="uid://c0gcfw1h6qmww" path="res://ui/deck/deck_visualizer/deck_visualizer.gd" id="1_hh88s"]
 [ext_resource type="PackedScene" uid="uid://hked8dt7umpy" path="res://ui/screen_components/_general_componets/buttons/sound_button/sound_button.tscn" id="3_68y84"]
 [ext_resource type="PackedScene" uid="uid://dv0qtkor6s0de" path="res://ui/screen_components/deck_container_component/deck_container_component.tscn" id="4_1lb5t"]
 
@@ -15,7 +15,7 @@ texture = ExtResource("1_10fyn")
 script = ExtResource("1_hh88s")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
-layout_mode = 2
+layout_mode = 0
 offset_left = 20.0
 offset_top = 20.0
 offset_right = 1132.0

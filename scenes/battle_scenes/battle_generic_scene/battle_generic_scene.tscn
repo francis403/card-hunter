@@ -110,11 +110,13 @@ offset_top = -224.0
 offset_right = 85.0
 offset_bottom = 3.0
 
-[node name="PlayerBattleMenu" parent="UINodes" instance=ExtResource("13_qwc1m")]
+[node name="PlayerBattleMenu" parent="UINodes" node_paths=PackedStringArray("_hide_nodes", "_hand") instance=ExtResource("13_qwc1m")]
 visible = false
 layout_mode = 1
 offset_left = -151.0
 offset_bottom = 81.0
+_hide_nodes = [NodePath("../../Hand"), NodePath("..")]
+_hand = NodePath("../../Hand")
 
 [node name="GameOverScreen" parent="." instance=ExtResource("9_bw6p8")]
 visible = false

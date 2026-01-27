@@ -25,6 +25,11 @@ func _init_cards_in_game_dictionary():
 	var _elapsed_time = Time.get_ticks_msec() - _time_start
 	print(_init_cards_in_game_dictionary, ": finished loading cards in ", _elapsed_time ,"ms! Loaded: ", _card_in_game.size(), " cards")
 
+func get_cards() -> Array[CardResourceV2]:
+	var _result: Array[CardResourceV2] = []
+	_result.assign(_card_in_game.values())
+	return _result
+
 func get_card(card_id: String) -> CardResourceV2:
 	if _card_in_game.has(card_id):
 		return _card_in_game[card_id].duplicate()
