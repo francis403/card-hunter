@@ -102,13 +102,15 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 4
-text = "Back"
+text = "BTN_BACK"
+auto_translate_mode = 1
 
 [node name="Page Title" type="Label" parent="PanelContainer/VBoxContainer/PagerHeaderContainer/MarginContainer"]
 layout_mode = 2
 size_flags_horizontal = 6
 theme = ExtResource("2_r2luk")
-text = "Deforge Card"
+text = "UI_DEFORGE_CARD"
+auto_translate_mode = 1
 label_settings = SubResource("LabelSettings_8xv1u")
 horizontal_alignment = 1
 
@@ -149,7 +151,8 @@ _card_can_be_played = false
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-text = "Deforge"
+text = "BTN_DEFORGE"
+auto_translate_mode = 1
 
 [node name="CardModulesContainerComponent" parent="PanelContainer/VBoxContainer/HBoxContainer/CardToDeforge/VBoxContainer" instance=ExtResource("15_u7acp")]
 unique_name_in_owner = true

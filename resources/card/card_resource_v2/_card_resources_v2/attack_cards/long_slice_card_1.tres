@@ -26,8 +26,8 @@ stamina_cost = 15
 [resource]
 script = ExtResource("3_po1p0")
 id = "long_slice_1"
-title = "Long Slice"
-description = "Do a long slash. Deal 25 damage."
+title = "CARD_LONG_SLICE_TITLE"
+description = "CARD_LONG_SLICE_DESC"
 stamina_cost = 15
 tag_array = Array[String](["attack"])
 play_actions = Array[ExtResource("1_4iq5p")]([SubResource("Resource_wpiia")])

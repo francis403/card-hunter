@@ -45,7 +45,8 @@ size_flags_horizontal = 4
 size_flags_vertical = 0
 theme = ExtResource("3_1177m")
 theme_override_font_sizes/font_size = 64
-text = "You Win"
+text = "UI_YOU_WIN"
+auto_translate_mode = 1
 
 [node name="RewardComponent" parent="MarginContainer/VBoxContainer" instance=ExtResource("4_i0xc4")]
 unique_name_in_owner = true
@@ -61,12 +62,14 @@ theme_override_constants/separation = 100
 [node name="ContinueButton" parent="MarginContainer/VBoxContainer/BottomHContainer" instance=ExtResource("5_qv6u1")]
 unique_name_in_owner = true
 layout_mode = 2
-text = "Continue"
+text = "BTN_CONTINUE"
+auto_translate_mode = 1
 
 [node name="ExitButton" parent="MarginContainer/VBoxContainer/BottomHContainer" instance=ExtResource("5_qv6u1")]
 unique_name_in_owner = true
 layout_mode = 2
-text = "Exit"
+text = "BTN_EXIT"
+auto_translate_mode = 1
 
 [connection signal="pressed_and_sound_played" from="MarginContainer/VBoxContainer/BottomHContainer/ContinueButton" to="." method="_on_continue_pressed"]
 [connection signal="pressed_and_sound_played" from="MarginContainer/VBoxContainer/BottomHContainer/ExitButton" to="." method="_on_exit_pressed"]

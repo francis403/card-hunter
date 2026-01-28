@@ -17,8 +17,8 @@ stamina_cost = 10
 [resource]
 script = ExtResource("3_o0hed")
 id = "breathe_1"
-title = "Breathe"
-description = "Take a moment to breathe. Recover 15 points of stamina."
+title = "CARD_BREATHE_TITLE"
+description = "CARD_BREATHE_DESC"
 tag_array = Array[String](["status_change", "breath"])
 play_actions = Array[ExtResource("1_8t6g6")]([SubResource("Resource_ma60m")])
 card_image = ExtResource("1_2g634")

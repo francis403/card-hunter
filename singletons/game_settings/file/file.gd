@@ -53,6 +53,7 @@ func has_run_in_progress() -> bool:
 
 func change_settings():
 	save_data["settings"]["volume"] = settings.volume
+	save_data["settings"]["language"] = settings.language
 	save()
 
 func change_progress():
@@ -86,6 +87,9 @@ func convert_player_card_modules_to_dictionary() -> Dictionary:
 func load_settings():
 	if save_data["settings"].has("volume"):
 		self.settings.volume = save_data["settings"]["volume"]
+	if save_data["settings"].has("language"):
+		self.settings.language = save_data["settings"]["language"]
+		LocalizationController.set_language(self.settings.language, false)
 		
 func load_progress():
 	progress.load_progress(save_data["progress"])

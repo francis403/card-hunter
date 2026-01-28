@@ -1,25 +1,20 @@
 [gd_resource type="Resource" script_class="CardResourceV2" load_steps=9 format=3 uid="uid://bw75c328o26mj"]
 
 [ext_resource type="AudioStream" uid="uid://mdol2aev84gr" path="res://assets/sound/sound_effects/drinking_potion.mp3" id="1_1s75b"]
-[ext_resource type="Script" path="res://resources/card/card_resource_v2/card_effect/card_effect.gd" id="2_nvt4n"]
+[ext_resource type="Script" uid="uid://clo7yb32ydt37" path="res://resources/card/card_resource_v2/card_effect/card_effect.gd" id="2_nvt4n"]
 [ext_resource type="Texture2D" uid="uid://dp8qeyye5fbmr" path="res://assets/images/card/card_main_image/healing-herb.png" id="2_spwxs"]
 [ext_resource type="Resource" uid="uid://dwf8cmfbfbupv" path="res://resources/card/card_resource_v2/card_effect/_card_effects/_card_effects_collection/status_heal_10_hp.tres" id="3_naxq7"]
 [ext_resource type="Resource" uid="uid://do7j7611bxoix" path="res://resources/card/card_resource_v2/card_effect/_card_effects/_card_effects_collection/status_remove_all_status.tres" id="5_5ret8"]
-[ext_resource type="Script" path="res://resources/card/card_resource_v2/condition/condition.gd" id="6_opsg1"]
-[ext_resource type="Script" path="res://resources/card/card_resource_v2/card_resource_v2.gd" id="7_toj4q"]
-[ext_resource type="Script" path="res://resources/card/card_resource_v2/special_card_effect/special_card_effect_resource.gd" id="8_ixpmy"]
+[ext_resource type="Script" uid="uid://0ehgq0gu1n0f" path="res://resources/card/card_resource_v2/condition/condition.gd" id="6_opsg1"]
+[ext_resource type="Script" uid="uid://bsspisl6hdkmh" path="res://resources/card/card_resource_v2/card_resource_v2.gd" id="7_toj4q"]
+[ext_resource type="Script" uid="uid://gcdjt0hw3kpk" path="res://resources/card/card_resource_v2/special_card_effect/special_card_effect_resource.gd" id="8_ixpmy"]
 
 [resource]
 script = ExtResource("7_toj4q")
 id = "healing_salve_1"
-title = "Healing Salve"
-rarity = 0
-description = "Remove all status conditions & heal 10hp.
-One use."
-stamina_cost = 0
+title = "CARD_HEALING_SALVE_TITLE"
+description = "CARD_HEALING_SALVE_DESC"
 tag_array = Array[String](["one_use", "status_change", "item"])
-play_conditions = Array[ExtResource("6_opsg1")]([])
 play_actions = Array[ExtResource("2_nvt4n")]([ExtResource("3_naxq7"), ExtResource("5_5ret8")])
-special_effects = Array[ExtResource("8_ixpmy")]([])
 audio_stream = ExtResource("1_1s75b")
 card_image = ExtResource("2_spwxs")

@@ -24,8 +24,8 @@ stamina_cost = 10
 [resource]
 script = ExtResource("3_hrt2r")
 id = "slice_1"
-title = "Slice"
-description = "Slice at the monster at close range. Deal 15 damage."
+title = "CARD_SLICE_TITLE"
+description = "CARD_SLICE_DESC"
 stamina_cost = 10
 tag_array = Array[String](["attack"])
 play_actions = Array[ExtResource("1_tdiyw")]([SubResource("Resource_vgnqe")])

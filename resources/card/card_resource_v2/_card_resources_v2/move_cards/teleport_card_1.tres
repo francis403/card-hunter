@@ -11,9 +11,9 @@
 [resource]
 script = ExtResource("6_qngvf")
 id = "teleport_1"
-title = "Teleport"
+title = "CARD_TELEPORT_TITLE"
 rarity = 2
-description = "Teleport to any square on the map"
+description = "CARD_TELEPORT_DESC"
 tag_array = Array[String](["move"])
 play_actions = Array[ExtResource("2_4areh")]([ExtResource("3_tag7m")])
 audio_stream = ExtResource("1_40wop")

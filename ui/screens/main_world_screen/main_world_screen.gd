@@ -31,7 +31,7 @@ func _ready() -> void:
 	GameController.debug_mode_toggled.connect(_on_debug_mode_toggled)
 	forge_button.on_button_pressed.connect(_on_forge_button_pressed)
 	_clean_preview()
-	boss_timer_label.text = "Days till next attack: " + str(GameController.days_till_attack)
+	boss_timer_label.text = LocalizationController.tr_format("UI_DAYS_TILL_ATTACK", [GameController.days_till_attack])
 	# Setup grass exclusions after a frame to ensure all nodes are ready
 	world_nodes_table_component.instantiate_world()
 	world_nodes_table_component.world_generated.connect(_on_world_generated)
@@ -51,7 +51,7 @@ func _clean_preview():
 		child.queue_free()
 
 func _update_days_till_attack(_days: int):
-	boss_timer_label.text = "Days till next attack: " + str(_days)
+	boss_timer_label.text = LocalizationController.tr_format("UI_DAYS_TILL_ATTACK", [_days])
 	deck_ui._update_deck_label()
 
 func _on_battle_start_signal():

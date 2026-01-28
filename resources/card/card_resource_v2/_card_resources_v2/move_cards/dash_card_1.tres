@@ -11,8 +11,8 @@
 [resource]
 script = ExtResource("6_0j3b1")
 id = "move_card_2"
-title = "Dash"
-description = "Dash up to 2 tiles away in a cross shape."
+title = "CARD_DASH_TITLE"
+description = "CARD_DASH_DESC"
 stamina_cost = 20
 tag_array = Array[String](["move"])
 play_actions = Array[ExtResource("2_cfipk")]([ExtResource("3_cblq6")])

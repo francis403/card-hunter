@@ -1,21 +1,18 @@
 [gd_resource type="Resource" script_class="CardResourceV2" load_steps=7 format=3 uid="uid://c7ml1pqlvfib4"]
 
 [ext_resource type="Texture2D" uid="uid://b5553c42m65yy" path="res://assets/images/card/card_main_image/muscle.png" id="1_1fchj"]
-[ext_resource type="Script" path="res://resources/card/card_resource_v2/card_effect/card_effect.gd" id="1_rhbif"]
+[ext_resource type="Script" uid="uid://clo7yb32ydt37" path="res://resources/card/card_resource_v2/card_effect/card_effect.gd" id="1_rhbif"]
 [ext_resource type="Resource" uid="uid://d3mfsig8hosua" path="res://resources/card/card_resource_v2/card_effect/_card_effects/_card_effects_collection/power_double_damage_2.tres" id="2_2vcjb"]
-[ext_resource type="Script" path="res://resources/card/card_resource_v2/condition/condition.gd" id="4_4i5e4"]
-[ext_resource type="Script" path="res://resources/card/card_resource_v2/card_resource_v2.gd" id="5_vxbek"]
-[ext_resource type="Script" path="res://resources/card/card_resource_v2/special_card_effect/special_card_effect_resource.gd" id="6_52qyx"]
+[ext_resource type="Script" uid="uid://0ehgq0gu1n0f" path="res://resources/card/card_resource_v2/condition/condition.gd" id="4_4i5e4"]
+[ext_resource type="Script" uid="uid://bsspisl6hdkmh" path="res://resources/card/card_resource_v2/card_resource_v2.gd" id="5_vxbek"]
+[ext_resource type="Script" uid="uid://gcdjt0hw3kpk" path="res://resources/card/card_resource_v2/special_card_effect/special_card_effect_resource.gd" id="6_52qyx"]
 
 [resource]
 script = ExtResource("5_vxbek")
 id = "double_strength_power_1"
-title = "Twice the power"
-rarity = 0
-description = "For the next two turns deals twice as much damage."
+title = "CARD_TWICE_THE_POWER_TITLE"
+description = "CARD_TWICE_THE_POWER_DESC"
 stamina_cost = 25
 tag_array = Array[String](["power"])
-play_conditions = Array[ExtResource("4_4i5e4")]([])
 play_actions = Array[ExtResource("1_rhbif")]([ExtResource("2_2vcjb")])
-special_effects = Array[ExtResource("6_52qyx")]([])
 card_image = ExtResource("1_1fchj")

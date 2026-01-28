@@ -23,9 +23,8 @@ stamina_cost = 0
 [resource]
 script = ExtResource("6_8yhy6")
 id = "health_potion_1"
-title = "Health Potion"
-description = "Drink a health potion and recover 50 hp.
-One use."
+title = "CARD_HEALTH_POTION_TITLE"
+description = "CARD_HEALTH_POTION_DESC"
 tag_array = Array[String](["one_use", "status_change", "item"])
 play_actions = Array[ExtResource("2_grq01")]([SubResource("Resource_1uxtb")])
 audio_stream = ExtResource("1_6q8rp")

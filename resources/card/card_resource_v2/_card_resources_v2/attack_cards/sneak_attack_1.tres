@@ -1,24 +1,21 @@
 [gd_resource type="Resource" script_class="CardResourceV2" load_steps=9 format=3 uid="uid://c5evsapdpvc2b"]
 
 [ext_resource type="AudioStream" uid="uid://d4nqs2kfg56mh" path="res://assets/sound/sound_effects/knifeSlice.ogg" id="1_7p1qy"]
-[ext_resource type="Script" path="res://resources/card/card_resource_v2/card_effect/card_effect.gd" id="2_lcxss"]
+[ext_resource type="Script" uid="uid://clo7yb32ydt37" path="res://resources/card/card_resource_v2/card_effect/card_effect.gd" id="2_lcxss"]
 [ext_resource type="Texture2D" uid="uid://b7eyua47vpamc" path="res://assets/images/card/card_main_image/ninja.png" id="2_pxxpr"]
 [ext_resource type="Resource" uid="uid://b7jfi626r7lu0" path="res://resources/card/card_resource_v2/card_effect/_card_effects/_card_effects_collection/melee_attack_10.tres" id="3_ugcko"]
-[ext_resource type="Script" path="res://resources/card/card_resource_v2/condition/condition.gd" id="5_nogop"]
-[ext_resource type="Script" path="res://resources/card/card_resource_v2/card_resource_v2.gd" id="6_icl8p"]
+[ext_resource type="Script" uid="uid://0ehgq0gu1n0f" path="res://resources/card/card_resource_v2/condition/condition.gd" id="5_nogop"]
+[ext_resource type="Script" uid="uid://bsspisl6hdkmh" path="res://resources/card/card_resource_v2/card_resource_v2.gd" id="6_icl8p"]
 [ext_resource type="Resource" uid="uid://bl34unrcper2h" path="res://resources/card/card_resource_v2/special_card_effect/_special_card_effects_collection/on_discard_special_effects/on_discard_draw_card_special_effect.tres" id="7_uly14"]
-[ext_resource type="Script" path="res://resources/card/card_resource_v2/special_card_effect/special_card_effect_resource.gd" id="7_vhu86"]
+[ext_resource type="Script" uid="uid://gcdjt0hw3kpk" path="res://resources/card/card_resource_v2/special_card_effect/special_card_effect_resource.gd" id="7_vhu86"]
 
 [resource]
 script = ExtResource("6_icl8p")
 id = "sneak_attack_1"
-title = "Sneak Attack"
-rarity = 0
-description = "Deal 10 damage
-On Discard: Draw 1 Card"
+title = "CARD_SNEAK_ATTACK_TITLE"
+description = "CARD_SNEAK_ATTACK_DESC"
 stamina_cost = 10
 tag_array = Array[String](["attack"])
-play_conditions = Array[ExtResource("5_nogop")]([])
 play_actions = Array[ExtResource("2_lcxss")]([ExtResource("3_ugcko")])
 special_effects = Array[ExtResource("7_vhu86")]([ExtResource("7_uly14")])
 audio_stream = ExtResource("1_7p1qy")

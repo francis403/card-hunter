@@ -12,8 +12,8 @@ signal right_button_pressed
 @onready var exit_button: SoundButton = %ExitButton
 
 @export_group("General Screen configuration")
-@export var title_text: String = "You Win"
-@export var reward_component_title: String = "Choose 1 reward"
+@export var title_text_key: String = "UI_YOU_WIN"
+@export var reward_component_title_key: String = "UI_CHOOSE_REWARD"
 @export var continue_as_soon_as_rewards_picked: bool = false
 @export var max_number_of_picks: int = 1
 
@@ -21,11 +21,11 @@ signal right_button_pressed
 @export var override_default_on_reward_card_picked: bool = false
 
 @export_group("Game Over Screen Button Configuration")
-@export var left_button_text: String = "Continue"
+@export var left_button_text_key: String = "BTN_CONTINUE"
 @export var override_left_button: bool = false
-		
+
 @export var show_left_button: bool = true
-@export var right_button_text: String = "Exit"
+@export var right_button_text_key: String = "BTN_EXIT"
 @export var override_right_button: bool = false
 @export var show_right_button: bool = true
 
@@ -33,21 +33,21 @@ var current_number_of_picks: int = 0
 
 func _ready() -> void:
 	current_number_of_picks = 0
-	title_label.text = self.title_text
-	continue_button.text = self.left_button_text
-	exit_button.text = self.right_button_text
+	title_label.text = tr(self.title_text_key)
+	continue_button.text = tr(self.left_button_text_key)
+	exit_button.text = tr(self.right_button_text_key)
 	_setup_reward_component()
 	if not self.show_left_button:
 		continue_button.visible = false
 	if not self.show_right_button:
 		exit_button.visible = false
 	
-func update_reward_component_title(_reward_component_title: String):
-	self.reward_component_title = _reward_component_title
-	reward_component.title_label.text = reward_component_title
+func update_reward_component_title(_reward_component_title_key: String):
+	self.reward_component_title_key = _reward_component_title_key
+	reward_component.title_label.text = tr(reward_component_title_key)
 	
 func _setup_reward_component():
-	reward_component.title_label.text = reward_component_title
+	reward_component.title_label.text = tr(reward_component_title_key)
 	reward_component.override_default_on_reward_card_picked = self.override_default_on_reward_card_picked
 	reward_component.on_reward_card_picked.connect(_on_reward_card_picked_signal)
 

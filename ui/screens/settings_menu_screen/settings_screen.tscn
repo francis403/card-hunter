@@ -32,7 +32,8 @@ layout_mode = 2
 
 [node name="Title" type="Label" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
-text = "Settings"
+text = "SETTINGS_TITLE"
+auto_translate_mode = 1
 horizontal_alignment = 1
 
 [node name="GridContainer" type="GridContainer" parent="MarginContainer/VBoxContainer"]
@@ -42,7 +43,8 @@ columns = 2
 [node name="VolumeSliderLabel" type="Label" parent="MarginContainer/VBoxContainer/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Volume"
+text = "SETTINGS_VOLUME"
+auto_translate_mode = 1
 
 [node name="VolumeSlider" type="HSlider" parent="MarginContainer/VBoxContainer/GridContainer"]
 unique_name_in_owner = true
@@ -53,21 +55,35 @@ size_flags_vertical = 4
 max_value = 1.0
 step = 0.1
 
+[node name="LanguageLabel" type="Label" parent="MarginContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "SETTINGS_LANGUAGE"
+auto_translate_mode = 1
+
+[node name="LanguageOptionButton" type="OptionButton" parent="MarginContainer/VBoxContainer/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
 [node name="HButtonContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
 
 [node name="SaveButton" parent="MarginContainer/VBoxContainer/HButtonContainer" instance=ExtResource("3_kvleu")]
 layout_mode = 2
-text = "Save"
+text = "BTN_SAVE"
+auto_translate_mode = 1
 
 [node name="BackButton" parent="MarginContainer/VBoxContainer/HButtonContainer" instance=ExtResource("3_kvleu")]
 layout_mode = 2
-text = "Back"
+text = "BTN_BACK"
+auto_translate_mode = 1
 
 [node name="ExitGame" parent="MarginContainer/VBoxContainer/HButtonContainer" instance=ExtResource("3_kvleu")]
 layout_mode = 2
-text = "Exit Game"
+text = "BTN_EXIT_GAME"
+auto_translate_mode = 1
 
 [connection signal="pressed_and_sound_played" from="MarginContainer/VBoxContainer/HButtonContainer/SaveButton" to="." method="_on_save_button_pressed"]
 [connection signal="pressed_and_sound_played" from="MarginContainer/VBoxContainer/HButtonContainer/BackButton" to="." method="_on_back_button_pressed"]

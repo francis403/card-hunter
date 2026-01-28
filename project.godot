@@ -37,6 +37,7 @@ CardModuleController="*res://singletons/controllers/resource_controllers/card_mo
 CardResourcesController="*res://singletons/controllers/resource_controllers/card_resources_controller.gd"
 MonsterResourcesController="*res://singletons/controllers/resource_controllers/monster_resources_controller.gd"
 TutorialController="*res://singletons/controllers/tutorial_controller.gd"
+LocalizationController="*res://singletons/controllers/localization_controller.gd"
 
 [debug]
 
@@ -90,3 +91,7 @@ textures/canvas_textures/default_texture_filter=0
 textures/vram_compression/import_s3tc_bptc=true
 textures/vram_compression/import_etc2_astc=true
 2d/snap/snap_2d_transforms_to_pixel=true
+
+[internationalization]
+
+locale/translations=PackedStringArray("res://localization/translations.en.translation", "res://localization/translations.es.translation")

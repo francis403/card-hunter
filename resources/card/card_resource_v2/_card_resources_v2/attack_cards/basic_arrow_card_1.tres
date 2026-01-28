@@ -11,8 +11,8 @@
 [resource]
 script = ExtResource("3_tixnu")
 id = "basic_arrow_1"
-title = "Basic Arrow"
-description = "Shoot an arrow. Deal 10 damage."
+title = "CARD_BASIC_ARROW_TITLE"
+description = "CARD_BASIC_ARROW_DESC"
 stamina_cost = 10
 play_actions = Array[ExtResource("1_qe8bf")]([ExtResource("3_6opfi")])
 audio_stream = ExtResource("1_b6xb6")

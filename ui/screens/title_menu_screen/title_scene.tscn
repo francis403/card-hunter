@@ -45,7 +45,8 @@ layout_mode = 2
 theme = ExtResource("2_a7ane")
 theme_override_colors/font_color = Color(0.947199, 0.947199, 0.947199, 1)
 theme_override_font_sizes/font_size = 64
-text = "Card Hunter"
+text = "MENU_CARD_HUNTER"
+auto_translate_mode = 1
 horizontal_alignment = 1
 
 [node name="MenuContainer" type="VBoxContainer" parent="."]
@@ -67,16 +68,19 @@ script = ExtResource("1_6syln")
 [node name="NewGame" parent="MenuContainer" instance=ExtResource("7_uacp8")]
 unique_name_in_owner = true
 layout_mode = 2
-text = "New Game"
+text = "MENU_NEW_GAME"
+auto_translate_mode = 1
 
 [node name="Continue" parent="MenuContainer" instance=ExtResource("7_uacp8")]
 unique_name_in_owner = true
 layout_mode = 2
-text = "Continue"
+text = "MENU_CONTINUE"
+auto_translate_mode = 1
 
 [node name="CardPedia" parent="MenuContainer" instance=ExtResource("7_uacp8")]
 layout_mode = 2
-text = "Cardpedium"
+text = "MENU_CARDPEDIUM"
+auto_translate_mode = 1
 
 [node name="Tooltip" parent="MenuContainer/CardPedia" instance=ExtResource("7_gqk57")]
 layout_mode = 0
@@ -96,21 +100,24 @@ position_offset = Vector2(25, 15)
 [node name="Settings" parent="MenuContainer" instance=ExtResource("7_uacp8")]
 unique_name_in_owner = true
 layout_mode = 2
-text = "Settings
-"
+text = "MENU_SETTINGS"
+auto_translate_mode = 1
 
 [node name="Credits" parent="MenuContainer" instance=ExtResource("7_uacp8")]
 unique_name_in_owner = true
 layout_mode = 2
-text = "Credits"
+text = "MENU_CREDITS"
+auto_translate_mode = 1
 
 [node name="Exit" parent="MenuContainer" instance=ExtResource("7_uacp8")]
 layout_mode = 2
-text = "Exit"
+text = "MENU_EXIT"
+auto_translate_mode = 1
 
 [node name="DeleteSave" parent="MenuContainer" instance=ExtResource("7_uacp8")]
 layout_mode = 2
-text = "Delete Save"
+text = "MENU_DELETE_SAVE"
+auto_translate_mode = 1
 
 [node name="SettingsScreen" parent="." instance=ExtResource("5_rcdra")]
 visible = false

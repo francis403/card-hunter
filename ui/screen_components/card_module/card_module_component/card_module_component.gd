@@ -29,7 +29,7 @@ func set_card_module(
 ):
 	if not _card_module:
 		return
-	card_module_title.text = _card_module.title
+	card_module_title.text = tr(_card_module.title)
 	stamina_cost_label.text = str(_card_module.stamina_cost)
 	self.card_module = _card_module.duplicate()
 	self._change_color_based_on_type()

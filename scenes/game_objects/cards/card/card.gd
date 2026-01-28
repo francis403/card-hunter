@@ -44,8 +44,8 @@ func _ready() -> void:
 func initialize_card():
 	if not card_resource:
 		return
-	card_title.text = card_resource.title
-	card_description.text = card_resource.description
+	card_title.text = tr(card_resource.title)
+	card_description.text = tr(card_resource.description)
 	stamina_cost_label.text = str(card_resource.stamina_cost)
 	if card_resource.card_image:
 		self.card_image.texture = self.card_resource.card_image
