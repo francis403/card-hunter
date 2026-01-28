@@ -8,6 +8,8 @@ signal card_discarded_by_effect
 const DISABLED_CARD_COLOR: Color = Color(0.502, 0.502, 0.502, 0.463)
 const NORMAL_CARD_COLOR: Color = Color(1, 1, 1)
 const SIZE: Vector2 = Vector2(175, 270)
+const FOCUSED_CARD_COLOR: Color = Color(1.1, 1.1, 1.2, 1.0)
+const FOCUSED_CARD_SCALE: Vector2 = Vector2(1.05, 1.05)
 
 @export var card_resource: CardResourceV2
 @export var card_can_hover: bool = true
@@ -24,7 +26,12 @@ const SIZE: Vector2 = Vector2(175, 270)
 @onready var back_ground_texture_rect: TextureRect = $BackGroundTextureRect
 @onready var card_image: TextureRect = $FullCardContainer/CardContentVBoxContainer/ImageContainer/TextureRect/CardImage
 
-var card_can_be_played: bool = false
+var card_can_be_played: bool = false:
+	set(value):
+		card_can_be_played = value
+		_card_can_be_played = card_can_be_played
+		
+var is_focused: bool = false
 var _mouse_hovering: bool = false
 var _discard_button_mouse_hovering: bool = false
 
@@ -205,6 +212,22 @@ func toggle_disable_card():
 
 func disable_card():
 	self.modulate = DISABLED_CARD_COLOR
-	
+
 func undisable_card():
 	self.modulate = NORMAL_CARD_COLOR
+
+func focus_card():
+	is_focused = true
+	var tween = create_tween()
+	tween.set_parallel(true)
+	tween.tween_property(self, "scale", FOCUSED_CARD_SCALE, 0.15)\
+		.set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_QUART)
+	tween.tween_property(self, "modulate", FOCUSED_CARD_COLOR, 0.15)
+
+func unfocus_card():
+	is_focused = false
+	var tween = create_tween()
+	tween.set_parallel(true)
+	tween.tween_property(self, "scale", Vector2(1.0, 1.0), 0.15)\
+		.set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_QUART)
+	tween.tween_property(self, "modulate", NORMAL_CARD_COLOR, 0.15)

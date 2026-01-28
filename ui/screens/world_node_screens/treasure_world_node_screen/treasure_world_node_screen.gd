@@ -45,12 +45,12 @@ func _on_reward_picked_signal(card: Card):
 	var card_id: int = card.get_instance_id()
 	if picked_rewards.has(card_id):
 		picked_rewards.erase(card_id)
-		card.undisable_card()
+		card.unfocus_card()
 		return
 	if picked_rewards.size() >= treasure_world_node_resource.number_of_choices:
 		return
 	picked_rewards[card_id] = card
-	card.disable_card()
+	card.focus_card()
 
 ## Maybe show some warning if no cards were picked
 func _on_reward_screen_left_button_pressed_signal():
