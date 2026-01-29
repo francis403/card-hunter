@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://dljw8exgbojmi"]
 
 [ext_resource type="PackedScene" uid="uid://djh35o5nfx5et" path="res://scenes/game_objects/world/world_node/generic_world_node/generic_world_node.tscn" id="1_vegv1"]
-[ext_resource type="Script" path="res://scenes/game_objects/world/world_node/deforge_card_world_node/deforge_card_world_node.gd" id="2_1i2s1"]
+[ext_resource type="Script" uid="uid://brx540n8xjtqp" path="res://scenes/game_objects/world/world_node/deforge_card_world_node/deforge_card_world_node.gd" id="2_1i2s1"]
 [ext_resource type="Texture2D" uid="uid://bgd0j2ciiantp" path="res://assets/images/nodes/forge_node.png" id="3_rodpc"]
 [ext_resource type="PackedScene" uid="uid://c8t61ybgmkahs" path="res://ui/screens/world_node_screens/deforge_card_screen/deforge_card_screen.tscn" id="4_wdc1c"]
 

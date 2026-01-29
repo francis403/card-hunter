@@ -1,8 +1,9 @@
 extends Node2D
 
-## TODO: need to simplify this code\
 ## Represents a location in the world
 class_name GenericWorldNode
+
+signal world_node_complete(_node: GenericWorldNode)
 
 const ID_DICTIONARY_FIELD: String = "id"
 const IS_REVEALED_DICTIONARY_FIELD: String = "is_revealed"
@@ -100,6 +101,7 @@ func on_node_click_event():
 	
 func _on_world_node_screen_completed_signal(_advance_day: bool):
 	BattlemapSignals.world_node_screen_completed.emit(_advance_day)
+	self.world_node_complete.emit(self)
 	self.reveal_connected_nodes()
 
 ## Function that has to be overwritten
@@ -121,6 +123,7 @@ func _is_click_event_processable() -> bool:
 ## Occurs after the world node is completed
 func after_world_node_completed_successfully():
 	BattlemapSignals.node_completed.emit(self.world_node_id)
+	self.world_node_complete.emit(self)
 
 func override_world_node_reward(
 	_rewards: Array[CardResourceV2],

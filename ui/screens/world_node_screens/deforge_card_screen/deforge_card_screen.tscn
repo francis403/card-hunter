@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=3 uid="uid://c8t61ybgmkahs"]
+[gd_scene load_steps=28 format=3 uid="uid://c8t61ybgmkahs"]
 
 [ext_resource type="Script" uid="uid://cjqeymxnv5doo" path="res://ui/screens/world_node_screens/deforge_card_screen/deforge_card_screen.gd" id="1_nfouu"]
 [ext_resource type="PackedScene" uid="uid://hked8dt7umpy" path="res://ui/screen_components/_general_componets/buttons/sound_button/sound_button.tscn" id="2_4dcgl"]
@@ -14,6 +14,7 @@
 [ext_resource type="Script" uid="uid://clufwv38rhs7a" path="res://resources/configuration/tile_highlight_configuration/tile_highlight_configuration.gd" id="7_44w0f"]
 [ext_resource type="Script" uid="uid://chyqcjvfndbak" path="res://resources/card/card_resource_v2/card_effect/_card_effects/condition_card_effect/condition_card_effect.gd" id="8_0cvub"]
 [ext_resource type="Script" uid="uid://qs3ypqmnyc18" path="res://resources/card/card_resource_v2/card_effect/_card_effects/status_change_card_effect/status_change_card_effect.gd" id="9_mynou"]
+[ext_resource type="Script" uid="uid://bykm1sfwrcmbx" path="res://resources/configuration/tile_highlight_configuration/formula/formula.gd" id="10_i44mb"]
 [ext_resource type="Script" uid="uid://dscx6wxqge05q" path="res://resources/configuration/effect_configs/status_modifier_config/status_modifier_config.gd" id="10_ka3ih"]
 [ext_resource type="Script" uid="uid://0ehgq0gu1n0f" path="res://resources/card/card_resource_v2/condition/condition.gd" id="11_ww188"]
 [ext_resource type="Script" uid="uid://gcdjt0hw3kpk" path="res://resources/card/card_resource_v2/special_card_effect/special_card_effect_resource.gd" id="12_40esa"]
@@ -55,7 +56,7 @@ status_modifier_config = SubResource("Resource_te4mr")
 title = "Recover 5 stamina"
 stamina_cost = 0
 
-[sub_resource type="Resource" id="Resource_8xv1u"]
+[sub_resource type="Resource" id="Resource_1q8s6"]
 resource_local_to_scene = true
 script = ExtResource("3_jpurv")
 id = "back_stab_1"
@@ -99,18 +100,18 @@ theme_override_constants/margin_top = 10
 
 [node name="BackButton" parent="PanelContainer/VBoxContainer/PagerHeaderContainer/MarginContainer" instance=ExtResource("2_4dcgl")]
 unique_name_in_owner = true
+auto_translate_mode = 1
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 4
 text = "BTN_BACK"
-auto_translate_mode = 1
 
 [node name="Page Title" type="Label" parent="PanelContainer/VBoxContainer/PagerHeaderContainer/MarginContainer"]
+auto_translate_mode = 1
 layout_mode = 2
 size_flags_horizontal = 6
 theme = ExtResource("2_r2luk")
 text = "UI_DEFORGE_CARD"
-auto_translate_mode = 1
 label_settings = SubResource("LabelSettings_8xv1u")
 horizontal_alignment = 1
 
@@ -127,7 +128,7 @@ size_flags_stretch_ratio = 3.0
 unique_name_in_owner = true
 layout_mode = 2
 listen_for_card_clicks = true
-deck = Array[ExtResource("3_jpurv")]([SubResource("Resource_8xv1u"), ExtResource("5_k6nq3")])
+deck = Array[ExtResource("3_jpurv")]([SubResource("Resource_1q8s6"), ExtResource("5_k6nq3")])
 grid_column_size = 2
 
 [node name="CardToDeforge" type="MarginContainer" parent="PanelContainer/VBoxContainer/HBoxContainer"]
@@ -148,11 +149,11 @@ card_can_be_discarded = false
 _card_can_be_played = false
 
 [node name="DeforgeButton" parent="PanelContainer/VBoxContainer/HBoxContainer/CardToDeforge/VBoxContainer" instance=ExtResource("2_4dcgl")]
+auto_translate_mode = 1
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 text = "BTN_DEFORGE"
-auto_translate_mode = 1
 
 [node name="CardModulesContainerComponent" parent="PanelContainer/VBoxContainer/HBoxContainer/CardToDeforge/VBoxContainer" instance=ExtResource("15_u7acp")]
 unique_name_in_owner = true

@@ -70,3 +70,44 @@ func _on_generate_monster_hunt_menu_item_ready(
 	_menu_item: MenuItem
 ) -> void:
 	_setup_monster_battle_scenes(_menu_item)
+
+
+func _on_trigger_world_node_menu_item_ready(
+	_menu_item: MenuItem
+) -> void:
+	_setup_world_node_trigger_items(_menu_item)
+
+
+func _setup_world_node_trigger_items(
+	_sub_menu_item: MenuItemWithSubMenu
+) -> void:
+	var _node_types: Array[Dictionary] = [
+		{"display_name": "Treasure Node", "class": TreasureWorldNode},
+		{"display_name": "Deforge Card Node", "class": DeforgeCardWorldNode},
+	]
+	
+	var _menu_item_scene: PackedScene = preload(
+			"res://ui/screen_components/_general_componets/menu/menu_item/_generic_menu_item/menu_item.tscn"
+		)
+	for _node_type_info: Dictionary in _node_types:
+		var _menu_item: MenuItem = _menu_item_scene.instantiate()
+		_menu_item._display_name = _node_type_info["display_name"]
+		_menu_item.menu_item_clicked.connect(
+			_on_world_node_type_selected.bind(_node_type_info["class"])
+		)
+		_sub_menu_item.add_child(_menu_item)
+
+
+func _on_world_node_type_selected(_node_class: Variant) -> void:
+	var _world_node: GenericWorldNode = load(_node_class.new().my_node_scene_path).instantiate()
+	_world_node.world_node_complete.connect(_on_world_node_complete)
+	self.add_child(_world_node)
+	if _world_node:
+		_world_node.on_node_click_event()
+	else:
+		push_warning("No node of type found: ", _node_class)
+
+
+func _on_world_node_complete(_node: GenericWorldNode):
+	if _node:
+		_node.queue_free()

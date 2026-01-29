@@ -39,6 +39,12 @@ size_flags_horizontal = 3
 _parent_node = NodePath("../..")
 _display_name = "Generate Monster Battle"
 
+[node name="TriggerWorldNode" parent="RootMenu/VerticalMenu2" node_paths=PackedStringArray("_parent_node") instance=ExtResource("7_2lcwr")]
+layout_mode = 2
+size_flags_horizontal = 3
+_parent_node = NodePath("../..")
+_display_name = "Trigger World Node"
+
 [node name="GenerateNewWorldButton" parent="RootMenu/VerticalMenu2" instance=ExtResource("8_wil5r")]
 layout_mode = 2
 _display_name = "Generate New World"
@@ -56,6 +62,7 @@ layout_mode = 2
 _display_name = "Complete Game"
 
 [connection signal="menu_item_ready" from="RootMenu/VerticalMenu2/GenerateMonsterHunt" to="." method="_on_generate_monster_hunt_menu_item_ready"]
+[connection signal="menu_item_ready" from="RootMenu/VerticalMenu2/TriggerWorldNode" to="." method="_on_trigger_world_node_menu_item_ready"]
 [connection signal="menu_item_clicked" from="RootMenu/VerticalMenu2/GenerateNewWorldButton" to="." method="_on_generate_new_world_pressed"]
 [connection signal="menu_item_clicked" from="RootMenu/VerticalMenu2/TriggerBossEncounter" to="." method="_on_boss_encounter_pressed"]
 [connection signal="menu_item_clicked" from="RootMenu/VerticalMenu2/TriggerBossDefeated" to="." method="_on_expand_world_pressed"]

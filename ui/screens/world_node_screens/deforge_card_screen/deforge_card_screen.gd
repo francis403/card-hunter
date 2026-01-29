@@ -36,6 +36,7 @@ func _on_card_selected_for_deforge(_card: Card):
 
 func _on_back_button_pressed() -> void:
 	back_button_pressed.emit()
+	self.world_node_screen_completed.emit(true)
 	self.queue_free()
 
 
