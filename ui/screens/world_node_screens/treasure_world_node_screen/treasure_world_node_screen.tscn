@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://c72jcvtvjr4ci"]
 
-[ext_resource type="Script" path="res://ui/screens/world_node_screens/treasure_world_node_screen/treasure_world_node_screen.gd" id="1_8gno4"]
+[ext_resource type="Script" uid="uid://yy3cdjiiwds2" path="res://ui/screens/world_node_screens/treasure_world_node_screen/treasure_world_node_screen.gd" id="1_8gno4"]
 [ext_resource type="Texture2D" uid="uid://d0sjr0hkie86e" path="res://assets/images/background/background_forest.png" id="1_yvjkk"]
 [ext_resource type="Texture2D" uid="uid://dtcdnex30jxgd" path="res://assets/game_objects/world/treasure/chest.png" id="2_blbcy"]
 [ext_resource type="PackedScene" uid="uid://qcu3ip6nb1i3" path="res://ui/screens/game_over_screen/game_over_screen.tscn" id="4_36ayo"]
@@ -44,10 +44,9 @@ visible = false
 layout_mode = 1
 offset_top = -227.0
 offset_bottom = 227.0
-title_text = "Rewards!"
-reward_component_title = "Choose up to 2 rewards"
 max_number_of_picks = 2
 override_default_on_reward_card_picked = true
+should_focus_picked_cards = true
 show_right_button = false
 
 [connection signal="gui_input" from="Treasure" to="." method="_on_treasure_gui_input"]

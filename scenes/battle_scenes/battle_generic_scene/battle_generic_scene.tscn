@@ -120,8 +120,8 @@ _hand = NodePath("../../Hand")
 
 [node name="GameOverScreen" parent="." instance=ExtResource("9_bw6p8")]
 visible = false
-continue_as_soon_as_rewards_picked = true
-right_button_text = "Skip"
+override_default_on_reward_card_picked = true
+should_focus_picked_cards = true
 show_right_button = false
 
 [node name="DrawPileMarker" type="Marker2D" parent="."]

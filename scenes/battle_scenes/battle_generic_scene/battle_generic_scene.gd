@@ -151,6 +151,12 @@ func _on_lose_screen_continue_button():
 func _prep_win_screen():
 	game_over_screen.title_label.text = "You Win"
 	game_over_screen.reward_component.visible = true
+	game_over_screen.final_picked_rewards.connect(_on_game_over_rewards_picked)
+
+func _on_game_over_rewards_picked(_rewards: Array[Card]):
+	for _reward in _rewards:
+		var card_resource: CardResourceV2 = _reward.card_resource
+		PlayerController._deck.add_card(card_resource.duplicate())
 
 func _show_game_over_screen():
 	game_over_screen.visible = true

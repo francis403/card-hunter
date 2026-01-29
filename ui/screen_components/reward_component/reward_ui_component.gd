@@ -54,7 +54,6 @@ func _instantiate_card(card_resource: CardResourceV2):
 	card_instance.initialize_card()
 	card_instance.card_picked.connect(_on_card_picked_signal)
 
-## TODO: We can't just add them to the deck as soon as we clicked them
 func _on_card_picked_signal(card: Card):
 	on_reward_card_picked.emit(card)
 	if not override_default_on_reward_card_picked:

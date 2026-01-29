@@ -2,6 +2,7 @@ extends Control
 class_name GameOverScreen
 
 signal reward_picked(card: Card)
+signal final_picked_rewards(rewards: Array[Card])
 signal left_button_pressed
 signal right_button_pressed
 
@@ -19,6 +20,7 @@ signal right_button_pressed
 
 @export_group("On Reward Card Picked configuration")
 @export var override_default_on_reward_card_picked: bool = false
+@export var should_focus_picked_cards: bool = false
 
 @export_group("Game Over Screen Button Configuration")
 @export var left_button_text_key: String = "BTN_CONTINUE"
@@ -30,9 +32,9 @@ signal right_button_pressed
 @export var show_right_button: bool = true
 
 var current_number_of_picks: int = 0
+var _picked_cards: Dictionary = {}
 
 func _ready() -> void:
-	current_number_of_picks = 0
 	title_label.text = tr(self.title_text_key)
 	continue_button.text = tr(self.left_button_text_key)
 	exit_button.text = tr(self.right_button_text_key)
@@ -59,6 +61,9 @@ func _on_exit_pressed() -> void:
 
 func _on_continue_pressed() -> void:
 	left_button_pressed.emit()
+	var _final_picked_rewards: Array[Card] = []
+	_final_picked_rewards.assign(_picked_cards.values())
+	final_picked_rewards.emit(_final_picked_rewards)
 	if self.override_left_button:
 		return
 	get_tree().paused = false
@@ -67,12 +72,18 @@ func _on_continue_pressed() -> void:
 func add_rewards(card_rewards: Array[CardResourceV2]):
 	reward_component.add_reward_cards(card_rewards)
 
-func _on_reward_card_picked_signal(card: Card):
-	current_number_of_picks += 1
-	reward_picked.emit(card)
-	if self.continue_as_soon_as_rewards_picked and\
-		current_number_of_picks >= max_number_of_picks:
-		_on_continue_pressed()
-		return
-	
-	
+func _on_reward_card_picked_signal(_card: Card):
+	if should_focus_picked_cards and _card.is_focused:
+		_card.unfocus_card()
+	var _card_id: int = _card.get_instance_id()
+	if _picked_cards.has(_card_id):
+		_picked_cards.erase(_card_id)
+	elif _picked_cards.size() < max_number_of_picks:
+		_picked_cards[_card_id] = _card.duplicate()
+		if should_focus_picked_cards and not _card.is_focused:
+			_card.focus_card()
+		reward_picked.emit(_card)
+		if self.continue_as_soon_as_rewards_picked and\
+			current_number_of_picks >= max_number_of_picks:
+			_on_continue_pressed()
+			return
