@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="PowerCardEffect" load_steps=3 format=3 uid="uid://c0bpds8prbbmo"]
 
 [ext_resource type="Resource" uid="uid://b8e0uhrdt2uy0" path="res://resources/battle_entities/power_effect/power_effects/double_speed_on_init_power_effect.tres" id="1_t8k0v"]
-[ext_resource type="Script" path="res://resources/card/card_resource_v2/card_effect/_card_effects/power_card_effect/power_card_effect.gd" id="2_8w0e8"]
+[ext_resource type="Script" uid="uid://dawhdqkwqjuym" path="res://resources/card/card_module/card_effect/_card_effects/power_card_effect/power_card_effect.gd" id="2_8w0e8"]
 
 [resource]
 script = ExtResource("2_8w0e8")

@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="RemovePowerCardEffect" load_steps=2 format=3 uid="uid://do7j7611bxoix"]
 
-[ext_resource type="Script" path="res://resources/card/card_resource_v2/card_effect/_card_effects/remove_power_card_effect/remove_power_card_effect.gd" id="1_7iwpt"]
+[ext_resource type="Script" uid="uid://cvswmm112st81" path="res://resources/card/card_module/card_effect/_card_effects/remove_power_card_effect/remove_power_card_effect.gd" id="1_7iwpt"]
 
 [resource]
 script = ExtResource("1_7iwpt")

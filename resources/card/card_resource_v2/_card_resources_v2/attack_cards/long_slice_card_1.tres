@@ -1,12 +1,12 @@
 [gd_resource type="Resource" script_class="CardResourceV2" load_steps=12 format=3 uid="uid://d37hu1uhqsq3o"]
 
-[ext_resource type="Script" uid="uid://clo7yb32ydt37" path="res://resources/card/card_resource_v2/card_effect/card_effect.gd" id="1_4iq5p"]
+[ext_resource type="Script" uid="uid://clo7yb32ydt37" path="res://resources/card/card_module/card_effect/card_effect.gd" id="1_4iq5p"]
 [ext_resource type="AudioStream" uid="uid://d4nqs2kfg56mh" path="res://assets/sound/sound_effects/knifeSlice.ogg" id="1_lqvir"]
 [ext_resource type="Texture2D" uid="uid://ss35rr0it47u" path="res://assets/images/card/card_main_image/great_sword_swing.png" id="2_3yxdr"]
-[ext_resource type="Script" uid="uid://dpymrf8md1jo1" path="res://resources/card/card_resource_v2/card_effect/_card_effects/attack_card_effect/attack_card_effect.gd" id="2_t0gwf"]
-[ext_resource type="Script" uid="uid://0ehgq0gu1n0f" path="res://resources/card/card_resource_v2/condition/condition.gd" id="2_yj67r"]
+[ext_resource type="Script" uid="uid://dpymrf8md1jo1" path="res://resources/card/card_module/card_effect/_card_effects/attack_card_effect/attack_card_effect.gd" id="2_t0gwf"]
+[ext_resource type="Script" uid="uid://0ehgq0gu1n0f" path="res://resources/card/card_module/condition/condition.gd" id="2_yj67r"]
 [ext_resource type="Script" uid="uid://bsspisl6hdkmh" path="res://resources/card/card_resource_v2/card_resource_v2.gd" id="3_po1p0"]
-[ext_resource type="Script" uid="uid://gcdjt0hw3kpk" path="res://resources/card/card_resource_v2/special_card_effect/special_card_effect_resource.gd" id="4_f5m2y"]
+[ext_resource type="Script" uid="uid://gcdjt0hw3kpk" path="res://resources/card/card_module/special_card_effect/special_card_effect_resource.gd" id="4_f5m2y"]
 [ext_resource type="Script" uid="uid://clufwv38rhs7a" path="res://resources/configuration/tile_highlight_configuration/tile_highlight_configuration.gd" id="4_xy4rf"]
 [ext_resource type="Script" uid="uid://bykm1sfwrcmbx" path="res://resources/configuration/tile_highlight_configuration/formula/formula.gd" id="5_qpcwe"]
 

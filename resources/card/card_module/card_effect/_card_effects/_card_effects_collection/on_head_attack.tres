@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="ConditionCardEffect" load_steps=2 format=3 uid="uid://y7ik5ek0nh50"]
 
-[ext_resource type="Script" path="res://resources/card/card_resource_v2/card_effect/_card_effects/condition_card_effect/condition_card_effect.gd" id="1_q3tin"]
+[ext_resource type="Script" uid="uid://chyqcjvfndbak" path="res://resources/card/card_module/card_effect/_card_effects/condition_card_effect/condition_card_effect.gd" id="1_q3tin"]
 
 [resource]
 script = ExtResource("1_q3tin")

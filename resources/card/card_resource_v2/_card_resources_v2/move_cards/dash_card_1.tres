@@ -2,11 +2,11 @@
 
 [ext_resource type="AudioStream" uid="uid://d1mjkdbshat6f" path="res://assets/sound/sound_effects/footstep09.ogg" id="1_eu35u"]
 [ext_resource type="Texture2D" uid="uid://up34p8f5liok" path="res://assets/images/card/card_main_image/dash.png" id="2_0lsov"]
-[ext_resource type="Script" uid="uid://clo7yb32ydt37" path="res://resources/card/card_resource_v2/card_effect/card_effect.gd" id="2_cfipk"]
-[ext_resource type="Resource" uid="uid://b8puky4wcrd5a" path="res://resources/card/card_resource_v2/card_effect/_card_effects/_card_effects_collection/move_cross_2.tres" id="3_cblq6"]
-[ext_resource type="Script" uid="uid://0ehgq0gu1n0f" path="res://resources/card/card_resource_v2/condition/condition.gd" id="5_f1o7n"]
+[ext_resource type="Script" uid="uid://clo7yb32ydt37" path="res://resources/card/card_module/card_effect/card_effect.gd" id="2_cfipk"]
+[ext_resource type="Resource" uid="uid://b8puky4wcrd5a" path="res://resources/card/card_module/card_effect/_card_effects/_card_effects_collection/move_cross_2.tres" id="3_cblq6"]
+[ext_resource type="Script" uid="uid://0ehgq0gu1n0f" path="res://resources/card/card_module/condition/condition.gd" id="5_f1o7n"]
 [ext_resource type="Script" uid="uid://bsspisl6hdkmh" path="res://resources/card/card_resource_v2/card_resource_v2.gd" id="6_0j3b1"]
-[ext_resource type="Script" uid="uid://gcdjt0hw3kpk" path="res://resources/card/card_resource_v2/special_card_effect/special_card_effect_resource.gd" id="7_qc1vu"]
+[ext_resource type="Script" uid="uid://gcdjt0hw3kpk" path="res://resources/card/card_module/special_card_effect/special_card_effect_resource.gd" id="7_qc1vu"]
 
 [resource]
 script = ExtResource("6_0j3b1")

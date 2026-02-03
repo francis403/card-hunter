@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://bykm1sfwrcmbx" path="res://resources/configuration/tile_highlight_configuration/formula/formula.gd" id="1_3ni8q"]
 [ext_resource type="Script" uid="uid://clufwv38rhs7a" path="res://resources/configuration/tile_highlight_configuration/tile_highlight_configuration.gd" id="1_iwbcj"]
-[ext_resource type="Script" uid="uid://ba1pyljxjgnij" path="res://resources/card/card_resource_v2/card_effect/_card_effects/move_other_card_effect/move_other_card_effect.gd" id="2_ldnnv"]
+[ext_resource type="Script" uid="uid://ba1pyljxjgnij" path="res://resources/card/card_module/card_effect/_card_effects/move_other_card_effect/move_other_card_effect.gd" id="2_ldnnv"]
 
 [sub_resource type="Resource" id="Resource_8lcq5"]
 script = ExtResource("1_iwbcj")

@@ -1,9 +1,9 @@
 [gd_resource type="Resource" script_class="CardEventTriggerSpecialEffectResource" load_steps=5 format=3 uid="uid://bl34unrcper2h"]
 
-[ext_resource type="Script" path="res://resources/card/card_resource_v2/card_effect/card_effect.gd" id="1_jrqhp"]
-[ext_resource type="Resource" uid="uid://dkhu115vlnw26" path="res://resources/card/card_resource_v2/card_effect/_card_effects/_card_effects_collection/draw_deck_1.tres" id="2_518of"]
+[ext_resource type="Script" uid="uid://clo7yb32ydt37" path="res://resources/card/card_module/card_effect/card_effect.gd" id="1_jrqhp"]
+[ext_resource type="Resource" uid="uid://dkhu115vlnw26" path="res://resources/card/card_module/card_effect/_card_effects/_card_effects_collection/draw_deck_1.tres" id="2_518of"]
 [ext_resource type="PackedScene" uid="uid://qmda63q2dbw" path="res://scenes/resource_controllers/battle_entities/special_effect/_base_special_effect/card_event_trigger_special_effect/card_event_trigger_special_effect.tscn" id="3_pgr5q"]
-[ext_resource type="Script" path="res://resources/card/card_resource_v2/special_card_effect/special_card_effects/card_event_trigger_special_effect_resources/card_event_trigger_special_effect_resource.gd" id="4_b3ysn"]
+[ext_resource type="Script" uid="uid://devc60otbn6em" path="res://resources/card/card_module/special_card_effect/special_card_effects/card_event_trigger_special_effect_resources/card_event_trigger_special_effect_resource.gd" id="4_b3ysn"]
 
 [resource]
 script = ExtResource("4_b3ysn")

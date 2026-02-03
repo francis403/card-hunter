@@ -1,12 +1,12 @@
 [gd_resource type="Resource" script_class="CardResourceV2" load_steps=8 format=3 uid="uid://bu7gcqxkp3gqp"]
 
 [ext_resource type="AudioStream" uid="uid://d1mjkdbshat6f" path="res://assets/sound/sound_effects/footstep09.ogg" id="1_40wop"]
-[ext_resource type="Script" uid="uid://clo7yb32ydt37" path="res://resources/card/card_resource_v2/card_effect/card_effect.gd" id="2_4areh"]
+[ext_resource type="Script" uid="uid://clo7yb32ydt37" path="res://resources/card/card_module/card_effect/card_effect.gd" id="2_4areh"]
 [ext_resource type="Texture2D" uid="uid://b4egf34ust84a" path="res://assets/images/card/card_main_image/retreat.png" id="2_on8ti"]
-[ext_resource type="Resource" uid="uid://linq0xxkofgf" path="res://resources/card/card_resource_v2/card_effect/_card_effects/_card_effects_collection/move_teleport.tres" id="3_tag7m"]
-[ext_resource type="Script" uid="uid://0ehgq0gu1n0f" path="res://resources/card/card_resource_v2/condition/condition.gd" id="5_cw0su"]
+[ext_resource type="Resource" uid="uid://linq0xxkofgf" path="res://resources/card/card_module/card_effect/_card_effects/_card_effects_collection/move_teleport.tres" id="3_tag7m"]
+[ext_resource type="Script" uid="uid://0ehgq0gu1n0f" path="res://resources/card/card_module/condition/condition.gd" id="5_cw0su"]
 [ext_resource type="Script" uid="uid://bsspisl6hdkmh" path="res://resources/card/card_resource_v2/card_resource_v2.gd" id="6_qngvf"]
-[ext_resource type="Script" uid="uid://gcdjt0hw3kpk" path="res://resources/card/card_resource_v2/special_card_effect/special_card_effect_resource.gd" id="7_8e6qw"]
+[ext_resource type="Script" uid="uid://gcdjt0hw3kpk" path="res://resources/card/card_module/special_card_effect/special_card_effect_resource.gd" id="7_8e6qw"]
 
 [resource]
 script = ExtResource("6_qngvf")

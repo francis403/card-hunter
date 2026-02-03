@@ -1,7 +1,7 @@
 extends Node
 
-const _PLAY_EFFECT_CARD_MODULES_FILE_PATH = "res://resources/card/card_resource_v2/card_effect/_card_effects/_card_effects_collection/"
-const _SPECIAL_EFFECT_CARD_MODULES_FILE_PATH = "res://resources/card/card_resource_v2/special_card_effect/_special_card_effects_collection/"
+const _PLAY_EFFECT_CARD_MODULES_FILE_PATH = "res://resources/card/card_module/card_effect/_card_effects/_card_effects_collection/"
+const _SPECIAL_EFFECT_CARD_MODULES_FILE_PATH = "res://resources/card/card_module/special_card_effect/_special_card_effects_collection/"
 
 var _card_modules_in_game: Dictionary = {}
 
