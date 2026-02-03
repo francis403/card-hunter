@@ -96,7 +96,6 @@ func play_discard_card_animation(card: Card):
 	var tween: Tween = _play_discard_card_animation(card)
 	if tween:
 		await tween.finished
-	BattlemapSignals.discard_card_animation_finished.emit(true)
 
 func _instantiate_card(card_resource: CardResourceV2) -> Card:
 	if not card_resource:
