@@ -9,6 +9,7 @@ extends Node
 @export var event_subscreen: PackedScene
 
 @export_group("Screens Scenes")
+@export var title_scene: PackedScene
 @export var deforge_card_screen_scene: PackedScene
 @export var deck_visualizer_scene: PackedScene
 @export var generic_battle_scene: PackedScene

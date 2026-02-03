@@ -1,30 +1,20 @@
 [gd_scene load_steps=14 format=3 uid="uid://chi4whjeqmkui"]
 
 [ext_resource type="Theme" uid="uid://bxlatu18hbfeu" path="res://assets/themes/generic_theme_1.tres" id="1_dn2uj"]
-[ext_resource type="Script" path="res://ui/screens/forge_card_screen/forge_card_screen.gd" id="1_m7f0i"]
+[ext_resource type="Script" uid="uid://d2vo3sl5mup0o" path="res://ui/screens/forge_card_screen/forge_card_screen.gd" id="1_m7f0i"]
 [ext_resource type="PackedScene" uid="uid://d3vhms6yk456c" path="res://scenes/game_objects/cards/card/card.tscn" id="2_8v2wh"]
 [ext_resource type="PackedScene" uid="uid://c88o0llv6xfgp" path="res://ui/screen_components/card_module/card_modules_container_component/card_modules_container_component.tscn" id="2_qj0og"]
 [ext_resource type="Theme" uid="uid://dmot8ul1c5l3n" path="res://assets/themes/theme_1.tres" id="3_1hwil"]
 [ext_resource type="Theme" uid="uid://claw0rj3hsc2r" path="res://assets/themes/sub_panel_generic_theme_1.tres" id="3_wre6q"]
 [ext_resource type="PackedScene" uid="uid://hked8dt7umpy" path="res://ui/screen_components/_general_componets/buttons/sound_button/sound_button.tscn" id="4_sy17u"]
-[ext_resource type="Script" path="res://resources/card/card_resource_v2/card_effect/card_effect.gd" id="5_bmwru"]
-[ext_resource type="Script" path="res://resources/card/card_resource_v2/condition/condition.gd" id="6_ggtjb"]
-[ext_resource type="Script" path="res://resources/card/card_resource_v2/card_resource_v2.gd" id="7_2y4kb"]
+[ext_resource type="Script" uid="uid://clo7yb32ydt37" path="res://resources/card/card_resource_v2/card_effect/card_effect.gd" id="5_bmwru"]
+[ext_resource type="Script" uid="uid://0ehgq0gu1n0f" path="res://resources/card/card_resource_v2/condition/condition.gd" id="6_ggtjb"]
+[ext_resource type="Script" uid="uid://bsspisl6hdkmh" path="res://resources/card/card_resource_v2/card_resource_v2.gd" id="7_2y4kb"]
 [ext_resource type="Texture2D" uid="uid://bgcpanftu2lor" path="res://assets/images/card/card_main_image/exclamation_mark.png" id="8_anyo7"]
-[ext_resource type="Script" path="res://resources/card/card_resource_v2/special_card_effect/special_card_effect_resource.gd" id="8_ivn8g"]
+[ext_resource type="Script" uid="uid://gcdjt0hw3kpk" path="res://resources/card/card_resource_v2/special_card_effect/special_card_effect_resource.gd" id="8_ivn8g"]
 
 [sub_resource type="Resource" id="Resource_e1um6"]
 script = ExtResource("7_2y4kb")
-id = ""
-title = ""
-rarity = 0
-description = ""
-stamina_cost = 0
-tag_array = Array[String]([])
-play_conditions = Array[ExtResource("6_ggtjb")]([])
-play_actions = Array[ExtResource("5_bmwru")]([])
-special_effects = Array[ExtResource("8_ivn8g")]([])
-card_image = ExtResource("8_anyo7")
 
 [node name="ForgeCardScreen" type="Control"]
 layout_mode = 3
@@ -57,19 +47,19 @@ layout_mode = 2
 layout_mode = 2
 
 [node name="BackButton" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer" instance=ExtResource("4_sy17u")]
+auto_translate_mode = 1
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
 text = "BTN_BACK"
-auto_translate_mode = 1
 
 [node name="PageTitle" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer"]
+auto_translate_mode = 1
 layout_mode = 2
 size_flags_horizontal = 4
 theme = ExtResource("3_1hwil")
 theme_override_font_sizes/font_size = 32
 text = "UI_CARD_FORGE"
-auto_translate_mode = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
@@ -90,12 +80,12 @@ layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="SubModuleTitle" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer/VBoxContainer"]
+auto_translate_mode = 1
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 text = "UI_AVAILABLE_CARD_MODULES"
-auto_translate_mode = 1
 
 [node name="PanelContainer" type="PanelContainer" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
@@ -144,11 +134,11 @@ size_flags_vertical = 0
 
 [node name="ForgeButton" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer" instance=ExtResource("4_sy17u")]
 unique_name_in_owner = true
+auto_translate_mode = 1
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 text = "BTN_FORGE_CARD"
-auto_translate_mode = 1
 
 [node name="ValidationContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
 layout_mode = 2

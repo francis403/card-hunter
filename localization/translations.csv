@@ -14,6 +14,7 @@ BTN_SAVE,Save,Guardar
 BTN_BACK,Back,Volver
 BTN_EXIT_GAME,Exit Game,Salir del Juego
 BTN_CONTINUE,Continue,Continuar
+BTN_TITLE_SCENE,Title Scene,Volver al Menu
 BTN_EXIT,Exit,Salir
 BTN_FORGE_CARD,Forge Card,Forjar Carta
 BTN_DEFORGE,Deforge,Desforjar
@@ -31,17 +32,17 @@ UI_IN_DEVELOPMENT,In development,En desarrollo
 CARD_SLICE_TITLE,Slice,Corte
 CARD_SLICE_DESC,Slice at the monster at close range. Deal 15 damage.,Corta al monstruo a corta distancia. Inflige 15 de daño.
 CARD_BACK_STAB_TITLE,Back Stab,Puñalada por la Espalda
-CARD_BACK_STAB_DESC,"Deal 5 damage.\nOn Back attacked: Deal another 10, and recover 5 stamina.","Inflige 5 de daño.\nAl atacar por la espalda: Inflige otros 10 y recupera 5 de energía."
+CARD_BACK_STAB_DESC,"Deal 5 damage.\nOn Back attacked: Deal another 10, and recover 5 stamina.",Inflige 5 de daño.\nAl atacar por la espalda: Inflige otros 10 y recupera 5 de energía.
 CARD_HEAD_ON_TITLE,Head On,De Frente
-CARD_HEAD_ON_DESC,"Deal 10 damage.\nOn Head hit move up to your speed.","Inflige 10 de daño.\nAl golpear la cabeza, muévete hasta tu velocidad."
+CARD_HEAD_ON_DESC,Deal 10 damage.\nOn Head hit move up to your speed.,"Inflige 10 de daño.\nAl golpear la cabeza, muévete hasta tu velocidad."
 CARD_MOVE_TITLE,Move,Mover
 CARD_MOVE_DESC,Move 1 tile in any direction.,Muévete 1 casilla en cualquier dirección.
 CARD_DASH_TITLE,Dash,Embestida
 CARD_DASH_DESC,Dash up to 2 tiles away in a cross shape.,Embiste hasta 2 casillas en forma de cruz.
 CARD_HEALTH_POTION_TITLE,Health Potion,Poción de Salud
-CARD_HEALTH_POTION_DESC,"Drink a health potion and recover 50 hp.\nOne use.","Bebe una poción de salud y recupera 50 HP.\nUn solo uso."
+CARD_HEALTH_POTION_DESC,Drink a health potion and recover 50 hp.\nOne use.,Bebe una poción de salud y recupera 50 HP.\nUn solo uso.
 CARD_HEALING_SALVE_TITLE,Healing Salve,Ungüento Curativo
-CARD_HEALING_SALVE_DESC,"Remove all status conditions & heal 10hp.\nOne use.","Elimina todas las condiciones de estado y cura 10 HP.\nUn solo uso."
+CARD_HEALING_SALVE_DESC,Remove all status conditions & heal 10hp.\nOne use.,Elimina todas las condiciones de estado y cura 10 HP.\nUn solo uso.
 CARD_BREATHE_TITLE,Breathe,Respirar
 CARD_BREATHE_DESC,Take a moment to breathe. Recover 15 points of stamina.,Tómate un momento para respirar. Recupera 15 puntos de energía.
 CARD_TWICE_THE_FUN_TITLE,Twice The Fun,Doble Diversión
@@ -51,7 +52,7 @@ CARD_BASIC_ARROW_DESC,Shoot an arrow. Deal 10 damage.,Dispara una flecha. Inflig
 CARD_LONG_SLICE_TITLE,Long Slice,Corte Largo
 CARD_LONG_SLICE_DESC,Do a long slash. Deal 25 damage.,Realiza un corte largo. Inflige 25 de daño.
 CARD_SNEAK_ATTACK_TITLE,Sneak Attack,Ataque Furtivo
-CARD_SNEAK_ATTACK_DESC,"Deal 10 damage\nOn Discard: Draw 1 Card","Inflige 10 de daño\nAl descartar: Roba 1 carta"
+CARD_SNEAK_ATTACK_DESC,Deal 10 damage\nOn Discard: Draw 1 Card,Inflige 10 de daño\nAl descartar: Roba 1 carta
 CARD_PUSH_TITLE,Push,Empujar
 CARD_PUSH_DESC,Push the monster 1 tile away.,Empuja al monstruo 1 casilla.
 CARD_ROPE_TRICK_TITLE,Rope trick,Truco de Cuerda
@@ -61,9 +62,9 @@ CARD_TELEPORT_DESC,Teleport to any square on the map,Teletranspórtate a cualqui
 CARD_CRAB_WALK_TITLE,Crab Walk,Paso de Cangrejo
 CARD_CRAB_WALK_DESC,Embrace the crab. Move diagonally up to 2 tiles away.,Abraza al cangrejo. Muévete diagonalmente hasta 2 casillas.
 CARD_RUN_AWAY_TITLE,Run Away,Huir
-CARD_RUN_AWAY_DESC,"Move 1 tile away.\nBefore you can play this card you must discard a card.","Muévete 1 casilla.\nAntes de jugar esta carta debes descartar una carta."
+CARD_RUN_AWAY_DESC,Move 1 tile away.\nBefore you can play this card you must discard a card.,Muévete 1 casilla.\nAntes de jugar esta carta debes descartar una carta.
 CARD_WEB_TRAP_TITLE,Web Trap,Trampa de Telaraña
-CARD_WEB_TRAP_DESC,"Place a web trap on an adjacent tile.\nAny piece that moves into it get's stuck for 2 turns.","Coloca una trampa de telaraña en una casilla adyacente.\nCualquier pieza que entre queda atrapada por 2 turnos."
+CARD_WEB_TRAP_DESC,Place a web trap on an adjacent tile.\nAny piece that moves into it get's stuck for 2 turns.,Coloca una trampa de telaraña en una casilla adyacente.\nCualquier pieza que entre queda atrapada por 2 turnos.
 CARD_POISON_POTION_TITLE,Poison Potion,Poción de Veneno
 CARD_POISON_POTION_DESC,Drink the poison. Take 20 points of damage.,Bebe el veneno. Recibe 20 puntos de daño.
 CARD_TWICE_THE_POWER_TITLE,Twice the power,Doble Poder

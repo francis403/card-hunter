@@ -58,3 +58,8 @@ func _on_exit_button_pressed() -> void:
 
 func _on_save_button_pressed() -> void:
 	File.save()
+
+func _on_title_menu_button_pressed_and_sound_played() -> void:
+	get_tree().change_scene_to_packed(Refs.title_scene)
+	get_tree().paused = false
+	self.queue_free()

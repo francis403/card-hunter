@@ -3,6 +3,7 @@ class_name PickClassScreen
 
 @onready var weapons_container: HBoxContainer = %WeaponsContainer
 @onready var weapon_description_subscreen: ClassDescriptionSubscreen = %WeaponDescriptionSubscreen
+@onready var back_button: SoundButton = %BackButton
 
 @export var class_choices: Array[PlayerClass] = []
 
@@ -10,6 +11,7 @@ func _ready() -> void:
 	_hide_preview_content()
 	_populate_actual_content()
 	_populate_weapon_description_subscreen()
+	back_button.pressed_and_sound_played.connect(on_back_button_pressed)
 	## set the tutorial message to appear after the class is picked
 	TutorialController.should_show_tutorial = File.should_show_tutorial()
 
@@ -72,3 +74,8 @@ func _on_card_preview_button_clicked():
 	ScreenUtils.show_deck_visualizer_screen(
 		weapon_description_subscreen.player_class.default_class_deck
 	)
+	
+func on_back_button_pressed():
+	get_tree().paused = false
+	get_tree().change_scene_to_packed(Refs.title_scene)
+	self.queue_free()

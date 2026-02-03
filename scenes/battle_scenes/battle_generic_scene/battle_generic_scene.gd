@@ -144,7 +144,7 @@ func _prep_loss_screen():
 	game_over_screen.left_button_pressed.connect(_on_lose_screen_continue_button)
 
 func _on_lose_screen_continue_button():
-	get_tree().change_scene_to_file("res://ui/screens/title_menu_screen/title_scene.tscn")
+	get_tree().change_scene_to_packed(Refs.title_scene)
 	get_tree().paused = false
 	self.queue_free()
 

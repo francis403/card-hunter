@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://de1lhh284xmap"]
+[gd_scene load_steps=14 format=3 uid="uid://de1lhh284xmap"]
 
 [ext_resource type="Texture2D" uid="uid://1lwus3xnrrcy" path="res://ui/screens/quest_picker/scroll_background.jpg" id="1_fo3qx"]
 [ext_resource type="Script" uid="uid://bnpi8f0fy12ms" path="res://ui/screens/pick_class_screen/pick_class_screen.gd" id="1_uhqi0"]
@@ -9,6 +9,7 @@
 [ext_resource type="Resource" uid="uid://bw0axal1uv0jp" path="res://resources/player/player_class/player_class_resources/archer_class.tres" id="4_orbci"]
 [ext_resource type="Resource" uid="uid://btmk8nbikbsox" path="res://resources/player/player_class/player_class_resources/great_sword_class.tres" id="5_4x74p"]
 [ext_resource type="Resource" uid="uid://cabahpy2a8xvv" path="res://resources/player/player_class/player_class_resources/ninja_class.tres" id="6_yj5y6"]
+[ext_resource type="PackedScene" uid="uid://hked8dt7umpy" path="res://ui/screen_components/_general_componets/buttons/sound_button/sound_button.tscn" id="8_vg8wn"]
 [ext_resource type="Theme" uid="uid://bxlatu18hbfeu" path="res://assets/themes/generic_theme_1.tres" id="9_5r8i7"]
 [ext_resource type="PackedScene" uid="uid://di5dyqut7oexw" path="res://ui/screen_components/sub_screens/weapon_description_subscreen/weapon_description_subscreen.tscn" id="10_g5jtp"]
 [ext_resource type="PackedScene" uid="uid://bv7mkchsvtrse" path="res://ui/screen_components/debug/pick_class_screen_debug_menu/class_debug_menu.tscn" id="12_nv3gq"]
@@ -39,20 +40,32 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_constants/margin_left = 10
 theme_override_constants/margin_top = 10
 theme_override_constants/margin_bottom = 10
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
 layout_mode = 2
 
-[node name="Title" type="Label" parent="MarginContainer/VBoxContainer"]
+[node name="MarginContainer2" type="MarginContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_top = 10
+
+[node name="BackButton" parent="MarginContainer/VBoxContainer/MarginContainer2" instance=ExtResource("8_vg8wn")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+text = "BTN_BACK"
+
+[node name="Title" type="Label" parent="MarginContainer/VBoxContainer/MarginContainer2"]
+auto_translate_mode = 1
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 0
 theme = ExtResource("2_7a2qm")
 theme_override_font_sizes/font_size = 64
 text = "UI_PICK_YOUR_WEAPON"
-auto_translate_mode = 1
 
 [node name="WeaponDescriptionSubContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
