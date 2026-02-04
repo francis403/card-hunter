@@ -216,6 +216,20 @@ func disable_card():
 func undisable_card():
 	self.modulate = NORMAL_CARD_COLOR
 
+func disable_card_input():
+	self.set_process_input(false)
+	self.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	self.card_can_be_played = false
+	self.card_can_be_discarded = false
+	self.card_can_hover = false
+
+func enable_card_input():
+	self.set_process_input(true)
+	self.mouse_filter = Control.MOUSE_FILTER_STOP
+	self.card_can_be_played = true
+	self.card_can_be_discarded = true
+	self.card_can_hover = true
+
 func focus_card():
 	is_focused = true
 	var tween = create_tween()

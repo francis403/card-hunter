@@ -10,7 +10,9 @@ signal player_hit
 ## Used when we want to replace the deck of the player
 @export var replace_deck: PlayerDeck = null
 
-var current_card_in_hand_size: int = 0
+var current_card_in_hand_size: int = 0:
+	set(value):
+		current_card_in_hand_size = clamp(value, 0, max_hand_size)
 
 ## TODO: Need to convert all of this into PlayerDeck
 var draw_pile: Array[CardResourceV2] = []

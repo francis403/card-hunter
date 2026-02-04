@@ -67,18 +67,21 @@ func populate_hand(new_cards: Array[CardResourceV2]):
 	var new_instantiated_cards: Array[Card] = []
 	for card_resource in new_cards:
 		var new_card: Card = _instantiate_card(card_resource)
+		new_card.disable_card_input()
 		new_instantiated_cards.append(new_card)
 	if new_instantiated_cards.size() <= 0:
 		return
 	update_hand_positions()
-	#await h_box_container.sort_children
 	if not has_drawn_hand_before:
 		has_drawn_hand_before = true
-		#await h_box_container.sort_children
-	for child in new_instantiated_cards:
+	for child: Card in new_instantiated_cards:
+		if not is_instance_valid(child):
+			continue
 		var tween = _play_draw_card_animation(child)
 		if tween:
 			await tween.finished
+		child.enable_card_input()
+	#_on_input_received_signal()
 
 func discard_card(
 	_card: Card
@@ -86,7 +89,7 @@ func discard_card(
 	_card.reparent(cards_being_discarded_container)
 	update_hand_positions()
 	await self.play_discard_card_animation(_card)
-	if _card and not _card.is_queued_for_deletion():
+	if is_instance_valid(_card) and not _card.is_queued_for_deletion():
 		_card.queue_free()
 	else:
 		push_warning("Issue when freeing card!")
