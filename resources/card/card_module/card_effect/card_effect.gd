@@ -45,4 +45,4 @@ func clean_card_effect() -> void:
 	pass
 
 func _get_my_node_scene_path() -> String:
-	return "res://resources/card/card_resource_v2/card_effect/card_effect.gd"
+	return "res://resources/card/card_module/card_effect/card_effect.gd"

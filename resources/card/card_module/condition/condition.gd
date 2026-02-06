@@ -9,4 +9,4 @@ func is_condition_meet() -> bool:
 	return false
 
 func _get_my_node_scene_path() -> String:
-	return "res://resources/card/card_resource_v2/condition/condition.gd"
+	return "res://resources/card/card_module/condition/condition.gd"

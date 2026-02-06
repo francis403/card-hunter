@@ -36,6 +36,10 @@ func replace_deck(other_deck: PlayerDeck):
 func get_deck():
 	return _deck
 	
+func clear_card_modules():
+	if _available_card_modules:
+		_available_card_modules.clear()
+
 func get_card_modules() -> Array[CardModule]:
 	return _available_card_modules
 

@@ -13,4 +13,4 @@ class_name SpecialCardEffectResource
 @export var bottom_section_background_color: Color = Color(0.204, 0.596, 0.859)
 
 func _get_my_node_scene_path() -> String:
-	return "res://resources/card/card_resource_v2/special_card_effect/special_card_effect_resource.gd"
+	return "res://resources/card/card_module/special_card_effect/special_card_effect_resource.gd"

@@ -22,6 +22,8 @@ func delete_save():
 func delete_current_run_progress():
 	self.progress = Progress.new()
 	save_data["progress"] = {}
+	PlayerController.clear_card_modules()
+	PlayerController._forged_cards.clear()
 	save()
 	load_progress()
 	
