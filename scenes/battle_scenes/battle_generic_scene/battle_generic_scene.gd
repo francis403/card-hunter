@@ -54,6 +54,7 @@ func _ready() -> void:
 	battle_scene_rewards_manager.set_rewards_to_reward_screen()
 	BattleSignals.battle_scene_finished_loading.emit(self)
 	GameController.is_showing_battle_scene = true
+	GameController.current_battle_scene = self
 	BattleSignals.battle_start.emit()
 
 func _debug_mode_enabled_signal(_enabled: bool):
@@ -170,6 +171,7 @@ func _draw_pile_draw_cards(n: int):
 
 func _on_tree_exited() -> void:
 	GameController.is_showing_battle_scene = false
+	GameController.current_battle_scene = null
 	if is_boss_battle:
 		BattleSignals.boss_battle_complete.emit()
 		return

@@ -10,6 +10,8 @@ const DEFAULT_DAYS_TILL_ATTACK: int = 5
 const NUMBER_OF_VILLAGES_TO_SAVE: int = 3
 
 var is_showing_battle_scene: bool = false
+## Reference to the current battle
+var current_battle_scene: Node
 var debug_mode_enabled: bool = false
 
 ## days till the boss

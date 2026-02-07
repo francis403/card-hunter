@@ -60,6 +60,12 @@ func _on_save_button_pressed() -> void:
 	File.save()
 
 func _on_title_menu_button_pressed_and_sound_played() -> void:
+	_remove_current_battle_scene()
 	get_tree().change_scene_to_packed(Refs.title_scene)
 	get_tree().paused = false
 	self.queue_free()
+
+func _remove_current_battle_scene():
+	if GameController.current_battle_scene:
+		GameController.current_battle_scene.queue_free()
+		GameController.current_battle_scene = null
