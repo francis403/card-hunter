@@ -9,7 +9,7 @@ enum CardEffectResponses {
 }
 	
 var response: CardEffectResponses = CardEffectResponses.NONE
-
+var tile_selected: Tile
 
 func _init(
 	_card_effect_responses: CardEffectResponses = CardEffectResponses.NONE

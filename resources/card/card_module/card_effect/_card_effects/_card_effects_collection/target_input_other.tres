@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="TargetInputCardEffect" load_steps=3 format=3 uid="uid://c5c7sgdprd1bj"]
+
+[ext_resource type="Script" uid="uid://b4jl0atcv1b6o" path="res://resources/card/card_module/card_module_output_link/card_module_output_link.gd" id="1_ci0tt"]
+[ext_resource type="Script" uid="uid://cf54185vfm3qk" path="res://resources/card/card_module/card_effect/_card_effects/target_input_card_effects/target_input_card_effect.gd" id="2_jxl1p"]
+
+[resource]
+script = ExtResource("2_jxl1p")
+area_input_type = "OTHER"
+id = "target_input_other_1"
+title = "Target Other"
+types = Array[String](["target_input"])
+metadata/_custom_type_script = "uid://cf54185vfm3qk"

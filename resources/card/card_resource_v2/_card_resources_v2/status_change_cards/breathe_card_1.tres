@@ -1,9 +1,10 @@
-[gd_resource type="Resource" script_class="CardResourceV2" load_steps=9 format=3 uid="uid://bnbqi4hpeshi7"]
+[gd_resource type="Resource" script_class="CardResourceV2" load_steps=10 format=3 uid="uid://bnbqi4hpeshi7"]
 
 [ext_resource type="Texture2D" uid="uid://cmdpu8h87nhym" path="res://assets/images/card/card_main_image/breathing.png" id="1_2g634"]
 [ext_resource type="Script" uid="uid://clo7yb32ydt37" path="res://resources/card/card_module/card_effect/card_effect.gd" id="1_8t6g6"]
 [ext_resource type="Script" uid="uid://0ehgq0gu1n0f" path="res://resources/card/card_module/condition/condition.gd" id="2_7flai"]
 [ext_resource type="Script" uid="uid://qs3ypqmnyc18" path="res://resources/card/card_module/card_effect/_card_effects/status_change_card_effect/status_change_card_effect.gd" id="2_f1s3t"]
+[ext_resource type="Script" uid="uid://b4jl0atcv1b6o" path="res://resources/card/card_module/card_module_output_link/card_module_output_link.gd" id="3_0o631"]
 [ext_resource type="Resource" uid="uid://rjylrmcltplf" path="res://resources/card/card_module/card_effect/_card_effects/status_change_card_effect/status_modifier_config_collection/status_stamina_recover_15.tres" id="3_6wfj5"]
 [ext_resource type="Script" uid="uid://bsspisl6hdkmh" path="res://resources/card/card_resource_v2/card_resource_v2.gd" id="3_o0hed"]
 [ext_resource type="Script" uid="uid://gcdjt0hw3kpk" path="res://resources/card/card_module/special_card_effect/special_card_effect_resource.gd" id="4_urash"]

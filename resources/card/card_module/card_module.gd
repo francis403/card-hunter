@@ -19,6 +19,16 @@ class_name CardModule
 ## Maximum number of this module type allowed per card
 @export var max_instances_per_card: int = -1
 
+@export_group("Connection Configuration Between card modules")
+## Define how many inputs this card can have, what types, and to where
+@export var output_links: Array[CardModuleOutputLink]
+## Unique identifier to be used in the connection between card_modulesss
+@export var connection_id: String
+@export_enum("START", "EFFECT", "DECISION") var module_type: String = "EFFECT"
+
+## Built from the output_links
+var next_modules: Array[CardModule]
+
 func get_top_section_color() -> Color:
 	if "top_section_background_color" in self:
 		return self.top_section_background_color

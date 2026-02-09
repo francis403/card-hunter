@@ -23,6 +23,7 @@ enum CardRaririty {
 
 @export_group("Card Effects")
 @export var play_conditions: Array[Condition]
+## Contains all the play_actions to be played. We might not need anything else
 @export var play_actions: Array[CardEffect]
 @export var special_effects: Array[SpecialCardEffectResource]
 
@@ -33,10 +34,61 @@ enum CardRaririty {
 @export_group("Card Visuals")
 @export var card_image: Texture2D = BASIC_CARD_BACKGROUND_IMAGE
 
+@export_group("CardModuleV2 - In Development")
+@export var use_new_card_module_system: bool = false
+
+## Used for the Tree connections
+## Head of the tree
+var start_card_module: CardModule
+## All the nodes in the tree
+var modules_dictionary: Dictionary = {
+	## module_id : Reference
+}
+var module_has_module_connected_to_it_dict: Dictionary = {
+	## module_id: the module id has something connected to it
+}
+
 var _revertable_play_actions: Array[CardEffect] = []
 
 ## Was this card_resource_forged by the user
 var is_forged: bool = false
+
+func _init() -> void:
+	print(_init)
+	start_card_module = CardModule.new()
+	start_card_module.id = "start_module"
+	start_card_module.title = "Start Module"
+	start_card_module.module_type = "START"
+	start_card_module.output_links = []
+	start_card_module.next_modules = []
+	## TODO: add output nodes here
+
+## TODO: let's build a graph!
+func _generate_card_modules_tree():
+	if not use_new_card_module_system:
+		return
+	#var head_start_module: CardModule = CardModule.new()
+	## Generate HashMap with card module id's
+	for card_module in play_actions:
+		modules_dictionary[card_module.connection_id] = card_module
+	## Generate connections between tree
+	for card_module: CardEffect in play_actions:
+		if not card_module.output_links:
+			continue
+		if not card_module.next_modules:
+			card_module.next_modules = []
+		for output_link: CardModuleOutputLink in card_module.output_links:
+			card_module.next_modules.append(
+				modules_dictionary[output_link.connection_id]
+			)
+			module_has_module_connected_to_it_dict[output_link.connection_id] = true
+	## Connect to the start node, connect only if there is nothing connected to it
+	## TODO: this is proned to bugs later on. We should implement the start module always being there
+	## Or have a property in the card modules that makes it the starting module
+	for card_module: CardEffect in play_actions:
+		if not module_has_module_connected_to_it_dict.has(card_module.connection_id):
+			start_card_module.next_modules.append(card_module)
+	
 
 func play_card() -> bool:
 	if not _is_card_playable():

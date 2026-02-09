@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=3 uid="uid://barn5aijeq87b"]
+
+[ext_resource type="Script" uid="uid://cr4kcvubuc3kd" path="res://ui/screen_components/card_module/card_modules_displayer/module_types/card_modules/effect_card_module/effect_card_module.gd" id="1_5kf13"]
+
+[node name="EffectCardModule" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_5kf13")

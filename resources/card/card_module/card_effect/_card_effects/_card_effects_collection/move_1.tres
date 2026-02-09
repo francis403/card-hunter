@@ -1,16 +1,17 @@
-[gd_resource type="Resource" script_class="MoveSelfCardEffect" load_steps=5 format=3 uid="uid://dk0gj3lsmtif8"]
+[gd_resource type="Resource" script_class="MoveSelfCardEffect" load_steps=6 format=3 uid="uid://dk0gj3lsmtif8"]
 
-[ext_resource type="Script" uid="uid://d4mg85qidr6rb" path="res://resources/card/card_module/card_effect/_card_effects/move_self_card_effect/move_self_card_effect.gd" id="1_77oaw"]
-[ext_resource type="Script" uid="uid://clufwv38rhs7a" path="res://resources/configuration/tile_highlight_configuration/tile_highlight_configuration.gd" id="2_dwic2"]
-[ext_resource type="Script" uid="uid://bykm1sfwrcmbx" path="res://resources/configuration/tile_highlight_configuration/formula/formula.gd" id="2_o14g1"]
+[ext_resource type="Script" uid="uid://b4jl0atcv1b6o" path="res://resources/card/card_module/card_module_output_link/card_module_output_link.gd" id="1_1m5do"]
+[ext_resource type="Script" uid="uid://d4mg85qidr6rb" path="res://resources/card/card_module/card_effect/_card_effects/move_self_card_effect/move_self_card_effect.gd" id="2_mqqms"]
+[ext_resource type="Script" uid="uid://bykm1sfwrcmbx" path="res://resources/configuration/tile_highlight_configuration/formula/formula.gd" id="3_020h4"]
+[ext_resource type="Script" uid="uid://clufwv38rhs7a" path="res://resources/configuration/tile_highlight_configuration/tile_highlight_configuration.gd" id="4_reaa6"]
 
 [sub_resource type="Resource" id="Resource_gxuwc"]
-script = ExtResource("2_dwic2")
+script = ExtResource("4_reaa6")
 area_type = 4
 ignore_occupied_tiles = true
 
 [resource]
-script = ExtResource("1_77oaw")
+script = ExtResource("2_mqqms")
 tile_highlight_config = SubResource("Resource_gxuwc")
 center_piece = 1
 id = "move_self_1"

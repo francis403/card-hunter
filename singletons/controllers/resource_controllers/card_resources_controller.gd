@@ -21,6 +21,9 @@ func _init_cards_in_game_dictionary():
 	var card_resources_paths: Array[String] = get_all_file_paths(card_resources_folder)
 	for card_path in card_resources_paths:
 		var card_resource: CardResourceV2 = load(card_path)
+		## TODO: Not sure if ideal to do this when the game is loading.
+		## Implement thjis in parallel
+		card_resource._generate_card_modules_tree()
 		_card_in_game[card_resource.id] = card_resource
 	var _elapsed_time = Time.get_ticks_msec() - _time_start
 	print(_init_cards_in_game_dictionary, ": finished loading cards in ", _elapsed_time ,"ms! Loaded: ", _card_in_game.size(), " cards")

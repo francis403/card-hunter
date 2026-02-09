@@ -1,0 +1,23 @@
+[gd_scene load_steps=3 format=3 uid="uid://bjt2b30pvoun7"]
+
+[ext_resource type="Script" uid="uid://dq86gu01ocxx4" path="res://ui/screen_components/card_module/card_modules_displayer/module_types/card_module_layer/card_module_layer.gd" id="1_4teg1"]
+[ext_resource type="PackedScene" uid="uid://dc4by8f6o5utt" path="res://ui/screen_components/card_module/card_module_component/card_module_component.tscn" id="2_0qrkq"]
+
+[node name="CardModuleLayer" type="MarginContainer"]
+anchors_preset = 13
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -100.0
+offset_right = 100.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 3
+script = ExtResource("1_4teg1")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+alignment = 1
+
+[node name="CardModuleComponent" parent="VBoxContainer" instance=ExtResource("2_0qrkq")]
+layout_mode = 2

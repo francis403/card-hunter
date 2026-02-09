@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="CardResourceV2" load_steps=12 format=3 uid="uid://y866rrfg7pyy"]
+[gd_resource type="Resource" script_class="CardResourceV2" load_steps=13 format=3 uid="uid://y866rrfg7pyy"]
 
 [ext_resource type="Script" uid="uid://clo7yb32ydt37" path="res://resources/card/card_module/card_effect/card_effect.gd" id="1_tdiyw"]
 [ext_resource type="AudioStream" uid="uid://d4nqs2kfg56mh" path="res://assets/sound/sound_effects/knifeSlice.ogg" id="1_yvbse"]
@@ -7,6 +7,7 @@
 [ext_resource type="Script" uid="uid://dpymrf8md1jo1" path="res://resources/card/card_module/card_effect/_card_effects/attack_card_effect/attack_card_effect.gd" id="2_tm6qh"]
 [ext_resource type="Script" uid="uid://bsspisl6hdkmh" path="res://resources/card/card_resource_v2/card_resource_v2.gd" id="3_hrt2r"]
 [ext_resource type="Script" uid="uid://clufwv38rhs7a" path="res://resources/configuration/tile_highlight_configuration/tile_highlight_configuration.gd" id="3_uhxd6"]
+[ext_resource type="Script" uid="uid://b4jl0atcv1b6o" path="res://resources/card/card_module/card_module_output_link/card_module_output_link.gd" id="4_mjd2d"]
 [ext_resource type="Script" uid="uid://gcdjt0hw3kpk" path="res://resources/card/card_module/special_card_effect/special_card_effect_resource.gd" id="4_pd5gj"]
 [ext_resource type="Script" uid="uid://bykm1sfwrcmbx" path="res://resources/configuration/tile_highlight_configuration/formula/formula.gd" id="5_pqxis"]
 
