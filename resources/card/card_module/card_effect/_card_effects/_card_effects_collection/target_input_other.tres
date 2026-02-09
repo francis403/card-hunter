@@ -9,4 +9,5 @@ area_input_type = "OTHER"
 id = "target_input_other_1"
 title = "Target Other"
 types = Array[String](["target_input"])
+module_type = "INPUT"
 metadata/_custom_type_script = "uid://cf54185vfm3qk"

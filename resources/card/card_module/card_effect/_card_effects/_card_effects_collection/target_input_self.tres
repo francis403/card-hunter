@@ -16,4 +16,5 @@ stamina_cost = 0
 types = Array[String](["target_input"])
 output_links = Array[ExtResource("1_yo8vx")]([SubResource("Resource_67vem")])
 connection_id = "target_self_1"
+module_type = "INPUT"
 metadata/_custom_type_script = "uid://cf54185vfm3qk"

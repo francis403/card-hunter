@@ -1,10 +1,6 @@
 extends PanelContainer
 class_name CardModuleDisplayer
 
-const CARD_MODULE_COMPONENT_SCENE: PackedScene = preload(
-	"res://ui/screen_components/card_module/card_module_component/card_module_component.tscn"
-)
-
 const ARROW_FONT_SIZE: int = 32
 const ARROW_TEXT: String = "━━━▶"
 const ARROW_MIN_WIDTH: int = 60
@@ -13,64 +9,80 @@ const ARROW_MIN_WIDTH: int = 60
 
 @export_group("Card Module Definitions")
 @export var start_card_module_type: PackedScene
+@export var effect_card_module_type: PackedScene
+@export var end_card_module_type: PackedScene
 @export var card_module_layer_type: PackedScene
 
 @onready var h_card_module_container: HBoxContainer = %HCardModuleContainer
 
 func _ready() -> void:
-	_clean_preview()
+	clear_modules()
 	populate_from_card_resource(card_resource)
 
-func _clean_preview():
-	for _child in h_card_module_container.get_children():
-		_child.queue_free()
 
-## TODO: improve this code
 func populate_from_card_resource(_card_resource: CardResourceV2) -> void:
 	if not _card_resource:
 		return
 	clear_modules()
 
 	if not _card_resource.start_card_module:
-		var modules := _card_resource.get_card_modules()
-		for module in modules:
-			_add_card_module(module)
+		_add_modules_individually(_card_resource.get_card_modules())
 		return
 
-	# Build layers level by level
-	var current_layer_modules: Array[CardModule] = [_card_resource.start_card_module]
+	_add_modules_as_layers(_card_resource.start_card_module)
+	_add_end_layer()
 
-	while not current_layer_modules.is_empty():
-		# Create layer and add all modules at this level
-		var layer: CardModuleLayer = card_module_layer_type.instantiate()
-		for module in current_layer_modules:
-			var component: CardModuleComponent = _create_card_module_component(module)
-			layer.add_module(component)
-		_add_component_to_container(layer)
 
-		# Collect next_modules from all nodes in current layer
-		var next_layer_modules: Array[CardModule] = []
-		for module in current_layer_modules:
-			if module.next_modules:
-				for next_module in module.next_modules:
-					if not next_layer_modules.has(next_module):
-						next_layer_modules.append(next_module)
+func _add_modules_individually(modules: Array[CardModule]) -> void:
+	for module in modules:
+		_add_card_module(module)
 
-		current_layer_modules = next_layer_modules
+
+func _add_modules_as_layers(start_module: CardModule) -> void:
+	var current_layer: Array[CardModule] = [start_module]
+
+	while not current_layer.is_empty():
+		_add_layer(current_layer)
+		current_layer = _get_next_layer(current_layer)
+
+
+func _add_layer(modules: Array[CardModule]) -> void:
+	var layer: CardModuleLayer = card_module_layer_type.instantiate()
+	for module in modules:
+		layer.add_module(_create_card_module_component(module))
+	_add_component_to_container(layer)
+
+
+func _add_end_layer() -> void:
+	if not end_card_module_type:
+		return
+	var layer: CardModuleLayer = card_module_layer_type.instantiate()
+	var end_component: Control = end_card_module_type.instantiate()
+	layer.add_module(end_component)
+	_add_component_to_container(layer)
+
+
+func _get_next_layer(current_layer: Array[CardModule]) -> Array[CardModule]:
+	var next_layer: Array[CardModule] = []
+	for module in current_layer:
+		for next_module in module.next_modules:
+			if not next_layer.has(next_module):
+				next_layer.append(next_module)
+	return next_layer
 
 func _create_card_module_component(module: CardModule) -> CardModuleComponent:
 	var component: Control
 	if module.module_type == "START" and start_card_module_type:
 		component = start_card_module_type.instantiate()
-		if component.has_method("set_card_module"):
-			component.set_card_module(module)
-		elif "card_module" in component:
-			component.card_module = module
 	else:
-		component = CARD_MODULE_COMPONENT_SCENE.instantiate()
-		component.card_module = module
-	return component
+		component = effect_card_module_type.instantiate()
 
+	if component.has_method("set_card_module"):
+		component.set_card_module(module)
+	elif "card_module" in component:
+		component.card_module = module
+
+	return component
 
 func _add_card_module(module: CardModule) -> void:
 	var component:CardModuleComponent = _create_card_module_component(module)

@@ -24,7 +24,12 @@ class_name CardModule
 @export var output_links: Array[CardModuleOutputLink]
 ## Unique identifier to be used in the connection between card_modulesss
 @export var connection_id: String
-@export_enum("START", "EFFECT", "DECISION") var module_type: String = "EFFECT"
+@export_enum(
+	"START",
+	"INPUT",
+	"EFFECT", 
+	"DECISION"
+) var module_type: String = "EFFECT"
 
 ## Built from the output_links
 var next_modules: Array[CardModule]
