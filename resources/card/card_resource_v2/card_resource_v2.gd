@@ -63,7 +63,6 @@ func _init() -> void:
 	start_card_module.next_modules = []
 	## TODO: add output nodes here
 
-## TODO: let's build a graph!
 func _generate_card_modules_tree():
 	if not use_new_card_module_system:
 		return
@@ -83,7 +82,7 @@ func _generate_card_modules_tree():
 			)
 			module_has_module_connected_to_it_dict[output_link.connection_id] = true
 	## Connect to the start node, connect only if there is nothing connected to it
-	## TODO: this is proned to bugs later on. We should implement the start module always being there
+	## TO_THINK: this is proned to bugs later on. We should implement the start module always being there
 	## Or have a property in the card modules that makes it the starting module
 	for card_module: CardEffect in play_actions:
 		if not module_has_module_connected_to_it_dict.has(card_module.connection_id):
@@ -106,25 +105,30 @@ func play_card() -> bool:
 			return false
 	var previous_action_data: CardEffectData = null
 	var should_update_card_effect_data: bool = true
+	
 	var response: CardEffectResponse = CardEffectResponse.new()
-	for action: CardEffect in play_actions:
-		GeneralUtils.debug_log(
-			"- Processing action %s." % [action.id],
-			GameController.debug_mode_enabled
-		)
-		action.card_effect_data = null
-		if should_update_card_effect_data and previous_action_data:
-			action.card_effect_data = _get_effect_data_with_input_udpated(
-				action.card_effect_data,
-				previous_action_data
+	if not self.use_new_card_module_system:
+		for action: CardEffect in play_actions:
+			GeneralUtils.debug_log(
+				"- Processing action %s." % [action.id],
+				GameController.debug_mode_enabled
 			)
-		response = await action.process_card_effect()
-		if response.is_ok():
-			_revertable_play_actions.append(action)
-			previous_action_data = action.card_effect_data
-			should_update_card_effect_data = action.update_next_card_effect_data
-		else:
-			break
+			action.card_effect_data = null
+			if should_update_card_effect_data and previous_action_data:
+				action.card_effect_data = _get_effect_data_with_input_udpated(
+					action.card_effect_data,
+					previous_action_data
+				)
+			response = await action.process_card_effect()
+			if response.is_ok():
+				_revertable_play_actions.append(action)
+				previous_action_data = action.card_effect_data
+				should_update_card_effect_data = action.update_next_card_effect_data
+			else:
+				break
+	else:
+		response = await _depth_first_effect_player()
+	
 	if not response.should_rollback():
 		self._after_card_is_played()
 		_revertable_play_actions.clear()
@@ -134,6 +138,60 @@ func play_card() -> bool:
 	)
 	return true
 	
+## Traverses the card module tree starting from start_card_module in depth-first order,
+## processing each CardEffect and passing response data between modules via _previous_card_module_resp.
+func _depth_first_effect_player() -> CardEffectResponse:
+	var response: CardEffectResponse = CardEffectResponse.new()
+	response.set_ok()
+
+	# Start from the start_card_module's children
+	if not start_card_module or start_card_module.next_modules.is_empty():
+		return response
+
+	# Process each root-level module
+	for module in start_card_module.next_modules:
+		if module is CardEffect:
+			response = await _process_module_recursive(module, null, null)
+			if response.should_rollback():
+				return response
+
+	return response
+
+
+func _process_module_recursive(
+	module: CardEffect,
+	previous_response: CardEffectResponse,
+	previous_data: CardEffectData
+) -> CardEffectResponse:
+	# Set up module with data from previous module
+	module._previous_card_module_resp = previous_response
+	module.card_effect_data = previous_data
+
+	GeneralUtils.debug_log(
+		"- Processing module %s (depth-first)" % [module.id],
+		GameController.debug_mode_enabled
+	)
+
+	# Process this effect
+	var response: CardEffectResponse = await module.process_card_effect()
+
+	if not response.is_ok():
+		return response
+
+	# Track for potential rollback
+	_revertable_play_actions.append(module)
+
+	# Prepare data for children
+	var next_data: CardEffectData = module.card_effect_data if module.update_next_card_effect_data else previous_data
+
+	# Recursively process children
+	for child_module in module.next_modules:
+		if child_module is CardEffect:
+			response = await _process_module_recursive(child_module, response, next_data)
+			if response.should_rollback():
+				return response
+
+	return response
 
 func _get_effect_data_with_input_udpated(
 	current_action_data: CardEffectData,
@@ -146,7 +204,7 @@ func _get_effect_data_with_input_udpated(
 
 ## When the card is canceled midway through, 
 ## we need to revert all the effects that have been played
-## TODO: this seems to be called for every card on the deck on init. 
+## TO_THINK: this seems to be called for every card on the deck on init. 
 func revert_all_played_card_effects() -> bool:
 	while not _revertable_play_actions.is_empty():
 		var action: CardEffect = _revertable_play_actions.pop_front()
@@ -277,6 +335,7 @@ func _append_card_module(_card_module: CardModule) -> void:
 	elif _card_module is Condition:
 		self.play_conditions.append(_card_module)
 
+## TODO: add start_card_module
 func to_dictionary() -> Dictionary:
 	var result: Dictionary = {}
 	result["id"] = self.id
@@ -289,6 +348,7 @@ func to_dictionary() -> Dictionary:
 	result["play_conditions"] = _card_modules_to_dictionary(play_conditions)
 	return result
 
+## TODO: update start_card_module
 func _card_modules_to_dictionary(
 	card_module_array: Array
 ) -> Dictionary:
@@ -297,3 +357,38 @@ func _card_modules_to_dictionary(
 		result[card_module.id] = card_module.to_dictionary()
 	return result
 	
+## Duplicates all fields from _other to self
+func dup(_other: CardResourceV2) -> void:
+	if not _other:
+		return
+
+	# Basic Card info
+	self.id = _other.id
+	self.title = _other.title
+	self.rarity = _other.rarity
+	self.description = _other.description
+	self.stamina_cost = _other.stamina_cost
+	self.tag_array = _other.tag_array.duplicate()
+
+	# Card Effects
+	self.play_conditions = _other.play_conditions.duplicate()
+	self.play_actions = _other.play_actions.duplicate()
+	self.special_effects = _other.special_effects.duplicate()
+
+	# Card Audio & animation
+	self._on_click_sound = _other._on_click_sound
+	self.audio_stream = _other.audio_stream
+
+	# Card Visuals
+	self.card_image = _other.card_image
+
+	# CardModuleV2
+	self.use_new_card_module_system = _other.use_new_card_module_system
+
+	# Tree connections
+	self.start_card_module = _other.start_card_module
+	self.modules_dictionary = _other.modules_dictionary.duplicate()
+	self.module_has_module_connected_to_it_dict = _other.module_has_module_connected_to_it_dict.duplicate()
+
+	# Other
+	self.is_forged = _other.is_forged

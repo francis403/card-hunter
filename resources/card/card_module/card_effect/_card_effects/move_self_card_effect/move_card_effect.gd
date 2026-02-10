@@ -1,28 +1,50 @@
-extends CardEffectWithUserInput
+extends CardEffect
 ## New Type of card module that will take the target from the previous input
 class_name MoveCardEffect
 
 ## TODO: how do I say this required a input of type x?
 
-func _modify_tile_highlight_config() -> TileHighlightConfig:
-	## TODO: We are doing this too much, we should have a common space where the effects can get and set data
-	var player: Piece = BattleController.get_player()
-	if not player: 
-		return tile_highlight_config
-	var new_config: TileHighlightConfig = tile_highlight_config.duplicate()
-	new_config._range = tile_highlight_config._range * player._speed
-	return new_config
+@export_group("Tile Highlight Configuration")
+@export var tile_highlight_config: TileHighlightConfig
 
-func card_effect():
-	if target_tile == null:
-		return
-	var player: Piece = BattleController.get_player()
-	if not player: 
-		return
+func play_card_effect() -> CardEffectResponse:
+	var _response: CardEffectResponse = CardEffectResponse.new()
+	_response.set_failure()
+	if not _previous_card_module_resp:
+		push_error("Previous card_module response necessary but not provided.")
+		return _response
+	if not _previous_card_module_resp.tile_selected:
+		push_error("Previous card_module response has no selected tile")
+		return _response
+	var _selected_tile: Tile = _previous_card_module_resp.tile_selected
+	if not _selected_tile.piece_in_tile:
+		push_warning("Previous card_module response tile has no piece in it!")
+		return _response
+	var _piece_to_move: Piece = _selected_tile.piece_in_tile
+	var _tile_to_place_piece: Tile = await _get_user_input(
+		tile_highlight_config,
+		_piece_to_move
+	)
 	var battlemap: Battlemap = BattleController.battlemap
-	battlemap.place_piece_in_tile(player, target_tile)
-	after_effect_is_played()
-	BattlemapSignals.after_player_movement.emit()
+	battlemap.place_piece_in_tile(_piece_to_move, _tile_to_place_piece)
+	if _piece_to_move is PlayerPiece:
+		BattlemapSignals.after_player_movement.emit()
+	_response.set_ok()
+	return _response
 
-func after_effect_is_played():
-	pass
+
+func _get_user_input(
+	_config: TileHighlightConfig,
+	_piece_to_move: Piece
+) -> Tile:
+	# freeze hand
+	BattlemapSignals.awaiting_player_input.emit()
+	# show possible squares and await input
+	BattlemapSignals.highlight_tiles.emit(
+		_piece_to_move._tile,
+		_config
+	)
+	
+	var _result = await BattlemapSignals.tile_picked_in_battlemap
+	BattlemapSignals.player_input_received.emit()
+	return _result

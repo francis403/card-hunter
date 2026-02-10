@@ -1,13 +1,11 @@
-[gd_scene load_steps=9 format=3 uid="uid://c6cgd8hhufi53"]
+[gd_scene load_steps=7 format=3 uid="uid://c6cgd8hhufi53"]
 
 [ext_resource type="Script" uid="uid://cd3xwp7b6beim" path="res://ui/screen_components/card_module/card_modules_displayer/card_modules_displayer.gd" id="1_bokgc"]
 [ext_resource type="Theme" uid="uid://cw81t5h4tn30e" path="res://assets/themes/title_theme.tres" id="1_ihbbf"]
 [ext_resource type="Resource" uid="uid://cmf6ja37sck5y" path="res://resources/card/card_resource_v2/_card_resources_v2/move_cards/move_card_1.tres" id="2_bokgc"]
-[ext_resource type="PackedScene" uid="uid://cvwhof5g43216" path="res://ui/screen_components/card_module/card_modules_displayer/module_types/card_modules/start_card_module/start_card_module.tscn" id="3_6q1vs"]
-[ext_resource type="PackedScene" uid="uid://barn5aijeq87b" path="res://ui/screen_components/card_module/card_modules_displayer/module_types/card_modules/effect_card_module/effect_card_module.tscn" id="5_1s2cb"]
-[ext_resource type="PackedScene" uid="uid://bjt2b30pvoun7" path="res://ui/screen_components/card_module/card_modules_displayer/module_types/card_module_layer/card_module_layer.tscn" id="5_ei717"]
-[ext_resource type="Theme" uid="uid://ebc7crnb0uq7" path="res://assets/themes/small_panel_container.tres" id="5_utlv6"]
-[ext_resource type="PackedScene" uid="uid://boko8kwx57hm0" path="res://ui/screen_components/card_module/card_modules_displayer/module_types/card_modules/end_card_module/end_card_module.tscn" id="6_1s2cb"]
+[ext_resource type="PackedScene" uid="uid://dwhacwuvny77a" path="res://ui/screen_components/card_module/card_modules_displayer/card_module_graph_node/start_card_module_graph_node/start_card_module_graph_node.tscn" id="4_ihbbf"]
+[ext_resource type="PackedScene" uid="uid://dmpk5n2bqr4l7" path="res://ui/screen_components/card_module/card_modules_displayer/card_module_graph_node/card_module_graph_node.tscn" id="5_utlv6"]
+[ext_resource type="PackedScene" uid="uid://btqh3cp804et6" path="res://ui/screen_components/card_module/card_modules_displayer/card_module_graph_node/end_card_module_graph_node/end_card_module_graph_node.tscn" id="6_utlv6"]
 
 [node name="CardModulesDisplayer" type="PanelContainer"]
 anchors_preset = 15
@@ -18,18 +16,14 @@ grow_vertical = 2
 theme = ExtResource("1_ihbbf")
 script = ExtResource("1_bokgc")
 card_resource = ExtResource("2_bokgc")
-start_card_module_type = ExtResource("3_6q1vs")
-effect_card_module_type = ExtResource("5_1s2cb")
-end_card_module_type = ExtResource("6_1s2cb")
-card_module_layer_type = ExtResource("5_ei717")
+start_graph_node_scene = ExtResource("4_ihbbf")
+effect_graph_node_scene = ExtResource("5_utlv6")
+end_graph_node_scene = ExtResource("6_utlv6")
 
-[node name="MarginContainer" type="MarginContainer" parent="."]
-layout_mode = 2
-theme_override_constants/margin_left = 15
-theme_override_constants/margin_right = 15
-
-[node name="HCardModuleContainer" type="HBoxContainer" parent="MarginContainer"]
+[node name="GraphEdit" type="GraphEdit" parent="."]
 unique_name_in_owner = true
 layout_mode = 2
-theme = ExtResource("5_utlv6")
-alignment = 1
+show_grid = false
+snapping_enabled = false
+minimap_enabled = false
+show_menu = false

@@ -1,135 +1,164 @@
 extends PanelContainer
 class_name CardModuleDisplayer
 
-const ARROW_FONT_SIZE: int = 32
-const ARROW_TEXT: String = "━━━▶"
-const ARROW_MIN_WIDTH: int = 60
+const NODE_SPACING_X := 250
+const NODE_SPACING_Y := 120
 
 @export var card_resource: CardResourceV2
 
-@export_group("Card Module Definitions")
-@export var start_card_module_type: PackedScene
-@export var effect_card_module_type: PackedScene
-@export var end_card_module_type: PackedScene
-@export var card_module_layer_type: PackedScene
+@export_group("Scene configurations")
+@export var start_graph_node_scene: PackedScene
+@export var effect_graph_node_scene: PackedScene
+@export var end_graph_node_scene: PackedScene
 
-@onready var h_card_module_container: HBoxContainer = %HCardModuleContainer
+@onready var graph_edit: GraphEdit = %GraphEdit
 
 func _ready() -> void:
-	clear_modules()
+	_clear_graph()
 	populate_from_card_resource(card_resource)
 
 
 func populate_from_card_resource(_card_resource: CardResourceV2) -> void:
 	if not _card_resource:
 		return
-	clear_modules()
-
+	_clear_graph()
 	if not _card_resource.start_card_module:
-		_add_modules_individually(_card_resource.get_card_modules())
+		_add_modules_flat(_card_resource.get_card_modules())
 		return
 
-	_add_modules_as_layers(_card_resource.start_card_module)
-	_add_end_layer()
+	var nodes_map: Dictionary = {}  # module.id -> node.name
+	var levels := _get_modules_by_level(_card_resource.start_card_module)
+	var last_modules: Array[CardModule] = []
+
+	# Create nodes with positions based on level
+	for level_idx in levels.size():
+		var level_modules: Array[CardModule] = levels[level_idx]
+		for mod_idx in level_modules.size():
+			var module: CardModule = level_modules[mod_idx]
+			var node := _create_graph_node(module)
+			node.position_offset = Vector2(
+				level_idx * NODE_SPACING_X,
+				mod_idx * NODE_SPACING_Y
+			)
+			graph_edit.add_child(node)
+			nodes_map[module.id] = node.name
+
+			# Track modules without next_modules for end node connection
+			if module.next_modules.is_empty():
+				last_modules.append(module)
+
+	# Create connections between modules
+	_create_connections(_card_resource.start_card_module, nodes_map)
+
+	# Add end node and connect it
+	_add_end_node(last_modules, nodes_map, levels.size())
 
 
-func _add_modules_individually(modules: Array[CardModule]) -> void:
-	for module in modules:
-		_add_card_module(module)
+func _add_modules_flat(modules: Array[CardModule]) -> void:
+	# Fallback for cards without start_card_module - display in a row
+	for i in modules.size():
+		var module := modules[i]
+		var node := _create_graph_node(module)
+		node.position_offset = Vector2(i * NODE_SPACING_X, 0)
+		graph_edit.add_child(node)
 
 
-func _add_modules_as_layers(start_module: CardModule) -> void:
+func _get_modules_by_level(start_module: CardModule) -> Array[Array]:
+	var levels: Array[Array] = []
 	var current_layer: Array[CardModule] = [start_module]
+	var visited: Dictionary = {}
 
 	while not current_layer.is_empty():
-		_add_layer(current_layer)
-		current_layer = _get_next_layer(current_layer)
+		var typed_layer: Array[CardModule] = []
+		typed_layer.assign(current_layer)
+		levels.append(typed_layer)
+
+		# Mark current layer as visited
+		for module in current_layer:
+			visited[module.id] = true
+
+		# Get next layer
+		var next_layer: Array[CardModule] = []
+		for module in current_layer:
+			for next_module in module.next_modules:
+				if not visited.has(next_module.id) and not next_layer.has(next_module):
+					next_layer.append(next_module)
+		current_layer = next_layer
+
+	return levels
 
 
-func _add_layer(modules: Array[CardModule]) -> void:
-	var layer: CardModuleLayer = card_module_layer_type.instantiate()
-	for module in modules:
-		layer.add_module(_create_card_module_component(module))
-	_add_component_to_container(layer)
+func _create_graph_node(module: CardModule) -> GraphNode:
+	var node: GraphNode
+	match module.module_type:
+		"START":
+			node = start_graph_node_scene.instantiate()
+			node.set_card_module(module)
+		_:
+			node = effect_graph_node_scene.instantiate()
+			node.set_card_module(module)
+			if module.module_type == "DECISION":
+				node.configure_as_decision()
+			else:
+				node.configure_as_effect()
+	node.name = _get_safe_node_name(module)
+	return node
 
 
-func _add_end_layer() -> void:
-	if not end_card_module_type:
-		return
-	var layer: CardModuleLayer = card_module_layer_type.instantiate()
-	var end_component: Control = end_card_module_type.instantiate()
-	layer.add_module(end_component)
-	_add_component_to_container(layer)
+func _create_connections(start_module: CardModule, nodes_map: Dictionary) -> void:
+	var visited: Dictionary = {}
+	var queue: Array[CardModule] = [start_module]
 
+	while not queue.is_empty():
+		var module: CardModule = queue.pop_front()
+		if visited.has(module.id):
+			continue
+		visited[module.id] = true
 
-func _get_next_layer(current_layer: Array[CardModule]) -> Array[CardModule]:
-	var next_layer: Array[CardModule] = []
-	for module in current_layer:
+		if not nodes_map.has(module.id):
+			continue
+
 		for next_module in module.next_modules:
-			if not next_layer.has(next_module):
-				next_layer.append(next_module)
-	return next_layer
-
-func _create_card_module_component(module: CardModule) -> CardModuleComponent:
-	var component: Control
-	if module.module_type == "START" and start_card_module_type:
-		component = start_card_module_type.instantiate()
-	else:
-		component = effect_card_module_type.instantiate()
-
-	if component.has_method("set_card_module"):
-		component.set_card_module(module)
-	elif "card_module" in component:
-		component.card_module = module
-
-	return component
-
-func _add_card_module(module: CardModule) -> void:
-	var component:CardModuleComponent = _create_card_module_component(module)
-	_add_component_to_container(component)
+			if nodes_map.has(next_module.id):
+				graph_edit.connect_node(
+					nodes_map[module.id], 0,
+					nodes_map[next_module.id], 0
+				)
+			if not visited.has(next_module.id):
+				queue.append(next_module)
 
 
-func add_card_module_component(component: CardModuleComponent) -> void:
-	_add_component_to_container(component)
+func _add_end_node(last_modules: Array[CardModule], nodes_map: Dictionary, level_count: int) -> void:
+	var end_node: EndCardModuleGraphNode = end_graph_node_scene.instantiate()
+	end_node.name = "end_node"
+	end_node.position_offset = Vector2(level_count * NODE_SPACING_X, 0)
+
+	graph_edit.add_child(end_node)
+
+	# Connect last modules to end node
+	for module in last_modules:
+		if nodes_map.has(module.id):
+			graph_edit.connect_node(nodes_map[module.id], 0, "end_node", 0)
 
 
-func _add_component_to_container(component: Control) -> void:
-	if _get_module_count() > 0:
-		var arrow := _create_arrow()
-		h_card_module_container.add_child(arrow)
-	h_card_module_container.add_child(component)
+func _get_safe_node_name(module: CardModule) -> String:
+	if module.id and not module.id.is_empty():
+		return module.id
+	return "module_%d" % module.get_instance_id()
 
 
-func clear_modules() -> void:
-	for child in h_card_module_container.get_children():
-		child.queue_free()
+func _clear_graph() -> void:
+	if not graph_edit:
+		return
+	graph_edit.clear_connections()
+	for child in graph_edit.get_children():
+		if child is GraphNode:
+			child.queue_free()
 
 
-func get_card_modules() -> Array[CardModuleComponent]:
-	var modules: Array[CardModuleComponent] = []
-	for child in h_card_module_container.get_children():
-		if child is CardModuleComponent:
+func get_card_modules() -> Array[CardModuleGraphNode]:
+	var modules: Array[CardModuleGraphNode] = []
+	for child in graph_edit.get_children():
+		if child is CardModuleGraphNode:
 			modules.append(child)
 	return modules
-
-
-func _get_card_module_count() -> int:
-	return get_card_modules().size()
-
-
-func _get_module_count() -> int:
-	var count := 0
-	for child in h_card_module_container.get_children():
-		if not child is Label:  # Exclude arrows
-			count += 1
-	return count
-
-func _create_arrow() -> Label:
-	var arrow := Label.new()
-	arrow.text = ARROW_TEXT
-	arrow.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	arrow.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	arrow.size_flags_vertical = Control.SIZE_SHRINK_CENTER
-	arrow.custom_minimum_size.x = ARROW_MIN_WIDTH
-	arrow.add_theme_font_size_override("font_size", ARROW_FONT_SIZE)
-	return arrow

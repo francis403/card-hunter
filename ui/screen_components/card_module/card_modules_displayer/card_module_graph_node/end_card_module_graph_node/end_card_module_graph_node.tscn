@@ -1,0 +1,51 @@
+[gd_scene load_steps=5 format=3 uid="uid://btqh3cp804et6"]
+
+[ext_resource type="Script" uid="uid://08ldcj7av5f" path="res://ui/screen_components/card_module/card_modules_displayer/card_module_graph_node/end_card_module_graph_node/end_card_module_graph_node.gd" id="1_end"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_panel"]
+bg_color = Color(0.21176471, 0.14901961, 0.4, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_titlebar"]
+
+[sub_resource type="Theme" id="Theme_end"]
+GraphNode/styles/panel = SubResource("StyleBoxFlat_panel")
+GraphNode/styles/panel_focus = SubResource("StyleBoxFlat_panel")
+GraphNode/styles/panel_selected = SubResource("StyleBoxFlat_panel")
+GraphNode/styles/titlebar = SubResource("StyleBoxEmpty_titlebar")
+GraphNode/styles/titlebar_selected = SubResource("StyleBoxEmpty_titlebar")
+
+[node name="EndCardModuleGraphNode" type="GraphNode"]
+offset_right = 100.0
+offset_bottom = 80.0
+theme = SubResource("Theme_end")
+slot/0/left_enabled = true
+slot/0/left_type = 0
+slot/0/left_color = Color(0.21, 0.15, 0.4, 1)
+slot/0/left_icon = null
+slot/0/right_enabled = false
+slot/0/right_type = 0
+slot/0/right_color = Color(1, 1, 1, 1)
+slot/0/right_icon = null
+slot/0/draw_stylebox = true
+script = ExtResource("1_end")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 10
+
+[node name="Label" type="Label" parent="MarginContainer"]
+layout_mode = 2
+text = "End"
+horizontal_alignment = 1

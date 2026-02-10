@@ -4,8 +4,8 @@
 [ext_resource type="Texture2D" uid="uid://dq660nsdil435" path="res://assets/images/card/card_main_image/move_all_directions.png" id="2_ccs1x"]
 [ext_resource type="Script" uid="uid://clo7yb32ydt37" path="res://resources/card/card_module/card_effect/card_effect.gd" id="3_lhfx0"]
 [ext_resource type="Script" uid="uid://b4jl0atcv1b6o" path="res://resources/card/card_module/card_module_output_link/card_module_output_link.gd" id="5_30ye3"]
-[ext_resource type="Script" uid="uid://d4mg85qidr6rb" path="res://resources/card/card_module/card_effect/_card_effects/move_self_card_effect/move_self_card_effect.gd" id="5_sw7qk"]
 [ext_resource type="Script" uid="uid://bsspisl6hdkmh" path="res://resources/card/card_resource_v2/card_resource_v2.gd" id="6_a1qnd"]
+[ext_resource type="Script" uid="uid://cyo5auieydyno" path="res://resources/card/card_module/card_effect/_card_effects/move_self_card_effect/move_card_effect.gd" id="6_ni3wx"]
 [ext_resource type="Script" uid="uid://bykm1sfwrcmbx" path="res://resources/configuration/tile_highlight_configuration/formula/formula.gd" id="6_x01og"]
 [ext_resource type="Script" uid="uid://clufwv38rhs7a" path="res://resources/configuration/tile_highlight_configuration/tile_highlight_configuration.gd" id="7_lcu0o"]
 [ext_resource type="Script" uid="uid://cf54185vfm3qk" path="res://resources/card/card_module/card_effect/_card_effects/target_input_card_effects/target_input_card_effect.gd" id="8_30ye3"]
@@ -14,7 +14,7 @@
 
 [sub_resource type="Resource" id="Resource_67vem"]
 script = ExtResource("5_30ye3")
-connection_id = "move_self_1"
+connection_id = "move_card_effect_1"
 metadata/_custom_type_script = "uid://b4jl0atcv1b6o"
 
 [sub_resource type="Resource" id="Resource_30ye3"]
@@ -27,18 +27,19 @@ output_links = Array[ExtResource("5_30ye3")]([SubResource("Resource_67vem")])
 connection_id = "target_self_1"
 metadata/_custom_type_script = "uid://cf54185vfm3qk"
 
-[sub_resource type="Resource" id="Resource_gxuwc"]
+[sub_resource type="Resource" id="Resource_sw7qk"]
 script = ExtResource("7_lcu0o")
 area_type = 4
-ignore_occupied_tiles = true
+metadata/_custom_type_script = "uid://clufwv38rhs7a"
 
-[sub_resource type="Resource" id="Resource_sw7qk"]
-script = ExtResource("5_sw7qk")
-tile_highlight_config = SubResource("Resource_gxuwc")
-center_piece = 1
-id = "move_self_1"
-title = "Move self 1 tile"
-connection_id = "move_self_1"
+[sub_resource type="Resource" id="Resource_lhfx0"]
+script = ExtResource("6_ni3wx")
+tile_highlight_config = SubResource("Resource_sw7qk")
+id = "move_card_effect_1"
+title = "Move Piece 1 Tile"
+types = Array[String](["move"])
+connection_id = "move_card_effect_1"
+metadata/_custom_type_script = "uid://cyo5auieydyno"
 
 [resource]
 script = ExtResource("6_a1qnd")
@@ -47,7 +48,7 @@ title = "CARD_MOVE_TITLE"
 description = "CARD_MOVE_DESC"
 stamina_cost = 10
 tag_array = Array[String](["move"])
-play_actions = Array[ExtResource("3_lhfx0")]([SubResource("Resource_30ye3"), SubResource("Resource_sw7qk")])
+play_actions = Array[ExtResource("3_lhfx0")]([SubResource("Resource_30ye3"), SubResource("Resource_lhfx0")])
 audio_stream = ExtResource("1_d6j37")
 card_image = ExtResource("2_ccs1x")
 use_new_card_module_system = true

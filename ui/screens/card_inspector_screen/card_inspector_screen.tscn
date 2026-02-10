@@ -1,0 +1,61 @@
+[gd_scene load_steps=6 format=3 uid="uid://dfc6va8jmvwfe"]
+
+[ext_resource type="PackedScene" uid="uid://d3vhms6yk456c" path="res://scenes/game_objects/cards/card/card.tscn" id="1_1igee"]
+[ext_resource type="Theme" uid="uid://bxlatu18hbfeu" path="res://assets/themes/generic_theme_1.tres" id="1_cqhup"]
+[ext_resource type="Script" uid="uid://dl4yn11di0qfj" path="res://ui/screens/card_inspector_screen/card_inspector_screen.gd" id="1_frinb"]
+[ext_resource type="PackedScene" uid="uid://c6cgd8hhufi53" path="res://ui/screen_components/card_module/card_modules_displayer/card_modules_displayer.tscn" id="1_u157o"]
+[ext_resource type="PackedScene" uid="uid://hked8dt7umpy" path="res://ui/screen_components/_general_componets/buttons/sound_button/sound_button.tscn" id="2_yxvhi"]
+
+[node name="CardInspectorScreen" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_frinb")
+_debug_mode = true
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_cqhup")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+alignment = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/VBoxContainer/HBoxContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="Card" parent="PanelContainer/VBoxContainer/HBoxContainer/MarginContainer/VBoxContainer" instance=ExtResource("1_1igee")]
+unique_name_in_owner = true
+layout_mode = 2
+card_can_hover = false
+card_can_be_discarded = false
+_card_can_be_played = false
+
+[node name="ChangeCardButton" parent="PanelContainer/VBoxContainer/HBoxContainer/MarginContainer/VBoxContainer" instance=ExtResource("2_yxvhi")]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Change Card"
+
+[node name="CardModulesDisplayer" parent="PanelContainer/VBoxContainer" instance=ExtResource("1_u157o")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3

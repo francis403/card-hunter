@@ -16,12 +16,13 @@ var card_effect_data: CardEffectData
 @export var top_section_background_color: Color = Color(0.124, 0.15, 0.153)
 @export var bottom_section_background_color: Color = Color(0.384, 0.384, 0.384)
 
+var _previous_card_module_resp: CardEffectResponse
+
 func process_card_effect() -> CardEffectResponse:
 	var response = await play_card_effect()
 	if not response.should_rollback():
 		clean_card_effect()
 	return response
-	
 
 ## Says if the card effect has been played successfully
 ## Only continues to next effect if so
