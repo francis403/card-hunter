@@ -1,4 +1,4 @@
-extends GraphNode
+extends BaseCardModuleGraphNode
 class_name StartCardModuleGraphNode
 
 var card_module: CardModule

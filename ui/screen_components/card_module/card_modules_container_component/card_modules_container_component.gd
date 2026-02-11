@@ -5,6 +5,10 @@ class_name CardModulesContainerComponent
 
 const CARD_MODULE_COMPONENT_SCENE: PackedScene = preload("res://ui/screen_components/card_module/card_module_component/card_module_component.tscn")
 
+signal module_pressed(_module: CardModule)
+
+@export var are_modules_clickable: bool = false
+
 @export_group("Appearance")
 @export var columns: int = 3
 @export var h_separation: int = 15
@@ -41,11 +45,18 @@ func add_grid_elem(
 		push_error(set_grid_elems_by_card, " ERROR: null card_module provided")
 	var card_module_instance: CardModuleComponent = CARD_MODULE_COMPONENT_SCENE.instantiate()
 	card_module_instance.flat = true
+	if self.are_modules_clickable:
+		card_module_instance.enable_clicking()
 	grid_container.add_child(card_module_instance)
 	_card_modules_displayed.append(card_module)
 	if card_module_instance.has_method("set_card_module"):
 		card_module_instance.set_card_module(card_module)
+	if not card_module_instance.clicked.is_connected(_on_card_module_clicked):
+		card_module_instance.clicked.connect(_on_card_module_clicked)
 	return card_module_instance
+
+func _on_card_module_clicked(_card_module: CardModuleComponent):
+	module_pressed.emit(_card_module.card_module)
 
 func set_grid_elems(
 	_card_modules: Array[CardModule]
@@ -61,6 +72,10 @@ func set_grid_elems_by_card(
 	add_grim_elems(
 		_card_resource.get_card_modules()
 	)
+	
+## TODO: given a node_id delete the child
+func remove_module(_node_uuid: String):
+	pass
 	
 func get_displayed_card_modules() -> Array[CardModule]:
 	return _card_modules_displayed

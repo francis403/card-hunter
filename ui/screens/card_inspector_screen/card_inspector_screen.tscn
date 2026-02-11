@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://dfc6va8jmvwfe"]
+[gd_scene load_steps=7 format=3 uid="uid://dfc6va8jmvwfe"]
 
 [ext_resource type="PackedScene" uid="uid://d3vhms6yk456c" path="res://scenes/game_objects/cards/card/card.tscn" id="1_1igee"]
 [ext_resource type="Theme" uid="uid://bxlatu18hbfeu" path="res://assets/themes/generic_theme_1.tres" id="1_cqhup"]
 [ext_resource type="Script" uid="uid://dl4yn11di0qfj" path="res://ui/screens/card_inspector_screen/card_inspector_screen.gd" id="1_frinb"]
 [ext_resource type="PackedScene" uid="uid://c6cgd8hhufi53" path="res://ui/screen_components/card_module/card_modules_displayer/card_modules_displayer.tscn" id="1_u157o"]
 [ext_resource type="PackedScene" uid="uid://hked8dt7umpy" path="res://ui/screen_components/_general_componets/buttons/sound_button/sound_button.tscn" id="2_yxvhi"]
+[ext_resource type="PackedScene" uid="uid://c88o0llv6xfgp" path="res://ui/screen_components/card_module/card_modules_container_component/card_modules_container_component.tscn" id="5_njmrs"]
 
 [node name="CardInspectorScreen" type="Control"]
 layout_mode = 3
@@ -33,6 +34,29 @@ layout_mode = 2
 size_flags_vertical = 3
 alignment = 1
 
+[node name="CardModulesComponent" type="MarginContainer" parent="PanelContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_bottom = 15
+
+[node name="CardModulesContainerComponent" parent="PanelContainer/VBoxContainer/HBoxContainer/CardModulesComponent" instance=ExtResource("5_njmrs")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+are_modules_clickable = true
+
+[node name="CardModuleBackButton" parent="PanelContainer/VBoxContainer/HBoxContainer/CardModulesComponent" instance=ExtResource("2_yxvhi")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+text = "BTN_BACK"
+
 [node name="MarginContainer" type="MarginContainer" parent="PanelContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 theme_override_constants/margin_left = 10
@@ -46,14 +70,25 @@ layout_mode = 2
 [node name="Card" parent="PanelContainer/VBoxContainer/HBoxContainer/MarginContainer/VBoxContainer" instance=ExtResource("1_1igee")]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_horizontal = 4
 card_can_hover = false
 card_can_be_discarded = false
 _card_can_be_played = false
 
-[node name="ChangeCardButton" parent="PanelContainer/VBoxContainer/HBoxContainer/MarginContainer/VBoxContainer" instance=ExtResource("2_yxvhi")]
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/VBoxContainer/HBoxContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 15
+alignment = 1
+
+[node name="ChangeCardButton" parent="PanelContainer/VBoxContainer/HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer" instance=ExtResource("2_yxvhi")]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Change Card"
+
+[node name="UpgradeCard" parent="PanelContainer/VBoxContainer/HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer" instance=ExtResource("2_yxvhi")]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Upgrade Card"
 
 [node name="CardModulesDisplayer" parent="PanelContainer/VBoxContainer" instance=ExtResource("1_u157o")]
 layout_mode = 2

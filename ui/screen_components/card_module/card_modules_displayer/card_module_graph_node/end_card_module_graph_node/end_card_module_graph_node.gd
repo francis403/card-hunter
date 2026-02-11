@@ -1,4 +1,4 @@
-extends GraphNode
+extends BaseCardModuleGraphNode
 class_name EndCardModuleGraphNode
 
 func _ready() -> void:
