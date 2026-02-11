@@ -22,7 +22,10 @@ func populate_from_card_resource(_card_resource: CardResourceV2) -> void:
 	if not _card_resource:
 		return
 	_clear_graph()
-	if not _card_resource.start_card_module:
+	# Ensure module tree is built (may not be if this is a fresh resource instance)
+	if _card_resource.use_new_card_module_system and _card_resource.start_card_module.next_modules.is_empty():
+		_card_resource._generate_card_modules_tree()
+	if not _card_resource.start_card_module or _card_resource.start_card_module.next_modules.is_empty():
 		_add_modules_flat(_card_resource.get_card_modules())
 		return
 
@@ -131,14 +134,15 @@ func _create_connections(start_module: CardModule, nodes_map: Dictionary) -> voi
 func _add_end_node(last_modules: Array[CardModule], nodes_map: Dictionary, level_count: int) -> void:
 	var end_node: EndCardModuleGraphNode = end_graph_node_scene.instantiate()
 	end_node.name = "end_node"
-	end_node.position_offset = Vector2(level_count * NODE_SPACING_X, 0)
+	end_node.position_offset = Vector2((level_count + 0.5) * NODE_SPACING_X, 0)
 
 	graph_edit.add_child(end_node)
 
-	# Connect last modules to end node
+	# Connect last modules to end node (use actual name in case of rename)
+	var actual_end_name: String = end_node.name
 	for module in last_modules:
 		if nodes_map.has(module.id):
-			graph_edit.connect_node(nodes_map[module.id], 0, "end_node", 0)
+			graph_edit.connect_node(nodes_map[module.id], 0, actual_end_name, 0)
 
 
 func _get_safe_node_name(module: CardModule) -> String:
@@ -153,6 +157,7 @@ func _clear_graph() -> void:
 	graph_edit.clear_connections()
 	for child in graph_edit.get_children():
 		if child is GraphNode:
+			graph_edit.remove_child(child)
 			child.queue_free()
 
 

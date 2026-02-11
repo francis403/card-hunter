@@ -54,7 +54,6 @@ var _revertable_play_actions: Array[CardEffect] = []
 var is_forged: bool = false
 
 func _init() -> void:
-	print(_init)
 	start_card_module = CardModule.new()
 	start_card_module.id = "start_module"
 	start_card_module.title = "Start Module"
@@ -357,38 +356,21 @@ func _card_modules_to_dictionary(
 		result[card_module.id] = card_module.to_dictionary()
 	return result
 	
-## Duplicates all fields from _other to self
-func dup(_other: CardResourceV2) -> void:
-	if not _other:
-		return
+## Returns a duplicate copy of this CardResourceV2
+func dup() -> CardResourceV2:
+	var result: CardResourceV2 = self.duplicate()
 
-	# Basic Card info
-	self.id = _other.id
-	self.title = _other.title
-	self.rarity = _other.rarity
-	self.description = _other.description
-	self.stamina_cost = _other.stamina_cost
-	self.tag_array = _other.tag_array.duplicate()
+	# Deep copy arrays to avoid shared references
+	result.tag_array = self.tag_array.duplicate()
+	result.play_conditions = self.play_conditions.duplicate()
+	result.play_actions = self.play_actions.duplicate()
+	result.special_effects = self.special_effects.duplicate()
 
-	# Card Effects
-	self.play_conditions = _other.play_conditions.duplicate()
-	self.play_actions = _other.play_actions.duplicate()
-	self.special_effects = _other.special_effects.duplicate()
+	# Copy non-exported variables (not handled by duplicate())
+	result.start_card_module = self.start_card_module
+	result.modules_dictionary = self.modules_dictionary.duplicate()
+	result.module_has_module_connected_to_it_dict = self.module_has_module_connected_to_it_dict.duplicate()
+	result.is_forged = self.is_forged
 
-	# Card Audio & animation
-	self._on_click_sound = _other._on_click_sound
-	self.audio_stream = _other.audio_stream
-
-	# Card Visuals
-	self.card_image = _other.card_image
-
-	# CardModuleV2
-	self.use_new_card_module_system = _other.use_new_card_module_system
-
-	# Tree connections
-	self.start_card_module = _other.start_card_module
-	self.modules_dictionary = _other.modules_dictionary.duplicate()
-	self.module_has_module_connected_to_it_dict = _other.module_has_module_connected_to_it_dict.duplicate()
-
-	# Other
-	self.is_forged = _other.is_forged
+	return result
+	
