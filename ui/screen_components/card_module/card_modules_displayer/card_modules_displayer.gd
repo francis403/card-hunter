@@ -27,6 +27,10 @@ const NODE_SPACING_Y := 120
 
 @onready var graph_edit: GraphEdit = %GraphEdit
 
+var _head_module_displayed: CardModule
+## Maps graph node name -> CardModule in the shadow tree
+var _node_module_map: Dictionary = {}
+
 func _ready() -> void:
 	graph_edit.connection_request.connect(_on_connection_request)
 	graph_edit.disconnection_request.connect(_on_disconnection_request)
@@ -44,8 +48,12 @@ func populate_from_card_resource(_card_resource: CardResourceV2) -> void:
 		_add_modules_flat(_card_resource.get_card_modules())
 		return
 
+	# Build shadow tree as a duplicate of the card's module tree
+	var original_to_dup: Dictionary = {}
+	_head_module_displayed = _deep_duplicate_module_tree(_card_resource.start_card_module, original_to_dup)
+
 	var nodes_map: Dictionary = {}  # module.id -> node.name
-	var levels := _get_modules_by_level(_card_resource.start_card_module)
+	var levels := _get_modules_by_level(_head_module_displayed)
 	var last_modules: Array[CardModule] = []
 
 	# Create nodes with positions based on level
@@ -60,16 +68,20 @@ func populate_from_card_resource(_card_resource: CardResourceV2) -> void:
 			)
 			graph_edit.add_child(node)
 			nodes_map[module.id] = node.name
+			_node_module_map[node.name] = module
 
 			# Track modules without next_modules for end node connection
 			if module.next_modules.is_empty():
 				last_modules.append(module)
 
 	# Create connections between modules
-	_create_connections(_card_resource.start_card_module, nodes_map)
+	_create_connections(_head_module_displayed, nodes_map)
 
 	# Add end node and connect it
 	_add_end_node(last_modules, nodes_map, levels.size())
+	
+func get_displayed_card_head() -> CardModule:
+	return _head_module_displayed
 
 func add_card_module(module: CardModule) -> void:
 	var node: BaseCardModuleGraphNode = _create_graph_node(module)
@@ -81,6 +93,7 @@ func add_card_module(module: CardModule) -> void:
 
 	node.position_offset = Vector2(0, module_count * NODE_SPACING_Y * 0.5)
 	graph_edit.add_child(node)
+	_node_module_map[node.name] = module
 
 
 func get_card_modules() -> Array[CardModuleGraphNode]:
@@ -96,6 +109,39 @@ func toggle_module_deletion(_are_modules_deletable: bool):
 	for _child in graph_edit.get_children():
 		if _child is BaseCardModuleGraphNode:
 			_child.toggle_close_button(_are_modules_deletable)
+
+## TODO: this can probably be improved to be O(_number_card_modules)
+func is_displayed_module_fully_connected() -> bool:
+	if not _head_module_displayed or _node_module_map.is_empty():
+		return false
+	var connections := graph_edit.get_connection_list()
+
+	# Build adjacency from connection list
+	var outputs_from: Dictionary = {}  # node_name -> true
+	var inputs_to: Dictionary = {}  # node_name -> true
+	var has_end_connection := false
+	for conn in connections:
+		outputs_from[String(conn["from_node"])] = true
+		inputs_to[String(conn["to_node"])] = true
+		if conn["to_node"] == "end_node":
+			has_end_connection = true
+
+	if not has_end_connection:
+		return false
+
+	# Every non-start module must have an input, every non-leaf must have an output
+	for node_name: String in _node_module_map:
+		var module: CardModule = _node_module_map[node_name]
+		if module == _head_module_displayed:
+			# Start only needs an output
+			if not outputs_from.has(node_name):
+				return false
+		else:
+			# All other modules need an input
+			if not inputs_to.has(node_name):
+				return false
+
+	return true
 
 func _add_modules_flat(modules: Array[CardModule]) -> void:
 	# Fallback for cards without start_card_module - display in a row
@@ -201,6 +247,24 @@ func _clear_graph() -> void:
 		if child is GraphNode:
 			graph_edit.remove_child(child)
 			child.queue_free()
+	_head_module_displayed = null
+	_node_module_map.clear()
+
+
+func _deep_duplicate_module_tree(source: CardModule, orig_to_dup: Dictionary) -> CardModule:
+	if orig_to_dup.has(source):
+		return orig_to_dup[source]
+	var dup_module: CardModule = CardModule.new()
+	dup_module.id = source.id
+	dup_module.title = source.title
+	dup_module.stamina_cost = source.stamina_cost
+	dup_module.module_type = source.module_type
+	dup_module.types = source.types.duplicate()
+	dup_module.next_modules = []
+	orig_to_dup[source] = dup_module
+	for child in source.next_modules:
+		dup_module.next_modules.append(_deep_duplicate_module_tree(child, orig_to_dup))
+	return dup_module
 
 func _update_connection_mode() -> void:
 	if not graph_edit:
@@ -218,12 +282,22 @@ func _on_connection_request(from_node: StringName, from_port: int, to_node: Stri
 	if _get_input_connection_count(to_node) >= to.max_number_of_input_connections:
 		return
 	graph_edit.connect_node(from_node, from_port, to_node, to_port)
+	# Update shadow tree
+	var from_module: CardModule = _node_module_map.get(String(from_node))
+	var to_module: CardModule = _node_module_map.get(String(to_node))
+	if from_module and to_module and not from_module.next_modules.has(to_module):
+		from_module.next_modules.append(to_module)
 
 
 func _on_disconnection_request(from_node: StringName, from_port: int, to_node: StringName, to_port: int) -> void:
 	if not enable_module_connection:
 		return
 	graph_edit.disconnect_node(from_node, from_port, to_node, to_port)
+	# Update shadow tree
+	var from_module: CardModule = _node_module_map.get(String(from_node))
+	var to_module: CardModule = _node_module_map.get(String(to_node))
+	if from_module and to_module:
+		from_module.next_modules.erase(to_module)
 
 
 func _get_output_connection_count(node_name: StringName) -> int:
@@ -243,6 +317,13 @@ func _get_input_connection_count(node_name: StringName) -> int:
 
 
 func _on_module_closed(_module: BaseCardModuleGraphNode):
+	# Remove from shadow tree
+	var removed_module: CardModule = _node_module_map.get(_module.name)
+	if removed_module:
+		_node_module_map.erase(_module.name)
+		# Remove from any parent's next_modules
+		for tracked_module: CardModule in _node_module_map.values():
+			tracked_module.next_modules.erase(removed_module)
 	if graph_module_closed.has_connections():
 		graph_module_closed.emit(self)
 	else:

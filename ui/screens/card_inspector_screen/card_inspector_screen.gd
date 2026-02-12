@@ -13,6 +13,7 @@ class_name CardInspectorScreen
 @onready var card_modules_displayer: CardModuleDisplayer = $PanelContainer/VBoxContainer/CardModulesDisplayer
 
 var _deck_visualizer: DeckVisualizer
+var _is_upgrade_open: bool = false
 
 func _ready() -> void:
 	if self._debug_mode:
@@ -59,14 +60,28 @@ func _close_deck_visualizer() -> void:
 		
 
 func _on_upgrade_card_button_pressed():
-	card_modules_component.visible = true 
-	card_modules_displayer.enable_module_deletion = true
-	card_modules_displayer.enable_module_connection = true
+	if not _is_upgrade_open:
+		card_modules_component.visible = true 
+		card_modules_displayer.enable_module_deletion = true
+		card_modules_displayer.enable_module_connection = true
+		upgrade_card_button.text = "Save"
+		_is_upgrade_open = true
+	else:
+		## TODO: Save the current connections of card_modules_displayer
+		if not card_modules_displayer.is_displayed_module_fully_connected():
+			## TODO: show user an error
+			print("TODO: Show error on module creation")
+			return
+		var _new_card_head: CardModule = card_modules_displayer.get_displayed_card_head()
+		card.card_resource.start_card_module = _new_card_head
+		_on_card_module_back_button_pressed()
 
 func _on_card_module_back_button_pressed():
 	card_modules_component.visible = false
 	card_modules_displayer.enable_module_deletion = false
 	card_modules_displayer.enable_module_connection = false
+	upgrade_card_button.text = "Upgrade Card"
+	_is_upgrade_open = false
 
 func _on_card_module_pressed(_module: CardModule):
 	card_modules_displayer.add_card_module(_module)

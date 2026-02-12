@@ -38,7 +38,7 @@ func _update_display() -> void:
 	if stamina_label:
 		stamina_label.text = str(card_module.stamina_cost)
 	close_button.visible = enable_close_button
-
+	
 func _on_close_button_pressed():
 	module_closed.emit(self)
 
