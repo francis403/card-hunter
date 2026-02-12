@@ -14,6 +14,11 @@ const NODE_SPACING_Y := 120
 	set(value):
 		enable_module_deletion = value
 		toggle_module_deletion(value)
+## Can nodes add new connections between themselves
+@export var enable_module_connection: bool = false:
+	set(value):
+		enable_module_connection = value
+		_update_connection_mode()
 
 @export_group("Scene configurations")
 @export var start_graph_node_scene: PackedScene
@@ -23,6 +28,8 @@ const NODE_SPACING_Y := 120
 @onready var graph_edit: GraphEdit = %GraphEdit
 
 func _ready() -> void:
+	graph_edit.connection_request.connect(_on_connection_request)
+	graph_edit.disconnection_request.connect(_on_disconnection_request)
 	_clear_graph()
 	populate_from_card_resource(card_resource)
 
@@ -194,6 +201,46 @@ func _clear_graph() -> void:
 		if child is GraphNode:
 			graph_edit.remove_child(child)
 			child.queue_free()
+
+func _update_connection_mode() -> void:
+	if not graph_edit:
+		return
+	graph_edit.right_disconnects = enable_module_connection
+
+
+func _on_connection_request(from_node: StringName, from_port: int, to_node: StringName, to_port: int) -> void:
+	if not enable_module_connection:
+		return
+	var from: BaseCardModuleGraphNode = graph_edit.get_node(NodePath(from_node))
+	var to: BaseCardModuleGraphNode = graph_edit.get_node(NodePath(to_node))
+	if _get_output_connection_count(from_node) >= from.max_number_of_output_connections:
+		return
+	if _get_input_connection_count(to_node) >= to.max_number_of_input_connections:
+		return
+	graph_edit.connect_node(from_node, from_port, to_node, to_port)
+
+
+func _on_disconnection_request(from_node: StringName, from_port: int, to_node: StringName, to_port: int) -> void:
+	if not enable_module_connection:
+		return
+	graph_edit.disconnect_node(from_node, from_port, to_node, to_port)
+
+
+func _get_output_connection_count(node_name: StringName) -> int:
+	var count: int = 0
+	for conn in graph_edit.get_connection_list():
+		if conn["from_node"] == node_name:
+			count += 1
+	return count
+
+
+func _get_input_connection_count(node_name: StringName) -> int:
+	var count: int = 0
+	for conn in graph_edit.get_connection_list():
+		if conn["to_node"] == node_name:
+			count += 1
+	return count
+
 
 func _on_module_closed(_module: BaseCardModuleGraphNode):
 	if graph_module_closed.has_connections():
