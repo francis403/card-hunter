@@ -5,10 +5,7 @@ signal module_clicked(_base_module: BaseCardModuleGraphNode)
 
 var card_module: CardModule
 
-@export var _enable_close_button: bool = false:
-	set(value):
-		_enable_close_button = value
-		toggle_close_button(_enable_close_button)
+@export var enable_close_button: bool = false
 
 @onready var close_button: TextureButton = %CloseButton
 
@@ -28,6 +25,7 @@ func set_card_module(_module: CardModule) -> void:
 		_update_display()
 
 func toggle_close_button(_value: bool):
+	enable_close_button = _value
 	if close_button:
 		close_button.visible = _value
 
@@ -39,7 +37,7 @@ func _update_display() -> void:
 		title_label.text = tr(card_module.title) if card_module.title else "Module"
 	if stamina_label:
 		stamina_label.text = str(card_module.stamina_cost)
-	close_button.visible = _enable_close_button
+	close_button.visible = enable_close_button
 
 func _on_close_button_pressed():
 	module_closed.emit(self)

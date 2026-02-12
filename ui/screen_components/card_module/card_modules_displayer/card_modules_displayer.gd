@@ -26,7 +26,6 @@ func _ready() -> void:
 	_clear_graph()
 	populate_from_card_resource(card_resource)
 
-
 func populate_from_card_resource(_card_resource: CardResourceV2) -> void:
 	if not _card_resource:
 		return
@@ -65,12 +64,37 @@ func populate_from_card_resource(_card_resource: CardResourceV2) -> void:
 	# Add end node and connect it
 	_add_end_node(last_modules, nodes_map, levels.size())
 
+func add_card_module(module: CardModule) -> void:
+	var node: BaseCardModuleGraphNode = _create_graph_node(module)
+	# Count existing non-end nodes for vertical positioning
+	var module_count: int = 0
+	for child in graph_edit.get_children():
+		if child is GraphNode and not child is EndCardModuleGraphNode:
+			module_count += 1
+
+	node.position_offset = Vector2(0, module_count * NODE_SPACING_Y * 0.5)
+	graph_edit.add_child(node)
+
+
+func get_card_modules() -> Array[CardModuleGraphNode]:
+	var modules: Array[CardModuleGraphNode] = []
+	for child in graph_edit.get_children():
+		if child is CardModuleGraphNode:
+			modules.append(child)
+	return modules
+	
+func toggle_module_deletion(_are_modules_deletable: bool):
+	if not graph_edit:
+		return
+	for _child in graph_edit.get_children():
+		if _child is BaseCardModuleGraphNode:
+			_child.toggle_close_button(_are_modules_deletable)
 
 func _add_modules_flat(modules: Array[CardModule]) -> void:
 	# Fallback for cards without start_card_module - display in a row
 	for i in modules.size():
 		var module := modules[i]
-		var node := _create_graph_node(module)
+		var node: BaseCardModuleGraphNode = _create_graph_node(module)
 		node.position_offset = Vector2(i * NODE_SPACING_X, 0)
 		graph_edit.add_child(node)
 
@@ -100,7 +124,7 @@ func _get_modules_by_level(start_module: CardModule) -> Array[Array]:
 	return levels
 
 
-func _create_graph_node(module: CardModule) -> GraphNode:
+func _create_graph_node(module: CardModule) -> BaseCardModuleGraphNode:
 	var node: BaseCardModuleGraphNode
 	match module.module_type:
 		"START":
@@ -114,8 +138,8 @@ func _create_graph_node(module: CardModule) -> GraphNode:
 			else:
 				node.configure_as_effect()
 	node.name = _get_safe_node_name(module)
-	node.module_closed.connect(_on_module_closed)
 	node.toggle_close_button(enable_module_deletion)
+	node.module_closed.connect(_on_module_closed)
 	return node
 
 
@@ -171,33 +195,8 @@ func _clear_graph() -> void:
 			graph_edit.remove_child(child)
 			child.queue_free()
 
-## TODO: emit signal
 func _on_module_closed(_module: BaseCardModuleGraphNode):
-	_module.queue_free()
-
-func add_card_module(module: CardModule) -> void:
-	var node := _create_graph_node(module)
-
-	# Count existing non-end nodes for vertical positioning
-	var module_count: int = 0
-	for child in graph_edit.get_children():
-		if child is GraphNode and not child is EndCardModuleGraphNode:
-			module_count += 1
-
-	node.position_offset = Vector2(0, module_count * NODE_SPACING_Y * 0.5)
-	graph_edit.add_child(node)
-
-
-func get_card_modules() -> Array[CardModuleGraphNode]:
-	var modules: Array[CardModuleGraphNode] = []
-	for child in graph_edit.get_children():
-		if child is CardModuleGraphNode:
-			modules.append(child)
-	return modules
-	
-func toggle_module_deletion(_are_modules_deletable: bool):
-	if not graph_edit:
-		return
-	for _child in graph_edit.get_children():
-		if _child is BaseCardModuleGraphNode:
-			_child.toggle_close_button(_are_modules_deletable)
+	if graph_module_closed.has_connections():
+		graph_module_closed.emit(self)
+	else:
+		_module.queue_free()

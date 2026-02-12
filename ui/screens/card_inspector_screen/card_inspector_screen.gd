@@ -60,11 +60,11 @@ func _close_deck_visualizer() -> void:
 
 func _on_upgrade_card_button_pressed():
 	card_modules_component.visible = true 
-	card_modules_displayer.toggle_module_deletion(true)
+	card_modules_displayer.enable_module_deletion = true
 
 func _on_card_module_back_button_pressed():
 	card_modules_component.visible = false
-	card_modules_displayer.toggle_module_deletion(false)
+	card_modules_displayer.enable_module_deletion = false
 
 func _on_card_module_pressed(_module: CardModule):
 	card_modules_displayer.add_card_module(_module)
