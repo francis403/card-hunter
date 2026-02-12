@@ -16,3 +16,4 @@ tile_highlight_config = SubResource("Resource_gxuwc")
 center_piece = 1
 id = "move_self_1"
 title = "Move self 1 tile"
+allowed_input_module_types = "INPUT"

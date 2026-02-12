@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="MoveCardEffect" load_steps=6 format=3 uid="uid://ieki0urudf6j"]
+
+[ext_resource type="Script" uid="uid://b4jl0atcv1b6o" path="res://resources/card/card_module/card_module_output_link/card_module_output_link.gd" id="1_4b5y6"]
+[ext_resource type="Script" uid="uid://cyo5auieydyno" path="res://resources/card/card_module/card_effect/_card_effects/move_self_card_effect/move_card_effect.gd" id="2_b28f6"]
+[ext_resource type="Script" uid="uid://bykm1sfwrcmbx" path="res://resources/configuration/tile_highlight_configuration/formula/formula.gd" id="3_3a3jc"]
+[ext_resource type="Script" uid="uid://clufwv38rhs7a" path="res://resources/configuration/tile_highlight_configuration/tile_highlight_configuration.gd" id="4_v202g"]
+
+[sub_resource type="Resource" id="Resource_sw7qk"]
+script = ExtResource("4_v202g")
+area_type = 4
+metadata/_custom_type_script = "uid://clufwv38rhs7a"
+
+[resource]
+script = ExtResource("2_b28f6")
+tile_highlight_config = SubResource("Resource_sw7qk")
+id = "move_card_effect_1"
+title = "Move Piece 1 Tile"
+types = Array[String](["move"])
+connection_id = "move_card_effect_1"
+allowed_input_module_types = "INPUT"
+metadata/_custom_type_script = "uid://cyo5auieydyno"

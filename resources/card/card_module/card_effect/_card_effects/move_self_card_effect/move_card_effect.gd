@@ -2,8 +2,6 @@ extends CardEffect
 ## New Type of card module that will take the target from the previous input
 class_name MoveCardEffect
 
-## TODO: how do I say this required a input of type x?
-
 @export_group("Tile Highlight Configuration")
 @export var tile_highlight_config: TileHighlightConfig
 

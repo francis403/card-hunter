@@ -195,7 +195,6 @@ func _create_graph_node(module: CardModule) -> BaseCardModuleGraphNode:
 	node.module_closed.connect(_on_module_closed)
 	return node
 
-
 func _create_connections(start_module: CardModule, nodes_map: Dictionary) -> void:
 	var visited: Dictionary = {}
 	var queue: Array[CardModule] = [start_module]
@@ -210,7 +209,7 @@ func _create_connections(start_module: CardModule, nodes_map: Dictionary) -> voi
 			continue
 
 		for next_module in module.next_modules:
-			if nodes_map.has(next_module.id):
+			if nodes_map.has(next_module.id) and next_module.connection_is_allowed(module):
 				graph_edit.connect_node(
 					nodes_map[module.id], 0,
 					nodes_map[next_module.id], 0
@@ -260,6 +259,10 @@ func _deep_duplicate_module_tree(source: CardModule, orig_to_dup: Dictionary) ->
 	dup_module.stamina_cost = source.stamina_cost
 	dup_module.module_type = source.module_type
 	dup_module.types = source.types.duplicate()
+	dup_module.connection_id = source.connection_id
+	dup_module.allowed_input_module_types = source.allowed_input_module_types
+	# dup_module.placement_rule = source.placement_rule
+	dup_module.output_links = source.output_links.duplicate()
 	dup_module.next_modules = []
 	orig_to_dup[source] = dup_module
 	for child in source.next_modules:
@@ -281,10 +284,13 @@ func _on_connection_request(from_node: StringName, from_port: int, to_node: Stri
 		return
 	if _get_input_connection_count(to_node) >= to.max_number_of_input_connections:
 		return
-	graph_edit.connect_node(from_node, from_port, to_node, to_port)
-	# Update shadow tree
+	# Validate module type compatibility
 	var from_module: CardModule = _node_module_map.get(String(from_node))
 	var to_module: CardModule = _node_module_map.get(String(to_node))
+	if from_module and to_module and not to_module.connection_is_allowed(from_module):
+		return
+	graph_edit.connect_node(from_node, from_port, to_node, to_port)
+	# Update shadow tree
 	if from_module and to_module and not from_module.next_modules.has(to_module):
 		from_module.next_modules.append(to_module)
 
