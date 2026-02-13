@@ -25,7 +25,14 @@ const NODE_SPACING_Y := 120
 @export var effect_graph_node_scene: PackedScene
 @export var end_graph_node_scene: PackedScene
 
+@export_group("Sound Configuration")
+@export var module_added_audio: AudioStream
+@export var module_removed_audio: AudioStream
+@export var module_connection_added_audio: AudioStream
+@export var module_connection_removed_audio: AudioStream
+
 @onready var graph_edit: GraphEdit = %GraphEdit
+@onready var audio_stream_player: AudioStreamPlayer = $AudioStreamPlayer
 
 var _head_module_displayed: CardModule
 ## Maps graph node name -> CardModule in the shadow tree
@@ -88,6 +95,7 @@ func get_displayed_card_head() -> CardModule:
 	return _head_module_displayed
 
 func add_card_module(module: CardModule) -> void:
+	_play_audio(module_added_audio)
 	var node: BaseCardModuleGraphNode = _create_graph_node(module)
 	# Count existing non-end nodes for vertical positioning
 	var module_count: int = 0
@@ -248,6 +256,11 @@ func _deep_duplicate_module_tree(source: CardModule, orig_to_dup: Dictionary) ->
 		dup_module.next_modules.append(_deep_duplicate_module_tree(child, orig_to_dup))
 	return dup_module
 
+func _play_audio(stream: AudioStream) -> void:
+	if stream and audio_stream_player:
+		audio_stream_player.stream = stream
+		audio_stream_player.play()
+
 func _update_connection_mode() -> void:
 	if not graph_edit:
 		return
@@ -268,6 +281,7 @@ func _on_connection_request(from_node: StringName, from_port: int, to_node: Stri
 	if from_module and to_module and not to_module.connection_is_allowed(from_module):
 		return
 	graph_edit.connect_node(from_node, from_port, to_node, to_port)
+	_play_audio(module_connection_added_audio)
 	# Update shadow tree
 	if from_module and to_module and not from_module.next_modules.has(to_module):
 		from_module.next_modules.append(to_module)
@@ -282,6 +296,7 @@ func _on_disconnection_request(from_node: StringName, from_port: int, to_node: S
 	if not enable_module_connection:
 		return
 	graph_edit.disconnect_node(from_node, from_port, to_node, to_port)
+	_play_audio(module_connection_removed_audio)
 	# Update shadow tree
 	var from_module: CardModule = _node_module_map.get(String(from_node))
 	var to_module: CardModule = _node_module_map.get(String(to_node))
@@ -326,6 +341,7 @@ func _get_input_connection_count(node_name: StringName) -> int:
 
 
 func _on_module_closed(_module: BaseCardModuleGraphNode):
+	_play_audio(module_removed_audio)
 	# Remove from error tracking
 	error_node_names.erase(String(_module.name))
 	# Remove from shadow tree

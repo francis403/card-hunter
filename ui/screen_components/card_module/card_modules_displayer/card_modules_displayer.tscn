@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://c6cgd8hhufi53"]
+[gd_scene load_steps=11 format=3 uid="uid://c6cgd8hhufi53"]
 
 [ext_resource type="Script" uid="uid://cd3xwp7b6beim" path="res://ui/screen_components/card_module/card_modules_displayer/card_modules_displayer.gd" id="1_bokgc"]
 [ext_resource type="Theme" uid="uid://cw81t5h4tn30e" path="res://assets/themes/title_theme.tres" id="1_ihbbf"]
@@ -6,6 +6,10 @@
 [ext_resource type="PackedScene" uid="uid://dwhacwuvny77a" path="res://ui/screen_components/card_module/card_modules_displayer/card_module_graph_node/start_card_module_graph_node/start_card_module_graph_node.tscn" id="4_ihbbf"]
 [ext_resource type="PackedScene" uid="uid://dmpk5n2bqr4l7" path="res://ui/screen_components/card_module/card_modules_displayer/card_module_graph_node/card_module_graph_node.tscn" id="5_utlv6"]
 [ext_resource type="PackedScene" uid="uid://btqh3cp804et6" path="res://ui/screen_components/card_module/card_modules_displayer/card_module_graph_node/end_card_module_graph_node/end_card_module_graph_node.tscn" id="6_utlv6"]
+[ext_resource type="AudioStream" uid="uid://dc73frd6jwl20" path="res://assets/sound/sound_effects/modules/UIMisc_Overwrite Saved And Save Game Pop Up 16_KRST_NONE.wav" id="7_ei717"]
+[ext_resource type="AudioStream" uid="uid://camet4nh5p87o" path="res://assets/sound/sound_effects/modules/module_deleted.wav" id="8_1s2cb"]
+[ext_resource type="AudioStream" uid="uid://dqac524x14eja" path="res://assets/sound/sound_effects/modules/module_connection_added.wav" id="9_6jfo2"]
+[ext_resource type="AudioStream" uid="uid://bxbgk5v2l1hkt" path="res://assets/sound/sound_effects/modules/module_connection_deleted.wav" id="10_if227"]
 
 [node name="CardModulesDisplayer" type="PanelContainer"]
 anchors_preset = 15
@@ -19,6 +23,12 @@ card_resource = ExtResource("2_bokgc")
 start_graph_node_scene = ExtResource("4_ihbbf")
 effect_graph_node_scene = ExtResource("5_utlv6")
 end_graph_node_scene = ExtResource("6_utlv6")
+module_added_audio = ExtResource("7_ei717")
+module_removed_audio = ExtResource("8_1s2cb")
+module_connection_added_audio = ExtResource("9_6jfo2")
+module_connection_removed_audio = ExtResource("10_if227")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 
 [node name="GraphEdit" type="GraphEdit" parent="."]
 unique_name_in_owner = true
