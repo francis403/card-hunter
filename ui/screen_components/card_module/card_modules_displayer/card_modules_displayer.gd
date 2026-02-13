@@ -31,6 +31,10 @@ var _head_module_displayed: CardModule
 ## Maps graph node name -> CardModule in the shadow tree
 var _node_module_map: Dictionary = {}
 
+## Hold a reference to all nodes with issues (node_name -> true)
+## Ideally this would hold node_name -> node_reference
+var error_node_names: Dictionary = {}
+
 func _ready() -> void:
 	graph_edit.connection_request.connect(_on_connection_request)
 	graph_edit.disconnection_request.connect(_on_disconnection_request)
@@ -110,38 +114,12 @@ func toggle_module_deletion(_are_modules_deletable: bool):
 		if _child is BaseCardModuleGraphNode:
 			_child.toggle_close_button(_are_modules_deletable)
 
-## TODO: this can probably be improved to be O(_number_card_modules)
-func is_displayed_module_fully_connected() -> bool:
+func is_display_module_valid(
+) -> bool:
 	if not _head_module_displayed or _node_module_map.is_empty():
 		return false
-	var connections := graph_edit.get_connection_list()
+	return error_node_names.is_empty()
 
-	# Build adjacency from connection list
-	var outputs_from: Dictionary = {}  # node_name -> true
-	var inputs_to: Dictionary = {}  # node_name -> true
-	var has_end_connection := false
-	for conn in connections:
-		outputs_from[String(conn["from_node"])] = true
-		inputs_to[String(conn["to_node"])] = true
-		if conn["to_node"] == "end_node":
-			has_end_connection = true
-
-	if not has_end_connection:
-		return false
-
-	# Every non-start module must have an input, every non-leaf must have an output
-	for node_name: String in _node_module_map:
-		var module: CardModule = _node_module_map[node_name]
-		if module == _head_module_displayed:
-			# Start only needs an output
-			if not outputs_from.has(node_name):
-				return false
-		else:
-			# All other modules need an input
-			if not inputs_to.has(node_name):
-				return false
-
-	return true
 
 func _add_modules_flat(modules: Array[CardModule]) -> void:
 	# Fallback for cards without start_card_module - display in a row
@@ -248,6 +226,7 @@ func _clear_graph() -> void:
 			child.queue_free()
 	_head_module_displayed = null
 	_node_module_map.clear()
+	error_node_names.clear()
 
 
 func _deep_duplicate_module_tree(source: CardModule, orig_to_dup: Dictionary) -> CardModule:
@@ -274,7 +253,6 @@ func _update_connection_mode() -> void:
 		return
 	graph_edit.right_disconnects = enable_module_connection
 
-
 func _on_connection_request(from_node: StringName, from_port: int, to_node: StringName, to_port: int) -> void:
 	if not enable_module_connection:
 		return
@@ -293,7 +271,12 @@ func _on_connection_request(from_node: StringName, from_port: int, to_node: Stri
 	# Update shadow tree
 	if from_module and to_module and not from_module.next_modules.has(to_module):
 		from_module.next_modules.append(to_module)
-
+	# Clear error highlight on newly connected node
+	var to_name := String(to_node)
+	if error_node_names.has(to_name):
+		_mark_node_errorless(to, to_node)
+		#error_node_names.erase(to_name)
+		#to.self_modulate = Color.WHITE
 
 func _on_disconnection_request(from_node: StringName, from_port: int, to_node: StringName, to_port: int) -> void:
 	if not enable_module_connection:
@@ -304,7 +287,27 @@ func _on_disconnection_request(from_node: StringName, from_port: int, to_node: S
 	var to_module: CardModule = _node_module_map.get(String(to_node))
 	if from_module and to_module:
 		from_module.next_modules.erase(to_module)
+	# Mark to_node as error if it lost all input connections (non-start only)
+	var to_name := String(to_node)
+	if _node_module_map.has(to_name) and _node_module_map[to_name] != _head_module_displayed:
+		if _get_input_connection_count(to_node) == 0:
+			_mark_error_node(to_node)
 
+func _mark_node_errorless(
+	_to_node: BaseCardModuleGraphNode,
+	_to_node_name: StringName
+):
+	var to_name := String(_to_node_name)
+	error_node_names.erase(to_name)
+	_to_node.self_modulate = Color.WHITE
+
+func _mark_error_node(_to_node: String):
+	var to_name := String(_to_node)
+	error_node_names[to_name] = true
+	var to_node_ref: BaseCardModuleGraphNode = graph_edit.get_node(NodePath(_to_node))
+	if to_node_ref:
+		to_node_ref.self_modulate = Color(1.0, 0.4, 0.4)
+	
 
 func _get_output_connection_count(node_name: StringName) -> int:
 	var count: int = 0
@@ -323,6 +326,8 @@ func _get_input_connection_count(node_name: StringName) -> int:
 
 
 func _on_module_closed(_module: BaseCardModuleGraphNode):
+	# Remove from error tracking
+	error_node_names.erase(String(_module.name))
 	# Remove from shadow tree
 	var removed_module: CardModule = _node_module_map.get(_module.name)
 	if removed_module:

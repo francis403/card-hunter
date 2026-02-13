@@ -67,9 +67,7 @@ func _on_upgrade_card_button_pressed():
 		upgrade_card_button.text = "Save"
 		_is_upgrade_open = true
 	else:
-		## TODO: Save the current connections of card_modules_displayer
-		if not card_modules_displayer.is_displayed_module_fully_connected():
-			## TODO: show user an error
+		if not card_modules_displayer.is_display_module_valid():
 			print("TODO: Show error on module creation")
 			return
 		var _new_card_head: CardModule = card_modules_displayer.get_displayed_card_head()
