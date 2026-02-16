@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://c6cgd8hhufi53"]
+[gd_scene load_steps=12 format=3 uid="uid://c6cgd8hhufi53"]
 
 [ext_resource type="Script" uid="uid://cd3xwp7b6beim" path="res://ui/screen_components/card_module/card_modules_displayer/card_modules_displayer.gd" id="1_bokgc"]
 [ext_resource type="Theme" uid="uid://cw81t5h4tn30e" path="res://assets/themes/title_theme.tres" id="1_ihbbf"]
@@ -10,6 +10,7 @@
 [ext_resource type="AudioStream" uid="uid://camet4nh5p87o" path="res://assets/sound/sound_effects/modules/module_deleted.wav" id="8_1s2cb"]
 [ext_resource type="AudioStream" uid="uid://dqac524x14eja" path="res://assets/sound/sound_effects/modules/module_connection_added.wav" id="9_6jfo2"]
 [ext_resource type="AudioStream" uid="uid://bxbgk5v2l1hkt" path="res://assets/sound/sound_effects/modules/module_connection_deleted.wav" id="10_if227"]
+[ext_resource type="PackedScene" uid="uid://bt1q43bgc585k" path="res://ui/screen_components/card_module/card_modules_displayer/special_effect_panel_item/special_effect_panel_item.tscn" id="11_sp_fx"]
 
 [node name="CardModulesDisplayer" type="PanelContainer"]
 anchors_preset = 15
@@ -23,6 +24,7 @@ card_resource = ExtResource("2_bokgc")
 start_graph_node_scene = ExtResource("4_ihbbf")
 effect_graph_node_scene = ExtResource("5_utlv6")
 end_graph_node_scene = ExtResource("6_utlv6")
+special_effect_panel_item_scene = ExtResource("11_sp_fx")
 module_added_audio = ExtResource("7_ei717")
 module_removed_audio = ExtResource("8_1s2cb")
 module_connection_added_audio = ExtResource("9_6jfo2")
@@ -30,10 +32,35 @@ module_connection_removed_audio = ExtResource("10_if227")
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 
-[node name="GraphEdit" type="GraphEdit" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="GraphEdit" type="GraphEdit" parent="VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 2.0
+scroll_offset = Vector2(0, -28)
 show_grid = false
 snapping_enabled = false
 minimap_enabled = false
 show_menu = false
+
+[node name="SpecialEffectsPanel" type="PanelContainer" parent="VBoxContainer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/SpecialEffectsPanel"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Label" type="Label" parent="VBoxContainer/SpecialEffectsPanel/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "Special Effects"
+
+[node name="SpecialEffectsContainer" type="HBoxContainer" parent="VBoxContainer/SpecialEffectsPanel/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 8

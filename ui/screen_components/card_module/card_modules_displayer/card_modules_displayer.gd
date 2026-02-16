@@ -24,6 +24,7 @@ const NODE_SPACING_Y := 120
 @export var start_graph_node_scene: PackedScene
 @export var effect_graph_node_scene: PackedScene
 @export var end_graph_node_scene: PackedScene
+@export var special_effect_panel_item_scene: PackedScene
 
 @export_group("Sound Configuration")
 @export var module_added_audio: AudioStream
@@ -33,8 +34,11 @@ const NODE_SPACING_Y := 120
 
 @onready var graph_edit: GraphEdit = %GraphEdit
 @onready var audio_stream_player: AudioStreamPlayer = $AudioStreamPlayer
+@onready var special_effects_panel: PanelContainer = %SpecialEffectsPanel
+@onready var special_effects_container: HBoxContainer = %SpecialEffectsContainer
 
 var _head_module_displayed: CardModule
+var _special_card_effects: Array[SpecialCardEffectResource]
 ## Maps graph node name -> CardModule in the shadow tree
 var _node_module_map: Dictionary = {}
 
@@ -90,13 +94,21 @@ func populate_from_card_resource(_card_resource: CardResourceV2) -> void:
 
 	# Add end node and connect it
 	_add_end_node(last_modules, nodes_map, levels.size())
-	
+
+	# Populate special effects panel
+	_populate_special_effects(_card_resource)
+
 func get_displayed_card_head() -> CardModule:
 	return _head_module_displayed
 
 func add_card_module(module: CardModule) -> void:
 	_play_audio(module_added_audio)
-	var node: BaseCardModuleGraphNode = _create_graph_node(module)
+	# Route special effects to the dedicated panel
+	if module is SpecialCardEffectResource:
+		_add_special_effect_item(module as SpecialCardEffectResource)
+		return
+	var node: BaseCardModuleGraphNode = null
+	node = _create_graph_node(module)
 	# Count existing non-end nodes for vertical positioning
 	var module_count: int = 0
 	for child in graph_edit.get_children():
@@ -106,6 +118,8 @@ func add_card_module(module: CardModule) -> void:
 	node.position_offset = Vector2(0, module_count * NODE_SPACING_Y * 0.5)
 	graph_edit.add_child(node)
 	_node_module_map[node.name] = module
+	# New module has no connections — mark as error
+	_mark_error_node(node.name)
 
 
 func get_card_modules() -> Array[CardModuleGraphNode]:
@@ -121,6 +135,10 @@ func toggle_module_deletion(_are_modules_deletable: bool):
 	for _child in graph_edit.get_children():
 		if _child is BaseCardModuleGraphNode:
 			_child.toggle_close_button(_are_modules_deletable)
+	if special_effects_container:
+		for _child in special_effects_container.get_children():
+			if _child is SpecialEffectPanelItem:
+				_child.toggle_close_button(_are_modules_deletable)
 
 func is_display_module_valid(
 ) -> bool:
@@ -235,6 +253,7 @@ func _clear_graph() -> void:
 	_head_module_displayed = null
 	_node_module_map.clear()
 	error_node_names.clear()
+	_clear_special_effects()
 
 
 func _deep_duplicate_module_tree(source: CardModule, orig_to_dup: Dictionary) -> CardModule:
@@ -285,12 +304,14 @@ func _on_connection_request(from_node: StringName, from_port: int, to_node: Stri
 	# Update shadow tree
 	if from_module and to_module and not from_module.next_modules.has(to_module):
 		from_module.next_modules.append(to_module)
-	# Clear error highlight on newly connected node
+	# Clear error highlight if node now has both input and output connections
 	var to_name := String(to_node)
-	if error_node_names.has(to_name):
+	if error_node_names.has(to_name) and _get_output_connection_count(to_node) > 0:
 		_mark_node_errorless(to, to_node)
-		#error_node_names.erase(to_name)
-		#to.self_modulate = Color.WHITE
+	
+	var from_name := String(from_node)
+	if error_node_names.has(from_name) and _get_input_connection_count(from_node) > 0:
+		_mark_node_errorless(from, from_node)
 
 func _on_disconnection_request(from_node: StringName, from_port: int, to_node: StringName, to_port: int) -> void:
 	if not enable_module_connection:
@@ -324,6 +345,12 @@ func _mark_error_node(_to_node: String):
 		to_node_ref.self_modulate = Color(1.0, 0.4, 0.4)
 	
 
+func _find_node_name_by_type(type: Variant) -> StringName:
+	for child in graph_edit.get_children():
+		if is_instance_of(child, type):
+			return child.name
+	return &""
+
 func _get_output_connection_count(node_name: StringName) -> int:
 	var count: int = 0
 	for conn in graph_edit.get_connection_list():
@@ -355,3 +382,45 @@ func _on_module_closed(_module: BaseCardModuleGraphNode):
 		graph_module_closed.emit(self)
 	else:
 		_module.queue_free()
+
+
+func _populate_special_effects(_card_resource: CardResourceV2) -> void:
+	if not _card_resource or _card_resource.special_effects.is_empty():
+		return
+	for effect in _card_resource.special_effects:
+		_add_special_effect_item(effect)
+
+
+func _add_special_effect_item(effect: SpecialCardEffectResource) -> void:
+	if not special_effect_panel_item_scene:
+		return
+	var item: SpecialEffectPanelItem = special_effect_panel_item_scene.instantiate()
+	special_effects_container.add_child(item)
+	item.set_special_effect(effect)
+	item.toggle_close_button(enable_module_deletion)
+	item.close_pressed.connect(_on_special_effect_removed)
+	_special_card_effects.append(effect)
+	special_effects_panel.visible = true
+
+
+func _on_special_effect_removed(item: SpecialEffectPanelItem) -> void:
+	_play_audio(module_removed_audio)
+	var effect := item.get_special_effect()
+	if effect:
+		_special_card_effects.erase(effect)
+	item.close_pressed.disconnect(_on_special_effect_removed)
+	special_effects_container.remove_child(item)
+	item.queue_free()
+	if special_effects_container.get_child_count() == 0:
+		special_effects_panel.visible = false
+
+
+func _clear_special_effects() -> void:
+	_special_card_effects.clear()
+	if not special_effects_container:
+		return
+	for child in special_effects_container.get_children():
+		special_effects_container.remove_child(child)
+		child.queue_free()
+	if special_effects_panel:
+		special_effects_panel.visible = false
