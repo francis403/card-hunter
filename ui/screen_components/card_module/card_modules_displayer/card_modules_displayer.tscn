@@ -41,6 +41,7 @@ layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 2.0
 scroll_offset = Vector2(0, -28)
+zoom = 0.75
 show_grid = false
 snapping_enabled = false
 minimap_enabled = false
@@ -51,16 +52,23 @@ unique_name_in_owner = true
 visible = false
 layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/SpecialEffectsPanel"]
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/SpecialEffectsPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/SpecialEffectsPanel/MarginContainer"]
 layout_mode = 2
 theme_override_constants/separation = 4
 
-[node name="Label" type="Label" parent="VBoxContainer/SpecialEffectsPanel/VBoxContainer"]
+[node name="Label" type="Label" parent="VBoxContainer/SpecialEffectsPanel/MarginContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 14
 text = "Special Effects"
 
-[node name="SpecialEffectsContainer" type="HBoxContainer" parent="VBoxContainer/SpecialEffectsPanel/VBoxContainer"]
+[node name="SpecialEffectsContainer" type="HBoxContainer" parent="VBoxContainer/SpecialEffectsPanel/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/separation = 8

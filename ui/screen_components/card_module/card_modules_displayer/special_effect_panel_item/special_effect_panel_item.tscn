@@ -29,14 +29,17 @@ script = ExtResource("1_script")
 layout_mode = 2
 theme_override_constants/separation = 8
 
-[node name="TriggerLabel" type="Label" parent="HBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
+layout_mode = 2
+
+[node name="TriggerLabel" type="Label" parent="HBoxContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.204, 0.596, 0.859, 1)
 theme_override_font_sizes/font_size = 12
 text = "On Play"
 
-[node name="TitleLabel" type="Label" parent="HBoxContainer"]
+[node name="TitleLabel" type="Label" parent="HBoxContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3

@@ -20,6 +20,10 @@ func _ready() -> void:
 		card_modules_container_component.add_grim_elems(
 			CardModuleController.get_card_modules()
 		)
+	else:
+		card_modules_container_component.add_grim_elems(
+			PlayerController.get_card_modules()
+		)
 	change_card_button.pressed_and_sound_played.connect(_on_change_card_button_pressed)
 	upgrade_card_button.pressed_and_sound_played.connect(_on_upgrade_card_button_pressed)
 	card_module_back_button.pressed_and_sound_played.connect(_on_card_module_back_button_pressed)
