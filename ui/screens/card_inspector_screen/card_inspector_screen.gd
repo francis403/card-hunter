@@ -108,20 +108,7 @@ func _on_undoable_action(action_data: Dictionary) -> void:
 func _on_undo_button_pressed() -> void:
 	if _undo_stack.is_empty():
 		return
-	var action: Dictionary = _undo_stack.pop_back()
-	match action["type"]:
-		"ADD_MODULE":
-			card_modules_displayer.undo_add_module(action)
-		"REMOVE_MODULE":
-			card_modules_displayer.undo_remove_module(action)
-		"ADD_CONNECTION":
-			card_modules_displayer.undo_add_connection(action)
-		"REMOVE_CONNECTION":
-			card_modules_displayer.undo_remove_connection(action)
-		"ADD_SPECIAL_EFFECT":
-			card_modules_displayer.undo_add_special_effect(action)
-		"REMOVE_SPECIAL_EFFECT":
-			card_modules_displayer.undo_remove_special_effect(action)
+	card_modules_displayer.undo(_undo_stack.pop_back())
 	_update_undo_button_state()
 
 
