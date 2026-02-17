@@ -7,6 +7,7 @@ class_name CardInspectorScreen
 @onready var change_card_button: SoundButton = %ChangeCardButton
 @onready var upgrade_card_button: SoundButton = %UpgradeCard
 @onready var card_module_back_button: SoundButton = %CardModuleBackButton
+@onready var undo_button: SoundButton = %UndoButton
 
 @onready var card_modules_component: MarginContainer = %CardModulesComponent
 @onready var card_modules_container_component: CardModulesContainerComponent = %CardModulesContainerComponent
@@ -14,6 +15,7 @@ class_name CardInspectorScreen
 
 var _deck_visualizer: DeckVisualizer
 var _is_upgrade_open: bool = false
+var _undo_stack: Array[Dictionary] = []
 
 func _ready() -> void:
 	if self._debug_mode:
@@ -28,6 +30,8 @@ func _ready() -> void:
 	upgrade_card_button.pressed_and_sound_played.connect(_on_upgrade_card_button_pressed)
 	card_module_back_button.pressed_and_sound_played.connect(_on_card_module_back_button_pressed)
 	card_modules_container_component.module_pressed.connect(_on_card_module_pressed)
+	undo_button.pressed_and_sound_played.connect(_on_undo_button_pressed)
+	card_modules_displayer.undoable_action_performed.connect(_on_undoable_action)
 
 func _on_change_card_button_pressed() -> void:
 	if _deck_visualizer:
@@ -50,6 +54,8 @@ func _on_deck_card_selected(selected_card: Card) -> void:
 	card.card_resource = selected_card.card_resource
 	card.initialize_card()
 	card_modules_displayer.populate_from_card_resource(selected_card.card_resource)
+	_undo_stack.clear()
+	_update_undo_button_state()
 
 	_close_deck_visualizer()
 
@@ -65,17 +71,20 @@ func _close_deck_visualizer() -> void:
 
 func _on_upgrade_card_button_pressed():
 	if not _is_upgrade_open:
-		card_modules_component.visible = true 
+		card_modules_component.visible = true
 		card_modules_displayer.enable_module_deletion = true
 		card_modules_displayer.enable_module_connection = true
 		upgrade_card_button.text = "Save"
 		_is_upgrade_open = true
+		undo_button.visible = true
+		_update_undo_button_state()
 	else:
 		if not card_modules_displayer.is_display_module_valid():
 			print("TODO: Show error on module creation")
 			return
 		var _new_card_head: CardModule = card_modules_displayer.get_displayed_card_head()
 		card.card_resource.start_card_module = _new_card_head
+		_undo_stack.clear()
 		_on_card_module_back_button_pressed()
 
 func _on_card_module_back_button_pressed():
@@ -84,6 +93,37 @@ func _on_card_module_back_button_pressed():
 	card_modules_displayer.enable_module_connection = false
 	upgrade_card_button.text = "Upgrade Card"
 	_is_upgrade_open = false
+	_undo_stack.clear()
+	undo_button.visible = false
 
 func _on_card_module_pressed(_module: CardModule):
 	card_modules_displayer.add_card_module(_module)
+
+
+func _on_undoable_action(action_data: Dictionary) -> void:
+	_undo_stack.push_back(action_data)
+	_update_undo_button_state()
+
+
+func _on_undo_button_pressed() -> void:
+	if _undo_stack.is_empty():
+		return
+	var action: Dictionary = _undo_stack.pop_back()
+	match action["type"]:
+		"ADD_MODULE":
+			card_modules_displayer.undo_add_module(action)
+		"REMOVE_MODULE":
+			card_modules_displayer.undo_remove_module(action)
+		"ADD_CONNECTION":
+			card_modules_displayer.undo_add_connection(action)
+		"REMOVE_CONNECTION":
+			card_modules_displayer.undo_remove_connection(action)
+		"ADD_SPECIAL_EFFECT":
+			card_modules_displayer.undo_add_special_effect(action)
+		"REMOVE_SPECIAL_EFFECT":
+			card_modules_displayer.undo_remove_special_effect(action)
+	_update_undo_button_state()
+
+
+func _update_undo_button_state() -> void:
+	undo_button.disabled = _undo_stack.is_empty()

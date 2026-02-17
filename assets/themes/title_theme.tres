@@ -1420,6 +1420,11 @@ cache/0/50/0/glyphs/3/offset = Vector2(0, 0)
 cache/0/50/0/glyphs/3/size = Vector2(0, 0)
 cache/0/50/0/glyphs/3/uv_rect = Rect2(0, 0, 0, 0)
 cache/0/50/0/glyphs/3/texture_idx = -1
+cache/0/14/0/ascent = 15.0
+cache/0/14/0/descent = 5.0
+cache/0/14/0/underline_position = 1.40625
+cache/0/14/0/underline_thickness = 0.703125
+cache/0/14/0/scale = 1.0
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bu1jj"]
 content_margin_left = 4.0

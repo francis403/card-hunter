@@ -40,10 +40,9 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 2.0
-scroll_offset = Vector2(0, -28)
-zoom = 0.75
 show_grid = false
 snapping_enabled = false
+zoom = 0.75
 minimap_enabled = false
 show_menu = false
 

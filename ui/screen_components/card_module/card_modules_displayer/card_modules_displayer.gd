@@ -3,6 +3,7 @@ class_name CardModuleDisplayer
 
 signal module_clicked(_module: CardModule)
 signal graph_module_closed(_module: BaseCardModuleGraphNode)
+signal undoable_action_performed(action_data: Dictionary)
 
 const NODE_SPACING_X := 250
 const NODE_SPACING_Y := 120
@@ -45,6 +46,7 @@ var _node_module_map: Dictionary = {}
 ## Hold a reference to all nodes with issues (node_name -> true)
 ## Ideally this would hold node_name -> node_reference
 var error_node_names: Dictionary = {}
+var _is_undoing: bool = false
 
 func _ready() -> void:
 	graph_edit.connection_request.connect(_on_connection_request)
@@ -121,6 +123,13 @@ func add_card_module(module: CardModule) -> void:
 	_node_module_map[node.name] = module
 	# New module has no connections — mark as error
 	_mark_error_node(node.name)
+	if not _is_undoing:
+		undoable_action_performed.emit({
+			"type": "ADD_MODULE",
+			"node_name": String(node.name),
+			"module": module,
+			"position_offset": node.position_offset,
+		})
 
 
 func get_card_modules() -> Array[CardModuleGraphNode]:
@@ -300,6 +309,9 @@ func _on_connection_request(from_node: StringName, from_port: int, to_node: Stri
 	var to_module: CardModule = _node_module_map.get(String(to_node))
 	if from_module and to_module and not to_module.connection_is_allowed(from_module):
 		return
+	# Capture error states before connection changes them
+	var from_was_error := error_node_names.has(String(from_node))
+	var to_was_error := error_node_names.has(String(to_node))
 	graph_edit.connect_node(from_node, from_port, to_node, to_port)
 	_play_audio(module_connection_added_audio)
 	# Update shadow tree
@@ -309,19 +321,31 @@ func _on_connection_request(from_node: StringName, from_port: int, to_node: Stri
 	var to_name := String(to_node)
 	if error_node_names.has(to_name) and _get_output_connection_count(to_node) > 0:
 		_mark_node_errorless(to, to_node)
-	
+
 	var from_name := String(from_node)
 	if error_node_names.has(from_name) and _get_input_connection_count(from_node) > 0:
 		_mark_node_errorless(from, from_node)
+	if not _is_undoing:
+		undoable_action_performed.emit({
+			"type": "ADD_CONNECTION",
+			"from_node": String(from_node),
+			"from_port": from_port,
+			"to_node": String(to_node),
+			"to_port": to_port,
+			"from_module": from_module,
+			"to_module": to_module,
+			"from_was_error": from_was_error,
+			"to_was_error": to_was_error,
+		})
 
 func _on_disconnection_request(from_node: StringName, from_port: int, to_node: StringName, to_port: int) -> void:
 	if not enable_module_connection:
 		return
+	var from_module: CardModule = _node_module_map.get(String(from_node))
+	var to_module: CardModule = _node_module_map.get(String(to_node))
 	graph_edit.disconnect_node(from_node, from_port, to_node, to_port)
 	_play_audio(module_connection_removed_audio)
 	# Update shadow tree
-	var from_module: CardModule = _node_module_map.get(String(from_node))
-	var to_module: CardModule = _node_module_map.get(String(to_node))
 	if from_module and to_module:
 		from_module.next_modules.erase(to_module)
 	# Mark to_node as error if it lost all input connections (non-start only)
@@ -329,6 +353,16 @@ func _on_disconnection_request(from_node: StringName, from_port: int, to_node: S
 	if _node_module_map.has(to_name) and _node_module_map[to_name] != _head_module_displayed:
 		if _get_input_connection_count(to_node) == 0:
 			_mark_error_node(to_node)
+	if not _is_undoing:
+		undoable_action_performed.emit({
+			"type": "REMOVE_CONNECTION",
+			"from_node": String(from_node),
+			"from_port": from_port,
+			"to_node": String(to_node),
+			"to_port": to_port,
+			"from_module": from_module,
+			"to_module": to_module,
+		})
 
 func _mark_node_errorless(
 	_to_node: BaseCardModuleGraphNode,
@@ -370,18 +404,44 @@ func _get_input_connection_count(node_name: StringName) -> int:
 
 func _on_module_closed(_module: BaseCardModuleGraphNode):
 	_play_audio(module_removed_audio)
-	# Remove from error tracking
-	error_node_names.erase(String(_module.name))
-	# Remove from shadow tree
-	var removed_module: CardModule = _node_module_map.get(_module.name)
+	var node_name := String(_module.name)
+	var was_error := error_node_names.has(node_name)
+	var removed_module: CardModule = _node_module_map.get(node_name)
+	# Capture all connections involving this node before removal
+	var saved_connections: Array[Dictionary] = []
+	for conn in graph_edit.get_connection_list():
+		if String(conn["from_node"]) == node_name or String(conn["to_node"]) == node_name:
+			saved_connections.append(conn.duplicate())
+	# Capture parent modules that link to this node
+	var parent_modules: Array[CardModule] = []
 	if removed_module:
-		_node_module_map.erase(_module.name)
-		# Remove from any parent's next_modules
+		for tracked_module: CardModule in _node_module_map.values():
+			if tracked_module.next_modules.has(removed_module):
+				parent_modules.append(tracked_module)
+	# Remove all connections involving this node from the graph
+	for conn in saved_connections:
+		graph_edit.disconnect_node(conn["from_node"], conn["from_port"], conn["to_node"], conn["to_port"])
+	# Remove from error tracking
+	error_node_names.erase(node_name)
+	# Remove from shadow tree
+	if removed_module:
+		_node_module_map.erase(node_name)
 		for tracked_module: CardModule in _node_module_map.values():
 			tracked_module.next_modules.erase(removed_module)
+	if not _is_undoing:
+		undoable_action_performed.emit({
+			"type": "REMOVE_MODULE",
+			"module": removed_module,
+			"node_name": node_name,
+			"position": _module.position_offset,
+			"was_error": was_error,
+			"connections": saved_connections,
+			"parent_modules": parent_modules,
+		})
 	if graph_module_closed.has_connections():
 		graph_module_closed.emit(self)
 	else:
+		graph_edit.remove_child(_module)
 		_module.queue_free()
 
 
@@ -402,13 +462,25 @@ func _add_special_effect_item(effect: SpecialCardEffectResource) -> void:
 	item.close_pressed.connect(_on_special_effect_removed)
 	_special_card_effects.append(effect)
 	special_effects_panel.visible = true
+	if not _is_undoing:
+		undoable_action_performed.emit({
+			"type": "ADD_SPECIAL_EFFECT",
+			"effect": effect,
+		})
 
 
 func _on_special_effect_removed(item: SpecialEffectPanelItem) -> void:
 	_play_audio(module_removed_audio)
 	var effect := item.get_special_effect()
+	var child_index := item.get_index()
 	if effect:
 		_special_card_effects.erase(effect)
+	if not _is_undoing:
+		undoable_action_performed.emit({
+			"type": "REMOVE_SPECIAL_EFFECT",
+			"effect": effect,
+			"child_index": child_index,
+		})
 	item.close_pressed.disconnect(_on_special_effect_removed)
 	special_effects_container.remove_child(item)
 	item.queue_free()
@@ -425,3 +497,137 @@ func _clear_special_effects() -> void:
 		child.queue_free()
 	if special_effects_panel:
 		special_effects_panel.visible = false
+
+
+# ── Undo Methods ──────────────────────────────────────────────────────────────
+
+func undo_add_module(action: Dictionary) -> void:
+	_is_undoing = true
+	var node_name: String = action["node_name"]
+	# Disconnect all connections involving this node
+	for conn in graph_edit.get_connection_list():
+		if String(conn["from_node"]) == node_name or String(conn["to_node"]) == node_name:
+			graph_edit.disconnect_node(conn["from_node"], conn["from_port"], conn["to_node"], conn["to_port"])
+	# Clean up shadow tree
+	var module: CardModule = _node_module_map.get(node_name)
+	if module:
+		for tracked_module: CardModule in _node_module_map.values():
+			tracked_module.next_modules.erase(module)
+	_node_module_map.erase(node_name)
+	error_node_names.erase(node_name)
+	# Remove graph node
+	var node := graph_edit.get_node_or_null(NodePath(node_name))
+	if node:
+		graph_edit.remove_child(node)
+		node.queue_free()
+	_is_undoing = false
+
+
+func undo_remove_module(action: Dictionary) -> void:
+	_is_undoing = true
+	var module: CardModule = action["module"]
+	var node_name: String = action["node_name"]
+	var position: Vector2 = action["position"]
+	var was_error: bool = action["was_error"]
+	var saved_connections: Array = action["connections"]
+	var parent_modules: Array = action["parent_modules"]
+	# Recreate the graph node
+	var node := _create_graph_node(module)
+	node.position_offset = position
+	graph_edit.add_child(node)
+	_node_module_map[String(node.name)] = module
+	# Restore parent shadow tree links
+	for parent_module: CardModule in parent_modules:
+		if not parent_module.next_modules.has(module):
+			parent_module.next_modules.append(module)
+	# Restore all graph connections
+	for conn in saved_connections:
+		graph_edit.connect_node(conn["from_node"], conn["from_port"], conn["to_node"], conn["to_port"])
+		# Restore shadow tree links for connections going out from this node
+		var from_name := String(conn["from_node"])
+		var to_name := String(conn["to_node"])
+		var from_mod: CardModule = _node_module_map.get(from_name)
+		var to_mod: CardModule = _node_module_map.get(to_name)
+		if from_mod and to_mod and not from_mod.next_modules.has(to_mod):
+			from_mod.next_modules.append(to_mod)
+	# Restore error state
+	if was_error:
+		_mark_error_node(node_name)
+	_is_undoing = false
+
+
+func undo_add_connection(action: Dictionary) -> void:
+	_is_undoing = true
+	var from_node: String = action["from_node"]
+	var from_port: int = action["from_port"]
+	var to_node: String = action["to_node"]
+	var to_port: int = action["to_port"]
+	var from_module: CardModule = action["from_module"]
+	var to_module: CardModule = action["to_module"]
+	var from_was_error: bool = action["from_was_error"]
+	var to_was_error: bool = action["to_was_error"]
+	# Disconnect
+	graph_edit.disconnect_node(from_node, from_port, to_node, to_port)
+	# Remove from shadow tree
+	if from_module and to_module:
+		from_module.next_modules.erase(to_module)
+	# Restore prior error states
+	if to_was_error:
+		_mark_error_node(to_node)
+	if from_was_error:
+		_mark_error_node(from_node)
+	_is_undoing = false
+
+
+func undo_remove_connection(action: Dictionary) -> void:
+	_is_undoing = true
+	var from_node: String = action["from_node"]
+	var from_port: int = action["from_port"]
+	var to_node: String = action["to_node"]
+	var to_port: int = action["to_port"]
+	var from_module: CardModule = action["from_module"]
+	var to_module: CardModule = action["to_module"]
+	# Reconnect
+	graph_edit.connect_node(from_node, from_port, to_node, to_port)
+	# Restore shadow tree link
+	if from_module and to_module and not from_module.next_modules.has(to_module):
+		from_module.next_modules.append(to_module)
+	# Clear error state on reconnected node
+	var to_node_ref: BaseCardModuleGraphNode = graph_edit.get_node_or_null(NodePath(to_node))
+	if to_node_ref and error_node_names.has(to_node):
+		_mark_node_errorless(to_node_ref, to_node)
+	_is_undoing = false
+
+
+func undo_add_special_effect(action: Dictionary) -> void:
+	_is_undoing = true
+	var effect: SpecialCardEffectResource = action["effect"]
+	_special_card_effects.erase(effect)
+	# Find and remove the panel item by effect reference
+	for child in special_effects_container.get_children():
+		if child is SpecialEffectPanelItem and child.get_special_effect() == effect:
+			child.close_pressed.disconnect(_on_special_effect_removed)
+			special_effects_container.remove_child(child)
+			child.queue_free()
+			break
+	if special_effects_container.get_child_count() == 0:
+		special_effects_panel.visible = false
+	_is_undoing = false
+
+
+func undo_remove_special_effect(action: Dictionary) -> void:
+	_is_undoing = true
+	var effect: SpecialCardEffectResource = action["effect"]
+	var child_index: int = action["child_index"]
+	if not special_effect_panel_item_scene or not effect:
+		_is_undoing = false
+		return
+	var item: SpecialEffectPanelItem = special_effect_panel_item_scene.instantiate()
+	special_effects_container.add_child(item)
+	special_effects_container.move_child(item, mini(child_index, special_effects_container.get_child_count() - 1))
+	item.set_special_effect(effect)
+	item.toggle_close_button(enable_module_deletion)
+	item.close_pressed.connect(_on_special_effect_removed)
+	_special_card_effects.append(effect)
+	special_effects_panel.visible = true
+	_is_undoing = false
