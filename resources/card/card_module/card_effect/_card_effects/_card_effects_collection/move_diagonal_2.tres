@@ -19,3 +19,6 @@ center_piece = 3
 id = "move_self_diagonal_2"
 title = "Diagonal Walk Range 2"
 stamina_cost = 10
+types = Array[String](["move"])
+connection_id = "move_self_diagonal_2"
+allowed_input_module_types = "INPUT"

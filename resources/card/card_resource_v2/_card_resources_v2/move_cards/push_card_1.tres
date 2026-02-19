@@ -20,7 +20,6 @@ metadata/_custom_type_script = "uid://b4jl0atcv1b6o"
 script = ExtResource("4_5qg2f")
 _range = 2
 area_type = 4
-ignore_occupied_tiles = true
 use_specific_tile_location_config = true
 ignore_tiles_close_to_origin = true
 

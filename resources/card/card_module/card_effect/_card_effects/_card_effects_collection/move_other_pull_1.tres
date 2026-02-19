@@ -26,3 +26,6 @@ tile_highlight_config = SubResource("Resource_7ywgs")
 id = "move_other_pull_1"
 title = "Pull monster 1 Tile"
 stamina_cost = 15
+types = Array[String](["move"])
+connection_id = "move_other_pull_1"
+allowed_input_module_types = "INPUT"

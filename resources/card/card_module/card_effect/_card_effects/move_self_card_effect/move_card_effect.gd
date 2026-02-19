@@ -27,6 +27,8 @@ func play_card_effect() -> CardEffectResponse:
 	battlemap.place_piece_in_tile(_piece_to_move, _tile_to_place_piece)
 	if _piece_to_move is PlayerPiece:
 		BattlemapSignals.after_player_movement.emit()
+	elif _piece_to_move is MonsterPiece:
+		_piece_to_move.on_monster_moved_by_player(_tile_to_place_piece)
 	_response.set_ok()
 	return _response
 

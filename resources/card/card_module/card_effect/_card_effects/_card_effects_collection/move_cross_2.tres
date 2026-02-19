@@ -18,3 +18,6 @@ center_piece = 1
 id = "move_self_1_cross"
 title = "Move 2 tiles in a cross"
 stamina_cost = 20
+types = Array[String](["move"])
+connection_id = "move_self_1_cross"
+allowed_input_module_types = "INPUT"
