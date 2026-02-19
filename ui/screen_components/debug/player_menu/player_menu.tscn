@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://h8r0bkj42ldt" path="res://ui/screen_components/_general_componets/menu/menus/MenuRoot/menu_root.tscn" id="2_ad80t"]
 [ext_resource type="PackedScene" uid="uid://brhoqb5wsupc8" path="res://ui/screen_components/_general_componets/menu/menus/vertical_menu/vertical_menu.tscn" id="3_cfaxc"]
 [ext_resource type="PackedScene" uid="uid://cfl5jtl6nbj3s" path="res://ui/screen_components/_general_componets/menu/menu_item/menu_item_with_scene/menu_item_with_scene.tscn" id="4_dr8je"]
-[ext_resource type="PackedScene" uid="uid://chi4whjeqmkui" path="res://ui/screens/forge_card_screen/forge_card_screen.tscn" id="5_xudqb"]
+[ext_resource type="PackedScene" uid="uid://dfc6va8jmvwfe" path="res://ui/screens/card_inspector_screen/card_inspector_screen.tscn" id="5_0f0jh"]
 [ext_resource type="PackedScene" uid="uid://c8t61ybgmkahs" path="res://ui/screens/world_node_screens/deforge_card_screen/deforge_card_screen.tscn" id="6_dlc2h"]
 [ext_resource type="PackedScene" uid="uid://chi8hmrw24v22" path="res://ui/screen_components/_general_componets/menu/menu_item/menu_item_with_submenu/menu_item_with_submenu.tscn" id="7_2lcwr"]
 [ext_resource type="PackedScene" uid="uid://duiqhlxde4hcv" path="res://ui/screen_components/_general_componets/menu/menu_item/_generic_menu_item/menu_item.tscn" id="8_wil5r"]
@@ -25,7 +25,7 @@ layout_mode = 2
 
 [node name="ForgeCardButton" parent="RootMenu/VerticalMenu2" instance=ExtResource("4_dr8je")]
 layout_mode = 2
-_scene = ExtResource("5_xudqb")
+_scene = ExtResource("5_0f0jh")
 _display_name = "Forge Card"
 
 [node name="DeforgeCardButton" parent="RootMenu/VerticalMenu2" instance=ExtResource("4_dr8je")]

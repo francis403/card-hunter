@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://c8t61ybgmkahs"]
+[gd_scene load_steps=29 format=3 uid="uid://c8t61ybgmkahs"]
 
 [ext_resource type="Script" uid="uid://cjqeymxnv5doo" path="res://ui/screens/world_node_screens/deforge_card_screen/deforge_card_screen.gd" id="1_nfouu"]
 [ext_resource type="PackedScene" uid="uid://hked8dt7umpy" path="res://ui/screen_components/_general_componets/buttons/sound_button/sound_button.tscn" id="2_4dcgl"]
@@ -13,12 +13,13 @@
 [ext_resource type="Texture2D" uid="uid://bgcpanftu2lor" path="res://assets/images/card/card_main_image/exclamation_mark.png" id="7_8xv1u"]
 [ext_resource type="Script" uid="uid://clufwv38rhs7a" path="res://resources/configuration/tile_highlight_configuration/tile_highlight_configuration.gd" id="7_44w0f"]
 [ext_resource type="Script" uid="uid://chyqcjvfndbak" path="res://resources/card/card_module/card_effect/_card_effects/condition_card_effect/condition_card_effect.gd" id="8_0cvub"]
+[ext_resource type="Script" uid="uid://b4jl0atcv1b6o" path="res://resources/card/card_module/card_module_output_link/card_module_output_link.gd" id="9_1q8s6"]
 [ext_resource type="Script" uid="uid://qs3ypqmnyc18" path="res://resources/card/card_module/card_effect/_card_effects/status_change_card_effect/status_change_card_effect.gd" id="9_mynou"]
 [ext_resource type="Script" uid="uid://bykm1sfwrcmbx" path="res://resources/configuration/tile_highlight_configuration/formula/formula.gd" id="10_i44mb"]
 [ext_resource type="Script" uid="uid://dscx6wxqge05q" path="res://resources/configuration/effect_configs/status_modifier_config/status_modifier_config.gd" id="10_ka3ih"]
 [ext_resource type="Script" uid="uid://0ehgq0gu1n0f" path="res://resources/card/card_module/condition/condition.gd" id="11_ww188"]
 [ext_resource type="Script" uid="uid://gcdjt0hw3kpk" path="res://resources/card/card_module/special_card_effect/special_card_effect_resource.gd" id="12_40esa"]
-[ext_resource type="PackedScene" uid="uid://c88o0llv6xfgp" path="res://ui/screen_components/card_module/card_modules_container_component/card_modules_container_component.tscn" id="15_u7acp"]
+[ext_resource type="PackedScene" uid="uid://c6cgd8hhufi53" path="res://ui/screen_components/card_module/card_modules_displayer/card_modules_displayer.tscn" id="15_u7acp"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_8xv1u"]
 font_size = 32
@@ -155,11 +156,8 @@ size_flags_horizontal = 4
 size_flags_vertical = 4
 text = "BTN_DEFORGE"
 
-[node name="CardModulesContainerComponent" parent="PanelContainer/VBoxContainer/HBoxContainer/CardToDeforge/VBoxContainer" instance=ExtResource("15_u7acp")]
+[node name="CardModulesDisplayer" parent="PanelContainer/VBoxContainer/HBoxContainer/CardToDeforge/VBoxContainer" instance=ExtResource("15_u7acp")]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 1.5
-columns = 2
-h_separation = 30
-v_separation = 30

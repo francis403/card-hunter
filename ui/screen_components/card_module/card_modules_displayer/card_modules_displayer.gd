@@ -57,9 +57,10 @@ func _ready() -> void:
 	populate_from_card_resource(card_resource)
 
 func populate_from_card_resource(_card_resource: CardResourceV2) -> void:
-	if not _card_resource:
-		return
 	_clear_graph()
+	if not _card_resource:
+		_add_empty_graph()
+		return
 	_special_card_effects.assign(_card_resource.special_effects)
 	# Ensure module tree is built (may not be if this is a fresh resource instance)
 	if _card_resource.use_new_card_module_system and _card_resource.start_card_module.next_modules.is_empty():
@@ -241,6 +242,21 @@ func _add_end_node(last_modules: Array[CardModule], nodes_map: Dictionary, level
 			graph_edit.connect_node(nodes_map[module.id], 0, _end_node.name, 0)
 
 
+func _add_empty_graph() -> void:
+	var start_module := CardModule.new()
+	start_module.id = "start_module"
+	start_module.title = "Start Module"
+	start_module.module_type = "START"
+	start_module.output_links = []
+	start_module.next_modules = []
+	_head_module_displayed = start_module
+	var start_node := _create_graph_node(start_module)
+	start_node.position_offset = Vector2.ZERO
+	graph_edit.add_child(start_node)
+	_node_module_map[start_node.name] = start_module
+	_add_end_node([], {}, 1)
+
+
 func _get_safe_node_name(module: CardModule) -> String:
 	if module.id and not module.id.is_empty():
 		return module.id
@@ -303,6 +319,9 @@ func _on_connection_request(from_node: StringName, from_port: int, to_node: Stri
 	if _get_output_connection_count(from_node) >= from.max_number_of_output_connections:
 		return
 	if _get_input_connection_count(to_node) >= to.max_number_of_input_connections:
+		return
+	# Prevent start node from connecting directly to end node
+	if from is StartCardModuleGraphNode and to is EndCardModuleGraphNode:
 		return
 	# Validate module type compatibility
 	var from_module: CardModule = _node_module_map.get(String(from_node))

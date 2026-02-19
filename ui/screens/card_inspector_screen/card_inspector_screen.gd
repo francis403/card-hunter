@@ -1,21 +1,27 @@
 extends Control
 class_name CardInspectorScreen
 
+@export var _initial_displayed_card: CardResourceV2
 @export var _debug_mode: bool = false
 
 @onready var card: Card = %Card
 @onready var change_card_button: SoundButton = %ChangeCardButton
 @onready var upgrade_card_button: SoundButton = %UpgradeCard
-@onready var card_module_back_button: SoundButton = %CardModuleBackButton
 @onready var undo_button: SoundButton = %UndoButton
 
 @onready var card_modules_component: MarginContainer = %CardModulesComponent
 @onready var card_modules_container_component: CardModulesContainerComponent = %CardModulesContainerComponent
-@onready var card_modules_displayer: CardModuleDisplayer = $PanelContainer/VBoxContainer/CardModulesDisplayer
+@onready var card_modules_displayer: CardModuleDisplayer = $PanelContainer/HBoxContainer/TabContainer/InspectTab/CardModulesDisplayer
+@onready var tab_container: TabContainer = $PanelContainer/HBoxContainer/TabContainer
+@onready var forge_tab: Control = $PanelContainer/HBoxContainer/TabContainer/ForgeTab
+@onready var back_button: SoundButton = %BackButton
 
 var _deck_visualizer: DeckVisualizer
 var _is_upgrade_open: bool = false
 var _undo_stack: Array[Dictionary] = []
+var _forge_card_screen: ForgeCardScreen
+
+var change_card_button_original_text: String
 
 func _ready() -> void:
 	if self._debug_mode:
@@ -26,17 +32,24 @@ func _ready() -> void:
 		card_modules_container_component.add_grim_elems(
 			PlayerController.get_card_modules()
 		)
+	change_card_button_original_text = change_card_button.text
+	card_modules_displayer.populate_from_card_resource(_initial_displayed_card.dup())
 	change_card_button.pressed_and_sound_played.connect(_on_change_card_button_pressed)
 	upgrade_card_button.pressed_and_sound_played.connect(_on_upgrade_card_button_pressed)
-	card_module_back_button.pressed_and_sound_played.connect(_on_card_module_back_button_pressed)
+
 	card_modules_container_component.module_pressed.connect(_on_card_module_pressed)
 	undo_button.pressed_and_sound_played.connect(_on_undo_button_pressed)
 	card_modules_displayer.undoable_action_performed.connect(_on_undoable_action)
+	tab_container.tab_changed.connect(_on_tab_changed)
+	back_button.pressed_and_sound_played.connect(_on_back_button_pressed)
 
 func _on_change_card_button_pressed() -> void:
 	if _deck_visualizer:
 		return
-
+	if _is_upgrade_open:
+		_on_card_module_back_button_pressed()
+		change_card_button.text = change_card_button_original_text
+		return
 	_deck_visualizer = Refs.deck_visualizer_scene.instantiate()
 	_deck_visualizer.deck = PlayerController.get_deck()._deck
 	if self._debug_mode:
@@ -75,6 +88,7 @@ func _on_upgrade_card_button_pressed():
 		card_modules_displayer.enable_module_deletion = true
 		card_modules_displayer.enable_module_connection = true
 		upgrade_card_button.text = "Save"
+		change_card_button.text = "Hide Modules"
 		_is_upgrade_open = true
 		undo_button.visible = true
 		_update_undo_button_state()
@@ -85,7 +99,6 @@ func _on_upgrade_card_button_pressed():
 		var _new_card_head: CardModule = card_modules_displayer.get_displayed_card_head()
 		card.card_resource.start_card_module = _new_card_head
 		_undo_stack.clear()
-		_on_card_module_back_button_pressed()
 
 func _on_card_module_back_button_pressed():
 	card_modules_component.visible = false
@@ -114,3 +127,34 @@ func _on_undo_button_pressed() -> void:
 
 func _update_undo_button_state() -> void:
 	undo_button.disabled = _undo_stack.is_empty()
+
+
+func _on_tab_changed(tab_index: int) -> void:
+	if tab_index == 1:
+		_open_forge_screen()
+	else:
+		_close_forge_screen()
+
+
+func _open_forge_screen() -> void:
+	if _forge_card_screen:
+		return
+	_forge_card_screen = preload("res://ui/screens/forge_card_screen/forge_card_screen.tscn").instantiate()
+	forge_tab.add_child(_forge_card_screen)
+	_forge_card_screen.tree_exited.connect(_on_forge_screen_exited)
+	_forge_card_screen.get_node("PanelContainer/MarginContainer/VBoxContainer/MarginContainer/BackButton").visible = false
+	_forge_card_screen.get_node("PanelContainer/MarginContainer/VBoxContainer/MarginContainer/PageTitle").visible = false
+
+
+func _close_forge_screen() -> void:
+	if _forge_card_screen:
+		_forge_card_screen.queue_free()
+		_forge_card_screen = null
+
+
+func _on_forge_screen_exited() -> void:
+	_forge_card_screen = null
+
+
+func _on_back_button_pressed() -> void:
+	queue_free()

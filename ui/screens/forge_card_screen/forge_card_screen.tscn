@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://chi4whjeqmkui"]
+[gd_scene load_steps=15 format=3 uid="uid://chi4whjeqmkui"]
 
 [ext_resource type="Theme" uid="uid://bxlatu18hbfeu" path="res://assets/themes/generic_theme_1.tres" id="1_dn2uj"]
 [ext_resource type="Script" uid="uid://d2vo3sl5mup0o" path="res://ui/screens/forge_card_screen/forge_card_screen.gd" id="1_m7f0i"]
@@ -12,6 +12,7 @@
 [ext_resource type="Script" uid="uid://bsspisl6hdkmh" path="res://resources/card/card_resource_v2/card_resource_v2.gd" id="7_2y4kb"]
 [ext_resource type="Texture2D" uid="uid://bgcpanftu2lor" path="res://assets/images/card/card_main_image/exclamation_mark.png" id="8_anyo7"]
 [ext_resource type="Script" uid="uid://gcdjt0hw3kpk" path="res://resources/card/card_module/special_card_effect/special_card_effect_resource.gd" id="8_ivn8g"]
+[ext_resource type="PackedScene" uid="uid://c6cgd8hhufi53" path="res://ui/screen_components/card_module/card_modules_displayer/card_modules_displayer.tscn" id="13_friop"]
 
 [sub_resource type="Resource" id="Resource_e1um6"]
 script = ExtResource("7_2y4kb")
@@ -55,6 +56,7 @@ text = "BTN_BACK"
 
 [node name="PageTitle" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer"]
 auto_translate_mode = 1
+visible = false
 layout_mode = 2
 size_flags_horizontal = 4
 theme = ExtResource("3_1hwil")
@@ -66,20 +68,26 @@ layout_mode = 2
 size_flags_vertical = 3
 alignment = 1
 
-[node name="MarginContainer" type="MarginContainer" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="CardAndModulesContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.0
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/CardAndModulesContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 size_flags_stretch_ratio = 4.0
 theme_override_constants/margin_left = 15
 theme_override_constants/margin_top = 0
 theme_override_constants/margin_right = 15
 theme_override_constants/margin_bottom = 15
 
-[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/CardAndModulesContainer/MarginContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="SubModuleTitle" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer/VBoxContainer"]
+[node name="SubModuleTitle" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/CardAndModulesContainer/MarginContainer/VBoxContainer"]
 auto_translate_mode = 1
 layout_mode = 2
 size_flags_horizontal = 4
@@ -87,14 +95,14 @@ size_flags_vertical = 0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 text = "UI_AVAILABLE_CARD_MODULES"
 
-[node name="PanelContainer" type="PanelContainer" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer/VBoxContainer"]
+[node name="PanelContainer" type="PanelContainer" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/CardAndModulesContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 5.0
 theme = ExtResource("3_wre6q")
 
-[node name="CardModulesContainerComponent" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer/VBoxContainer/PanelContainer" instance=ExtResource("2_qj0og")]
+[node name="CardModulesContainerComponent" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/CardAndModulesContainer/MarginContainer/VBoxContainer/PanelContainer" instance=ExtResource("2_qj0og")]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
@@ -103,16 +111,15 @@ columns = 2
 h_separation = 20
 v_separation = 20
 
-[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="VBoxContainer2" type="VBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
-size_flags_horizontal = 3
-size_flags_stretch_ratio = 4.0
-alignment = 1
+size_flags_horizontal = 6
 
-[node name="MarginContainer" type="MarginContainer" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer2"]
 layout_mode = 2
+size_flags_horizontal = 4
 
-[node name="Card" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/MarginContainer" instance=ExtResource("2_8v2wh")]
+[node name="Card" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer2/MarginContainer" instance=ExtResource("2_8v2wh")]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
@@ -120,19 +127,19 @@ card_resource = SubResource("Resource_e1um6")
 card_can_hover = false
 card_can_be_discarded = false
 
-[node name="MarginContainer" type="MarginContainer" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/MarginContainer/Card"]
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer2/MarginContainer/Card"]
 layout_mode = 2
 theme_override_constants/margin_left = 35
 theme_override_constants/margin_top = 5
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 5
 
-[node name="CardTitleInput" type="LineEdit" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/MarginContainer/Card/MarginContainer"]
+[node name="CardTitleInput" type="LineEdit" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer2/MarginContainer/Card/MarginContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 0
 
-[node name="ForgeButton" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer" instance=ExtResource("4_sy17u")]
+[node name="ForgeButton" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer2" instance=ExtResource("4_sy17u")]
 unique_name_in_owner = true
 auto_translate_mode = 1
 layout_mode = 2
@@ -140,35 +147,38 @@ size_flags_horizontal = 4
 size_flags_vertical = 4
 text = "BTN_FORGE_CARD"
 
-[node name="ValidationContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
+[node name="ValidationContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer2"]
 layout_mode = 2
 size_flags_horizontal = 4
 
-[node name="ModuleCountLabel" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/ValidationContainer"]
+[node name="ModuleCountLabel" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer2/ValidationContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Modules: 0/4"
 horizontal_alignment = 1
 
-[node name="TitleLengthLabel" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/ValidationContainer"]
+[node name="TitleLengthLabel" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer2/ValidationContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Title: 0/60 characters"
 horizontal_alignment = 1
 
-[node name="ValidationErrorLabel" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/ValidationContainer"]
+[node name="ValidationErrorLabel" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer2/ValidationContainer"]
 unique_name_in_owner = true
 modulate = Color(1, 0.301961, 0.301961, 1)
 layout_mode = 2
 horizontal_alignment = 1
 
-[node name="AddedCardModules" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer" instance=ExtResource("2_qj0og")]
-unique_name_in_owner = true
+[node name="PanelContainer" type="PanelContainer" parent="PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
-columns = 2
-h_separation = 20
-v_separation = 20
+theme = ExtResource("3_wre6q")
+
+[node name="CardModulesDisplayer" parent="PanelContainer/MarginContainer/VBoxContainer/PanelContainer" instance=ExtResource("13_friop")]
+unique_name_in_owner = true
+layout_mode = 2
+enable_module_deletion = true
+enable_module_connection = true
 
 [connection signal="pressed_and_sound_played" from="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/BackButton" to="." method="_on_back_button_pressed"]
-[connection signal="pressed_and_sound_played" from="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/ForgeButton" to="." method="_on_forge_button_pressed"]
+[connection signal="pressed_and_sound_played" from="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer2/ForgeButton" to="." method="_on_forge_button_pressed"]
