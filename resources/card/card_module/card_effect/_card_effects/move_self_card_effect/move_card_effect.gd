@@ -19,8 +19,11 @@ func play_card_effect() -> CardEffectResponse:
 		push_warning("Previous card_module response tile has no piece in it!")
 		return _response
 	var _piece_to_move: Piece = _selected_tile.piece_in_tile
+	var new_config: TileHighlightConfig = tile_highlight_config.duplicate()
+	if _piece_to_move is PlayerPiece:
+		new_config._range = tile_highlight_config._range * _piece_to_move._speed
 	var _tile_to_place_piece: Tile = await _get_user_input(
-		tile_highlight_config,
+		new_config,
 		_piece_to_move
 	)
 	if not _tile_to_place_piece:
