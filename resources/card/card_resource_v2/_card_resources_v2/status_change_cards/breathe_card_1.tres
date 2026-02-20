@@ -1,19 +1,41 @@
-[gd_resource type="Resource" script_class="CardResourceV2" load_steps=10 format=3 uid="uid://bnbqi4hpeshi7"]
+[gd_resource type="Resource" script_class="CardResourceV2" load_steps=13 format=3 uid="uid://bnbqi4hpeshi7"]
 
 [ext_resource type="Texture2D" uid="uid://cmdpu8h87nhym" path="res://assets/images/card/card_main_image/breathing.png" id="1_2g634"]
 [ext_resource type="Script" uid="uid://clo7yb32ydt37" path="res://resources/card/card_module/card_effect/card_effect.gd" id="1_8t6g6"]
 [ext_resource type="Script" uid="uid://0ehgq0gu1n0f" path="res://resources/card/card_module/condition/condition.gd" id="2_7flai"]
-[ext_resource type="Script" uid="uid://qs3ypqmnyc18" path="res://resources/card/card_module/card_effect/_card_effects/status_change_card_effect/status_change_card_effect.gd" id="2_f1s3t"]
 [ext_resource type="Script" uid="uid://b4jl0atcv1b6o" path="res://resources/card/card_module/card_module_output_link/card_module_output_link.gd" id="3_0o631"]
 [ext_resource type="Resource" uid="uid://rjylrmcltplf" path="res://resources/card/card_module/card_effect/_card_effects/status_change_card_effect/status_modifier_config_collection/status_stamina_recover_15.tres" id="3_6wfj5"]
 [ext_resource type="Script" uid="uid://bsspisl6hdkmh" path="res://resources/card/card_resource_v2/card_resource_v2.gd" id="3_o0hed"]
 [ext_resource type="Script" uid="uid://gcdjt0hw3kpk" path="res://resources/card/card_module/special_card_effect/special_card_effect_resource.gd" id="4_urash"]
+[ext_resource type="Script" uid="uid://cf54185vfm3qk" path="res://resources/card/card_module/card_effect/_card_effects/target_input_card_effects/target_input_card_effect.gd" id="5_ti"]
+[ext_resource type="Script" uid="uid://bynj7xoupn2vf" path="res://resources/card/card_module/card_effect/_card_effects/status_change_card_effect/status_change_card_effect_v2.gd" id="6_scev2"]
 
-[sub_resource type="Resource" id="Resource_ma60m"]
-script = ExtResource("2_f1s3t")
+[sub_resource type="Resource" id="Resource_outlink"]
+script = ExtResource("3_0o631")
+connection_id = "status_stamina_recover"
+metadata/_custom_type_script = "uid://b4jl0atcv1b6o"
+
+[sub_resource type="Resource" id="Resource_ti"]
+script = ExtResource("5_ti")
+id = "target_input_self_breathe"
+title = "Target Self"
+stamina_cost = 0
+types = Array[String](["target_input"])
+output_links = Array[ExtResource("3_0o631")]([SubResource("Resource_outlink")])
+connection_id = "target_self_breathe"
+module_type = "INPUT"
+metadata/_custom_type_script = "uid://cf54185vfm3qk"
+
+[sub_resource type="Resource" id="Resource_scev2"]
+script = ExtResource("6_scev2")
 status_modifier_config = ExtResource("3_6wfj5")
+id = "status_stamina_recover"
 title = "Recover 15 stamina points"
 stamina_cost = 10
+types = Array[String](["status_change"])
+connection_id = "status_stamina_recover"
+allowed_input_module_types = "INPUT"
+metadata/_custom_type_script = "uid://bynj7xoupn2vf"
 
 [resource]
 script = ExtResource("3_o0hed")
@@ -21,5 +43,6 @@ id = "breathe_1"
 title = "CARD_BREATHE_TITLE"
 description = "CARD_BREATHE_DESC"
 tag_array = Array[String](["status_change", "breath"])
-play_actions = Array[ExtResource("1_8t6g6")]([SubResource("Resource_ma60m")])
+play_actions = Array[ExtResource("1_8t6g6")]([SubResource("Resource_ti"), SubResource("Resource_scev2")])
 card_image = ExtResource("1_2g634")
+use_new_card_module_system = true

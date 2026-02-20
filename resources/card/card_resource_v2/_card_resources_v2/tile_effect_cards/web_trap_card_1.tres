@@ -1,11 +1,49 @@
-[gd_resource type="Resource" script_class="CardResourceV2" load_steps=7 format=3 uid="uid://cp142jaqew3cw"]
+[gd_resource type="Resource" script_class="CardResourceV2" load_steps=16 format=3 uid="uid://cp142jaqew3cw"]
 
 [ext_resource type="Script" uid="uid://clo7yb32ydt37" path="res://resources/card/card_module/card_effect/card_effect.gd" id="1_0rq6g"]
 [ext_resource type="Texture2D" uid="uid://ymefqbjba3nk" path="res://assets/images/card/card_main_image/spider_web.png" id="1_4cbme"]
-[ext_resource type="Resource" uid="uid://71gsyvywb3eb" path="res://resources/card/card_module/card_effect/_card_effects/tile_effect_card_effect/_tile_effect_card_effects/spider_web_tile_effect_card_effect.tres" id="2_2tvq2"]
 [ext_resource type="Script" uid="uid://0ehgq0gu1n0f" path="res://resources/card/card_module/condition/condition.gd" id="6_ap3qq"]
 [ext_resource type="Script" uid="uid://bsspisl6hdkmh" path="res://resources/card/card_resource_v2/card_resource_v2.gd" id="7_7cf2v"]
 [ext_resource type="Script" uid="uid://gcdjt0hw3kpk" path="res://resources/card/card_module/special_card_effect/special_card_effect_resource.gd" id="8_svy8j"]
+[ext_resource type="Script" uid="uid://cf54185vfm3qk" path="res://resources/card/card_module/card_effect/_card_effects/target_input_card_effects/target_input_card_effect.gd" id="9_ti"]
+[ext_resource type="Script" uid="uid://cpjd5x21uxayi" path="res://resources/card/card_module/card_effect/_card_effects/tile_effect_card_effect/tile_effect_card_effect_v2.gd" id="10_tcev2"]
+[ext_resource type="Resource" uid="uid://b6wwihrdhhm7o" path="res://resources/battle_entities/tile_effect_resource/_tile_effect_resources/spider_web_tile_effect_resource.tres" id="11_ter"]
+[ext_resource type="Script" uid="uid://b4jl0atcv1b6o" path="res://resources/card/card_module/card_module_output_link/card_module_output_link.gd" id="12_ol"]
+[ext_resource type="Script" uid="uid://clufwv38rhs7a" path="res://resources/configuration/tile_highlight_configuration/tile_highlight_configuration.gd" id="13_thc"]
+[ext_resource type="Script" uid="uid://bykm1sfwrcmbx" path="res://resources/configuration/tile_highlight_configuration/formula/formula.gd" id="14_form"]
+
+[sub_resource type="Resource" id="Resource_thc"]
+script = ExtResource("13_thc")
+_range = 2
+area_type = 4
+
+[sub_resource type="Resource" id="Resource_outlink"]
+script = ExtResource("12_ol")
+connection_id = "tile_effect_web_trap"
+metadata/_custom_type_script = "uid://b4jl0atcv1b6o"
+
+[sub_resource type="Resource" id="Resource_ti"]
+script = ExtResource("9_ti")
+tile_highlight_config = SubResource("Resource_thc")
+area_input_type = "OTHER"
+id = "target_input_other_web_trap"
+title = "Target Other"
+stamina_cost = 0
+types = Array[String](["target_input"])
+output_links = Array[ExtResource("12_ol")]([SubResource("Resource_outlink")])
+connection_id = "target_other_web_trap"
+module_type = "INPUT"
+metadata/_custom_type_script = "uid://cf54185vfm3qk"
+
+[sub_resource type="Resource" id="Resource_tcev2"]
+script = ExtResource("10_tcev2")
+tile_effect_resource = ExtResource("11_ter")
+id = "tile_effect_web_trap"
+title = "Place Web Trap"
+types = Array[String](["tile_effect"])
+connection_id = "tile_effect_web_trap"
+allowed_input_module_types = "INPUT"
+metadata/_custom_type_script = "uid://cpjd5x21uxayi"
 
 [resource]
 script = ExtResource("7_7cf2v")
@@ -14,5 +52,6 @@ title = "CARD_WEB_TRAP_TITLE"
 description = "CARD_WEB_TRAP_DESC"
 stamina_cost = 20
 tag_array = Array[String](["trap"])
-play_actions = Array[ExtResource("1_0rq6g")]([ExtResource("2_2tvq2")])
+play_actions = Array[ExtResource("1_0rq6g")]([SubResource("Resource_ti"), SubResource("Resource_tcev2")])
 card_image = ExtResource("1_4cbme")
+use_new_card_module_system = true

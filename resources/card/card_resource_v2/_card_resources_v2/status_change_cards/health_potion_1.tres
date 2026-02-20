@@ -1,25 +1,46 @@
-[gd_resource type="Resource" script_class="CardResourceV2" load_steps=12 format=3 uid="uid://d0tjdvgepml65"]
+[gd_resource type="Resource" script_class="CardResourceV2" load_steps=15 format=3 uid="uid://d0tjdvgepml65"]
 
 [ext_resource type="AudioStream" uid="uid://mdol2aev84gr" path="res://assets/sound/sound_effects/drinking_potion.mp3" id="1_6q8rp"]
 [ext_resource type="Texture2D" uid="uid://dnf1rcsjmf4c3" path="res://assets/images/card/card_main_image/potion_healing_1.png" id="2_e32qo"]
 [ext_resource type="Script" uid="uid://clo7yb32ydt37" path="res://resources/card/card_module/card_effect/card_effect.gd" id="2_grq01"]
-[ext_resource type="Script" uid="uid://qs3ypqmnyc18" path="res://resources/card/card_module/card_effect/_card_effects/status_change_card_effect/status_change_card_effect.gd" id="3_2fk6h"]
+[ext_resource type="Script" uid="uid://bynj7xoupn2vf" path="res://resources/card/card_module/card_effect/_card_effects/status_change_card_effect/status_change_card_effect_v2.gd" id="3_scev2"]
 [ext_resource type="Script" uid="uid://dscx6wxqge05q" path="res://resources/configuration/effect_configs/status_modifier_config/status_modifier_config.gd" id="4_11vpw"]
 [ext_resource type="Script" uid="uid://b4jl0atcv1b6o" path="res://resources/card/card_module/card_module_output_link/card_module_output_link.gd" id="4_q3wk3"]
 [ext_resource type="Script" uid="uid://0ehgq0gu1n0f" path="res://resources/card/card_module/condition/condition.gd" id="5_xpgh1"]
 [ext_resource type="Script" uid="uid://bsspisl6hdkmh" path="res://resources/card/card_resource_v2/card_resource_v2.gd" id="6_8yhy6"]
 [ext_resource type="Script" uid="uid://gcdjt0hw3kpk" path="res://resources/card/card_module/special_card_effect/special_card_effect_resource.gd" id="7_vvv15"]
+[ext_resource type="Script" uid="uid://cf54185vfm3qk" path="res://resources/card/card_module/card_effect/_card_effects/target_input_card_effects/target_input_card_effect.gd" id="8_ti"]
 
-[sub_resource type="Resource" id="Resource_lxwx0"]
+[sub_resource type="Resource" id="Resource_outlink"]
+script = ExtResource("4_q3wk3")
+connection_id = "status_heal_50"
+metadata/_custom_type_script = "uid://b4jl0atcv1b6o"
+
+[sub_resource type="Resource" id="Resource_ti"]
+script = ExtResource("8_ti")
+id = "target_input_self_health_potion"
+title = "Target Self"
+stamina_cost = 0
+types = Array[String](["target_input"])
+output_links = Array[ExtResource("4_q3wk3")]([SubResource("Resource_outlink")])
+connection_id = "target_self_health_potion"
+module_type = "INPUT"
+metadata/_custom_type_script = "uid://cf54185vfm3qk"
+
+[sub_resource type="Resource" id="Resource_smc"]
 script = ExtResource("4_11vpw")
 stat = 3
 value = 50.0
 
-[sub_resource type="Resource" id="Resource_1uxtb"]
-script = ExtResource("3_2fk6h")
-status_modifier_config = SubResource("Resource_lxwx0")
-title = "Recover 50 hp. (one use)"
-stamina_cost = 0
+[sub_resource type="Resource" id="Resource_scev2"]
+script = ExtResource("3_scev2")
+status_modifier_config = SubResource("Resource_smc")
+id = "status_heal_50"
+title = "Recover 50 hp"
+types = Array[String](["status_change"])
+connection_id = "status_heal_50"
+allowed_input_module_types = "INPUT"
+metadata/_custom_type_script = "uid://bynj7xoupn2vf"
 
 [resource]
 script = ExtResource("6_8yhy6")
@@ -27,6 +48,7 @@ id = "health_potion_1"
 title = "CARD_HEALTH_POTION_TITLE"
 description = "CARD_HEALTH_POTION_DESC"
 tag_array = Array[String](["one_use", "status_change", "item"])
-play_actions = Array[ExtResource("2_grq01")]([SubResource("Resource_1uxtb")])
+play_actions = Array[ExtResource("2_grq01")]([SubResource("Resource_ti"), SubResource("Resource_scev2")])
 audio_stream = ExtResource("1_6q8rp")
 card_image = ExtResource("2_e32qo")
+use_new_card_module_system = true

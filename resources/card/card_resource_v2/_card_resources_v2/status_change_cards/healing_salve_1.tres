@@ -1,13 +1,47 @@
-[gd_resource type="Resource" script_class="CardResourceV2" load_steps=9 format=3 uid="uid://bw75c328o26mj"]
+[gd_resource type="Resource" script_class="CardResourceV2" load_steps=16 format=3 uid="uid://bw75c328o26mj"]
 
 [ext_resource type="AudioStream" uid="uid://mdol2aev84gr" path="res://assets/sound/sound_effects/drinking_potion.mp3" id="1_1s75b"]
 [ext_resource type="Script" uid="uid://clo7yb32ydt37" path="res://resources/card/card_module/card_effect/card_effect.gd" id="2_nvt4n"]
 [ext_resource type="Texture2D" uid="uid://dp8qeyye5fbmr" path="res://assets/images/card/card_main_image/healing-herb.png" id="2_spwxs"]
-[ext_resource type="Resource" uid="uid://dwf8cmfbfbupv" path="res://resources/card/card_module/card_effect/_card_effects/_card_effects_collection/status_heal_10_hp.tres" id="3_naxq7"]
 [ext_resource type="Resource" uid="uid://do7j7611bxoix" path="res://resources/card/card_module/card_effect/_card_effects/_card_effects_collection/status_remove_all_status.tres" id="5_5ret8"]
 [ext_resource type="Script" uid="uid://0ehgq0gu1n0f" path="res://resources/card/card_module/condition/condition.gd" id="6_opsg1"]
 [ext_resource type="Script" uid="uid://bsspisl6hdkmh" path="res://resources/card/card_resource_v2/card_resource_v2.gd" id="7_toj4q"]
 [ext_resource type="Script" uid="uid://gcdjt0hw3kpk" path="res://resources/card/card_module/special_card_effect/special_card_effect_resource.gd" id="8_ixpmy"]
+[ext_resource type="Script" uid="uid://cf54185vfm3qk" path="res://resources/card/card_module/card_effect/_card_effects/target_input_card_effects/target_input_card_effect.gd" id="9_ti"]
+[ext_resource type="Script" uid="uid://bynj7xoupn2vf" path="res://resources/card/card_module/card_effect/_card_effects/status_change_card_effect/status_change_card_effect_v2.gd" id="10_scev2"]
+[ext_resource type="Script" uid="uid://dscx6wxqge05q" path="res://resources/configuration/effect_configs/status_modifier_config/status_modifier_config.gd" id="11_smc"]
+[ext_resource type="Script" uid="uid://b4jl0atcv1b6o" path="res://resources/card/card_module/card_module_output_link/card_module_output_link.gd" id="12_ol"]
+
+[sub_resource type="Resource" id="Resource_smc"]
+script = ExtResource("11_smc")
+stat = 3
+value = 10.0
+
+[sub_resource type="Resource" id="Resource_outlink"]
+script = ExtResource("12_ol")
+connection_id = "status_heal_10"
+metadata/_custom_type_script = "uid://b4jl0atcv1b6o"
+
+[sub_resource type="Resource" id="Resource_ti"]
+script = ExtResource("9_ti")
+id = "target_input_self_healing_salve"
+title = "Target Self"
+stamina_cost = 0
+types = Array[String](["target_input"])
+output_links = Array[ExtResource("12_ol")]([SubResource("Resource_outlink")])
+connection_id = "target_self_healing_salve"
+module_type = "INPUT"
+metadata/_custom_type_script = "uid://cf54185vfm3qk"
+
+[sub_resource type="Resource" id="Resource_scev2"]
+script = ExtResource("10_scev2")
+status_modifier_config = SubResource("Resource_smc")
+id = "status_heal_10"
+title = "Heal 10 hp"
+types = Array[String](["status_change"])
+connection_id = "status_heal_10"
+allowed_input_module_types = "INPUT"
+metadata/_custom_type_script = "uid://bynj7xoupn2vf"
 
 [resource]
 script = ExtResource("7_toj4q")
@@ -15,6 +49,7 @@ id = "healing_salve_1"
 title = "CARD_HEALING_SALVE_TITLE"
 description = "CARD_HEALING_SALVE_DESC"
 tag_array = Array[String](["one_use", "status_change", "item"])
-play_actions = Array[ExtResource("2_nvt4n")]([ExtResource("3_naxq7"), ExtResource("5_5ret8")])
+play_actions = Array[ExtResource("2_nvt4n")]([SubResource("Resource_ti"), SubResource("Resource_scev2"), ExtResource("5_5ret8")])
 audio_stream = ExtResource("1_1s75b")
 card_image = ExtResource("2_spwxs")
+use_new_card_module_system = true

@@ -23,6 +23,8 @@ func play_card_effect() -> CardEffectResponse:
 		tile_highlight_config,
 		_piece_to_move
 	)
+	if not _tile_to_place_piece:
+		return _response
 	var battlemap: Battlemap = BattleController.battlemap
 	battlemap.place_piece_in_tile(_piece_to_move, _tile_to_place_piece)
 	if _piece_to_move is PlayerPiece:

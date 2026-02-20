@@ -1,13 +1,48 @@
-[gd_resource type="Resource" script_class="CardResourceV2" load_steps=9 format=3 uid="uid://c5evsapdpvc2b"]
+[gd_resource type="Resource" script_class="CardResourceV2" load_steps=17 format=3 uid="uid://c5evsapdpvc2b"]
 
 [ext_resource type="AudioStream" uid="uid://d4nqs2kfg56mh" path="res://assets/sound/sound_effects/knifeSlice.ogg" id="1_7p1qy"]
 [ext_resource type="Script" uid="uid://clo7yb32ydt37" path="res://resources/card/card_module/card_effect/card_effect.gd" id="2_lcxss"]
 [ext_resource type="Texture2D" uid="uid://b7eyua47vpamc" path="res://assets/images/card/card_main_image/ninja.png" id="2_pxxpr"]
-[ext_resource type="Resource" uid="uid://b7jfi626r7lu0" path="res://resources/card/card_module/card_effect/_card_effects/_card_effects_collection/melee_attack_10.tres" id="3_ugcko"]
 [ext_resource type="Script" uid="uid://0ehgq0gu1n0f" path="res://resources/card/card_module/condition/condition.gd" id="5_nogop"]
 [ext_resource type="Script" uid="uid://bsspisl6hdkmh" path="res://resources/card/card_resource_v2/card_resource_v2.gd" id="6_icl8p"]
 [ext_resource type="Resource" uid="uid://bl34unrcper2h" path="res://resources/card/card_module/special_card_effect/_special_card_effects_collection/on_discard_special_effects/on_discard_draw_card_special_effect.tres" id="7_uly14"]
 [ext_resource type="Script" uid="uid://gcdjt0hw3kpk" path="res://resources/card/card_module/special_card_effect/special_card_effect_resource.gd" id="7_vhu86"]
+[ext_resource type="Script" uid="uid://cf54185vfm3qk" path="res://resources/card/card_module/card_effect/_card_effects/target_input_card_effects/target_input_card_effect.gd" id="8_ti"]
+[ext_resource type="Script" uid="uid://nrcg3nxs5ky1" path="res://resources/card/card_module/card_effect/_card_effects/attack_card_effect/deal_damage_effect.gd" id="9_dde"]
+[ext_resource type="Script" uid="uid://b4jl0atcv1b6o" path="res://resources/card/card_module/card_module_output_link/card_module_output_link.gd" id="10_ol"]
+[ext_resource type="Script" uid="uid://clufwv38rhs7a" path="res://resources/configuration/tile_highlight_configuration/tile_highlight_configuration.gd" id="11_thc"]
+[ext_resource type="Script" uid="uid://bykm1sfwrcmbx" path="res://resources/configuration/tile_highlight_configuration/formula/formula.gd" id="12_form"]
+
+[sub_resource type="Resource" id="Resource_outlink"]
+script = ExtResource("10_ol")
+connection_id = "deal_damage_sneak"
+metadata/_custom_type_script = "uid://b4jl0atcv1b6o"
+
+[sub_resource type="Resource" id="Resource_thc"]
+script = ExtResource("11_thc")
+area_type = 4
+
+[sub_resource type="Resource" id="Resource_ti"]
+script = ExtResource("8_ti")
+tile_highlight_config = SubResource("Resource_thc")
+area_input_type = "OTHER"
+id = "target_input_other_sneak"
+title = "Target Other"
+stamina_cost = 0
+types = Array[String](["target_input"])
+output_links = Array[ExtResource("10_ol")]([SubResource("Resource_outlink")])
+connection_id = "target_other_sneak"
+module_type = "INPUT"
+metadata/_custom_type_script = "uid://cf54185vfm3qk"
+
+[sub_resource type="Resource" id="Resource_dde"]
+script = ExtResource("9_dde")
+id = "deal_damage_sneak"
+title = "Deal 10 Melee Damage"
+types = Array[String](["attack"])
+connection_id = "deal_damage_sneak"
+allowed_input_module_types = "INPUT"
+metadata/_custom_type_script = "uid://nrcg3nxs5ky1"
 
 [resource]
 script = ExtResource("6_icl8p")
@@ -16,7 +51,8 @@ title = "CARD_SNEAK_ATTACK_TITLE"
 description = "CARD_SNEAK_ATTACK_DESC"
 stamina_cost = 10
 tag_array = Array[String](["attack"])
-play_actions = Array[ExtResource("2_lcxss")]([ExtResource("3_ugcko")])
+play_actions = Array[ExtResource("2_lcxss")]([SubResource("Resource_ti"), SubResource("Resource_dde")])
 special_effects = Array[ExtResource("7_vhu86")]([ExtResource("7_uly14")])
 audio_stream = ExtResource("1_7p1qy")
 card_image = ExtResource("2_pxxpr")
+use_new_card_module_system = true

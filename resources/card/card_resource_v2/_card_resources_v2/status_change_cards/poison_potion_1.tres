@@ -1,12 +1,48 @@
-[gd_resource type="Resource" script_class="CardResourceV2" load_steps=8 format=3 uid="uid://b7dsj5bdapmyx"]
+[gd_resource type="Resource" script_class="CardResourceV2" load_steps=15 format=3 uid="uid://b7dsj5bdapmyx"]
 
 [ext_resource type="AudioStream" uid="uid://mdol2aev84gr" path="res://assets/sound/sound_effects/drinking_potion.mp3" id="1_sojj0"]
 [ext_resource type="Script" uid="uid://clo7yb32ydt37" path="res://resources/card/card_module/card_effect/card_effect.gd" id="2_ab47b"]
 [ext_resource type="Texture2D" uid="uid://cl4cr5b3eldb3" path="res://assets/images/card/card_main_image/potion_poison.png" id="2_eenue"]
-[ext_resource type="Resource" uid="uid://cjoxs5lk0f0qg" path="res://resources/card/card_module/card_effect/_card_effects/_card_effects_collection/status_health_minus_20.tres" id="3_rf113"]
 [ext_resource type="Script" uid="uid://0ehgq0gu1n0f" path="res://resources/card/card_module/condition/condition.gd" id="5_j3xg2"]
 [ext_resource type="Script" uid="uid://bsspisl6hdkmh" path="res://resources/card/card_resource_v2/card_resource_v2.gd" id="6_6efw8"]
 [ext_resource type="Script" uid="uid://gcdjt0hw3kpk" path="res://resources/card/card_module/special_card_effect/special_card_effect_resource.gd" id="7_qppgu"]
+[ext_resource type="Script" uid="uid://cf54185vfm3qk" path="res://resources/card/card_module/card_effect/_card_effects/target_input_card_effects/target_input_card_effect.gd" id="8_ti"]
+[ext_resource type="Script" uid="uid://bynj7xoupn2vf" path="res://resources/card/card_module/card_effect/_card_effects/status_change_card_effect/status_change_card_effect_v2.gd" id="9_scev2"]
+[ext_resource type="Script" uid="uid://dscx6wxqge05q" path="res://resources/configuration/effect_configs/status_modifier_config/status_modifier_config.gd" id="10_smc"]
+[ext_resource type="Script" uid="uid://b4jl0atcv1b6o" path="res://resources/card/card_module/card_module_output_link/card_module_output_link.gd" id="11_ol"]
+
+[sub_resource type="Resource" id="Resource_smc"]
+script = ExtResource("10_smc")
+stat = 3
+operation = 1
+value = 20.0
+
+[sub_resource type="Resource" id="Resource_outlink"]
+script = ExtResource("11_ol")
+connection_id = "status_poison"
+metadata/_custom_type_script = "uid://b4jl0atcv1b6o"
+
+[sub_resource type="Resource" id="Resource_ti"]
+script = ExtResource("8_ti")
+id = "target_input_self_poison"
+title = "Target Self"
+stamina_cost = 0
+types = Array[String](["target_input"])
+output_links = Array[ExtResource("11_ol")]([SubResource("Resource_outlink")])
+connection_id = "target_self_poison"
+module_type = "INPUT"
+metadata/_custom_type_script = "uid://cf54185vfm3qk"
+
+[sub_resource type="Resource" id="Resource_scev2"]
+script = ExtResource("9_scev2")
+status_modifier_config = SubResource("Resource_smc")
+id = "status_poison"
+title = "Take 20 damage"
+stamina_cost = -5
+types = Array[String](["status_change"])
+connection_id = "status_poison"
+allowed_input_module_types = "INPUT"
+metadata/_custom_type_script = "uid://bynj7xoupn2vf"
 
 [resource]
 script = ExtResource("6_6efw8")
@@ -14,6 +50,7 @@ id = "poison_potion_1"
 title = "CARD_POISON_POTION_TITLE"
 description = "CARD_POISON_POTION_DESC"
 tag_array = Array[String](["one_use", "status_change", "item"])
-play_actions = Array[ExtResource("2_ab47b")]([ExtResource("3_rf113")])
+play_actions = Array[ExtResource("2_ab47b")]([SubResource("Resource_ti"), SubResource("Resource_scev2")])
 audio_stream = ExtResource("1_sojj0")
 card_image = ExtResource("2_eenue")
+use_new_card_module_system = true

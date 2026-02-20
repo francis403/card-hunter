@@ -1,11 +1,40 @@
-[gd_resource type="Resource" script_class="CardResourceV2" load_steps=7 format=3 uid="uid://dvk1a1vyglgvc"]
+[gd_resource type="Resource" script_class="CardResourceV2" load_steps=13 format=3 uid="uid://dvk1a1vyglgvc"]
 
 [ext_resource type="Texture2D" uid="uid://4hoxr5mnlpt5" path="res://assets/images/card/card_main_image/speed.png" id="1_0to5e"]
 [ext_resource type="Script" uid="uid://clo7yb32ydt37" path="res://resources/card/card_module/card_effect/card_effect.gd" id="1_nxy4l"]
 [ext_resource type="Script" uid="uid://0ehgq0gu1n0f" path="res://resources/card/card_module/condition/condition.gd" id="2_n6siu"]
-[ext_resource type="Resource" uid="uid://c0bpds8prbbmo" path="res://resources/card/card_module/card_effect/_card_effects/_card_effects_collection/power_double_speed_2.tres" id="2_wjbuj"]
 [ext_resource type="Script" uid="uid://bsspisl6hdkmh" path="res://resources/card/card_resource_v2/card_resource_v2.gd" id="3_q1u4m"]
 [ext_resource type="Script" uid="uid://gcdjt0hw3kpk" path="res://resources/card/card_module/special_card_effect/special_card_effect_resource.gd" id="4_b5w8q"]
+[ext_resource type="Script" uid="uid://cf54185vfm3qk" path="res://resources/card/card_module/card_effect/_card_effects/target_input_card_effects/target_input_card_effect.gd" id="5_ti"]
+[ext_resource type="Script" uid="uid://jrsgm1dtwvfs" path="res://resources/card/card_module/card_effect/_card_effects/power_card_effect/power_card_effect_v2.gd" id="6_pcev2"]
+[ext_resource type="Resource" uid="uid://b8e0uhrdt2uy0" path="res://resources/battle_entities/power_effect/power_effects/double_speed_on_init_power_effect.tres" id="7_pe"]
+[ext_resource type="Script" uid="uid://b4jl0atcv1b6o" path="res://resources/card/card_module/card_module_output_link/card_module_output_link.gd" id="8_ol"]
+
+[sub_resource type="Resource" id="Resource_outlink"]
+script = ExtResource("8_ol")
+connection_id = "power_double_speed"
+metadata/_custom_type_script = "uid://b4jl0atcv1b6o"
+
+[sub_resource type="Resource" id="Resource_ti"]
+script = ExtResource("5_ti")
+id = "target_input_self_double_speed"
+title = "Target Self"
+stamina_cost = 0
+types = Array[String](["target_input"])
+output_links = Array[ExtResource("8_ol")]([SubResource("Resource_outlink")])
+connection_id = "target_self_double_speed"
+module_type = "INPUT"
+metadata/_custom_type_script = "uid://cf54185vfm3qk"
+
+[sub_resource type="Resource" id="Resource_pcev2"]
+script = ExtResource("6_pcev2")
+power_effect = ExtResource("7_pe")
+id = "power_double_speed"
+title = "Double movement for 2 turns"
+types = Array[String](["power"])
+connection_id = "power_double_speed"
+allowed_input_module_types = "INPUT"
+metadata/_custom_type_script = "uid://jrsgm1dtwvfs"
 
 [resource]
 script = ExtResource("3_q1u4m")
@@ -14,5 +43,6 @@ title = "CARD_TWICE_THE_FUN_TITLE"
 description = "CARD_TWICE_THE_FUN_DESC"
 stamina_cost = 25
 tag_array = Array[String](["power"])
-play_actions = Array[ExtResource("1_nxy4l")]([ExtResource("2_wjbuj")])
+play_actions = Array[ExtResource("1_nxy4l")]([SubResource("Resource_ti"), SubResource("Resource_pcev2")])
 card_image = ExtResource("1_0to5e")
+use_new_card_module_system = true

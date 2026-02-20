@@ -1,15 +1,60 @@
-[gd_resource type="Resource" script_class="CardResourceV2" load_steps=11 format=3 uid="uid://dj308nae7q8c7"]
+[gd_resource type="Resource" script_class="CardResourceV2" load_steps=19 format=3 uid="uid://dj308nae7q8c7"]
 
 [ext_resource type="Script" uid="uid://clo7yb32ydt37" path="res://resources/card/card_module/card_effect/card_effect.gd" id="1_3jyfw"]
 [ext_resource type="AudioStream" uid="uid://d4nqs2kfg56mh" path="res://assets/sound/sound_effects/knifeSlice.ogg" id="1_8hogi"]
 [ext_resource type="Script" uid="uid://0ehgq0gu1n0f" path="res://resources/card/card_module/condition/condition.gd" id="2_0jvh3"]
 [ext_resource type="Texture2D" uid="uid://bi3o4lhmdwq4j" path="res://assets/images/card/card_main_image/backstab.png" id="2_bgiip"]
 [ext_resource type="Script" uid="uid://bsspisl6hdkmh" path="res://resources/card/card_resource_v2/card_resource_v2.gd" id="3_b0cyg"]
-[ext_resource type="Resource" uid="uid://dovy4j1ecl36j" path="res://resources/card/card_module/card_effect/_card_effects/_card_effects_collection/melee_attack_5.tres" id="3_imbbo"]
 [ext_resource type="Script" uid="uid://gcdjt0hw3kpk" path="res://resources/card/card_module/special_card_effect/special_card_effect_resource.gd" id="4_en81f"]
 [ext_resource type="Resource" uid="uid://kx5ai2e6lffg" path="res://resources/card/card_module/card_effect/_card_effects/_card_effects_collection/on_back_attack.tres" id="4_wsbpw"]
-[ext_resource type="Resource" uid="uid://b7jfi626r7lu0" path="res://resources/card/card_module/card_effect/_card_effects/_card_effects_collection/melee_attack_10.tres" id="5_ilddh"]
 [ext_resource type="Resource" uid="uid://dby2wtmwjwbp1" path="res://resources/card/card_module/card_effect/_card_effects/_card_effects_collection/recover_5_stamina.tres" id="6_e4cl7"]
+[ext_resource type="Script" uid="uid://cf54185vfm3qk" path="res://resources/card/card_module/card_effect/_card_effects/target_input_card_effects/target_input_card_effect.gd" id="7_ti"]
+[ext_resource type="Script" uid="uid://nrcg3nxs5ky1" path="res://resources/card/card_module/card_effect/_card_effects/attack_card_effect/deal_damage_effect.gd" id="8_dde"]
+[ext_resource type="Script" uid="uid://b4jl0atcv1b6o" path="res://resources/card/card_module/card_module_output_link/card_module_output_link.gd" id="9_ol"]
+[ext_resource type="Script" uid="uid://clufwv38rhs7a" path="res://resources/configuration/tile_highlight_configuration/tile_highlight_configuration.gd" id="10_thc"]
+[ext_resource type="Script" uid="uid://bykm1sfwrcmbx" path="res://resources/configuration/tile_highlight_configuration/formula/formula.gd" id="11_form"]
+
+[sub_resource type="Resource" id="Resource_thc"]
+script = ExtResource("10_thc")
+area_type = 4
+
+[sub_resource type="Resource" id="Resource_outlink"]
+script = ExtResource("9_ol")
+connection_id = "deal_damage_backstab_1"
+metadata/_custom_type_script = "uid://b4jl0atcv1b6o"
+
+[sub_resource type="Resource" id="Resource_ti"]
+script = ExtResource("7_ti")
+tile_highlight_config = SubResource("Resource_thc")
+area_input_type = "OTHER"
+id = "target_input_other_backstab"
+title = "Target Other"
+stamina_cost = 0
+types = Array[String](["target_input"])
+output_links = Array[ExtResource("9_ol")]([SubResource("Resource_outlink")])
+connection_id = "target_other_backstab"
+module_type = "INPUT"
+metadata/_custom_type_script = "uid://cf54185vfm3qk"
+
+[sub_resource type="Resource" id="Resource_dde_1"]
+script = ExtResource("8_dde")
+damage = 5
+id = "deal_damage_backstab_1"
+title = "Deal 5 Melee Damage"
+types = Array[String](["attack"])
+connection_id = "deal_damage_backstab_1"
+allowed_input_module_types = "INPUT"
+metadata/_custom_type_script = "uid://nrcg3nxs5ky1"
+
+[sub_resource type="Resource" id="Resource_dde_2"]
+script = ExtResource("8_dde")
+damage = 10
+id = "deal_damage_backstab_2"
+title = "Deal 10 Melee Damage"
+types = Array[String](["attack"])
+connection_id = "deal_damage_backstab_2"
+allowed_input_module_types = "INPUT"
+metadata/_custom_type_script = "uid://nrcg3nxs5ky1"
 
 [resource]
 resource_local_to_scene = true
@@ -19,6 +64,7 @@ title = "CARD_BACK_STAB_TITLE"
 description = "CARD_BACK_STAB_DESC"
 stamina_cost = 10
 tag_array = Array[String](["attack"])
-play_actions = Array[ExtResource("1_3jyfw")]([ExtResource("3_imbbo"), ExtResource("4_wsbpw"), ExtResource("5_ilddh"), ExtResource("6_e4cl7")])
+play_actions = Array[ExtResource("1_3jyfw")]([SubResource("Resource_ti"), SubResource("Resource_dde_1"), ExtResource("4_wsbpw"), SubResource("Resource_dde_2"), ExtResource("6_e4cl7")])
 audio_stream = ExtResource("1_8hogi")
 card_image = ExtResource("2_bgiip")
+use_new_card_module_system = true
