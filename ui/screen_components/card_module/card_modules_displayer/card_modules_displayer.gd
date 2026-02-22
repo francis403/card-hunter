@@ -63,7 +63,7 @@ func populate_from_card_resource(_card_resource: CardResourceV2) -> void:
 		return
 	_special_card_effects.assign(_card_resource.special_effects)
 	# Ensure module tree is built (may not be if this is a fresh resource instance)
-	if _card_resource.use_new_card_module_system and _card_resource.start_card_module.next_modules.is_empty():
+	if _card_resource.start_card_module.next_modules.is_empty():
 		_card_resource._generate_card_modules_tree()
 	if not _card_resource.start_card_module or _card_resource.start_card_module.next_modules.is_empty():
 		_add_modules_flat(_card_resource.get_card_modules())

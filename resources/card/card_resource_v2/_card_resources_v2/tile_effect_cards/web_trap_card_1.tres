@@ -54,4 +54,3 @@ stamina_cost = 20
 tag_array = Array[String](["trap"])
 play_actions = Array[ExtResource("1_0rq6g")]([SubResource("Resource_ti"), SubResource("Resource_tcev2")])
 card_image = ExtResource("1_4cbme")
-use_new_card_module_system = true

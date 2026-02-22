@@ -45,4 +45,3 @@ description = "CARD_BREATHE_DESC"
 tag_array = Array[String](["status_change", "breath"])
 play_actions = Array[ExtResource("1_8t6g6")]([SubResource("Resource_ti"), SubResource("Resource_scev2")])
 card_image = ExtResource("1_2g634")
-use_new_card_module_system = true

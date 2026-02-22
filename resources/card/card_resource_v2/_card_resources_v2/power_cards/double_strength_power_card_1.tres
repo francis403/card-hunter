@@ -45,4 +45,3 @@ stamina_cost = 25
 tag_array = Array[String](["power"])
 play_actions = Array[ExtResource("1_rhbif")]([SubResource("Resource_ti"), SubResource("Resource_pcev2")])
 card_image = ExtResource("1_1fchj")
-use_new_card_module_system = true

@@ -55,4 +55,3 @@ stamina_cost = 10
 play_actions = Array[ExtResource("1_qe8bf")]([SubResource("Resource_ti"), SubResource("Resource_dde")])
 audio_stream = ExtResource("1_b6xb6")
 card_image = ExtResource("2_17qdw")
-use_new_card_module_system = true

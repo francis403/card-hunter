@@ -21,7 +21,6 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_frinb")
 _initial_displayed_card = ExtResource("2_d601d")
-_debug_mode = true
 
 [node name="PanelContainer" type="PanelContainer" parent="."]
 layout_mode = 1

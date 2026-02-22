@@ -52,4 +52,3 @@ tag_array = Array[String](["one_use", "status_change", "item"])
 play_actions = Array[ExtResource("2_nvt4n")]([SubResource("Resource_ti"), SubResource("Resource_scev2"), ExtResource("5_5ret8")])
 audio_stream = ExtResource("1_1s75b")
 card_image = ExtResource("2_spwxs")
-use_new_card_module_system = true

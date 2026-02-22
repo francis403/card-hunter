@@ -36,4 +36,3 @@ tag_array = Array[String](["move"])
 play_actions = Array[ExtResource("3_lhfx0")]([SubResource("Resource_30ye3"), ExtResource("6_ni3wx")])
 audio_stream = ExtResource("1_d6j37")
 card_image = ExtResource("2_ccs1x")
-use_new_card_module_system = true

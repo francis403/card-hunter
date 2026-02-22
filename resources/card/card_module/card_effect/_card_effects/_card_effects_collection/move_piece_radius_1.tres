@@ -8,6 +8,7 @@
 [sub_resource type="Resource" id="Resource_sw7qk"]
 script = ExtResource("4_v202g")
 area_type = 4
+ignore_occupied_tiles = true
 metadata/_custom_type_script = "uid://clufwv38rhs7a"
 
 [resource]

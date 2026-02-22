@@ -6,6 +6,9 @@ extends Control
 ## Show success message
 class_name ForgeCardScreen
 
+signal forge_successful
+signal back_button_pressed
+
 const MIN_AMOUNT_OF_MODULES: int = 1
 const MAX_AMOUNT_OF_MODULES: int = 4
 const MIN_TITLE_LENGTH: int = 1
@@ -195,7 +198,11 @@ func _update_module_visual_feedback():
 	pass  # Graph-based displayer handles its own visual feedback
 	
 func _on_back_button_pressed() -> void:
-	self.queue_free()
+	if back_button_pressed.has_connections():
+		back_button_pressed.emit()
+		return
+	get_parent().queue_free()
+	#self.queue_free()
 
 func _is_valid_card_forge() -> bool:
 	var title: String = card_title_input.text

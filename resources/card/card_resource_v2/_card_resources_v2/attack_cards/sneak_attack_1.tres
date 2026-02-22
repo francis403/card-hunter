@@ -55,4 +55,3 @@ play_actions = Array[ExtResource("2_lcxss")]([SubResource("Resource_ti"), SubRes
 special_effects = Array[ExtResource("7_vhu86")]([ExtResource("7_uly14")])
 audio_stream = ExtResource("1_7p1qy")
 card_image = ExtResource("2_pxxpr")
-use_new_card_module_system = true

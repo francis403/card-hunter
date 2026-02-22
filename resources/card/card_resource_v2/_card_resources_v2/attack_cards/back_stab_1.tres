@@ -67,4 +67,3 @@ tag_array = Array[String](["attack"])
 play_actions = Array[ExtResource("1_3jyfw")]([SubResource("Resource_ti"), SubResource("Resource_dde_1"), ExtResource("4_wsbpw"), SubResource("Resource_dde_2"), ExtResource("6_e4cl7")])
 audio_stream = ExtResource("1_8hogi")
 card_image = ExtResource("2_bgiip")
-use_new_card_module_system = true

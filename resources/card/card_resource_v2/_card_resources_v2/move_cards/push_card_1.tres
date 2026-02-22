@@ -59,4 +59,3 @@ description = "CARD_PUSH_DESC"
 tag_array = Array[String](["move"])
 play_actions = Array[ExtResource("1_05pe8")]([SubResource("Resource_5qg2f"), SubResource("Resource_sbdh1")])
 card_image = ExtResource("1_qlrlg")
-use_new_card_module_system = true

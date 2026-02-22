@@ -62,4 +62,3 @@ stamina_cost = 15
 tag_array = Array[String](["move"])
 play_actions = Array[ExtResource("1_8rr8l")]([SubResource("Resource_58xjy"), SubResource("Resource_mce")])
 card_image = ExtResource("1_kbvu5")
-use_new_card_module_system = true

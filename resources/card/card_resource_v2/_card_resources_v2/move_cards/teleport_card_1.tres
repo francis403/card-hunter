@@ -12,12 +12,6 @@
 [ext_resource type="Script" uid="uid://clufwv38rhs7a" path="res://resources/configuration/tile_highlight_configuration/tile_highlight_configuration.gd" id="10_thc"]
 [ext_resource type="Script" uid="uid://bykm1sfwrcmbx" path="res://resources/configuration/tile_highlight_configuration/formula/formula.gd" id="11_form"]
 
-[sub_resource type="Resource" id="Resource_thc"]
-script = ExtResource("10_thc")
-_range = 20
-area_type = 4
-ignore_occupied_tiles = true
-
 [sub_resource type="Resource" id="Resource_outlink"]
 script = ExtResource("9_ol")
 connection_id = "move_self_teleport"
@@ -33,6 +27,12 @@ output_links = Array[ExtResource("9_ol")]([SubResource("Resource_outlink")])
 connection_id = "target_self_teleport"
 module_type = "INPUT"
 metadata/_custom_type_script = "uid://cf54185vfm3qk"
+
+[sub_resource type="Resource" id="Resource_thc"]
+script = ExtResource("10_thc")
+_range = 20
+area_type = 4
+ignore_occupied_tiles = true
 
 [sub_resource type="Resource" id="Resource_mce"]
 script = ExtResource("3_mce")
@@ -54,4 +54,3 @@ tag_array = Array[String](["move"])
 play_actions = Array[ExtResource("2_4areh")]([SubResource("Resource_ti"), SubResource("Resource_mce")])
 audio_stream = ExtResource("1_40wop")
 card_image = ExtResource("2_on8ti")
-use_new_card_module_system = true

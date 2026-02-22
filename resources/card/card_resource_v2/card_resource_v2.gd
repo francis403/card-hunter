@@ -34,9 +34,6 @@ enum CardRaririty {
 @export_group("Card Visuals")
 @export var card_image: Texture2D = BASIC_CARD_BACKGROUND_IMAGE
 
-@export_group("CardModuleV2 - In Development")
-@export var use_new_card_module_system: bool = false
-
 ## Used for the Tree connections
 ## Head of the tree
 var start_card_module: CardModule
@@ -60,12 +57,13 @@ func _init() -> void:
 	start_card_module.module_type = "START"
 	start_card_module.output_links = []
 	start_card_module.next_modules = []
-	## TODO: add output nodes here
 
 func _generate_card_modules_tree():
-	if not use_new_card_module_system:
-		return
-	#var head_start_module: CardModule = CardModule.new()
+	# Clear instance state for idempotent rebuild (safe to call on duplicated resources)
+	modules_dictionary.clear()
+	module_has_module_connected_to_it_dict.clear()
+	start_card_module.next_modules.clear()
+
 	## Generate HashMap with card module id's
 	for card_module in play_actions:
 		modules_dictionary[card_module.connection_id] = card_module
@@ -73,12 +71,13 @@ func _generate_card_modules_tree():
 	for card_module: CardEffect in play_actions:
 		if not card_module.output_links:
 			continue
-		if not card_module.next_modules:
-			card_module.next_modules = []
+		# Only populate if not already built (shared refs from original are still valid)
+		if card_module.next_modules.is_empty():
+			for output_link: CardModuleOutputLink in card_module.output_links:
+				card_module.next_modules.append(
+					modules_dictionary[output_link.connection_id]
+				)
 		for output_link: CardModuleOutputLink in card_module.output_links:
-			card_module.next_modules.append(
-				modules_dictionary[output_link.connection_id]
-			)
 			module_has_module_connected_to_it_dict[output_link.connection_id] = true
 	## Connect to the start node, connect only if there is nothing connected to it
 	## TO_THINK: this is proned to bugs later on. We should implement the start module always being there
@@ -102,31 +101,7 @@ func play_card() -> bool:
 				GameController.debug_mode_enabled
 			)
 			return false
-	var previous_action_data: CardEffectData = null
-	var should_update_card_effect_data: bool = true
-	
-	var response: CardEffectResponse = CardEffectResponse.new()
-	if not self.use_new_card_module_system:
-		for action: CardEffect in play_actions:
-			GeneralUtils.debug_log(
-				"- Processing action %s." % [action.id],
-				GameController.debug_mode_enabled
-			)
-			action.card_effect_data = null
-			if should_update_card_effect_data and previous_action_data:
-				action.card_effect_data = _get_effect_data_with_input_udpated(
-					action.card_effect_data,
-					previous_action_data
-				)
-			response = await action.process_card_effect()
-			if response.is_ok():
-				_revertable_play_actions.append(action)
-				previous_action_data = action.card_effect_data
-				should_update_card_effect_data = action.update_next_card_effect_data
-			else:
-				break
-	else:
-		response = await _depth_first_effect_player()
+	var response: CardEffectResponse = await _depth_first_effect_player()
 	
 	if not response.should_rollback():
 		self._after_card_is_played()
@@ -145,6 +120,9 @@ func _depth_first_effect_player() -> CardEffectResponse:
 
 	# Start from the start_card_module's children
 	if not start_card_module or start_card_module.next_modules.is_empty():
+		self._generate_card_modules_tree()
+	if not start_card_module or start_card_module.next_modules.is_empty():
+		push_warning("Graph has not been built!")
 		return response
 
 	# Process each root-level module
@@ -191,15 +169,6 @@ func _process_module_recursive(
 				return response
 
 	return response
-
-func _get_effect_data_with_input_udpated(
-	current_action_data: CardEffectData,
-	previous_action_data: CardEffectData
-) -> CardEffectData:
-	var result: CardEffectData = previous_action_data
-	if not current_action_data:
-		return result
-	return result
 
 ## When the card is canceled midway through, 
 ## we need to revert all the effects that have been played
@@ -315,6 +284,7 @@ func from_dictionary(dict: Dictionary):
 	_read_card_modules_from_dictionary(dict["play_actions"])
 	_read_card_modules_from_dictionary(dict["special_effects"])
 	_read_card_modules_from_dictionary(dict["play_conditions"])
+	_generate_card_modules_tree()
 
 func _read_card_modules_from_dictionary(dict: Dictionary):
 	for key in dict.keys():
@@ -334,7 +304,6 @@ func _append_card_module(_card_module: CardModule) -> void:
 	elif _card_module is Condition:
 		self.play_conditions.append(_card_module)
 
-## TODO: add start_card_module
 func to_dictionary() -> Dictionary:
 	var result: Dictionary = {}
 	result["id"] = self.id
@@ -347,7 +316,6 @@ func to_dictionary() -> Dictionary:
 	result["play_conditions"] = _card_modules_to_dictionary(play_conditions)
 	return result
 
-## TODO: update start_card_module
 func _card_modules_to_dictionary(
 	card_module_array: Array
 ) -> Dictionary:
@@ -367,10 +335,11 @@ func dup() -> CardResourceV2:
 	result.special_effects = self.special_effects.duplicate()
 
 	# Copy non-exported variables (not handled by duplicate())
-	result.start_card_module = self.start_card_module
-	result.modules_dictionary = self.modules_dictionary.duplicate()
-	result.module_has_module_connected_to_it_dict = self.module_has_module_connected_to_it_dict.duplicate()
 	result.is_forged = self.is_forged
+
+	# Rebuild the module tree from play_actions (start_card_module, modules_dictionary,
+	# and module_has_module_connected_to_it_dict are non-exported and lost by duplicate())
+	result._generate_card_modules_tree()
 
 	return result
 	
