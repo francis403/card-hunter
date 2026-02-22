@@ -183,6 +183,9 @@ func get_center() -> Vector2:
 		self.position.y - (_y_size/2)
 	)
 
+func is_occupied() -> bool:
+	return self.piece_in_tile != null
+
 ## TODO: I don't love this but I couldn't figure out how to improve it
 func _on_mouse_entered() -> void:
 	if not piece_in_tile:

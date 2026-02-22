@@ -47,15 +47,67 @@ func _ready() -> void:
 func _on_forge_button_pressed() -> void:
 	if not _is_valid_card_forge():
 		return
-	_built_card.card_resource = display_card.card_resource.duplicate()
-	_built_card.card_resource.title = card_title_input.text
-	_built_card.card_resource.id = card_title_input.text.replace(" ", "")
-	_built_card.card_resource.is_forged = true
+	var new_card_resource: CardResourceV2 = _build_card_resource_from_displayer()
+	new_card_resource.title = card_title_input.text
+	new_card_resource.id = card_title_input.text.replace(" ", "")
+	new_card_resource.is_forged = true
+	_built_card.card_resource = new_card_resource
 	PlayerController.add_card_to_deck(_built_card.card_resource)
 	PlayerController.add_forged_card(_built_card.card_resource)
 	for _module in _forge_modules:
 		PlayerController.remove_card_module(_module)
 	_on_back_button_pressed()
+
+## Builds a CardResourceV2 from the card_modules_displayer's shadow tree.
+## This captures the actual connection structure the user arranged in the graph editor,
+## rather than the flat list tracked by display_card.card_resource.
+func _build_card_resource_from_displayer() -> CardResourceV2:
+	var new_resource: CardResourceV2 = CardResourceV2.new()
+
+	var head: CardModule = card_modules_displayer.get_displayed_card_head()
+	if not head:
+		return new_resource
+
+	# Use the shadow start module as our tree root
+	new_resource.start_card_module = head
+
+	# BFS traversal of the shadow tree to collect effect modules in connection order
+	var visited: Dictionary = {}
+	visited[head.id] = true
+	var queue: Array[CardModule] = []
+	queue.append_array(head.next_modules)
+
+	while not queue.is_empty():
+		var module: CardModule = queue.pop_front()
+		if visited.has(module.id):
+			continue
+		visited[module.id] = true
+
+		if module is CardEffect:
+			new_resource.play_actions.append(module)
+			# Sync output_links with current next_modules so serialization is correct
+			module.output_links.clear()
+			for next_mod: CardModule in module.next_modules:
+				if next_mod.connection_id.is_empty():
+					next_mod.connection_id = "%s_%d" % [next_mod.id, next_mod.get_instance_id()]
+				var link: CardModuleOutputLink = CardModuleOutputLink.new()
+				link.connection_id = next_mod.connection_id
+				module.output_links.append(link)
+
+		for next_module: CardModule in module.next_modules:
+			if not visited.has(next_module.id):
+				queue.append(next_module)
+
+	# Special effects and conditions are not part of the shadow tree graph;
+	# copy them from the display card resource which tracks them separately.
+	if display_card.card_resource:
+		new_resource.special_effects.assign(display_card.card_resource.special_effects)
+		new_resource.play_conditions.assign(display_card.card_resource.play_conditions)
+		new_resource.stamina_cost = display_card.card_resource.stamina_cost
+
+	new_resource.description = _generate_card_description()
+
+	return new_resource
 
 func _add_signals_when_clicked(
 	card_module_component: CardModuleComponent,
@@ -201,7 +253,7 @@ func _on_back_button_pressed() -> void:
 	if back_button_pressed.has_connections():
 		back_button_pressed.emit()
 		return
-	get_parent().queue_free()
+	get_parent().get_parent().queue_free()
 	#self.queue_free()
 
 func _is_valid_card_forge() -> bool:

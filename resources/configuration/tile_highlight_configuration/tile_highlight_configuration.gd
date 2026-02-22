@@ -89,6 +89,8 @@ func is_tile_valid(
 		target_tile and _tile.to_vector() == target_tile.to_vector():
 		GeneralUtils.debug_log("DEBUG:  including target tile", enable_debug)
 		return true
+	if self.ignore_occupied_tiles and _tile.is_occupied():
+		return false
 	if furthest_square_distance <= self.min_range :
 		return false
 	if self.ignore_corners and _radius_distance > self._range:
