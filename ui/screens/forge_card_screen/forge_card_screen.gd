@@ -56,57 +56,24 @@ func _on_forge_button_pressed() -> void:
 	PlayerController.add_forged_card(_built_card.card_resource)
 	for _module in _forge_modules:
 		PlayerController.remove_card_module(_module)
+	File.change_progress()
 	_on_back_button_pressed()
 
 ## Builds a CardResourceV2 from the card_modules_displayer's shadow tree.
-## This captures the actual connection structure the user arranged in the graph editor,
-## rather than the flat list tracked by display_card.card_resource.
+## Special effects and conditions are not in the shadow graph; they are copied
+## from display_card.card_resource which tracks them separately.
 func _build_card_resource_from_displayer() -> CardResourceV2:
 	var new_resource: CardResourceV2 = CardResourceV2.new()
-
-	var head: CardModule = card_modules_displayer.get_displayed_card_head()
-	if not head:
-		return new_resource
-
-	# Use the shadow start module as our tree root
-	new_resource.start_card_module = head
-
-	# BFS traversal of the shadow tree to collect effect modules in connection order
-	var visited: Dictionary = {}
-	visited[head.id] = true
-	var queue: Array[CardModule] = []
-	queue.append_array(head.next_modules)
-
-	while not queue.is_empty():
-		var module: CardModule = queue.pop_front()
-		if visited.has(module.id):
+	for _node in card_modules_displayer._node_module_map.values():
+		if not _node is CardEffect:
 			continue
-		visited[module.id] = true
-
-		if module is CardEffect:
-			new_resource.play_actions.append(module)
-			# Sync output_links with current next_modules so serialization is correct
-			module.output_links.clear()
-			for next_mod: CardModule in module.next_modules:
-				if next_mod.connection_id.is_empty():
-					next_mod.connection_id = "%s_%d" % [next_mod.id, next_mod.get_instance_id()]
-				var link: CardModuleOutputLink = CardModuleOutputLink.new()
-				link.connection_id = next_mod.connection_id
-				module.output_links.append(link)
-
-		for next_module: CardModule in module.next_modules:
-			if not visited.has(next_module.id):
-				queue.append(next_module)
-
-	# Special effects and conditions are not part of the shadow tree graph;
-	# copy them from the display card resource which tracks them separately.
+		new_resource.play_actions.append(_node)
+	new_resource._generate_card_modules_tree()
 	if display_card.card_resource:
 		new_resource.special_effects.assign(display_card.card_resource.special_effects)
 		new_resource.play_conditions.assign(display_card.card_resource.play_conditions)
 		new_resource.stamina_cost = display_card.card_resource.stamina_cost
-
 	new_resource.description = _generate_card_description()
-
 	return new_resource
 
 func _add_signals_when_clicked(
@@ -253,8 +220,7 @@ func _on_back_button_pressed() -> void:
 	if back_button_pressed.has_connections():
 		back_button_pressed.emit()
 		return
-	get_parent().get_parent().queue_free()
-	#self.queue_free()
+	self.queue_free()
 
 func _is_valid_card_forge() -> bool:
 	var title: String = card_title_input.text

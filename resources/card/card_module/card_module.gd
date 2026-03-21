@@ -80,9 +80,17 @@ func to_dictionary() -> Dictionary:
 		"types": self.types,
 		"module_type": self.module_type,
 		"allowed_input_module_types": self.allowed_input_module_types,
-		"scene_path": _get_my_node_scene_path()
+		"scene_path": _get_my_node_scene_path(),
+		"connection_id": self.connection_id,
+		"output_link_ids": _get_output_link_ids(),
 	}
 	return result
+
+func _get_output_link_ids() -> Array[String]:
+	var ids: Array[String] = []
+	for link in output_links:
+		ids.append(link.connection_id)
+	return ids
 
 func from_dictionary(dictionary: Dictionary):
 	self.id = dictionary["id"]
@@ -92,6 +100,8 @@ func from_dictionary(dictionary: Dictionary):
 	self.module_type = dictionary["module_type"]
 	self.allowed_input_module_types = dictionary["allowed_input_module_types"]
 	self.placement_rule = dictionary["placement_rule"]
+	if dictionary.has("connection_id"):
+		self.connection_id = dictionary["connection_id"]
 
 func equals(other: CardModule) -> bool:
 	return self.id == other.id and self.title == other.title\

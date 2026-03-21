@@ -12,16 +12,16 @@
 [ext_resource type="Script" uid="uid://clufwv38rhs7a" path="res://resources/configuration/tile_highlight_configuration/tile_highlight_configuration.gd" id="8_thc"]
 [ext_resource type="Script" uid="uid://bykm1sfwrcmbx" path="res://resources/configuration/tile_highlight_configuration/formula/formula.gd" id="9_form"]
 
+[sub_resource type="Resource" id="Resource_outlink"]
+script = ExtResource("7_ol")
+connection_id = "deal_damage_arrow"
+metadata/_custom_type_script = "uid://b4jl0atcv1b6o"
+
 [sub_resource type="Resource" id="Resource_thc"]
 script = ExtResource("8_thc")
 _range = 2
 area_type = 4
 ignore_corners = true
-
-[sub_resource type="Resource" id="Resource_outlink"]
-script = ExtResource("7_ol")
-connection_id = "deal_damage_arrow"
-metadata/_custom_type_script = "uid://b4jl0atcv1b6o"
 
 [sub_resource type="Resource" id="Resource_ti"]
 script = ExtResource("5_ti")
@@ -38,7 +38,6 @@ metadata/_custom_type_script = "uid://cf54185vfm3qk"
 
 [sub_resource type="Resource" id="Resource_dde"]
 script = ExtResource("6_dde")
-damage = 10
 id = "deal_damage_arrow"
 title = "Deal 10 Ranged Damage"
 types = Array[String](["attack"])

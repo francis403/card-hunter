@@ -73,9 +73,12 @@ func set_grid_elems_by_card(
 		_card_resource.get_card_modules()
 	)
 	
-## TODO: given a node_id delete the child
 func remove_module(_node_uuid: String):
-	pass
+	for child in grid_container.get_children():
+		if child is CardModuleComponent and child.card_module and child.card_module.id == _node_uuid:
+			_card_modules_displayed.erase(child.card_module)
+			child.queue_free()
+			return
 	
 func get_displayed_card_modules() -> Array[CardModule]:
 	return _card_modules_displayed

@@ -5,6 +5,20 @@ class_name MoveCardEffect
 @export_group("Tile Highlight Configuration")
 @export var tile_highlight_config: TileHighlightConfig
 
+func to_dictionary() -> Dictionary:
+	var result: Dictionary = super.to_dictionary()
+	if tile_highlight_config:
+		result["tile_highlight_config"] = tile_highlight_config.to_dictionary()
+	return result
+
+
+func from_dictionary(dictionary: Dictionary) -> void:
+	super.from_dictionary(dictionary)
+	if dictionary.has("tile_highlight_config"):
+		tile_highlight_config = TileHighlightConfig.new()
+		tile_highlight_config.from_dictionary(dictionary["tile_highlight_config"])
+
+
 func play_card_effect() -> CardEffectResponse:
 	var _response: CardEffectResponse = CardEffectResponse.new()
 	_response.set_failure()

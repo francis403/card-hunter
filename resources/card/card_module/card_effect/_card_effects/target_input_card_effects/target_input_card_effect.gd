@@ -9,8 +9,33 @@ class_name TargetInputCardEffect
 @export_enum("SELF", "OTHER") var area_input_type: String = "SELF"
 
 
+func _get_my_node_scene_path() -> String:
+	return "res://resources/card/card_module/card_effect/_card_effects/target_input_card_effects/target_input_card_effect.gd"
+
+
+func to_dictionary() -> Dictionary:
+	var result: Dictionary = super.to_dictionary()
+	result["area_input_type"] = area_input_type
+	if tile_highlight_config:
+		result["tile_highlight_config"] = tile_highlight_config.to_dictionary()
+	return result
+
+
+func from_dictionary(dictionary: Dictionary) -> void:
+	super.from_dictionary(dictionary)
+	if dictionary.has("area_input_type"):
+		area_input_type = dictionary["area_input_type"]
+	if dictionary.has("tile_highlight_config"):
+		tile_highlight_config = TileHighlightConfig.new()
+		tile_highlight_config.from_dictionary(dictionary["tile_highlight_config"])
+
+
 func play_card_effect() -> CardEffectResponse:
 	var response: CardEffectResponse = CardEffectResponse.new()
+	GeneralUtils.debug_log(
+		"-- TargetInputCardEffect with area %s" % [area_input_type],
+		GameController.debug_mode_enabled
+	)
 	var _selected_tile: Tile = await _get_selected_tile()
 	if not _selected_tile:
 		response.set_failure()
@@ -35,6 +60,12 @@ func _get_user_input(
 	config: TileHighlightConfig,
 	_piece: Piece = null
 ) -> Tile:
+	
+	GeneralUtils.debug_log(
+		"--- _get_user_input for _piece %s" % [Piece],
+		GameController.debug_mode_enabled
+	)
+	
 	if not _piece:
 		return null
 	# freeze hand

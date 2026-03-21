@@ -42,7 +42,8 @@ var _head_module_displayed: CardModule
 var _end_node: EndCardModuleGraphNode
 
 var _special_card_effects: Array[SpecialCardEffectResource]
-## Maps graph node name -> CardModule in the shadow tree
+## Maps graph node name -> module in the working tree.
+## Effect nodes map to the real CardEffect subclass; the start node maps to a plain CardModule.
 var _node_module_map: Dictionary = {}
 
 ## Hold a reference to all nodes with issues (node_name -> true)
@@ -278,18 +279,15 @@ func _clear_graph() -> void:
 	_clear_special_effects()
 
 
+## Recursively duplicates the source module tree into a working shadow tree.
+## source.duplicate() preserves the original GDScript class (e.g. AttackCardEffect
+## stays AttackCardEffect), so modules stored in _node_module_map pass `is CardEffect`
+## checks and carry the correct exported properties (damage, tile_config, etc.).
+## next_modules is not @export, so it starts empty and is rebuilt by the loop below.
 func _deep_duplicate_module_tree(source: CardModule, orig_to_dup: Dictionary) -> CardModule:
 	if orig_to_dup.has(source):
 		return orig_to_dup[source]
-	var dup_module: CardModule = CardModule.new()
-	dup_module.id = source.id
-	dup_module.title = source.title
-	dup_module.stamina_cost = source.stamina_cost
-	dup_module.module_type = source.module_type
-	dup_module.types = source.types.duplicate()
-	dup_module.connection_id = source.connection_id
-	dup_module.allowed_input_module_types = source.allowed_input_module_types
-	# dup_module.placement_rule = source.placement_rule
+	var dup_module: CardModule = source.duplicate() as CardModule
 	dup_module.output_links = source.output_links.duplicate()
 	dup_module.next_modules = []
 	orig_to_dup[source] = dup_module
@@ -336,6 +334,11 @@ func _on_connection_request(from_node: StringName, from_port: int, to_node: Stri
 	# Update shadow tree
 	if from_module and to_module and not from_module.next_modules.has(to_module):
 		from_module.next_modules.append(to_module)
+		if to_module.connection_id.is_empty():
+			to_module.connection_id = "%s_%d" % [to_module.id, to_module.get_instance_id()]
+		var link := CardModuleOutputLink.new()
+		link.connection_id = to_module.connection_id
+		from_module.output_links.append(link)
 	# Clear error highlight — end node only needs input, others need both input and output
 	var to_name := String(to_node)
 	var to_is_end := _end_node and String(_end_node.name) == to_name
@@ -363,6 +366,10 @@ func _on_disconnection_request(from_node: StringName, from_port: int, to_node: S
 	# Update shadow tree
 	if from_module and to_module:
 		from_module.next_modules.erase(to_module)
+		for i in range(from_module.output_links.size() - 1, -1, -1):
+			if from_module.output_links[i].connection_id == to_module.connection_id:
+				from_module.output_links.remove_at(i)
+				break
 	# Mark to_node as error if it lost all input connections (non-start only)
 	var to_name: StringName = String(to_node)
 	var is_end_node: bool = _end_node and String(_end_node.name) == to_name
@@ -440,13 +447,17 @@ func _on_module_closed(_module: BaseCardModuleGraphNode):
 		_node_module_map.erase(node_name)
 		for tracked_module: CardModule in _node_module_map.values():
 			tracked_module.next_modules.erase(removed_module)
+			if not removed_module.connection_id.is_empty():
+				for i in range(tracked_module.output_links.size() - 1, -1, -1):
+					if tracked_module.output_links[i].connection_id == removed_module.connection_id:
+						tracked_module.output_links.remove_at(i)
 	_record_action({
 		"type": "REMOVE_MODULE", "module": removed_module, "node_name": node_name,
 		"position": _module.position_offset, "was_error": was_error,
 		"connections": saved_connections, "parent_modules": parent_modules,
 	})
 	if graph_module_closed.has_connections():
-		graph_module_closed.emit(self)
+		graph_module_closed.emit(_module)
 	else:
 		graph_edit.remove_child(_module)
 		_module.queue_free()
@@ -520,6 +531,10 @@ func _undo_add_module(action: Dictionary) -> void:
 	if module:
 		for tracked_module: CardModule in _node_module_map.values():
 			tracked_module.next_modules.erase(module)
+			if not module.connection_id.is_empty():
+				for i in range(tracked_module.output_links.size() - 1, -1, -1):
+					if tracked_module.output_links[i].connection_id == module.connection_id:
+						tracked_module.output_links.remove_at(i)
 	_node_module_map.erase(node_name)
 	error_node_names.erase(node_name)
 	var node := graph_edit.get_node_or_null(NodePath(node_name))
@@ -543,6 +558,16 @@ func _undo_remove_module(action: Dictionary) -> void:
 		var to_mod: CardModule = _node_module_map.get(String(conn["to_node"]))
 		if from_mod and to_mod and not from_mod.next_modules.has(to_mod):
 			from_mod.next_modules.append(to_mod)
+			if not to_mod.connection_id.is_empty():
+				var already_has := false
+				for link in from_mod.output_links:
+					if link.connection_id == to_mod.connection_id:
+						already_has = true
+						break
+				if not already_has:
+					var link := CardModuleOutputLink.new()
+					link.connection_id = to_mod.connection_id
+					from_mod.output_links.append(link)
 	if action["was_error"]:
 		_mark_error_node(action["node_name"])
 
@@ -551,6 +576,11 @@ func _undo_add_connection(action: Dictionary) -> void:
 	graph_edit.disconnect_node(action["from_node"], action["from_port"], action["to_node"], action["to_port"])
 	if action["from_module"] and action["to_module"]:
 		action["from_module"].next_modules.erase(action["to_module"])
+		var to_cid: String = action["to_module"].connection_id
+		for i in range(action["from_module"].output_links.size() - 1, -1, -1):
+			if action["from_module"].output_links[i].connection_id == to_cid:
+				action["from_module"].output_links.remove_at(i)
+				break
 	if action["to_was_error"]:
 		_mark_error_node(action["to_node"])
 	if action["from_was_error"]:
@@ -561,6 +591,17 @@ func _undo_remove_connection(action: Dictionary) -> void:
 	graph_edit.connect_node(action["from_node"], action["from_port"], action["to_node"], action["to_port"])
 	if action["from_module"] and action["to_module"] and not action["from_module"].next_modules.has(action["to_module"]):
 		action["from_module"].next_modules.append(action["to_module"])
+		var to_cid: String = action["to_module"].connection_id
+		if not to_cid.is_empty():
+			var already_has := false
+			for link in action["from_module"].output_links:
+				if link.connection_id == to_cid:
+					already_has = true
+					break
+			if not already_has:
+				var link := CardModuleOutputLink.new()
+				link.connection_id = to_cid
+				action["from_module"].output_links.append(link)
 	var to_ref: BaseCardModuleGraphNode = graph_edit.get_node_or_null(NodePath(action["to_node"]))
 	if to_ref and error_node_names.has(action["to_node"]):
 		_mark_node_errorless(to_ref, action["to_node"])

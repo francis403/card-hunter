@@ -7,6 +7,24 @@ class_name CardEffectWithUserInput
 
 var target_tile: Tile = null
 
+
+func to_dictionary() -> Dictionary:
+	var result: Dictionary = super.to_dictionary()
+	result["center_piece"] = center_piece
+	if tile_highlight_config:
+		result["tile_highlight_config"] = tile_highlight_config.to_dictionary()
+	return result
+
+
+func from_dictionary(dictionary: Dictionary) -> void:
+	super.from_dictionary(dictionary)
+	if dictionary.has("center_piece"):
+		center_piece = dictionary["center_piece"]
+	if dictionary.has("tile_highlight_config"):
+		tile_highlight_config = TileHighlightConfig.new()
+		tile_highlight_config.from_dictionary(dictionary["tile_highlight_config"])
+
+
 func play_card_effect() -> CardEffectResponse:
 	var response: CardEffectResponse = CardEffectResponse.new()
 	var tile_config: TileHighlightConfig = _modify_tile_highlight_config()
