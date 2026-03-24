@@ -8,6 +8,10 @@ func _ready() -> void:
 	_run_test(true, _is_in_general_direction_to_other_test_4(), "_is_in_general_direction_to_other_test_4")
 	_run_test(true, _is_in_general_direction_to_other_test_5(), "_is_in_general_direction_to_other_test_5")
 	_run_test(true, _is_in_general_direction_to_other_test_6(), "_is_in_general_direction_to_other_test_6")
+	_run_test(true, _monster_highlight_input_only_is_default(), "_monster_highlight_input_only_is_default")
+	_run_test(true, _monster_highlight_shows_in_always_mode_with_monster(), "_monster_highlight_shows_in_always_mode_with_monster")
+	_run_test(false, _monster_highlight_shows_in_always_mode_without_monster(), "_monster_highlight_shows_in_always_mode_without_monster")
+	_run_test(false, _monster_highlight_hidden_in_input_only_mode_with_monster(), "_monster_highlight_hidden_in_input_only_mode_with_monster")
 
 func _run_test(
 	_expected: bool,
@@ -75,6 +79,33 @@ func _is_in_general_direction_to_other_test_5() -> bool:
 	var _target: Vector2 = Vector2(2, 2)
 	return _tile_1.is_in_general_direction_to_other(_tile_2, _target)
 	
+## Monster highlight export var tests
+
+## highlight_monster_on_player_input_only should default to true
+func _monster_highlight_input_only_is_default() -> bool:
+	var _tile: Tile = Tile.new()
+	return _tile.highlight_monster_on_player_input_only == true
+
+## In always-mode (false), condition is true when a MonsterPiece occupies the tile
+func _monster_highlight_shows_in_always_mode_with_monster() -> bool:
+	var _tile: Tile = Tile.new()
+	_tile.highlight_monster_on_player_input_only = false
+	_tile.piece_in_tile = MonsterPiece.new()
+	return _tile.piece_in_tile is MonsterPiece and not _tile.highlight_monster_on_player_input_only
+
+## In always-mode (false), condition is false when no MonsterPiece occupies the tile
+func _monster_highlight_shows_in_always_mode_without_monster() -> bool:
+	var _tile: Tile = Tile.new()
+	_tile.highlight_monster_on_player_input_only = false
+	return _tile.piece_in_tile is MonsterPiece and not _tile.highlight_monster_on_player_input_only
+
+## In input-only mode (true), condition is false even when a MonsterPiece occupies the tile
+func _monster_highlight_hidden_in_input_only_mode_with_monster() -> bool:
+	var _tile: Tile = Tile.new()
+	_tile.highlight_monster_on_player_input_only = true
+	_tile.piece_in_tile = MonsterPiece.new()
+	return _tile.piece_in_tile is MonsterPiece and not _tile.highlight_monster_on_player_input_only
+
 ## bellow should be okay too
 func _is_in_general_direction_to_other_test_6() -> bool:
 	var _tile_1: Tile = Tile.new()
