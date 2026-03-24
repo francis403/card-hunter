@@ -16,6 +16,7 @@ var piece_in_tile: Piece = null:
 var _show_if_tile_is_occupied: bool = false
 
 @export var show_status: bool = false
+@export var highlight_monster_on_player_input_only: bool = true
 
 @onready var background_button: Button = $BackgroundButton
 @onready var status_label: Label = $StatusLabel
@@ -27,6 +28,7 @@ var _show_if_tile_is_occupied: bool = false
 func _ready() -> void:
 	BattlemapSignals.player_input_received.connect(_on_player_input_signal)
 	BattlemapSignals.canceled_player_input.connect(_on_player_input_signal)
+	BattlemapSignals.awaiting_player_input.connect(_on_awaiting_player_input_signal)
 	BattlemapSignals.clear_attack_highlight_tiles.connect(_on_clear_attacked_tiles_signal)
 	SpecialSignals.tile_map_status_label_toggled_signal.connect(toggle_tile_status_label_visibility)
 	SpecialSignals.highlight_occupied_tiles.connect(toggle_highlight_occupied_tiles)
@@ -95,16 +97,22 @@ func hide_monster_highlight():
 func _toggle_monster_highlight():
 	if not is_node_ready():
 		return
-	if piece_in_tile is MonsterPiece:
+	if piece_in_tile is MonsterPiece and not highlight_monster_on_player_input_only:
 		show_monster_highlight()
 	else:
 		hide_monster_highlight()
+
+func _on_awaiting_player_input_signal():
+	if piece_in_tile is MonsterPiece:
+		show_monster_highlight()
 
 func to_vector() -> Vector2:
 	return Vector2(_x_position, _y_position)
 
 func _on_player_input_signal():
 	self.hide_background()
+	if highlight_monster_on_player_input_only:
+		hide_monster_highlight()
 
 func add_tile_effect_v2(tile_effect: BaseTileEffectController):
 	tile_effects_container.add_child(tile_effect)
