@@ -103,7 +103,7 @@ func _toggle_monster_highlight():
 		hide_monster_highlight()
 
 func _on_awaiting_player_input_signal():
-	if piece_in_tile is MonsterPiece:
+	if highlight_monster_on_player_input_only and piece_in_tile is MonsterPiece:
 		show_monster_highlight()
 
 func to_vector() -> Vector2:
