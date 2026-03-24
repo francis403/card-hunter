@@ -15,6 +15,9 @@ var piece_in_tile: Piece = null:
 
 var _show_if_tile_is_occupied: bool = false
 
+const MONSTER_HIGHLIGHT_COLOR := Color(0.6, 0.6, 0.6, 0.4)
+const MONSTER_HIGHLIGHT_HOVER_COLOR := Color(1.0, 0.4, 0.4, 0.5)
+
 @export var show_status: bool = false
 @export var highlight_monster_on_player_input_only: bool = true
 
@@ -215,11 +218,14 @@ func _on_mouse_entered() -> void:
 	if not piece_in_tile:
 		return
 	piece_in_tile.on_mouse_hover_enter()
+	if piece_in_tile is MonsterPiece and background_button.visible:
+		monster_rect.color = MONSTER_HIGHLIGHT_HOVER_COLOR
 
 func _on_mouse_exited() -> void:
 	if not piece_in_tile:
 		return
 	piece_in_tile.on_mouse_hover_exit()
+	monster_rect.color = MONSTER_HIGHLIGHT_COLOR
 	
 func clone() -> Tile:
 	var _result: Tile = Tile.new()
