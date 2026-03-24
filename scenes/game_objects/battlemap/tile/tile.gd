@@ -11,6 +11,7 @@ var piece_in_tile: Piece = null:
 	set(_value):
 		piece_in_tile = _value
 		_toggle_tile_occuppied_view()
+		_toggle_monster_highlight()
 
 var _show_if_tile_is_occupied: bool = false
 
@@ -19,6 +20,7 @@ var _show_if_tile_is_occupied: bool = false
 @onready var background_button: Button = $BackgroundButton
 @onready var status_label: Label = $StatusLabel
 @onready var attack_rect: ColorRect = $AttackRect
+@onready var monster_rect: ColorRect = $MonsterRect
 @onready var tile_effects_container: Control = %TileEffectsContainer
 
 
@@ -83,6 +85,20 @@ func show_attack_background():
 func hide_attack_background():
 	attack_rect.visible = false
 	is_tile_attacked = false
+
+func show_monster_highlight():
+	monster_rect.visible = true
+
+func hide_monster_highlight():
+	monster_rect.visible = false
+
+func _toggle_monster_highlight():
+	if not is_node_ready():
+		return
+	if piece_in_tile is MonsterPiece:
+		show_monster_highlight()
+	else:
+		hide_monster_highlight()
 
 func to_vector() -> Vector2:
 	return Vector2(_x_position, _y_position)
