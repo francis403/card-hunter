@@ -92,6 +92,7 @@ func hide_attack_background():
 	is_tile_attacked = false
 
 func show_monster_highlight():
+	monster_rect.color = MONSTER_HIGHLIGHT_COLOR
 	monster_rect.visible = true
 
 func hide_monster_highlight():
