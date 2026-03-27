@@ -12,6 +12,13 @@ class_name StateWithMovement
 var distance_to_player: int = 0
 var _tiles_targeted_for_attack: Array[Tile] = []
 
+## Holds the StateActionConfig that is active for the current enter_state /
+## do_state_action invocation.  Subclass overrides of do_action() and
+## do_attack() MUST read this instead of directly manipulating monster.next_move
+## so that pull-card preview calls (is_able_to_do_calculate_next_move = false)
+## are respected and the intended move display is never silently clobbered.
+var _active_action_config: StateActionConfig = StateActionConfig.new()
+
 @export_group("Basic Behaviour Configuration")
 ## TODO: Attack tiles to highlight during do_action
 @export var attack_tiles_highlight: TileHighlightConfig = null
@@ -36,6 +43,8 @@ func enter_state(
 	if not monster or not monster._tile:
 		push_warning("Monster missconfiguration")
 		return
+	# Snapshot the config so do_action() overrides can inspect it.
+	_active_action_config = _state_action_config
 	if _state_action_config.is_able_to_do_calculate_next_move:
 		monster.next_move = self.do_calculate_next_move()
 	do_update_variables_after_movement()
@@ -48,6 +57,8 @@ func do_state_action(
 	_state_action_config: StateActionConfig = StateActionConfig.new()
 ):
 	super.do_state_action()
+	# Snapshot the config so do_action() / do_attack() overrides can inspect it.
+	_active_action_config = _state_action_config
 	## Trigger any atacked tiles by the monster's previous attack
 	if _state_action_config.is_able_to_do_trigger_previous_attacked_tiles:
 		self.do_trigger_attacked_tiles()
