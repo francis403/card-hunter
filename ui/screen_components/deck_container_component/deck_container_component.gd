@@ -26,12 +26,11 @@ func _add_cards_to_grid():
 	for card_resource in deck:
 		_instantiate_card(card_resource)
 
-## TODO: FA: for some reason we are not getting the right card modules
 func _instantiate_card(card_resource: CardResourceV2):
 	if not card_resource:
 		return
 	var card_instance: Card = card_scene.instantiate()
-	card_instance.card_resource = card_resource.duplicate()
+	card_instance.card_resource = card_resource.dup()
 	card_instance.card_can_be_discarded = false
 	card_instance.card_can_hover = false
 	card_instance._card_can_be_played = false

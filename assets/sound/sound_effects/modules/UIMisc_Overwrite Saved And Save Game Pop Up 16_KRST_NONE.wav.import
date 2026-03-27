@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://dc73frd6jwl20"
+path="res://.godot/imported/UIMisc_Overwrite Saved And Save Game Pop Up 16_KRST_NONE.wav-1be976a857fbf32a0dcca919f80dcf97.sample"
+
+[deps]
+
+source_file="res://assets/sound/sound_effects/modules/UIMisc_Overwrite Saved And Save Game Pop Up 16_KRST_NONE.wav"
+dest_files=["res://.godot/imported/UIMisc_Overwrite Saved And Save Game Pop Up 16_KRST_NONE.wav-1be976a857fbf32a0dcca919f80dcf97.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

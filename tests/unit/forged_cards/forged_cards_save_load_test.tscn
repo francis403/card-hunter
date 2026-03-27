@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://tests/unit/forged_cards/forged_cards_save_load_test.gd" id="1_forgedtest"]
+
+[node name="ForgedCardsSaveLoadTest" type="Node"]
+script = ExtResource("1_forgedtest")

@@ -1,8 +1,9 @@
-[gd_resource type="Resource" script_class="MoveOtherCardEffect" load_steps=6 format=3 uid="uid://don2d3okfgy06"]
+[gd_resource type="Resource" script_class="MoveOtherCardEffect" load_steps=7 format=3 uid="uid://don2d3okfgy06"]
 
 [ext_resource type="Script" uid="uid://bykm1sfwrcmbx" path="res://resources/configuration/tile_highlight_configuration/formula/formula.gd" id="1_3ni8q"]
 [ext_resource type="Script" uid="uid://clufwv38rhs7a" path="res://resources/configuration/tile_highlight_configuration/tile_highlight_configuration.gd" id="1_iwbcj"]
 [ext_resource type="Script" uid="uid://ba1pyljxjgnij" path="res://resources/card/card_module/card_effect/_card_effects/move_other_card_effect/move_other_card_effect.gd" id="2_ldnnv"]
+[ext_resource type="Script" uid="uid://b4jl0atcv1b6o" path="res://resources/card/card_module/card_module_output_link/card_module_output_link.gd" id="3_uhki0"]
 
 [sub_resource type="Resource" id="Resource_8lcq5"]
 script = ExtResource("1_iwbcj")

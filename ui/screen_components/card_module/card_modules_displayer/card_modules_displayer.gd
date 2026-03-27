@@ -1,0 +1,634 @@
+extends PanelContainer
+class_name CardModuleDisplayer
+
+signal module_clicked(_module: CardModule)
+signal graph_module_closed(_module: BaseCardModuleGraphNode)
+signal undoable_action_performed(action_data: Dictionary)
+
+const NODE_SPACING_X := 250
+const NODE_SPACING_Y := 120
+
+@export var card_resource: CardResourceV2
+
+@export_group("Module Configuration")
+@export var enable_module_deletion: bool = false:
+	set(value):
+		enable_module_deletion = value
+		toggle_module_deletion(value)
+## Can nodes add new connections between themselves
+@export var enable_module_connection: bool = false:
+	set(value):
+		enable_module_connection = value
+		_update_connection_mode()
+
+@export_group("Scene configurations")
+@export var start_graph_node_scene: PackedScene
+@export var effect_graph_node_scene: PackedScene
+@export var end_graph_node_scene: PackedScene
+@export var special_effect_panel_item_scene: PackedScene
+
+@export_group("Sound Configuration")
+@export var module_added_audio: AudioStream
+@export var module_removed_audio: AudioStream
+@export var module_connection_added_audio: AudioStream
+@export var module_connection_removed_audio: AudioStream
+
+@onready var graph_edit: GraphEdit = %GraphEdit
+@onready var audio_stream_player: AudioStreamPlayer = $AudioStreamPlayer
+@onready var special_effects_panel: PanelContainer = %SpecialEffectsPanel
+@onready var special_effects_container: HBoxContainer = %SpecialEffectsContainer
+
+var _head_module_displayed: CardModule
+var _end_node: EndCardModuleGraphNode
+
+var _special_card_effects: Array[SpecialCardEffectResource]
+## Maps graph node name -> module in the working tree.
+## Effect nodes map to the real CardEffect subclass; the start node maps to a plain CardModule.
+var _node_module_map: Dictionary = {}
+
+## Hold a reference to all nodes with issues (node_name -> true)
+## Ideally this would hold node_name -> node_reference
+var error_node_names: Dictionary = {}
+var _is_undoing: bool = false
+
+func _ready() -> void:
+	graph_edit.connection_request.connect(_on_connection_request)
+	graph_edit.disconnection_request.connect(_on_disconnection_request)
+	_clear_graph()
+	populate_from_card_resource(card_resource)
+
+func populate_from_card_resource(_card_resource: CardResourceV2) -> void:
+	_clear_graph()
+	if not _card_resource:
+		_add_empty_graph()
+		return
+	_special_card_effects.assign(_card_resource.special_effects)
+	# Ensure module tree is built (may not be if this is a fresh resource instance)
+	if _card_resource.start_card_module.next_modules.is_empty():
+		_card_resource._generate_card_modules_tree()
+	if not _card_resource.start_card_module or _card_resource.start_card_module.next_modules.is_empty():
+		_add_modules_flat(_card_resource.get_card_modules())
+		return
+
+	# Build shadow tree as a duplicate of the card's module tree
+	var original_to_dup: Dictionary = {}
+	_head_module_displayed = _deep_duplicate_module_tree(_card_resource.start_card_module, original_to_dup)
+
+	var nodes_map: Dictionary = {}  # module.id -> node.name
+	var levels := _get_modules_by_level(_head_module_displayed)
+	var last_modules: Array[CardModule] = []
+
+	# Create nodes with positions based on level
+	for level_idx in levels.size():
+		var level_modules: Array[CardModule] = levels[level_idx]
+		for mod_idx in level_modules.size():
+			var module: CardModule = level_modules[mod_idx]
+			var node := _create_graph_node(module)
+			node.position_offset = Vector2(
+				level_idx * NODE_SPACING_X,
+				mod_idx * NODE_SPACING_Y
+			)
+			graph_edit.add_child(node)
+			nodes_map[module.id] = node.name
+			_node_module_map[node.name] = module
+
+			# Track modules without next_modules for end node connection
+			if module.next_modules.is_empty():
+				last_modules.append(module)
+
+	# Create connections between modules
+	_create_connections(_head_module_displayed, nodes_map)
+
+	# Add end node and connect it
+	_add_end_node(last_modules, nodes_map, levels.size())
+
+	# Populate special effects panel
+	_populate_special_effects(_card_resource)
+
+func get_displayed_card_head() -> CardModule:
+	return _head_module_displayed
+
+func add_card_module(module: CardModule) -> void:
+	_play_audio(module_added_audio)
+	# Route special effects to the dedicated panel
+	if module is SpecialCardEffectResource:
+		_add_special_effect_item(module as SpecialCardEffectResource)
+		return
+	var node: BaseCardModuleGraphNode = null
+	node = _create_graph_node(module)
+	# Count existing non-end nodes for vertical positioning
+	var module_count: int = 0
+	for child in graph_edit.get_children():
+		if child is GraphNode and not child is EndCardModuleGraphNode:
+			module_count += 1
+
+	node.position_offset = Vector2(0, module_count * NODE_SPACING_Y * 0.5)
+	graph_edit.add_child(node)
+	_node_module_map[node.name] = module
+	# New module has no connections — mark as error
+	_mark_error_node(node.name)
+	_record_action({"type": "ADD_MODULE", "node_name": String(node.name), "module": module, "position_offset": node.position_offset})
+
+
+func get_card_modules() -> Array[CardModuleGraphNode]:
+	var modules: Array[CardModuleGraphNode] = []
+	for child in graph_edit.get_children():
+		if child is CardModuleGraphNode:
+			modules.append(child)
+	return modules
+	
+func toggle_module_deletion(_are_modules_deletable: bool):
+	if not graph_edit:
+		return
+	for _child in graph_edit.get_children():
+		if _child is BaseCardModuleGraphNode:
+			_child.toggle_close_button(_are_modules_deletable)
+	if special_effects_container:
+		for _child in special_effects_container.get_children():
+			if _child is SpecialEffectPanelItem:
+				_child.toggle_close_button(_are_modules_deletable)
+
+func is_display_module_valid(
+) -> bool:
+	if not _head_module_displayed or _node_module_map.is_empty():
+		return false
+	return error_node_names.is_empty()
+
+
+func _add_modules_flat(modules: Array[CardModule]) -> void:
+	# Fallback for cards without start_card_module - display in a row
+	for i in modules.size():
+		var module := modules[i]
+		var node: BaseCardModuleGraphNode = _create_graph_node(module)
+		node.position_offset = Vector2(i * NODE_SPACING_X, 0)
+		graph_edit.add_child(node)
+
+
+func _get_modules_by_level(start_module: CardModule) -> Array[Array]:
+	var levels: Array[Array] = []
+	var current_layer: Array[CardModule] = [start_module]
+	var visited: Dictionary = {}
+
+	while not current_layer.is_empty():
+		var typed_layer: Array[CardModule] = []
+		typed_layer.assign(current_layer)
+		levels.append(typed_layer)
+
+		# Mark current layer as visited
+		for module in current_layer:
+			visited[module.id] = true
+
+		# Get next layer
+		var next_layer: Array[CardModule] = []
+		for module in current_layer:
+			for next_module in module.next_modules:
+				if not visited.has(next_module.id) and not next_layer.has(next_module):
+					next_layer.append(next_module)
+		current_layer = next_layer
+
+	return levels
+
+
+func _create_graph_node(module: CardModule) -> BaseCardModuleGraphNode:
+	var node: BaseCardModuleGraphNode
+	match module.module_type:
+		"START":
+			node = start_graph_node_scene.instantiate()
+			node.set_card_module(module)
+		_:
+			node = effect_graph_node_scene.instantiate()
+			node.set_card_module(module)
+			if module.module_type == "DECISION":
+				node.configure_as_decision()
+			else:
+				node.configure_as_effect()
+	node.name = _get_safe_node_name(module)
+	node.toggle_close_button(enable_module_deletion)
+	node.module_closed.connect(_on_module_closed)
+	return node
+
+func _create_connections(start_module: CardModule, nodes_map: Dictionary) -> void:
+	var visited: Dictionary = {}
+	var queue: Array[CardModule] = [start_module]
+
+	while not queue.is_empty():
+		var module: CardModule = queue.pop_front()
+		if visited.has(module.id):
+			continue
+		visited[module.id] = true
+
+		if not nodes_map.has(module.id):
+			continue
+
+		for next_module in module.next_modules:
+			if nodes_map.has(next_module.id) and next_module.connection_is_allowed(module):
+				graph_edit.connect_node(
+					nodes_map[module.id], 0,
+					nodes_map[next_module.id], 0
+				)
+			if not visited.has(next_module.id):
+				queue.append(next_module)
+
+
+func _add_end_node(last_modules: Array[CardModule], nodes_map: Dictionary, level_count: int) -> void:
+	_end_node = end_graph_node_scene.instantiate()
+	_end_node.name = "end_node"
+	_end_node.position_offset = Vector2((level_count + 0.5) * NODE_SPACING_X, 0)
+
+	graph_edit.add_child(_end_node)
+
+	# Connect last modules to end node
+	for module in last_modules:
+		if nodes_map.has(module.id):
+			graph_edit.connect_node(nodes_map[module.id], 0, _end_node.name, 0)
+
+
+func _add_empty_graph() -> void:
+	var start_module := CardModule.new()
+	start_module.id = "start_module"
+	start_module.title = "Start Module"
+	start_module.module_type = "START"
+	start_module.output_links = []
+	start_module.next_modules = []
+	_head_module_displayed = start_module
+	var start_node := _create_graph_node(start_module)
+	start_node.position_offset = Vector2.ZERO
+	graph_edit.add_child(start_node)
+	_node_module_map[start_node.name] = start_module
+	_add_end_node([], {}, 1)
+
+
+func _get_safe_node_name(module: CardModule) -> String:
+	if module.id and not module.id.is_empty():
+		return module.id
+	return "module_%d" % module.get_instance_id()
+
+
+func _clear_graph() -> void:
+	if not graph_edit:
+		return
+	graph_edit.clear_connections()
+	for child in graph_edit.get_children():
+		if child is GraphNode:
+			graph_edit.remove_child(child)
+			child.queue_free()
+	_head_module_displayed = null
+	_end_node = null
+	_node_module_map.clear()
+	error_node_names.clear()
+	_clear_special_effects()
+
+
+## Recursively duplicates the source module tree into a working shadow tree.
+## source.duplicate() preserves the original GDScript class (e.g. AttackCardEffect
+## stays AttackCardEffect), so modules stored in _node_module_map pass `is CardEffect`
+## checks and carry the correct exported properties (damage, tile_config, etc.).
+## next_modules is not @export, so it starts empty and is rebuilt by the loop below.
+func _deep_duplicate_module_tree(source: CardModule, orig_to_dup: Dictionary) -> CardModule:
+	if orig_to_dup.has(source):
+		return orig_to_dup[source]
+	var dup_module: CardModule = source.duplicate() as CardModule
+	dup_module.output_links = source.output_links.duplicate()
+	dup_module.next_modules = []
+	orig_to_dup[source] = dup_module
+	for child in source.next_modules:
+		dup_module.next_modules.append(_deep_duplicate_module_tree(child, orig_to_dup))
+	return dup_module
+
+func _play_audio(stream: AudioStream) -> void:
+	if stream and audio_stream_player:
+		audio_stream_player.stream = stream
+		audio_stream_player.play()
+
+func _record_action(data: Dictionary) -> void:
+	if not _is_undoing:
+		undoable_action_performed.emit(data)
+
+func _update_connection_mode() -> void:
+	if not graph_edit:
+		return
+	graph_edit.right_disconnects = enable_module_connection
+
+func _on_connection_request(from_node: StringName, from_port: int, to_node: StringName, to_port: int) -> void:
+	if not enable_module_connection:
+		return
+	var from: BaseCardModuleGraphNode = graph_edit.get_node(NodePath(from_node))
+	var to: BaseCardModuleGraphNode = graph_edit.get_node(NodePath(to_node))
+	if _get_output_connection_count(from_node) >= from.max_number_of_output_connections:
+		return
+	if _get_input_connection_count(to_node) >= to.max_number_of_input_connections:
+		return
+	# Prevent start node from connecting directly to end node
+	if from is StartCardModuleGraphNode and to is EndCardModuleGraphNode:
+		return
+	# Validate module type compatibility
+	var from_module: CardModule = _node_module_map.get(String(from_node))
+	var to_module: CardModule = _node_module_map.get(String(to_node))
+	if from_module and to_module and not to_module.connection_is_allowed(from_module):
+		return
+	# Capture error states before connection changes them
+	var from_was_error := error_node_names.has(String(from_node))
+	var to_was_error := error_node_names.has(String(to_node))
+	graph_edit.connect_node(from_node, from_port, to_node, to_port)
+	_play_audio(module_connection_added_audio)
+	# Update shadow tree
+	if from_module and to_module and not from_module.next_modules.has(to_module):
+		from_module.next_modules.append(to_module)
+		if to_module.connection_id.is_empty():
+			to_module.connection_id = "%s_%d" % [to_module.id, to_module.get_instance_id()]
+		var link := CardModuleOutputLink.new()
+		link.connection_id = to_module.connection_id
+		from_module.output_links.append(link)
+	# Clear error highlight — end node only needs input, others need both input and output
+	var to_name := String(to_node)
+	var to_is_end := _end_node and String(_end_node.name) == to_name
+	if error_node_names.has(to_name) and (to_is_end or _get_output_connection_count(to_node) > 0):
+		_mark_node_errorless(to, to_node)
+
+	var from_name := String(from_node)
+	if error_node_names.has(from_name) and _get_input_connection_count(from_node) > 0:
+		_mark_node_errorless(from, from_node)
+	_record_action({
+		"type": "ADD_CONNECTION",
+		"from_node": String(from_node), "from_port": from_port,
+		"to_node": String(to_node), "to_port": to_port,
+		"from_module": from_module, "to_module": to_module,
+		"from_was_error": from_was_error, "to_was_error": to_was_error,
+	})
+
+func _on_disconnection_request(from_node: StringName, from_port: int, to_node: StringName, to_port: int) -> void:
+	if not enable_module_connection:
+		return
+	var from_module: CardModule = _node_module_map.get(String(from_node))
+	var to_module: CardModule = _node_module_map.get(String(to_node))
+	graph_edit.disconnect_node(from_node, from_port, to_node, to_port)
+	_play_audio(module_connection_removed_audio)
+	# Update shadow tree
+	if from_module and to_module:
+		from_module.next_modules.erase(to_module)
+		for i in range(from_module.output_links.size() - 1, -1, -1):
+			if from_module.output_links[i].connection_id == to_module.connection_id:
+				from_module.output_links.remove_at(i)
+				break
+	# Mark to_node as error if it lost all input connections (non-start only)
+	var to_name: StringName = String(to_node)
+	var is_end_node: bool = _end_node and String(_end_node.name) == to_name
+	var is_regular_node: bool = _node_module_map.has(to_name) and _node_module_map[to_name] != _head_module_displayed
+	if (is_regular_node or is_end_node) and _get_input_connection_count(to_node) == 0:
+		_mark_error_node(to_node)
+	_record_action({
+		"type": "REMOVE_CONNECTION",
+		"from_node": String(from_node), "from_port": from_port,
+		"to_node": String(to_node), "to_port": to_port,
+		"from_module": from_module, "to_module": to_module,
+	})
+
+func _mark_node_errorless(
+	_to_node: BaseCardModuleGraphNode,
+	_to_node_name: StringName
+):
+	var to_name := String(_to_node_name)
+	error_node_names.erase(to_name)
+	_to_node.self_modulate = Color.WHITE
+
+func _mark_error_node(_to_node: String):
+	var to_name := String(_to_node)
+	error_node_names[to_name] = true
+	var to_node_ref: BaseCardModuleGraphNode = graph_edit.get_node(NodePath(_to_node))
+	if to_node_ref:
+		to_node_ref.self_modulate = Color(1.0, 0.4, 0.4)
+	
+
+func _find_node_name_by_type(type: Variant) -> StringName:
+	for child in graph_edit.get_children():
+		if is_instance_of(child, type):
+			return child.name
+	return &""
+
+func _get_output_connection_count(node_name: StringName) -> int:
+	var count: int = 0
+	for conn in graph_edit.get_connection_list():
+		if conn["from_node"] == node_name:
+			count += 1
+	return count
+
+
+func _get_input_connection_count(node_name: StringName) -> int:
+	var count: int = 0
+	for conn in graph_edit.get_connection_list():
+		if conn["to_node"] == node_name:
+			count += 1
+	return count
+
+
+func _on_module_closed(_module: BaseCardModuleGraphNode):
+	_play_audio(module_removed_audio)
+	var node_name := String(_module.name)
+	var was_error := error_node_names.has(node_name)
+	var removed_module: CardModule = _node_module_map.get(node_name)
+	# Capture all connections involving this node before removal
+	var saved_connections: Array[Dictionary] = []
+	for conn in graph_edit.get_connection_list():
+		if String(conn["from_node"]) == node_name or String(conn["to_node"]) == node_name:
+			saved_connections.append(conn.duplicate())
+	# Capture parent modules that link to this node
+	var parent_modules: Array[CardModule] = []
+	if removed_module:
+		for tracked_module: CardModule in _node_module_map.values():
+			if tracked_module.next_modules.has(removed_module):
+				parent_modules.append(tracked_module)
+	# Remove all connections involving this node from the graph
+	for conn in saved_connections:
+		graph_edit.disconnect_node(conn["from_node"], conn["from_port"], conn["to_node"], conn["to_port"])
+	# Remove from error tracking
+	error_node_names.erase(node_name)
+	# Remove from shadow tree
+	if removed_module:
+		_node_module_map.erase(node_name)
+		for tracked_module: CardModule in _node_module_map.values():
+			tracked_module.next_modules.erase(removed_module)
+			if not removed_module.connection_id.is_empty():
+				for i in range(tracked_module.output_links.size() - 1, -1, -1):
+					if tracked_module.output_links[i].connection_id == removed_module.connection_id:
+						tracked_module.output_links.remove_at(i)
+	_record_action({
+		"type": "REMOVE_MODULE", "module": removed_module, "node_name": node_name,
+		"position": _module.position_offset, "was_error": was_error,
+		"connections": saved_connections, "parent_modules": parent_modules,
+	})
+	if graph_module_closed.has_connections():
+		graph_module_closed.emit(_module)
+	else:
+		graph_edit.remove_child(_module)
+		_module.queue_free()
+
+
+func _populate_special_effects(_card_resource: CardResourceV2) -> void:
+	if not _card_resource or _card_resource.special_effects.is_empty():
+		return
+	for effect in _card_resource.special_effects:
+		_add_special_effect_item(effect)
+
+
+func _add_special_effect_item(effect: SpecialCardEffectResource) -> void:
+	if not special_effect_panel_item_scene:
+		return
+	var item: SpecialEffectPanelItem = special_effect_panel_item_scene.instantiate()
+	special_effects_container.add_child(item)
+	item.set_special_effect(effect)
+	item.toggle_close_button(enable_module_deletion)
+	item.close_pressed.connect(_on_special_effect_removed)
+	_special_card_effects.append(effect)
+	special_effects_panel.visible = true
+	_record_action({"type": "ADD_SPECIAL_EFFECT", "effect": effect})
+
+
+func _on_special_effect_removed(item: SpecialEffectPanelItem) -> void:
+	_play_audio(module_removed_audio)
+	var effect := item.get_special_effect()
+	var child_index := item.get_index()
+	if effect:
+		_special_card_effects.erase(effect)
+	_record_action({"type": "REMOVE_SPECIAL_EFFECT", "effect": effect, "child_index": child_index})
+	item.close_pressed.disconnect(_on_special_effect_removed)
+	special_effects_container.remove_child(item)
+	item.queue_free()
+	if special_effects_container.get_child_count() == 0:
+		special_effects_panel.visible = false
+
+
+func _clear_special_effects() -> void:
+	_special_card_effects.clear()
+	if not special_effects_container:
+		return
+	for child in special_effects_container.get_children():
+		special_effects_container.remove_child(child)
+		child.queue_free()
+	if special_effects_panel:
+		special_effects_panel.visible = false
+
+
+# ── Undo ──────────────────────────────────────────────────────────────────────
+
+func undo(action: Dictionary) -> void:
+	_is_undoing = true
+	match action["type"]:
+		"ADD_MODULE": _undo_add_module(action)
+		"REMOVE_MODULE": _undo_remove_module(action)
+		"ADD_CONNECTION": _undo_add_connection(action)
+		"REMOVE_CONNECTION": _undo_remove_connection(action)
+		"ADD_SPECIAL_EFFECT": _undo_add_special_effect(action)
+		"REMOVE_SPECIAL_EFFECT": _undo_remove_special_effect(action)
+	_is_undoing = false
+
+
+func _undo_add_module(action: Dictionary) -> void:
+	var node_name: String = action["node_name"]
+	for conn in graph_edit.get_connection_list():
+		if String(conn["from_node"]) == node_name or String(conn["to_node"]) == node_name:
+			graph_edit.disconnect_node(conn["from_node"], conn["from_port"], conn["to_node"], conn["to_port"])
+	var module: CardModule = _node_module_map.get(node_name)
+	if module:
+		for tracked_module: CardModule in _node_module_map.values():
+			tracked_module.next_modules.erase(module)
+			if not module.connection_id.is_empty():
+				for i in range(tracked_module.output_links.size() - 1, -1, -1):
+					if tracked_module.output_links[i].connection_id == module.connection_id:
+						tracked_module.output_links.remove_at(i)
+	_node_module_map.erase(node_name)
+	error_node_names.erase(node_name)
+	var node := graph_edit.get_node_or_null(NodePath(node_name))
+	if node:
+		graph_edit.remove_child(node)
+		node.queue_free()
+
+
+func _undo_remove_module(action: Dictionary) -> void:
+	var module: CardModule = action["module"]
+	var node := _create_graph_node(module)
+	node.position_offset = action["position"]
+	graph_edit.add_child(node)
+	_node_module_map[String(node.name)] = module
+	for parent_module: CardModule in action["parent_modules"]:
+		if not parent_module.next_modules.has(module):
+			parent_module.next_modules.append(module)
+	for conn in action["connections"]:
+		graph_edit.connect_node(conn["from_node"], conn["from_port"], conn["to_node"], conn["to_port"])
+		var from_mod: CardModule = _node_module_map.get(String(conn["from_node"]))
+		var to_mod: CardModule = _node_module_map.get(String(conn["to_node"]))
+		if from_mod and to_mod and not from_mod.next_modules.has(to_mod):
+			from_mod.next_modules.append(to_mod)
+			if not to_mod.connection_id.is_empty():
+				var already_has := false
+				for link in from_mod.output_links:
+					if link.connection_id == to_mod.connection_id:
+						already_has = true
+						break
+				if not already_has:
+					var link := CardModuleOutputLink.new()
+					link.connection_id = to_mod.connection_id
+					from_mod.output_links.append(link)
+	if action["was_error"]:
+		_mark_error_node(action["node_name"])
+
+
+func _undo_add_connection(action: Dictionary) -> void:
+	graph_edit.disconnect_node(action["from_node"], action["from_port"], action["to_node"], action["to_port"])
+	if action["from_module"] and action["to_module"]:
+		action["from_module"].next_modules.erase(action["to_module"])
+		var to_cid: String = action["to_module"].connection_id
+		for i in range(action["from_module"].output_links.size() - 1, -1, -1):
+			if action["from_module"].output_links[i].connection_id == to_cid:
+				action["from_module"].output_links.remove_at(i)
+				break
+	if action["to_was_error"]:
+		_mark_error_node(action["to_node"])
+	if action["from_was_error"]:
+		_mark_error_node(action["from_node"])
+
+
+func _undo_remove_connection(action: Dictionary) -> void:
+	graph_edit.connect_node(action["from_node"], action["from_port"], action["to_node"], action["to_port"])
+	if action["from_module"] and action["to_module"] and not action["from_module"].next_modules.has(action["to_module"]):
+		action["from_module"].next_modules.append(action["to_module"])
+		var to_cid: String = action["to_module"].connection_id
+		if not to_cid.is_empty():
+			var already_has := false
+			for link in action["from_module"].output_links:
+				if link.connection_id == to_cid:
+					already_has = true
+					break
+			if not already_has:
+				var link := CardModuleOutputLink.new()
+				link.connection_id = to_cid
+				action["from_module"].output_links.append(link)
+	var to_ref: BaseCardModuleGraphNode = graph_edit.get_node_or_null(NodePath(action["to_node"]))
+	if to_ref and error_node_names.has(action["to_node"]):
+		_mark_node_errorless(to_ref, action["to_node"])
+
+
+func _undo_add_special_effect(action: Dictionary) -> void:
+	var effect: SpecialCardEffectResource = action["effect"]
+	_special_card_effects.erase(effect)
+	for child in special_effects_container.get_children():
+		if child is SpecialEffectPanelItem and child.get_special_effect() == effect:
+			child.close_pressed.disconnect(_on_special_effect_removed)
+			special_effects_container.remove_child(child)
+			child.queue_free()
+			break
+	if special_effects_container.get_child_count() == 0:
+		special_effects_panel.visible = false
+
+
+func _undo_remove_special_effect(action: Dictionary) -> void:
+	var effect: SpecialCardEffectResource = action["effect"]
+	if not special_effect_panel_item_scene or not effect:
+		return
+	var item: SpecialEffectPanelItem = special_effect_panel_item_scene.instantiate()
+	special_effects_container.add_child(item)
+	special_effects_container.move_child(item, mini(action["child_index"], special_effects_container.get_child_count() - 1))
+	item.set_special_effect(effect)
+	item.toggle_close_button(enable_module_deletion)
+	item.close_pressed.connect(_on_special_effect_removed)
+	_special_card_effects.append(effect)
+	special_effects_panel.visible = true

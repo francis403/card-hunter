@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="TargetInputCardEffect" load_steps=6 format=3 uid="uid://d1x68npv3lhyx"]
+
+[ext_resource type="Script" uid="uid://b4jl0atcv1b6o" path="res://resources/card/card_module/card_module_output_link/card_module_output_link.gd" id="1_4ru7a"]
+[ext_resource type="Script" uid="uid://cf54185vfm3qk" path="res://resources/card/card_module/card_effect/_card_effects/target_input_card_effects/target_input_card_effect.gd" id="2_o8lkh"]
+[ext_resource type="Script" uid="uid://bykm1sfwrcmbx" path="res://resources/configuration/tile_highlight_configuration/formula/formula.gd" id="3_wt6h6"]
+[ext_resource type="Script" uid="uid://clufwv38rhs7a" path="res://resources/configuration/tile_highlight_configuration/tile_highlight_configuration.gd" id="4_cj4ol"]
+
+[sub_resource type="Resource" id="Resource_ofbw3"]
+script = ExtResource("4_cj4ol")
+area_type = 4
+use_specific_tile_location_config = true
+ignore_tiles_away_from_origin = true
+
+[resource]
+script = ExtResource("2_o8lkh")
+tile_highlight_config = SubResource("Resource_ofbw3")
+area_input_type = "OTHER"
+id = "target_other_radius_1"
+title = "Target Other"
+types = Array[String](["input"])
+module_type = "INPUT"
+metadata/_custom_type_script = "uid://cf54185vfm3qk"

@@ -89,6 +89,7 @@ func node_can_move_to_tile(
 	var _is_piece_in_tile: bool = _tile_to_move.piece_in_tile != null
 	if not _node_to_place is GenericGiantMonster:
 		return not _is_piece_in_tile
-	if _is_piece_in_tile:
-		return _tile_to_move.piece_in_tile == _node_to_place
-	return true
+	if _is_piece_in_tile and _tile_to_move.piece_in_tile != _node_to_place:
+		return false
+	var _giant_monster: GenericGiantMonster = _node_to_place as GenericGiantMonster
+	return _giant_monster.is_center_position_valid(_tile_to_move)

@@ -105,7 +105,7 @@ func _on_world_generated():
 	self._setup_world_background_exclusion_zone()
 
 func _on_forge_button_pressed():
-	var scene: ForgeCardScreen = Constants.forge_card_screen_scene.instantiate()
+	var scene: Node = Refs.editor_card_screen_scene.instantiate()
 	get_tree().root.add_child(scene)
 
 func _start_world_tutorial() -> void:

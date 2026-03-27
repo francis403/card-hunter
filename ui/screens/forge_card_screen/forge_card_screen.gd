@@ -6,13 +6,16 @@ extends Control
 ## Show success message
 class_name ForgeCardScreen
 
+signal forge_successful
+signal back_button_pressed
+
 const MIN_AMOUNT_OF_MODULES: int = 1
 const MAX_AMOUNT_OF_MODULES: int = 4
 const MIN_TITLE_LENGTH: int = 1
 const MAX_TITLE_LENGTH: int = 30
 
 @onready var card_modules_container_component: CardModulesContainerComponent = %CardModulesContainerComponent
-@onready var added_card_modules: CardModulesContainerComponent = %AddedCardModules
+@onready var card_modules_displayer: CardModuleDisplayer = %CardModulesDisplayer
 @onready var display_card: Card = %Card
 @onready var card_title_input: LineEdit = %CardTitleInput
 @onready var forge_button: SoundButton = %ForgeButton
@@ -22,6 +25,7 @@ const MAX_TITLE_LENGTH: int = 30
 
 var _built_card: Card
 var _built_card_errors: Array[String] = []
+var _forge_modules: Array[CardModule] = []
 
 func _init() -> void:
 	_built_card = Card.new()
@@ -36,20 +40,41 @@ func _ready() -> void:
 		_add_signals_when_clicked(child, _on_available_card_module_clicked_signal)
 	
 	card_title_input.text_changed.connect(_on_title_input_changed)
+	card_modules_displayer.enable_module_deletion = true
+	card_modules_displayer.undoable_action_performed.connect(_on_displayer_action)
 	_update_validation_display()
 
 func _on_forge_button_pressed() -> void:
 	if not _is_valid_card_forge():
 		return
-	_built_card.card_resource = display_card.card_resource.duplicate()
-	_built_card.card_resource.title = card_title_input.text
-	_built_card.card_resource.id = card_title_input.text.replace(" ", "")
-	_built_card.card_resource.is_forged = true
+	var new_card_resource: CardResourceV2 = _build_card_resource_from_displayer()
+	new_card_resource.title = card_title_input.text
+	new_card_resource.id = card_title_input.text.replace(" ", "")
+	new_card_resource.is_forged = true
+	_built_card.card_resource = new_card_resource
 	PlayerController.add_card_to_deck(_built_card.card_resource)
 	PlayerController.add_forged_card(_built_card.card_resource)
-	for _module: CardModuleComponent in added_card_modules.get_children_nodes():
-		PlayerController.remove_card_module(_module.card_module)
+	for _module in _forge_modules:
+		PlayerController.remove_card_module(_module)
+	File.change_progress()
 	_on_back_button_pressed()
+
+## Builds a CardResourceV2 from the card_modules_displayer's shadow tree.
+## Special effects and conditions are not in the shadow graph; they are copied
+## from display_card.card_resource which tracks them separately.
+func _build_card_resource_from_displayer() -> CardResourceV2:
+	var new_resource: CardResourceV2 = CardResourceV2.new()
+	for _node in card_modules_displayer._node_module_map.values():
+		if not _node is CardEffect:
+			continue
+		new_resource.play_actions.append(_node)
+	new_resource._generate_card_modules_tree()
+	if display_card.card_resource:
+		new_resource.special_effects.assign(display_card.card_resource.special_effects)
+		new_resource.play_conditions.assign(display_card.card_resource.play_conditions)
+		new_resource.stamina_cost = display_card.card_resource.stamina_cost
+	new_resource.description = _generate_card_description()
+	return new_resource
 
 func _add_signals_when_clicked(
 	card_module_component: CardModuleComponent,
@@ -118,31 +143,28 @@ func _add_card_module_to_new_card(
 	_card_module: CardModule
 ):
 	_card_module_component.queue_free()
-	var _added_module: CardModuleComponent = added_card_modules.add_grid_elem(
-		_card_module
-	)
-	_add_signals_when_clicked(_added_module, _on_click_remove_from_new_card)
+	card_modules_displayer.add_card_module(_card_module)
+	_forge_modules.append(_card_module)
 
-func _on_click_remove_from_new_card(card_module: CardModuleComponent):
-	_add_card_module_to_available_options(card_module, card_module.card_module)
+func _on_displayer_action(action: Dictionary) -> void:
+	if action["type"] == "REMOVE_MODULE":
+		var module: CardModule = action["module"]
+		if module:
+			_return_module_to_available(module)
+	elif action["type"] == "REMOVE_SPECIAL_EFFECT":
+		var effect = action["effect"]
+		if effect:
+			_return_module_to_available(effect)
 
-func _add_card_module_to_available_options(
-	_card_module_component: CardModuleComponent,
-	_card_module: CardModule
-):
-	_card_module_component.queue_free()
-	var component: CardModuleComponent = card_modules_container_component.add_grid_elem(
-		_card_module
-	)
+
+func _return_module_to_available(module: CardModule) -> void:
+	_forge_modules.erase(module)
+	var component: CardModuleComponent = card_modules_container_component.add_grid_elem(module)
 	_add_signals_when_clicked(component, _on_available_card_module_clicked_signal)
-	display_card.card_resource.remove_card_module(
-		_card_module
-	)
-	display_card.add_stamina_cost( -1 * _card_module.stamina_cost)
+	display_card.card_resource.remove_card_module(module)
+	display_card.add_stamina_cost(-1 * module.stamina_cost)
 	display_card.card_resource.description = _generate_card_description()
 	display_card.initialize_card()
-	
-	# Update validation display when modules change
 	_update_validation_display()
 
 func _on_title_input_changed(_new_text: String) -> void:
@@ -192,22 +214,12 @@ func _add_error_to_validation_label(
 		validation_error_label.visible = false
 
 func _update_module_visual_feedback():
-	if not display_card.card_resource:
-		return
-	
-	var validation_result = CardModuleValidator.validate_card_modules(display_card.card_resource.get_card_modules())
-	
-	# Reset all module visuals to normal
-	for child: CardModuleComponent in added_card_modules.get_children_nodes():
-		child.modulate = Color.WHITE
-	
-	# Highlight invalid modules
-	for invalid_module in validation_result.invalid_modules:
-		for child: CardModuleComponent in added_card_modules.get_children_nodes():
-			if child.card_module and child.card_module.equals(invalid_module):
-				child.modulate = Color(1, 0.6, 0.6, 1)  # Light red tint
+	pass  # Graph-based displayer handles its own visual feedback
 	
 func _on_back_button_pressed() -> void:
+	if back_button_pressed.has_connections():
+		back_button_pressed.emit()
+		return
 	self.queue_free()
 
 func _is_valid_card_forge() -> bool:

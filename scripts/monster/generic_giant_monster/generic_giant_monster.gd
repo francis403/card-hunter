@@ -67,3 +67,34 @@ func _clear_giant_monster_tiles():
 	for tile in occupying_tiles:
 		tile.piece_in_tile = null
 	occupying_tiles.clear()
+
+## Returns all tiles this monster would occupy if its center were at center_tile.
+## Used to validate movement before committing to a new position.
+func get_tiles_at_position(center_tile: Tile) -> Array[Tile]:
+	var result: Array[Tile] = []
+	if not center_tile:
+		return result
+	var x: int = center_tile._x_position
+	var y: int = center_tile._y_position
+	match type_of_giant_monster:
+		GiantMonsterSorroundingTiles.FULL_RADIUS:
+			for radius_x in range(-extra_size, extra_size + 1):
+				for radius_y in range(-extra_size, extra_size + 1):
+					var tile: Tile = BattleController.get_tile(x + radius_x, y + radius_y)
+					if tile:
+						result.append(tile)
+		GiantMonsterSorroundingTiles.HORIZONTAL_LINE:
+			result.append(center_tile)
+			var tile_left: Tile = BattleController.get_tile(x - 1, y)
+			if tile_left:
+				result.append(tile_left)
+			var tile_right: Tile = BattleController.get_tile(x + 1, y)
+			if tile_right:
+				result.append(tile_right)
+	return result
+
+func is_center_position_valid(_center_position: Tile) -> bool:
+	for tile in self.get_tiles_at_position(_center_position):
+		if tile.piece_in_tile != null and tile.piece_in_tile != self:
+			return false
+	return true

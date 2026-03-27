@@ -1,13 +1,48 @@
-[gd_resource type="Resource" script_class="CardResourceV2" load_steps=9 format=3 uid="uid://dl1moktvst0io"]
+[gd_resource type="Resource" script_class="CardResourceV2" load_steps=17 format=3 uid="uid://dl1moktvst0io"]
 
 [ext_resource type="AudioStream" uid="uid://d1mjkdbshat6f" path="res://assets/sound/sound_effects/footstep09.ogg" id="1_vijq0"]
 [ext_resource type="Texture2D" uid="uid://b4egf34ust84a" path="res://assets/images/card/card_main_image/retreat.png" id="2_q0bbo"]
 [ext_resource type="Script" uid="uid://clo7yb32ydt37" path="res://resources/card/card_module/card_effect/card_effect.gd" id="2_w7d0r"]
 [ext_resource type="Resource" uid="uid://dwihnll5qw26v" path="res://resources/card/card_module/card_effect/_card_effects/_card_effects_collection/discard_1_card_from_hand.tres" id="3_vu5as"]
-[ext_resource type="Resource" uid="uid://dk0gj3lsmtif8" path="res://resources/card/card_module/card_effect/_card_effects/_card_effects_collection/move_1.tres" id="4_r2ls2"]
+[ext_resource type="Script" uid="uid://cyo5auieydyno" path="res://resources/card/card_module/card_effect/_card_effects/move_self_card_effect/move_card_effect.gd" id="4_mce"]
 [ext_resource type="Script" uid="uid://0ehgq0gu1n0f" path="res://resources/card/card_module/condition/condition.gd" id="5_eb1cn"]
 [ext_resource type="Script" uid="uid://gcdjt0hw3kpk" path="res://resources/card/card_module/special_card_effect/special_card_effect_resource.gd" id="7_ed1g2"]
 [ext_resource type="Script" uid="uid://bsspisl6hdkmh" path="res://resources/card/card_resource_v2/card_resource_v2.gd" id="7_h7jtr"]
+[ext_resource type="Script" uid="uid://cf54185vfm3qk" path="res://resources/card/card_module/card_effect/_card_effects/target_input_card_effects/target_input_card_effect.gd" id="8_ti"]
+[ext_resource type="Script" uid="uid://b4jl0atcv1b6o" path="res://resources/card/card_module/card_module_output_link/card_module_output_link.gd" id="9_ol"]
+[ext_resource type="Script" uid="uid://clufwv38rhs7a" path="res://resources/configuration/tile_highlight_configuration/tile_highlight_configuration.gd" id="10_thc"]
+[ext_resource type="Script" uid="uid://bykm1sfwrcmbx" path="res://resources/configuration/tile_highlight_configuration/formula/formula.gd" id="11_form"]
+
+[sub_resource type="Resource" id="Resource_outlink"]
+script = ExtResource("9_ol")
+connection_id = "move_self_retreat"
+metadata/_custom_type_script = "uid://b4jl0atcv1b6o"
+
+[sub_resource type="Resource" id="Resource_ti"]
+script = ExtResource("8_ti")
+id = "target_input_self_retreat"
+title = "Target Self"
+stamina_cost = 0
+types = Array[String](["target_input"])
+output_links = Array[ExtResource("9_ol")]([SubResource("Resource_outlink")])
+connection_id = "target_self_retreat"
+module_type = "INPUT"
+metadata/_custom_type_script = "uid://cf54185vfm3qk"
+
+[sub_resource type="Resource" id="Resource_thc"]
+script = ExtResource("10_thc")
+area_type = 4
+ignore_occupied_tiles = true
+
+[sub_resource type="Resource" id="Resource_mce"]
+script = ExtResource("4_mce")
+tile_highlight_config = SubResource("Resource_thc")
+id = "move_self_retreat"
+title = "Move Piece Retreat"
+types = Array[String](["move"])
+connection_id = "move_self_retreat"
+allowed_input_module_types = "INPUT"
+metadata/_custom_type_script = "uid://cyo5auieydyno"
 
 [resource]
 script = ExtResource("7_h7jtr")
@@ -15,6 +50,6 @@ id = "emergency_retreat_1"
 title = "CARD_RUN_AWAY_TITLE"
 description = "CARD_RUN_AWAY_DESC"
 tag_array = Array[String](["move"])
-play_actions = Array[ExtResource("2_w7d0r")]([ExtResource("3_vu5as"), ExtResource("4_r2ls2")])
+play_actions = Array[ExtResource("2_w7d0r")]([ExtResource("3_vu5as"), SubResource("Resource_ti"), SubResource("Resource_mce")])
 audio_stream = ExtResource("1_vijq0")
 card_image = ExtResource("2_q0bbo")

@@ -83,6 +83,8 @@ func _load_player_forged_cards(_dict: Dictionary):
 		var card_resource: CardResourceV2 = CardResourceV2.new()
 		card_resource.from_dictionary(_dict[key])
 		PlayerController.add_forged_card(card_resource)
+		var saved_quantity: int = _dict[key].get("quantity", 1)
+		PlayerController._forged_cards[card_resource.id]["quantity"] = saved_quantity
 
 func update_player_position(current_world_node: GenericWorldNode):
 	if not PlayerController.current_world_node:

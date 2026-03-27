@@ -1,5 +1,6 @@
-[gd_resource type="Resource" script_class="MoveSelfCardEffect" load_steps=5 format=3 uid="uid://linq0xxkofgf"]
+[gd_resource type="Resource" script_class="MoveSelfCardEffect" load_steps=6 format=3 uid="uid://linq0xxkofgf"]
 
+[ext_resource type="Script" uid="uid://b4jl0atcv1b6o" path="res://resources/card/card_module/card_module_output_link/card_module_output_link.gd" id="1_iweun"]
 [ext_resource type="Script" uid="uid://d4mg85qidr6rb" path="res://resources/card/card_module/card_effect/_card_effects/move_self_card_effect/move_self_card_effect.gd" id="1_yfied"]
 [ext_resource type="Script" uid="uid://bykm1sfwrcmbx" path="res://resources/configuration/tile_highlight_configuration/formula/formula.gd" id="2_qwv1t"]
 [ext_resource type="Script" uid="uid://clufwv38rhs7a" path="res://resources/configuration/tile_highlight_configuration/tile_highlight_configuration.gd" id="2_tiya8"]
@@ -17,3 +18,6 @@ center_piece = 1
 id = "move_self_teleport"
 title = "teleport"
 stamina_cost = 30
+types = Array[String](["move"])
+connection_id = "move_self_teleport"
+allowed_input_module_types = "INPUT"

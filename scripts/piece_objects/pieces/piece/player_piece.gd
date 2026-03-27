@@ -68,7 +68,7 @@ func recover_stamina(stamina = _stamina_recover):
 	
 func discard_card_from_hand(_card: Card):
 	current_card_in_hand_size -= 1
-	discard_pile.append(_card.card_resource.duplicate())
+	discard_pile.append(_card.card_resource.dup())
 	BattlemapSignals.discard_pile_updated.emit(discard_pile)
 	
 func _on_battle_start_signal():

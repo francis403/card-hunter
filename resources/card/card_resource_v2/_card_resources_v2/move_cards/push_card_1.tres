@@ -1,11 +1,55 @@
-[gd_resource type="Resource" script_class="CardResourceV2" load_steps=7 format=3 uid="uid://bnds0fxs33yqg"]
+[gd_resource type="Resource" script_class="CardResourceV2" load_steps=16 format=3 uid="uid://bnds0fxs33yqg"]
 
 [ext_resource type="Script" uid="uid://clo7yb32ydt37" path="res://resources/card/card_module/card_effect/card_effect.gd" id="1_05pe8"]
 [ext_resource type="Texture2D" uid="uid://du3o611wyha3e" path="res://assets/images/card/card_main_image/push.png" id="1_qlrlg"]
-[ext_resource type="Resource" uid="uid://don2d3okfgy06" path="res://resources/card/card_module/card_effect/_card_effects/_card_effects_collection/move_other_push_1.tres" id="2_dsopr"]
 [ext_resource type="Script" uid="uid://0ehgq0gu1n0f" path="res://resources/card/card_module/condition/condition.gd" id="2_uhw8q"]
 [ext_resource type="Script" uid="uid://bsspisl6hdkmh" path="res://resources/card/card_resource_v2/card_resource_v2.gd" id="3_ae2bu"]
+[ext_resource type="Script" uid="uid://bykm1sfwrcmbx" path="res://resources/configuration/tile_highlight_configuration/formula/formula.gd" id="3_imbtu"]
+[ext_resource type="Script" uid="uid://clufwv38rhs7a" path="res://resources/configuration/tile_highlight_configuration/tile_highlight_configuration.gd" id="4_5qg2f"]
+[ext_resource type="Script" uid="uid://cf54185vfm3qk" path="res://resources/card/card_module/card_effect/_card_effects/target_input_card_effects/target_input_card_effect.gd" id="4_imbtu"]
 [ext_resource type="Script" uid="uid://gcdjt0hw3kpk" path="res://resources/card/card_module/special_card_effect/special_card_effect_resource.gd" id="4_sgafs"]
+[ext_resource type="Script" uid="uid://b4jl0atcv1b6o" path="res://resources/card/card_module/card_module_output_link/card_module_output_link.gd" id="5_sbdh1"]
+[ext_resource type="Script" uid="uid://cyo5auieydyno" path="res://resources/card/card_module/card_effect/_card_effects/move_self_card_effect/move_card_effect.gd" id="8_5qg2f"]
+
+[sub_resource type="Resource" id="Resource_imbtu"]
+script = ExtResource("5_sbdh1")
+connection_id = "move_away_radius_1"
+metadata/_custom_type_script = "uid://b4jl0atcv1b6o"
+
+[sub_resource type="Resource" id="Resource_8lcq5"]
+script = ExtResource("4_5qg2f")
+_range = 2
+area_type = 4
+use_specific_tile_location_config = true
+ignore_tiles_close_to_origin = true
+
+[sub_resource type="Resource" id="Resource_5qg2f"]
+script = ExtResource("4_imbtu")
+tile_highlight_config = SubResource("Resource_8lcq5")
+area_input_type = "OTHER"
+id = "target_other_radius_2"
+title = "Target Other"
+stamina_cost = 10
+types = Array[String](["input"])
+output_links = Array[ExtResource("5_sbdh1")]([SubResource("Resource_imbtu")])
+connection_id = "target_other_radius_2"
+module_type = "INPUT"
+metadata/_custom_type_script = "uid://cf54185vfm3qk"
+
+[sub_resource type="Resource" id="Resource_5t0qj"]
+script = ExtResource("4_5qg2f")
+area_type = 4
+
+[sub_resource type="Resource" id="Resource_sbdh1"]
+script = ExtResource("8_5qg2f")
+tile_highlight_config = SubResource("Resource_5t0qj")
+update_next_card_effect_data = false
+id = "move_away_radius_1"
+title = "Move Piece 1 Tile Away"
+types = Array[String](["move"])
+connection_id = "move_away_radius_1"
+allowed_input_module_types = "INPUT"
+metadata/_custom_type_script = "uid://cyo5auieydyno"
 
 [resource]
 script = ExtResource("3_ae2bu")
@@ -13,5 +57,5 @@ id = "push_card_1"
 title = "CARD_PUSH_TITLE"
 description = "CARD_PUSH_DESC"
 tag_array = Array[String](["move"])
-play_actions = Array[ExtResource("1_05pe8")]([ExtResource("2_dsopr")])
+play_actions = Array[ExtResource("1_05pe8")]([SubResource("Resource_5qg2f"), SubResource("Resource_sbdh1")])
 card_image = ExtResource("1_qlrlg")

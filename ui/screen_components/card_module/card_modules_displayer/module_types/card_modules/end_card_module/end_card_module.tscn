@@ -1,0 +1,50 @@
+[gd_scene load_steps=4 format=3 uid="uid://boko8kwx57hm0"]
+
+[ext_resource type="Script" uid="uid://bm8fdxuxem83p" path="res://ui/screen_components/card_module/card_modules_displayer/module_types/card_modules/end_card_module/end_card_module.gd" id="1_umtwi"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_umtwi"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.21176471, 0.14901961, 0.4, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.0006938975, 0.00069389783, 0.00069389667, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+corner_detail = 5
+
+[sub_resource type="Theme" id="Theme_umtwi"]
+PanelContainer/styles/panel = SubResource("StyleBoxFlat_umtwi")
+
+[node name="EndCardModule" type="PanelContainer"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -15.0
+offset_top = -11.5
+offset_right = 15.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+theme = SubResource("Theme_umtwi")
+script = ExtResource("1_umtwi")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="Label" type="Label" parent="MarginContainer"]
+layout_mode = 2
+text = "End"

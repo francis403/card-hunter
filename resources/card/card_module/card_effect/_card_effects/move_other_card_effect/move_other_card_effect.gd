@@ -3,6 +3,20 @@ class_name MoveOtherCardEffect
 
 @export var move_other_highlight_config: TileHighlightConfig
 
+func to_dictionary() -> Dictionary:
+	var result: Dictionary = super.to_dictionary()
+	if move_other_highlight_config:
+		result["move_other_highlight_config"] = move_other_highlight_config.to_dictionary()
+	return result
+
+
+func from_dictionary(dictionary: Dictionary) -> void:
+	super.from_dictionary(dictionary)
+	if dictionary.has("move_other_highlight_config"):
+		move_other_highlight_config = TileHighlightConfig.new()
+		move_other_highlight_config.from_dictionary(dictionary["move_other_highlight_config"])
+
+
 func card_effect():
 	if target_tile == null:
 		return

@@ -1,6 +1,7 @@
-[gd_resource type="Resource" script_class="MoveOtherCardEffect" load_steps=6 format=3 uid="uid://d2iqg4w3f4b2h"]
+[gd_resource type="Resource" script_class="MoveOtherCardEffect" load_steps=7 format=3 uid="uid://d2iqg4w3f4b2h"]
 
 [ext_resource type="Script" uid="uid://bykm1sfwrcmbx" path="res://resources/configuration/tile_highlight_configuration/formula/formula.gd" id="1_4x5g3"]
+[ext_resource type="Script" uid="uid://b4jl0atcv1b6o" path="res://resources/card/card_module/card_module_output_link/card_module_output_link.gd" id="1_f2ere"]
 [ext_resource type="Script" uid="uid://clufwv38rhs7a" path="res://resources/configuration/tile_highlight_configuration/tile_highlight_configuration.gd" id="1_imksu"]
 [ext_resource type="Script" uid="uid://ba1pyljxjgnij" path="res://resources/card/card_module/card_effect/_card_effects/move_other_card_effect/move_other_card_effect.gd" id="2_o51ir"]
 
@@ -25,3 +26,6 @@ tile_highlight_config = SubResource("Resource_7ywgs")
 id = "move_other_pull_1"
 title = "Pull monster 1 Tile"
 stamina_cost = 15
+types = Array[String](["move"])
+connection_id = "move_other_pull_1"
+allowed_input_module_types = "INPUT"

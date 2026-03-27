@@ -62,6 +62,72 @@ var make_tile_clickable: bool = true
 var origin_tile: Tile = null
 var target_tile: Tile = null
 
+
+func to_dictionary() -> Dictionary:
+	var result: Dictionary = {}
+	result["_range"] = _range
+	result["min_range"] = min_range
+	result["area_type"] = area_type
+	result["include_target_tile_by_default"] = include_target_tile_by_default
+	result["ignore_occupied_tiles"] = ignore_occupied_tiles
+	result["ignore_origin"] = ignore_origin
+	result["ignore_corners"] = ignore_corners
+	result["ignore_non_corners"] = ignore_non_corners
+	result["ignore_tiles_with_effects"] = ignore_tiles_with_effects
+	result["ignore_north_tiles"] = ignore_north_tiles
+	result["ignore_south_tiles"] = ignore_south_tiles
+	result["ignore_east_tiles"] = ignore_east_tiles
+	result["ignore_west_tiles"] = ignore_west_tiles
+	result["use_specific_tile_location_config"] = use_specific_tile_location_config
+	result["ignore_tiles_close_to_origin"] = ignore_tiles_close_to_origin
+	result["ignore_tiles_away_from_origin"] = ignore_tiles_away_from_origin
+	result["ignore_tiles_not_inbetween_origin_and_target"] = ignore_tiles_not_inbetween_origin_and_target
+	result["ignore_tiles_same_distance_from_origin"] = ignore_tiles_same_distance_from_origin
+	result["ignore_tiles_opposite_target_orientation"] = ignore_tiles_opposite_target_orientation
+	result["ignore_tiles_in_target_orientation"] = ignore_tiles_in_target_orientation
+	result["use_range_tile_player_orientation"] = use_range_tile_player_orientation
+	result["origin_target_direction_tiles_only"] = origin_target_direction_tiles_only
+	result["direction_accepted_range"] = direction_accepted_range
+	result["enable_debug"] = enable_debug
+	var formulas_arr: Array = []
+	for f in formulas:
+		formulas_arr.append({"_formula": f._formula})
+	result["formulas"] = formulas_arr
+	return result
+
+
+func from_dictionary(dict: Dictionary) -> void:
+	if dict.has("_range"): _range = dict["_range"]
+	if dict.has("min_range"): min_range = dict["min_range"]
+	if dict.has("area_type"): area_type = dict["area_type"]
+	if dict.has("include_target_tile_by_default"): include_target_tile_by_default = dict["include_target_tile_by_default"]
+	if dict.has("ignore_occupied_tiles"): ignore_occupied_tiles = dict["ignore_occupied_tiles"]
+	if dict.has("ignore_origin"): ignore_origin = dict["ignore_origin"]
+	if dict.has("ignore_corners"): ignore_corners = dict["ignore_corners"]
+	if dict.has("ignore_non_corners"): ignore_non_corners = dict["ignore_non_corners"]
+	if dict.has("ignore_tiles_with_effects"): ignore_tiles_with_effects = dict["ignore_tiles_with_effects"]
+	if dict.has("ignore_north_tiles"): ignore_north_tiles = dict["ignore_north_tiles"]
+	if dict.has("ignore_south_tiles"): ignore_south_tiles = dict["ignore_south_tiles"]
+	if dict.has("ignore_east_tiles"): ignore_east_tiles = dict["ignore_east_tiles"]
+	if dict.has("ignore_west_tiles"): ignore_west_tiles = dict["ignore_west_tiles"]
+	if dict.has("use_specific_tile_location_config"): use_specific_tile_location_config = dict["use_specific_tile_location_config"]
+	if dict.has("ignore_tiles_close_to_origin"): ignore_tiles_close_to_origin = dict["ignore_tiles_close_to_origin"]
+	if dict.has("ignore_tiles_away_from_origin"): ignore_tiles_away_from_origin = dict["ignore_tiles_away_from_origin"]
+	if dict.has("ignore_tiles_not_inbetween_origin_and_target"): ignore_tiles_not_inbetween_origin_and_target = dict["ignore_tiles_not_inbetween_origin_and_target"]
+	if dict.has("ignore_tiles_same_distance_from_origin"): ignore_tiles_same_distance_from_origin = dict["ignore_tiles_same_distance_from_origin"]
+	if dict.has("ignore_tiles_opposite_target_orientation"): ignore_tiles_opposite_target_orientation = dict["ignore_tiles_opposite_target_orientation"]
+	if dict.has("ignore_tiles_in_target_orientation"): ignore_tiles_in_target_orientation = dict["ignore_tiles_in_target_orientation"]
+	if dict.has("use_range_tile_player_orientation"): use_range_tile_player_orientation = dict["use_range_tile_player_orientation"]
+	if dict.has("origin_target_direction_tiles_only"): origin_target_direction_tiles_only = dict["origin_target_direction_tiles_only"]
+	if dict.has("direction_accepted_range"): direction_accepted_range = dict["direction_accepted_range"]
+	if dict.has("enable_debug"): enable_debug = dict["enable_debug"]
+	if dict.has("formulas"):
+		formulas.clear()
+		for fd: Dictionary in dict["formulas"]:
+			var f: Formula = Formula.new()
+			f._formula = fd.get("_formula", "")
+			formulas.append(f)
+
 ## Given a tile position _tile_position
 ## & the difference between the current tile and the origin tile
 ## Return if the tile is valid based on the configuration
@@ -89,6 +155,8 @@ func is_tile_valid(
 		target_tile and _tile.to_vector() == target_tile.to_vector():
 		GeneralUtils.debug_log("DEBUG:  including target tile", enable_debug)
 		return true
+	if self.ignore_occupied_tiles and _tile.is_occupied():
+		return false
 	if furthest_square_distance <= self.min_range :
 		return false
 	if self.ignore_corners and _radius_distance > self._range:

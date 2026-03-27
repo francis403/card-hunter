@@ -46,6 +46,11 @@ func get_all_file_paths(path: String) -> Array[String]:
 		file_name = dir.get_next()
 	return file_paths
 	
+func get_card_modules() -> Array[CardModule]:
+	var _result: Array[CardModule] = []
+	_result.assign(_card_modules_in_game.values())
+	return _result
+
 func get_card_module(id: String) -> CardModule:
 	if not _card_modules_in_game.has(id):
 		return null

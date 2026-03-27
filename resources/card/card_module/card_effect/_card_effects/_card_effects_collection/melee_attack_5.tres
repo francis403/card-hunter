@@ -1,5 +1,6 @@
-[gd_resource type="Resource" script_class="AttackCardEffect" load_steps=5 format=3 uid="uid://dovy4j1ecl36j"]
+[gd_resource type="Resource" script_class="AttackCardEffect" load_steps=6 format=3 uid="uid://dovy4j1ecl36j"]
 
+[ext_resource type="Script" uid="uid://b4jl0atcv1b6o" path="res://resources/card/card_module/card_module_output_link/card_module_output_link.gd" id="1_lr1hw"]
 [ext_resource type="Script" uid="uid://dpymrf8md1jo1" path="res://resources/card/card_module/card_effect/_card_effects/attack_card_effect/attack_card_effect.gd" id="1_qvqhd"]
 [ext_resource type="Script" uid="uid://bykm1sfwrcmbx" path="res://resources/configuration/tile_highlight_configuration/formula/formula.gd" id="2_8jrpv"]
 [ext_resource type="Script" uid="uid://clufwv38rhs7a" path="res://resources/configuration/tile_highlight_configuration/tile_highlight_configuration.gd" id="2_evi54"]

@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://c88o0llv6xfgp"]
 
-[ext_resource type="Script" path="res://ui/screen_components/card_module/card_modules_container_component/card_modules_container_component.gd" id="1_i7aol"]
+[ext_resource type="Script" uid="uid://be43cosgq7xfb" path="res://ui/screen_components/card_module/card_modules_container_component/card_modules_container_component.gd" id="1_i7aol"]
 [ext_resource type="PackedScene" uid="uid://dc4by8f6o5utt" path="res://ui/screen_components/card_module/card_module_component/card_module_component.tscn" id="2_5x6p3"]
 
 [node name="CardModulesContainerComponent" type="ScrollContainer"]

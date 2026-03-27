@@ -11,7 +11,15 @@ enum CardEventTriggerEnum {
 ## By default, on card_event_trigger do PowerEffect
 @export var card_effects: Array[CardEffect]
 
-## Subscribes the CardEventTriggerSpecialEffectController 
+func get_trigger_label() -> String:
+	match card_event_trigger:
+		CardEventTriggerEnum.CARD_PLAYED:
+			return "On Play"
+		CardEventTriggerEnum.CARD_DISCARDED:
+			return "On Discard"
+	return ""
+
+## Subscribes the CardEventTriggerSpecialEffectController
 func subscribe_to_trigger(card: Card):
 	match card_event_trigger:
 		CardEventTriggerEnum.CARD_PLAYED:

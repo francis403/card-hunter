@@ -1,12 +1,48 @@
-[gd_resource type="Resource" script_class="CardResourceV2" load_steps=8 format=3 uid="uid://bu7gcqxkp3gqp"]
+[gd_resource type="Resource" script_class="CardResourceV2" load_steps=16 format=3 uid="uid://bu7gcqxkp3gqp"]
 
 [ext_resource type="AudioStream" uid="uid://d1mjkdbshat6f" path="res://assets/sound/sound_effects/footstep09.ogg" id="1_40wop"]
 [ext_resource type="Script" uid="uid://clo7yb32ydt37" path="res://resources/card/card_module/card_effect/card_effect.gd" id="2_4areh"]
 [ext_resource type="Texture2D" uid="uid://b4egf34ust84a" path="res://assets/images/card/card_main_image/retreat.png" id="2_on8ti"]
-[ext_resource type="Resource" uid="uid://linq0xxkofgf" path="res://resources/card/card_module/card_effect/_card_effects/_card_effects_collection/move_teleport.tres" id="3_tag7m"]
+[ext_resource type="Script" uid="uid://cyo5auieydyno" path="res://resources/card/card_module/card_effect/_card_effects/move_self_card_effect/move_card_effect.gd" id="3_mce"]
 [ext_resource type="Script" uid="uid://0ehgq0gu1n0f" path="res://resources/card/card_module/condition/condition.gd" id="5_cw0su"]
 [ext_resource type="Script" uid="uid://bsspisl6hdkmh" path="res://resources/card/card_resource_v2/card_resource_v2.gd" id="6_qngvf"]
 [ext_resource type="Script" uid="uid://gcdjt0hw3kpk" path="res://resources/card/card_module/special_card_effect/special_card_effect_resource.gd" id="7_8e6qw"]
+[ext_resource type="Script" uid="uid://cf54185vfm3qk" path="res://resources/card/card_module/card_effect/_card_effects/target_input_card_effects/target_input_card_effect.gd" id="8_ti"]
+[ext_resource type="Script" uid="uid://b4jl0atcv1b6o" path="res://resources/card/card_module/card_module_output_link/card_module_output_link.gd" id="9_ol"]
+[ext_resource type="Script" uid="uid://clufwv38rhs7a" path="res://resources/configuration/tile_highlight_configuration/tile_highlight_configuration.gd" id="10_thc"]
+[ext_resource type="Script" uid="uid://bykm1sfwrcmbx" path="res://resources/configuration/tile_highlight_configuration/formula/formula.gd" id="11_form"]
+
+[sub_resource type="Resource" id="Resource_outlink"]
+script = ExtResource("9_ol")
+connection_id = "move_self_teleport"
+metadata/_custom_type_script = "uid://b4jl0atcv1b6o"
+
+[sub_resource type="Resource" id="Resource_ti"]
+script = ExtResource("8_ti")
+id = "target_input_self_teleport"
+title = "Target Self"
+stamina_cost = 0
+types = Array[String](["target_input"])
+output_links = Array[ExtResource("9_ol")]([SubResource("Resource_outlink")])
+connection_id = "target_self_teleport"
+module_type = "INPUT"
+metadata/_custom_type_script = "uid://cf54185vfm3qk"
+
+[sub_resource type="Resource" id="Resource_thc"]
+script = ExtResource("10_thc")
+_range = 20
+area_type = 4
+ignore_occupied_tiles = true
+
+[sub_resource type="Resource" id="Resource_mce"]
+script = ExtResource("3_mce")
+tile_highlight_config = SubResource("Resource_thc")
+id = "move_self_teleport"
+title = "Move Piece Teleport"
+types = Array[String](["move"])
+connection_id = "move_self_teleport"
+allowed_input_module_types = "INPUT"
+metadata/_custom_type_script = "uid://cyo5auieydyno"
 
 [resource]
 script = ExtResource("6_qngvf")
@@ -15,6 +51,6 @@ title = "CARD_TELEPORT_TITLE"
 rarity = 2
 description = "CARD_TELEPORT_DESC"
 tag_array = Array[String](["move"])
-play_actions = Array[ExtResource("2_4areh")]([ExtResource("3_tag7m")])
+play_actions = Array[ExtResource("2_4areh")]([SubResource("Resource_ti"), SubResource("Resource_mce")])
 audio_stream = ExtResource("1_40wop")
 card_image = ExtResource("2_on8ti")
