@@ -12,11 +12,13 @@ class_name StateWithMovement
 var distance_to_player: int = 0
 var _tiles_targeted_for_attack: Array[Tile] = []
 
-## Holds the StateActionConfig that is active for the current enter_state /
-## do_state_action invocation.  Subclass overrides of do_action() and
-## do_attack() MUST read this instead of directly manipulating monster.next_move
-## so that pull-card preview calls (is_able_to_do_calculate_next_move = false)
-## are respected and the intended move display is never silently clobbered.
+## Tracks the StateActionConfig for the current enter_state / do_state_action
+## invocation.  Subclass overrides of do_movement() MAY consult this to guard
+## direct assignments to monster.next_move (see FlyAwayState for an example).
+## do_action() overrides do NOT need to check it: StateWithMovement.do_state_action()
+## enforces the invariant centrally by saving and restoring monster.next_move
+## around do_movement(), do_action(), and do_attack() whenever
+## is_able_to_do_calculate_next_move is false (e.g. pull-card preview).
 var _active_action_config: StateActionConfig = StateActionConfig.new()
 
 @export_group("Basic Behaviour Configuration")
@@ -43,7 +45,6 @@ func enter_state(
 	if not monster or not monster._tile:
 		push_warning("Monster missconfiguration")
 		return
-	# Snapshot the config so do_action() overrides can inspect it.
 	_active_action_config = _state_action_config
 	if _state_action_config.is_able_to_do_calculate_next_move:
 		monster.next_move = self.do_calculate_next_move()
@@ -52,35 +53,54 @@ func enter_state(
 		self.do_action()
 	if _state_action_config.is_able_to_do_calculate_next_action:
 		self.do_calculate_next_action()
-	
+
 func do_state_action(
 	_state_action_config: StateActionConfig = StateActionConfig.new()
 ):
 	super.do_state_action()
-	# Snapshot the config so do_action() / do_attack() overrides can inspect it.
 	_active_action_config = _state_action_config
-	## Trigger any atacked tiles by the monster's previous attack
+
+	## When next_move will NOT be recalculated (is_able_to_do_calculate_next_move = false,
+	## e.g. a pull-card preview), snapshot it before any work begins so it can be
+	## restored afterward.  This is the single enforcement point: no subclass override
+	## of do_movement(), do_action(), or do_attack() can silently clobber the
+	## player-visible move-intent arrow in that scenario.
+	var _should_preserve_next_move: bool = not _state_action_config.is_able_to_do_calculate_next_move
+	var _preserved_next_move: Tile = monster.next_move if _should_preserve_next_move else null
+
+	## Trigger any attacked tiles by the monster's previous attack
 	if _state_action_config.is_able_to_do_trigger_previous_attacked_tiles:
 		self.do_trigger_attacked_tiles()
 	## Move the monster
 	if _state_action_config.is_able_to_do_move:
 		self.do_movement()
+
 	## Calculate the monster's next action
 	var _new_action: bool = false
 	if _state_action_config.is_able_to_do_calculate_next_action:
 		_new_action = self.do_calculate_next_action()
 	if _new_action:
+		# State changed; enter_state() on the new state will own monster.next_move.
 		return
+
 	if _state_action_config.is_able_to_do_calculate_next_move:
 		monster.next_move = self.do_calculate_next_move(
 			_state_action_config.should_keep_same_movement_logic
 		)
 	self.do_update_variables_after_movement()
+
 	## Do whatever the monster wants to do there
 	if _state_action_config.is_able_to_do_action:
 		self.do_action()
 	if _state_action_config.is_able_to_do_attack:
 		self.do_attack()
+
+	## Restore the preserved move intent after all state work is done.
+	## This guarantees the displayed arrow is always consistent with what
+	## was shown before the pull, regardless of what any override wrote to
+	## monster.next_move during do_movement(), do_action(), or do_attack().
+	if _should_preserve_next_move:
+		monster.next_move = _preserved_next_move
 
 ## -- Override this functions to define the behaviour --
 func do_update_variables_after_movement():
@@ -104,9 +124,9 @@ func do_movement():
 	var next_turn_move_tile: Tile = monster.next_move
 	if next_turn_move_tile:
 		BattleController.battlemap.place_piece_in_tile(monster, next_turn_move_tile)
-	
-	
-## Calculates the monster next move. 
+
+
+## Calculates the monster next move.
 ## By default moves toward the target (player)
 ## If _should_keep_same_movement_logic is true:
 ## - The direction the monster previously moved should be kept
@@ -138,7 +158,7 @@ func _move_towards_player() -> Tile:
 		target._tile,
 		monster._speed
 	)
-	
+
 ## Do any special actions.
 ## Runs every turn (including when enter_state)
 func do_action():
@@ -153,11 +173,11 @@ func do_action():
 		attack_tiles_highlight.origin_tile,
 		attack_tiles_highlight
 	)
-	
+
 ## Highlight any attack tiles. Not required
 func do_attack():
 	pass
-	
+
 func do_calculate_next_action() -> bool:
 	return _check_and_apply_state_change_action()
 
@@ -183,8 +203,8 @@ func _get_same_direction_monster_movement() -> Tile:
 	var _previous_move_direction: Vector2 = (_planned_move_tile_vector - _previous_tile_vector).normalized()
 	var _result: Vector2 = _current_tile_vector + (_previous_move_direction * _distance)
 	return  BattleController.get_tile(_result.x, _result.y)
-	
-	
+
+
 func _add_tile_effect():
 	if not self.on_hit_tile_effect_resource\
 		 or not on_hit_tile_effect_resource.tile_effect_controller.can_instantiate() :

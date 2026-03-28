@@ -46,19 +46,30 @@ func play_monster_turn():
 	super.play_monster_turn()
 	state_machine.do_state_action()
 	self.end_monster_turn()
-	
-## Monster has already been moved by player
+
+## Monster has been moved by a player pull-card.
+## Goals:
+##   1. Re-run do_action() so attack-tile highlights update from the new tile.
+##   2. Preserve monster.next_move exactly as it was before the pull — the
+##      monster's movement plan for the coming turn has not changed; only its
+##      starting position has.
+## How:
+##   is_able_to_do_calculate_next_move = false  → do_calculate_next_move() is
+##   skipped, so no stale-direction or fresh recalculation happens here.
+##   StateWithMovement.do_state_action() saves and restores monster.next_move
+##   around do_movement() / do_action() / do_attack() whenever this flag is
+##   false, so no state override can silently clobber the displayed arrow.
 func on_monster_moved_by_player(_new_tile: Tile) -> void:
-	#self._tile = new_tile
-	#state_machine.do_preview_action(true)
 	var _state_action_config: StateActionConfig = StateActionConfig.new()
 	_state_action_config.is_able_to_do_action = true
 	_state_action_config.is_able_to_change_state = false
 	_state_action_config.is_able_to_do_trigger_previous_attacked_tiles = false
 	_state_action_config.is_able_to_do_move = false
-	_state_action_config.is_able_to_do_calculate_next_move = true
+	## Preserve the existing next_move; do not recalculate.
+	_state_action_config.is_able_to_do_calculate_next_move = false
 	_state_action_config.is_able_to_do_calculate_next_action = false
-	_state_action_config.should_keep_same_movement_logic = true 
+	## should_keep_same_movement_logic stays false (default) — no stale-reference
+	## direction recalculation via _get_same_direction_monster_movement().
 	state_machine.do_state_action(_state_action_config)
 
 func _on_move_intent_updated():
@@ -104,7 +115,7 @@ func _calculate_monster_orientation(move_tile: Tile) -> float:
 		_rotation += TAU
 
 	return _rotation
-	
+
 
 func set_state_icon(icon: Texture2D = null):
 	if not state_machine or not move_intent_image:
@@ -115,21 +126,21 @@ func set_state_icon(icon: Texture2D = null):
 	var current_state_icon: Texture2D = state_machine.get_state_icon()
 	if current_state_icon:
 		move_intent_image.texture = current_state_icon
-	
+
 func set_debug_mode():
 	if not debug_mode:
 		return
 	monster_body_part_container.debug_mode = self.debug_mode
-	
+
 func subscribe_to_events():
 	monster_body_part_container.monster_body_part_hit.connect(_on_monster_body_part_hit)
-	
+
 func _on_monster_body_part_hit(body_part: BodyPart):
 	if debug_mode:
 		print(_on_monster_body_part_hit, ": ", body_part.part_name)
 	#BattlemapSignals.monster_body_part_attacked.emit(self, body_part)
 	self.body_part_hit.emit(body_part)
-	
+
 func get_texture() -> Texture2D:
 	if monster_texture:
 		return monster_texture
@@ -139,7 +150,7 @@ func get_texture() -> Texture2D:
 
 func highlight_attack_action() -> void:
 	state_machine.current_state.highlight_attack_action()
-	
+
 func add_power_effect(power_effect: BasePowerNodeController):
 	if _is_monster_immune_to_status(power_effect.power_effect_resource.id):
 		return
@@ -181,9 +192,9 @@ func apply_damage(
 				_origin_tile.get_center()
 			)
 		)
-		
+
 		monster_body_part_container.get_and_hit_body_parts(
-			fmod(angle + 360, 360), 
+			fmod(angle + 360, 360),
 			damage
 		)
 	if _show_text:
