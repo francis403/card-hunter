@@ -124,6 +124,11 @@ func _save_card_upgrade() -> void:
 
 	# Copy base card data from old resource
 	new_resource.id = "%s_%d" % [old_resource.id, randi()]
+
+	# NOTE: The upgraded title is stored as the currently-translated string (e.g. "Corte+").
+	# This is a known limitation: if the player switches language later, the stored title
+	# will remain in the language that was active at upgrade time. A future improvement
+	# would persist the original translation key and append the "+" suffix at display time.
 	var translated_title: String = tr(old_resource.title)
 	new_resource.title = translated_title if translated_title.ends_with("+") else translated_title + "+"
 	new_resource.rarity = old_resource.rarity

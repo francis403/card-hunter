@@ -48,6 +48,12 @@ func _ready() -> void:
 
 	_update_validation_display()
 
+func _exit_tree() -> void:
+	# Disconnect from the singleton to prevent stale connections if this screen
+	# is instantiated multiple times during a session (e.g. forge tab open/close).
+	if LocalizationController.language_changed.is_connected(_on_language_changed):
+		LocalizationController.language_changed.disconnect(_on_language_changed)
+
 func _on_language_changed(_locale: String) -> void:
 	# Refresh dynamic labels that contain formatted translation strings.
 	_update_validation_display()
@@ -56,6 +62,9 @@ func _on_forge_button_pressed() -> void:
 	if not _is_valid_card_forge():
 		return
 	var new_card_resource: CardResourceV2 = _build_card_resource_from_displayer()
+	# NOTE: forged-card titles are user-supplied strings, not translation keys.
+	# They are stored as-is and will not change when the language is switched.
+	# This is intentional for user-named cards; tracked for follow-up if needed.
 	new_card_resource.title = card_title_input.text
 	new_card_resource.id = card_title_input.text.replace(" ", "")
 	new_card_resource.is_forged = true
@@ -137,9 +146,12 @@ func _show_module_placement_warning(module: CardModule):
 	var current_modules = display_card.card_resource.get_card_modules() if display_card.card_resource else []
 	var test_modules = current_modules.duplicate()
 	test_modules.append(module)
-	
+
 	var validation_result = CardModuleValidator.validate_card_modules(test_modules)
-	var _error: String = "Cannot add '%s': %s" % [module.title, ", ".join(validation_result.errors)]
+	# Use tr_format so this message respects the active locale when it is displayed.
+	var _error: String = LocalizationController.tr_format(
+		"UI_CANNOT_ADD_MODULE", [module.title, ", ".join(validation_result.errors)]
+	)
 	_built_card_errors.append(_error)
 	_add_error_to_validation_label()
 	
@@ -263,7 +275,8 @@ func _validate_card_modules(_card_resource: CardResourceV2) -> bool:
 
 func _get_validation_errors(_card_resource: CardResourceV2) -> Array[String]:
 	if not _card_resource:
-		return ["No card resource available"]
+		# Return translated fallback so this error respects the active locale.
+		return [tr("UI_NO_CARD_RESOURCE")]
 	
 	var modules = _card_resource.get_card_modules()
 	var errors: Array[String] = []

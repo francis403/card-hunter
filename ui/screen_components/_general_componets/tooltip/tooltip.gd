@@ -77,7 +77,11 @@ func _disconnect_parent_signals() -> void:
 
 func _update_content() -> void:
 	if content_rich_text_label:
-		content_rich_text_label.text = self.display_text
+		# Pass display_text through tr() so that translation keys (e.g. "UI_IN_DEVELOPMENT")
+		# are resolved at display time using the current locale.  Plain-English strings that
+		# are not registered keys are returned unchanged by tr(), so this is backward-compatible
+		# with any existing callers that assign raw text directly.
+		content_rich_text_label.text = tr(self.display_text)
 
 
 func _update_position() -> void:
@@ -132,6 +136,8 @@ func toggle_on() -> void:
 	if not display_text:
 		return
 
+	# _update_content resolves tr() at the moment the tooltip is shown,
+	# so language switches are automatically reflected on next hover.
 	_update_content()
 
 	if _show_tween:
@@ -171,4 +177,5 @@ func toggle_off() -> void:
 func set_display_text(text: String) -> void:
 	display_text = text
 	if content_rich_text_label:
-		content_rich_text_label.text = text
+		# Resolve through tr() in case the caller supplies a translation key.
+		content_rich_text_label.text = tr(text)

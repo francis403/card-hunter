@@ -93,7 +93,7 @@ offset_left = 0.0
 offset_right = 1.0
 grow_horizontal = 1
 grow_vertical = 1
-display_text = "In development"
+display_text = "UI_IN_DEVELOPMENT"
 show_delay = 0.2
 position_offset = Vector2(25, 15)
 

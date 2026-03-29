@@ -28,9 +28,10 @@ func _delete_preview():
 		preview_item.queue_free()
 
 func _initialize_fields():
-	# auto_translate_mode = 1 is set on the Title label in the scene; assigning a
-	# translation key here lets Godot swap the text automatically when the locale
-	# changes — no manual signal connection needed.
+	# auto_translate_mode = 1 is set on the Title label node in the scene file.
+	# Assigning a translation key here lets Godot's built-in TranslationServer swap
+	# the displayed text automatically whenever the active locale changes — no manual
+	# language_changed signal connection is needed for this component.
 	title_label.text = title
 
 func _hide_if_no_rewards():

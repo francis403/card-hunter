@@ -35,6 +35,8 @@ UI_INVALID_MODULE_CONFIG,Invalid module configuration: ensure all modules are co
 UI_YOU_WIN,You Win,¡Ganaste!
 UI_GAME_OVER,Game Over,Fin del Juego
 UI_IN_DEVELOPMENT,In development,En desarrollo
+UI_CANNOT_ADD_MODULE,Cannot add '{0}': {1},No se puede añadir '{0}': {1}
+UI_NO_CARD_RESOURCE,No card resource available,No hay recurso de carta disponible
 CARD_SLICE_TITLE,Slice,Corte
 CARD_SLICE_DESC,Slice at the monster at close range. Deal 15 damage.,Corta al monstruo a corta distancia. Inflige 15 de daño.
 CARD_BACK_STAB_TITLE,Back Stab,Puñalada por la Espalda
