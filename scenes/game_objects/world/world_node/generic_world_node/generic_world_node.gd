@@ -15,7 +15,7 @@ const NODE_SCENE_PATH_DICTIONARY_FIELD: String = "node_scene"
 const POSITION_DICTIONARY_FIELD: String = "position"
 const TABLE_POSITION_DICTIONARY_FIELD: String = "table_position"
 const CONNECTIONS_DICTIONARY_FIELD: String = "connections"
-# NEW: key for boss-node flag in save dictionary
+# Key for boss-node flag in save dictionary
 const IS_BOSS_NODE_DICTIONARY_FIELD: String = "is_boss_node"
 
 @onready var world_node_sprite: Sprite2D = $worldNodeSprite
@@ -54,7 +54,7 @@ var _is_already_clicked: bool = false:
 		if _is_already_clicked:
 			_stop_pulsating()
 
-## NEW: marks this node as the final boss encounter node
+## Marks this node as the final boss encounter node
 var _is_boss_node: bool = false
 
 ## This needs to be overwritten by every children
@@ -89,7 +89,7 @@ func reveal_connected_nodes():
 func reveal_node_effect():
 	if revealed_texture:
 		world_node_sprite.texture = revealed_texture
-	
+
 ## Function to be overwritten that defines what happens when a node is clicked
 func on_node_click_event():
 	if not _is_click_event_processable():
@@ -103,7 +103,7 @@ func on_node_click_event():
 		scene._world_node_scene = self
 	self._is_already_clicked = true
 	get_tree().root.add_child(scene)
-	
+
 func _on_world_node_screen_completed_signal(_advance_day: bool):
 	BattlemapSignals.world_node_screen_completed.emit(_advance_day)
 	self.world_node_complete.emit(self)
@@ -112,9 +112,9 @@ func _on_world_node_screen_completed_signal(_advance_day: bool):
 ## Function that has to be overwritten
 func set_world_scene():
 	my_node_scene_path = "res://scenes/game_objects/world/world_node/generic_world_node/generic_world_node.tscn"
-	
+
 ## Function that has to be overwritten
-## occurres at the end of the Ready Function
+## occurs at the end of the Ready Function
 func after_node_is_ready():
 	pass
 
@@ -141,25 +141,28 @@ func _on_area_2d_input_event(_viewport: Node, _event: InputEvent, _shape_idx: in
 	if _event.is_pressed():
 		_process_on_world_node_click()
 
-## TODO: We are processing this click for everything
+## Handles a click on this world node.
+## show_player() is only called after the node-id is confirmed so the player
+## icon never appears on a node whose position hasn't been committed yet (Issue 5).
 func _process_on_world_node_click():
-	## TODO: show a message
 	if not self.is_reachable:
 		return
-	
-	if self.world_node_id == GameController.current_player_node_id:
-		on_node_click_event()
-	
-	self.show_player()
+
+	# Persist the navigation move unconditionally for any reachable node
 	File.update_player_position(self)
-	
-	## Tell the game to save 
 	BattlemapSignals.player_world_state_updated.emit(self)
+
+	# Only display the player icon and trigger the node action once the
+	# engine's tracked position agrees with this node's id
+	if self.world_node_id == GameController.current_player_node_id:
+		show_player()
+		on_node_click_event()
+
 	if audio_stream_player:
 		audio_stream_player.play()
 		await audio_stream_player.finished
-	
-	
+
+
 func hide_player():
 	if player_texture_rect:
 		player_texture_rect.visible = false
@@ -178,16 +181,16 @@ func reveal_node():
 	tween = create_tween()
 	reveal_node_effect()
 	tween.tween_property(self, "modulate:a", 1.0, 1.0).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_QUAD)
-	
+
 	## Update the world state for the revealed nodes
 	BattlemapSignals.player_world_state_updated.emit(self)
-	
+
 	BattlemapSignals.node_finished_revealing.emit(self.world_node_id)
 	_start_pulsating_animation()
 
 func _mark_reachable():
 	self.is_reachable = true
-	
+
 func duplicate_node(instantite_node_copy: bool = false) -> GenericWorldNode:
 	var node_copy: GenericWorldNode = null
 	if instantite_node_copy:
@@ -206,45 +209,45 @@ func copy_into_node(node: GenericWorldNode, instantiate_node: bool = false) -> v
 		node.connections.append(child.duplicate_node(instantiate_node))
 
 func copy_properties_into_node(node: GenericWorldNode):
-	node.world_node_id = self.world_node_id
-	node.position = self.position
-	node.is_revealed = self.is_revealed
-	node.is_reachable = self.is_reachable
+	node.world_node_id  = self.world_node_id
+	node.position       = self.position
+	node.is_revealed    = self.is_revealed
+	node.is_reachable   = self.is_reachable
 	# Propagate boss flag when copying
-	node._is_boss_node = self._is_boss_node
+	node._is_boss_node  = self._is_boss_node
 
 func convert_node_to_dictionary() -> Dictionary:
 	var result: Dictionary = {}
-	result[ID_DICTIONARY_FIELD] = self.world_node_id
-	result[IS_REVEALED_DICTIONARY_FIELD] = self.is_revealed
-	result[IS_REACHABLE_DICTIONARY_FIELD] = self.is_reachable
-	result[IS_ALREADY_CLICKED_DICTIONARY_FIELD] = self._is_already_clicked
+	result[ID_DICTIONARY_FIELD]                    = self.world_node_id
+	result[IS_REVEALED_DICTIONARY_FIELD]           = self.is_revealed
+	result[IS_REACHABLE_DICTIONARY_FIELD]          = self.is_reachable
+	result[IS_ALREADY_CLICKED_DICTIONARY_FIELD]    = self._is_already_clicked
 	result[IS_ONLY_CLICKABLE_ONCE_DICTIONARY_FIELD] = self._is_only_clickable_once
-	result[POSITION_DICTIONARY_FIELD] = self.position
-	result[TABLE_POSITION_DICTIONARY_FIELD] = self.table_position
-	result[NODE_SCENE_PATH_DICTIONARY_FIELD] = self.my_node_scene_path
-	# NEW: persist boss flag so load restores correct behaviour
-	result[IS_BOSS_NODE_DICTIONARY_FIELD] = self._is_boss_node
+	result[POSITION_DICTIONARY_FIELD]              = self.position
+	result[TABLE_POSITION_DICTIONARY_FIELD]        = self.table_position
+	result[NODE_SCENE_PATH_DICTIONARY_FIELD]       = self.my_node_scene_path
+	# Persist boss flag so load restores correct behaviour
+	result[IS_BOSS_NODE_DICTIONARY_FIELD]          = self._is_boss_node
 	result[CONNECTIONS_DICTIONARY_FIELD] = {}
 	for _con in connections:
 		result[CONNECTIONS_DICTIONARY_FIELD][_con.world_node_id] = true
 	return result
-	
+
 func load_node_from_dictionary(node_state: Dictionary):
-	self.world_node_id = node_state[ID_DICTIONARY_FIELD]
-	self.is_revealed = node_state[IS_REVEALED_DICTIONARY_FIELD]
-	self.is_reachable = node_state[IS_REACHABLE_DICTIONARY_FIELD]
+	self.world_node_id  = node_state[ID_DICTIONARY_FIELD]
+	self.is_revealed    = node_state[IS_REVEALED_DICTIONARY_FIELD]
+	self.is_reachable   = node_state[IS_REACHABLE_DICTIONARY_FIELD]
 	if node_state.has(IS_ALREADY_CLICKED_DICTIONARY_FIELD):
 		self._is_already_clicked = node_state[IS_ALREADY_CLICKED_DICTIONARY_FIELD]
 	if node_state.has(IS_ONLY_CLICKABLE_ONCE_DICTIONARY_FIELD):
 		self._is_only_clickable_once = node_state[IS_ONLY_CLICKABLE_ONCE_DICTIONARY_FIELD]
-	# NEW: restore boss flag (default false for old saves that lack the key)
+	# Restore boss flag (default false for old saves that lack the key)
 	if node_state.has(IS_BOSS_NODE_DICTIONARY_FIELD):
 		self._is_boss_node = node_state[IS_BOSS_NODE_DICTIONARY_FIELD]
 	self.my_node_scene_path = node_state[NODE_SCENE_PATH_DICTIONARY_FIELD]
-	self.my_node_scene = load(my_node_scene_path)
-	self.position = node_state[POSITION_DICTIONARY_FIELD]
-	self.table_position = node_state[TABLE_POSITION_DICTIONARY_FIELD]
+	self.my_node_scene      = load(my_node_scene_path)
+	self.position           = node_state[POSITION_DICTIONARY_FIELD]
+	self.table_position     = node_state[TABLE_POSITION_DICTIONARY_FIELD]
 	_start_pulsating_animation()
 
 func _start_pulsating_animation() -> void:

@@ -65,7 +65,7 @@ var _world_nodes: Array[GenericWorldNode] = []
 var _current_world_generation_config: WorldGeneratorConfig
 var _debug_enabled: bool = false
 
-## NEW: Each element is an Array[GenericWorldNode] representing one row/layer.
+## Each element is an Array[GenericWorldNode] representing one row/layer.
 ## _layers[0]  = [village]
 ## _layers[1]  = [node, node, node]   (always 3)
 ## _layers[2..N-2] = 1-3 random nodes
@@ -158,21 +158,21 @@ func _generate_layered_world() -> void:
 	var center_pos: Vector2 = table_center_point.global_position
 
 	# ── 1. Determine how many layers this run will have ──
-	var num_middle: int = randi_range(min_middle_layers, max_middle_layers)
+	var num_middle: int  = randi_range(min_middle_layers, max_middle_layers)
 	var total_layers: int = num_middle + 2          # village + middle… + boss
 
 	var layer_counts: Array[int] = _build_layer_counts(num_middle)
 
 	# ── 2. Compute Y positions: village at bottom, boss at top ──
 	var total_height: float = (total_layers - 1) * layer_vertical_spacing
-	var bottom_y: float    = center_pos.y + total_height / 2.0   # village Y
+	var bottom_y: float     = center_pos.y + total_height / 2.0   # village Y
 
 	# ── 3. Create nodes layer by layer ──
 	_layers.clear()
 	for layer_idx in range(total_layers):
 		var count: int     = layer_counts[layer_idx]
 		var layer_y: float = bottom_y - layer_idx * layer_vertical_spacing
-		var layer_nodes: Array  = []   # Array[GenericWorldNode]
+		var layer_nodes: Array = []   # Array[GenericWorldNode]
 
 		for node_idx in range(count):
 			# Centre-align nodes within the layer
@@ -229,8 +229,8 @@ func _build_layer_counts(num_middle: int) -> Array[int]:
 func _create_village_node(screen_pos: Vector2) -> GenericWorldNode:
 	_village_node = village_node_scene.instantiate()
 	_village_node.world_node_id = Constants.VILLAGE_NODE_ID
-	_village_node.is_revealed  = true
-	_village_node.is_reachable = true
+	_village_node.is_revealed   = true
+	_village_node.is_reachable  = true
 	_village_node.global_position = screen_pos
 	_add_node_to_table(_village_node, 0)
 	PlayerController.current_world_node = _village_node
@@ -238,8 +238,8 @@ func _create_village_node(screen_pos: Vector2) -> GenericWorldNode:
 
 func _create_boss_node(screen_pos: Vector2, layer_idx: int) -> GenericWorldNode:
 	var boss_node: MonsterHuntWorldNode = MONSTER_HUNT_NODE_SCENE.instantiate()
-	boss_node._is_boss_node   = true
-	boss_node.world_node_id   = "boss_node"
+	boss_node._is_boss_node    = true
+	boss_node.world_node_id    = "boss_node"
 	boss_node.global_position  = screen_pos
 	boss_node.is_revealed      = false
 	boss_node.is_reachable     = false
@@ -295,7 +295,7 @@ func _connect_adjacent_layers(parent_layer: Array, child_layer: Array) -> void:
 
 	# Pass 3 – add random extra connections for a richer graph (no crossing)
 	for i in range(m):
-		var j_base: int = clamp(int(float(i) * float(n) / float(m)), 0, n - 1)
+		var j_base: int  = clamp(int(float(i) * float(n) / float(m)), 0, n - 1)
 		# Only reach one slot to the right to avoid crossing
 		var j_extra: int = j_base + 1
 		if j_extra < n and randf() < 0.4:
@@ -315,7 +315,7 @@ func _redraw_all_connection_lines() -> void:
 
 func _draw_line_between_nodes(base_node: GenericWorldNode, other_node: GenericWorldNode) -> void:
 	var line := Line2D.new()
-	var angle: float = base_node.global_position.angle_to_point(other_node.global_position)
+	var angle: float   = base_node.global_position.angle_to_point(other_node.global_position)
 	var offset: Vector2 = Vector2(-1 * RADIUS, 0)
 	line.add_point(base_node.global_position  - offset.rotated(angle))
 	line.add_point(other_node.global_position + offset.rotated(angle))
@@ -345,7 +345,9 @@ func _clean_world() -> void:
 	for _node in world_nodes_container.get_children():
 		world_nodes_container.remove_child(_node)
 		_node.queue_free()
+	# Fix: remove_child before queue_free so the container has no dangling references (Issue 6)
 	for _node in world_nodes_container_test.get_children():
+		world_nodes_container_test.remove_child(_node)
 		_node.queue_free()
 	_world_nodes.clear()
 	_nodes_by_distance_dictionary.clear()
@@ -353,6 +355,8 @@ func _clean_world() -> void:
 	table_helper.clean()
 	_total_number_of_nodes_generated = 0
 	_further_distance_generated = 0
+	# Null the village reference so _is_world_saved() correctly reports false (Issue 4)
+	_village_node = null
 
 # ──────────────────────────────────────────────
 #  Save / Load
@@ -377,3 +381,35 @@ func _initiate_world() -> void:
 		_add_node_to_table(_node, _layer_idx)
 		for _con in _node.connections:
 			_draw_line_between_nodes(_node, _con)
+
+	# Reconstruct _layers from loaded nodes so any post-load code that
+	# depends on _layers operates on a valid array (Issue 3)
+	_rebuild_layers_from_nodes(_world_nodes)
+
+## Reconstructs the _layers array from a flat list of loaded nodes.
+## Uses table_position.y as the layer index and table_position.x for column order.
+func _rebuild_layers_from_nodes(nodes: Array[GenericWorldNode]) -> void:
+	_layers.clear()
+	if nodes.is_empty():
+		return
+
+	# Determine the highest layer index present
+	var max_layer: int = 0
+	for node in nodes:
+		max_layer = max(max_layer, int(node.table_position.y))
+
+	# Pre-allocate empty arrays for every layer
+	_layers.resize(max_layer + 1)
+	for i in range(_layers.size()):
+		_layers[i] = []
+
+	# Bucket nodes into their respective layer
+	for node in nodes:
+		var layer_idx: int = int(node.table_position.y)
+		_layers[layer_idx].append(node)
+
+	# Sort each layer by column index (table_position.x) to preserve left-right order
+	for layer in _layers:
+		layer.sort_custom(func(a: GenericWorldNode, b: GenericWorldNode) -> bool:
+			return a.table_position.x < b.table_position.x
+		)
