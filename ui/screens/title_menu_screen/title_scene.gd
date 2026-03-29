@@ -4,12 +4,12 @@ class_name TitleScreenScene
 @onready var settings_screen: PanelContainer = $SettingsScreen
 @onready var menu_container: Menu = $MenuContainer
 @onready var continue_button: SoundButton = %Continue
-@onready var card_pedia_button: SoundButton = $MenuContainer/CardPedia
+# card_pedia_button removed – navigation is handled entirely through the
+# scene-file signal connection wired to _on_unlockable_content_pressed().
 @onready var delete_save_button: SoundButton = $MenuContainer/DeleteSave
 
 func _ready() -> void:
 	super._ready()
-	# CardPedia is now live – no longer disabled
 	File.load_save_file()
 	if not File.has_save_file():
 		delete_save_button.visible = false

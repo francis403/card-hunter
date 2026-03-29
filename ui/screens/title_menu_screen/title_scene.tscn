@@ -76,10 +76,12 @@ auto_translate_mode = 1
 layout_mode = 2
 text = "MENU_CONTINUE"
 
+; Fixed: was "MENU_CARDPEDIUM" – corrected to match the feature name "CARDPEDIA"
 [node name="CardPedia" parent="MenuContainer" instance=ExtResource("7_uacp8")]
+unique_name_in_owner = true
 auto_translate_mode = 1
 layout_mode = 2
-text = "MENU_CARDPEDIUM"
+text = "MENU_CARDPEDIA"
 
 [node name="Settings" parent="MenuContainer" instance=ExtResource("7_uacp8")]
 unique_name_in_owner = true

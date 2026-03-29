@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://dqcardpedia01"]
+[gd_scene load_steps=4 format=3]
 
 [ext_resource type="Script" path="res://ui/screens/cardpedia_screen/cardpedia_screen.gd" id="1_cpscript"]
 [ext_resource type="Texture2D" uid="uid://cmoh263d11oxa" path="res://assets/images/background/ai-generated-background.webp" id="2_cpbg"]
@@ -40,13 +40,16 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="TopBar" type="MarginContainer" parent="MarginContainer/VBoxContainer"]
+; HBoxContainer lays children out side-by-side, preventing BackButton and
+; ScreenTitle from sharing the same rect (which a MarginContainer would cause).
+[node name="TopBar" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
+theme_override_constants/separation = 12
 
 [node name="BackButton" parent="MarginContainer/VBoxContainer/TopBar" instance=ExtResource("3_cpbtn")]
 unique_name_in_owner = true
 layout_mode = 2
-size_flags_horizontal = 0
+size_flags_horizontal = 0   ; shrink-begin – keeps button at natural width on the left
 size_flags_vertical = 0
 auto_translate_mode = 1
 text = "BTN_BACK"
@@ -54,7 +57,7 @@ text = "BTN_BACK"
 [node name="ScreenTitle" type="Label" parent="MarginContainer/VBoxContainer/TopBar"]
 auto_translate_mode = 1
 layout_mode = 2
-size_flags_horizontal = 4
+size_flags_horizontal = 3   ; expand+fill – takes the remaining width so text can centre
 size_flags_vertical = 1
 theme_override_font_sizes/font_size = 40
 text = "CARDPEDIA_TITLE"
@@ -91,6 +94,8 @@ custom_minimum_size = Vector2(220, 160)
 auto_translate_mode = 1
 text = "CARDPEDIA_FORGED"
 
+; Connections live only here – the script has no _ready() connect() calls,
+; so each signal fires exactly once per press.
 [connection signal="pressed_and_sound_played" from="MarginContainer/VBoxContainer/TopBar/BackButton" to="." method="_on_back_pressed"]
 [connection signal="pressed_and_sound_played" from="MarginContainer/VBoxContainer/CenterContainer/ButtonsContainer/MyCardsButton" to="." method="_on_my_cards_pressed"]
 [connection signal="pressed_and_sound_played" from="MarginContainer/VBoxContainer/CenterContainer/ButtonsContainer/BestiaryButton" to="." method="_on_bestiary_pressed"]

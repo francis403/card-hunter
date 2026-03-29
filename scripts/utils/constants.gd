@@ -18,9 +18,9 @@ enum AreaType {
 	INHERIT,
 	NONE,
 	SPECIFIC,
-	LINE, 
-	RADIUS, 
-	CROSS, 
+	LINE,
+	RADIUS,
+	CROSS,
 	SHOTGUN,
 	UP_TO_RANGE_SKIPPING_FIRST
 }
@@ -92,7 +92,9 @@ func logical_operation_comparison(
 			return y != x
 	return false
 
-# Scene references
+# Scene references – single source of truth for all scene paths used by
+# get_tree().change_scene_to_packed() calls across the project.
+var title_scene: PackedScene = load("res://ui/screens/title_menu_screen/title_scene.tscn")
 var main_world_scroll_scene: PackedScene = load("res://ui/screens/main_world_screen/main_world_screen.tscn")
 var pick_class_screen_scene: PackedScene = load("res://ui/screens/pick_class_screen/pick_class_screen.tscn")
 var deforge_card_screen_scene: PackedScene = load("res://ui/screens/world_node_screens/deforge_card_screen/deforge_card_screen.tscn")
