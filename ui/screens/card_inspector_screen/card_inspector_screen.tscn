@@ -93,13 +93,15 @@ alignment = 1
 
 [node name="ChangeCardButton" parent="PanelContainer/HBoxContainer/TabContainer/InspectTab/CardsContainer/MarginContainer/VBoxContainer/HBoxContainer" instance=ExtResource("2_yxvhi")]
 unique_name_in_owner = true
+auto_translate_mode = 1
 layout_mode = 2
-text = "Change Card"
+text = "BTN_CHANGE_CARD"
 
 [node name="UpgradeCard" parent="PanelContainer/HBoxContainer/TabContainer/InspectTab/CardsContainer/MarginContainer/VBoxContainer/HBoxContainer" instance=ExtResource("2_yxvhi")]
 unique_name_in_owner = true
+auto_translate_mode = 1
 layout_mode = 2
-text = "Upgrade Card"
+text = "BTN_UPGRADE_CARD"
 
 [node name="CardModulesDisplayer" parent="PanelContainer/HBoxContainer/TabContainer/InspectTab" instance=ExtResource("1_u157o")]
 layout_mode = 2
@@ -118,10 +120,11 @@ theme_override_constants/margin_bottom = 20
 [node name="UndoButton" parent="PanelContainer/HBoxContainer/TabContainer/InspectTab/CardModulesDisplayer/MarginContainer" instance=ExtResource("2_yxvhi")]
 unique_name_in_owner = true
 visible = false
+auto_translate_mode = 1
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 0
-text = "Undo"
+text = "BTN_UNDO"
 
 [node name="ForgeTab" type="Control" parent="PanelContainer/HBoxContainer/TabContainer"]
 visible = false

@@ -18,6 +18,10 @@ BTN_TITLE_SCENE,Title Scene,Volver al Menu
 BTN_EXIT,Exit,Salir
 BTN_FORGE_CARD,Forge Card,Forjar Carta
 BTN_DEFORGE,Deforge,Desforjar
+BTN_CHANGE_CARD,Change Card,Cambiar Carta
+BTN_UPGRADE_CARD,Upgrade Card,Mejorar Carta
+BTN_UNDO,Undo,Deshacer
+BTN_HIDE_MODULES,Hide Modules,Ocultar Módulos
 UI_DAYS_TILL_ATTACK,Days till next attack: {0},Días hasta el próximo ataque: {0}
 UI_PICK_YOUR_WEAPON,Pick your weapon,Elige tu arma
 UI_CARD_FORGE,Card Forge,Forja de Cartas
@@ -26,6 +30,8 @@ UI_AVAILABLE_CARD_MODULES,Available Card Modules,Módulos de Carta Disponibles
 UI_MODULES_COUNT,Modules: {0}/{1},Módulos: {0}/{1}
 UI_TITLE_LENGTH,Title: {0}/{1} characters,Título: {0}/{1} caracteres
 UI_CHOOSE_REWARD,Choose 1 reward,Elige 1 recompensa
+UI_ISSUES,Issues:,Problemas:
+UI_INVALID_MODULE_CONFIG,Invalid module configuration: ensure all modules are connected.,Configuración de módulos inválida: asegúrate de que todos los módulos estén conectados.
 UI_YOU_WIN,You Win,¡Ganaste!
 UI_GAME_OVER,Game Over,Fin del Juego
 UI_IN_DEVELOPMENT,In development,En desarrollo

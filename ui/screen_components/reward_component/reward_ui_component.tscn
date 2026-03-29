@@ -9,8 +9,9 @@ script = ExtResource("1_lmnmf")
 
 [node name="Title" type="Label" parent="."]
 layout_mode = 2
+auto_translate_mode = 1
 theme = ExtResource("1_p1elt")
-text = "Choose 1 reward"
+text = "UI_CHOOSE_REWARD"
 horizontal_alignment = 1
 
 [node name="CardContainer" type="HBoxContainer" parent="."]

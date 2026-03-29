@@ -42,6 +42,14 @@ func _ready() -> void:
 	card_title_input.text_changed.connect(_on_title_input_changed)
 	card_modules_displayer.enable_module_deletion = true
 	card_modules_displayer.undoable_action_performed.connect(_on_displayer_action)
+
+	# Re-render translated labels whenever the player switches language mid-session.
+	LocalizationController.language_changed.connect(_on_language_changed)
+
+	_update_validation_display()
+
+func _on_language_changed(_locale: String) -> void:
+	# Refresh dynamic labels that contain formatted translation strings.
 	_update_validation_display()
 
 func _on_forge_button_pressed() -> void:
@@ -126,8 +134,6 @@ func _can_add_module(new_module: CardModule) -> bool:
 	return validation_result.is_valid
 
 func _show_module_placement_warning(module: CardModule):
-	# For now, we'll just print the warning
-	# In a full implementation, this could show a tooltip or popup
 	var current_modules = display_card.card_resource.get_card_modules() if display_card.card_resource else []
 	var test_modules = current_modules.duplicate()
 	test_modules.append(module)
@@ -136,7 +142,6 @@ func _show_module_placement_warning(module: CardModule):
 	var _error: String = "Cannot add '%s': %s" % [module.title, ", ".join(validation_result.errors)]
 	_built_card_errors.append(_error)
 	_add_error_to_validation_label()
-	#print("Cannot add '%s': %s" % [module.title, ", ".join(validation_result.errors)])
 	
 func _add_card_module_to_new_card(
 	_card_module_component: CardModuleComponent,
@@ -177,16 +182,21 @@ func _update_validation_display() -> void:
 	if display_card.card_resource:
 		module_count = display_card.card_resource.get_card_modules().size()
 	
-	module_count_label.text = "Modules: %d/%d" % [module_count, MAX_AMOUNT_OF_MODULES]
+	# Use tr_format so the label translates correctly when the language is switched.
+	module_count_label.text = LocalizationController.tr_format(
+		"UI_MODULES_COUNT", [module_count, MAX_AMOUNT_OF_MODULES]
+	)
 	module_count_label.modulate = Color(0.3, 1, 0.3, 1)
 	var modules_valid = _validate_card_modules(display_card.card_resource)
 	if not modules_valid:
 		module_count_label.modulate = Color(1, 0.3, 0.3, 1)
 		_valid = false
 	
-	# Update title length display
+	# Update title length display with translated formatted string.
 	var title_length = card_title_input.text.length()
-	title_length_label.text = "Title: %d/%d characters" % [title_length, MAX_TITLE_LENGTH] 
+	title_length_label.text = LocalizationController.tr_format(
+		"UI_TITLE_LENGTH", [title_length, MAX_TITLE_LENGTH]
+	)
 	title_length_label.modulate = Color(0.3, 1, 0.3, 1)
 	if not _validate_title(card_title_input.text):
 		title_length_label.modulate = Color(1, 0.3, 0.3, 1)
@@ -205,10 +215,10 @@ func _update_validation_display() -> void:
 	forge_button.disabled = not _valid
 	forge_button.modulate = Color.WHITE if _valid else Color(0.7, 0.7, 0.7, 1)
 
-func _add_error_to_validation_label(
-):
+func _add_error_to_validation_label() -> void:
 	if _built_card_errors.size() > 0:
-		validation_error_label.text = "Issues:\n• " + "\n• ".join(_built_card_errors)
+		# "Issues:" header is translated; individual error strings come from the validator.
+		validation_error_label.text = tr("UI_ISSUES") + "\n• " + "\n• ".join(_built_card_errors)
 		validation_error_label.visible = true
 	else:
 		validation_error_label.visible = false

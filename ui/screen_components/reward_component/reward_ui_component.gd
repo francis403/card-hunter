@@ -6,7 +6,8 @@ signal on_reward_card_picked(card: Card)
 @onready var card_container: HBoxContainer = %CardContainer
 @onready var title_label: Label = $Title
 
-@export var title: String = "Choose 1 reward"
+# Default value is now a translation key; callers may override with their own key.
+@export var title: String = "UI_CHOOSE_REWARD"
 @export var hide_if_empty: bool = true
 
 ## This will only be used for Cards
@@ -20,14 +21,16 @@ var number_of_reward_cards: int = 0
 func _ready() -> void:
 	_delete_preview()
 	_initialize_fields()
-	#_hide_if_no_rewards()
 	
-	
+
 func _delete_preview():
 	for preview_item in card_container.get_children():
 		preview_item.queue_free()
 
 func _initialize_fields():
+	# auto_translate_mode = 1 is set on the Title label in the scene; assigning a
+	# translation key here lets Godot swap the text automatically when the locale
+	# changes — no manual signal connection needed.
 	title_label.text = title
 
 func _hide_if_no_rewards():

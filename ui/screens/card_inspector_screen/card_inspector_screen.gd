@@ -22,6 +22,7 @@ var _undo_stack: Array[Dictionary] = []
 var _forge_card_screen: ForgeCardScreen
 var _upgrade_modules: Array[CardModule] = []
 
+# Stores the translation KEY so text restores correctly after a language switch.
 var change_card_button_original_text: String
 
 func _ready() -> void:
@@ -33,6 +34,7 @@ func _ready() -> void:
 		card_modules_container_component.add_grim_elems(
 			PlayerController.get_card_modules()
 		)
+	# Capture the key stored in the .tscn so we can restore it later.
 	change_card_button_original_text = change_card_button.text
 	card.card_resource = _initial_displayed_card
 	card.initialize_card()
@@ -92,14 +94,15 @@ func _on_upgrade_card_button_pressed():
 		card_modules_component.visible = true
 		card_modules_displayer.enable_module_deletion = true
 		card_modules_displayer.enable_module_connection = true
-		upgrade_card_button.text = "Save"
-		change_card_button.text = "Hide Modules"
+		# Set translation keys; auto_translate_mode on the buttons handles the rest.
+		upgrade_card_button.text = "BTN_SAVE"
+		change_card_button.text = "BTN_HIDE_MODULES"
 		_is_upgrade_open = true
 		undo_button.visible = true
 		_update_undo_button_state()
 	else:
 		if not card_modules_displayer.is_display_module_valid():
-			_show_upgrade_error("Invalid module configuration: ensure all modules are connected.")
+			_show_upgrade_error(tr("UI_INVALID_MODULE_CONFIG"))
 			return
 		_save_card_upgrade()
 		_on_card_module_back_button_pressed()
@@ -161,9 +164,6 @@ func _save_card_upgrade() -> void:
 	_upgrade_modules.clear()
 	change_card_button.text = change_card_button_original_text
 	PlayerController.add_forged_card(new_resource)
-	# change_progress() refreshes the deck ID list and forged_cards in save_data before
-	# writing to disk. File.save() alone would write a stale deck (the old card's ID
-	# is still in save_data["progress"]["player"]["deck"] from the last world-node move).
 	File.change_progress()
 
 func _update_card_description(_card_resource: CardResourceV2) -> void:
@@ -179,7 +179,8 @@ func _on_card_module_back_button_pressed():
 	card_modules_component.visible = false
 	card_modules_displayer.enable_module_deletion = false
 	card_modules_displayer.enable_module_connection = false
-	upgrade_card_button.text = "Upgrade Card"
+	# Restore translation keys so auto_translate_mode can re-translate on demand.
+	upgrade_card_button.text = "BTN_UPGRADE_CARD"
 	change_card_button.text = change_card_button_original_text
 	_is_upgrade_open = false
 	_undo_stack.clear()
