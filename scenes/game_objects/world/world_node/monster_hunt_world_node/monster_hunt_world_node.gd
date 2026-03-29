@@ -3,6 +3,8 @@ class_name MonsterHuntWorldNode
 
 const REVEALED_NODE_SPRITE = preload("res://assets/images/nodes/revealed_node.png")
 const UNKOWN_NODE_SPRITE = preload("res://assets/images/nodes/question_mark_node-transparent.png")
+# Boss nodes reuse the event icon to distinguish them visually on the map
+const BOSS_NODE_SPRITE = preload("res://assets/images/nodes/event_node_icon.png")
 const BATTLE_GENERIC_SCENE = preload("res://scenes/battle_scenes/battle_generic_scene/battle_generic_scene.tscn")
 
 const MONSTERS_DICTIONARY_FIELD: String = "monsters"
@@ -10,22 +12,38 @@ const MONSTERS_DICTIONARY_FIELD: String = "monsters"
 @export_category("Monsters in node")
 @export var monsters_in_node: Array[GenericMonster] = []
 
-## -------- OVERRIDE IMNPORTANT FUNCTIONS --------
+## -------- OVERRIDE IMPORTANT FUNCTIONS --------
 func set_world_scene():
 	my_node_scene_path = "res://scenes/game_objects/world/world_node/monster_hunt_world_node/monster_hunt_world_node.tscn"
 
 func reveal_node_effect():
-	show_monster()
-	world_node_sprite.texture = REVEALED_NODE_SPRITE
+	if _is_boss_node:
+		# Use a distinct sprite so the final boss node is easy to spot
+		world_node_sprite.texture = BOSS_NODE_SPRITE
+	else:
+		show_monster()
+		world_node_sprite.texture = REVEALED_NODE_SPRITE
 
 func _is_click_event_processable() -> bool:
+	# Boss node is always clickable once (no monster data required)
+	if _is_boss_node:
+		return not _is_already_clicked
 	return monsters_in_node.size() > 0
 
 func on_node_click_event():
 	if not _is_click_event_processable():
 		return
+
+	# ── Boss node: delegate entirely to the existing boss-event pipeline ──
+	if _is_boss_node:
+		self._is_already_clicked = true
+		# Emit the same signal the day-counter used to emit when it hit 0,
+		# so MainWorldScreen._ on_world_boss_monster_encountered_signal fires.
+		GameController.world_boss_monster_encountered.emit()
+		return
+
+	# ── Regular monster node ──
 	if !GameController.is_showing_battle_scene:
-		#var battle_scene: BattleGenericScene = generate_battle_scene()
 		var battle_scene: BattleGenericScene = GameController.generate_battle_scene(
 			monsters_in_node[0].duplicate(),
 			false,
@@ -37,16 +55,20 @@ func on_node_click_event():
 		push_error(on_node_click_event, ": Error node clicked while hunt is started!")
 
 func after_node_is_ready():
-	if self.is_revealed:
+	if _is_boss_node:
+		# Boss sprite is only shown once revealed
+		world_node_sprite.texture = UNKOWN_NODE_SPRITE if not is_revealed else BOSS_NODE_SPRITE
+	elif self.is_revealed:
 		world_node_sprite.texture = REVEALED_NODE_SPRITE
 	else:
 		world_node_sprite.texture = UNKOWN_NODE_SPRITE
 		
 func after_world_node_completed_successfully():
 	super.after_world_node_completed_successfully()
-	clear_monsters()
-	
-## -------- FINISH OVERRIDING IMNPORTANT FUNCTIONS --------
+	if not _is_boss_node:
+		clear_monsters()
+		
+## -------- FINISH OVERRIDING IMPORTANT FUNCTIONS --------
 	
 func clear_monsters():
 	self.monster_texture_rect.visible = false

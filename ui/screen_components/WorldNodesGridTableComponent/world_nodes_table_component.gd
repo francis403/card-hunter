@@ -3,9 +3,15 @@ class_name WorldNodesTableComponent
 
 signal world_generated
 
-const CONSTANT_VALUE_FOR_WORLD_NODES_GENERATED: int = 3
+## Radius used for line-drawing offset
 const RADIUS: int = 30
 
+## Scene used for the final converging boss node
+const MONSTER_HUNT_NODE_SCENE = preload(
+	"res://scenes/game_objects/world/world_node/monster_hunt_world_node/monster_hunt_world_node.tscn"
+)
+
+# ── Legacy exports kept so the existing .tscn inspector data is not lost ──
 @export_category("World Definition")
 @export var x_table_size: int = 10
 @export var y_table_size: int = 10
@@ -22,46 +28,53 @@ const RADIUS: int = 30
 @export var seperation: int = 75
 
 @export_category("Scene definitions")
-@export var village_node_scene: PackedScene 
+@export var village_node_scene: PackedScene
 
 @export_category("Debug Settings")
 @export var _generate_in_test_container: bool = false
+
+# ── Slay the Spire layout parameters ──
+@export_category("Slay the Spire Layout")
+## Vertical pixel distance between successive layers (rows)
+@export var layer_vertical_spacing: int = 130
+## Horizontal pixel distance between sibling nodes inside the same layer
+@export var node_horizontal_spacing: int = 160
+## Minimum number of "middle" layers (excludes the start and boss layers)
+@export var min_middle_layers: int = 3
+## Maximum number of "middle" layers (excludes the start and boss layers)
+@export var max_middle_layers: int = 5
 
 @onready var table_center_point: Marker2D = %TableCenterPoint
 @onready var world_nodes_container_test: Control = %WorldNodesContainerTest
 @onready var table_helper: TableHelper = $TableHelper
 
-## Number of nodes to be generated. Calculated at runtime
-var _number_of_nodes_to_generate: int
-
-## Count total number of nodes generated
+# ── Internal state ──
 var _total_number_of_nodes_generated: int = 0
-
-## Number of nodes to generate for the village
 var _number_of_village_children: int = 3
-
-## Gives info of the furthest node from the root
 var _further_distance_generated: int = 0
 
-## Provides a quick access to all nodes by distance
-var _nodes_by_distance_dictionary: Dictionary = {
-	## distance: Array[GenericWorldNode]
-}
+## Nodes indexed by their layer index (== old "distance to root")
+var _nodes_by_distance_dictionary: Dictionary = {}
 
-## Hold the _village_node reference
 var _village_node: GenericWorldNode
-
-## Hold the reference to the center point of the table
 var _table_center_point: Vector2
 
-## Keep a reference to all world nodes
-## Used to save world state
+## Ordered list of every node ever added (used for save state)
 var _world_nodes: Array[GenericWorldNode] = []
 
-## Every iteration updates this to be used as the configuration
 var _current_world_generation_config: WorldGeneratorConfig
-
 var _debug_enabled: bool = false
+
+## NEW: Each element is an Array[GenericWorldNode] representing one row/layer.
+## _layers[0]  = [village]
+## _layers[1]  = [node, node, node]   (always 3)
+## _layers[2..N-2] = 1-3 random nodes
+## _layers[N-1] = [boss_node]
+var _layers: Array = []
+
+# ──────────────────────────────────────────────
+#  Lifecycle
+# ──────────────────────────────────────────────
 
 func _init() -> void:
 	if File.progress:
@@ -80,56 +93,33 @@ func _ready() -> void:
 	if _generate_in_test_container:
 		_generate_world(world_generator_config)
 
-func _initialize_fields():
-	_table_center_point = Vector2(x_table_size/2, y_table_size/2)
+func _initialize_fields() -> void:
+	_table_center_point = Vector2(x_table_size / 2, y_table_size / 2)
 	self.world_generator_config.initialize_config()
 	self._max_depth_world_generation = world_generator_config.max_distance_to_village
 	self._number_of_village_children = world_generator_config.number_of_village_children_node
 	if not self.world_nodes_container:
 		world_nodes_container = world_nodes_container_test
-	table_helper.init_table_helper(
-		_table_center_point,
-		seperation
-	)
+	table_helper.init_table_helper(_table_center_point, seperation)
 
-func instantiate_world():
+# ──────────────────────────────────────────────
+#  Public API (unchanged signatures)
+# ──────────────────────────────────────────────
+
+func instantiate_world() -> void:
 	if not _is_world_saved():
 		_generate_world(world_generator_config)
 	else:
 		_load_world()
 
-func _generate_world(
-	_world_gen_config: WorldGeneratorConfig
-):
-	_current_world_generation_config = _world_gen_config.duplicate()
-	_current_world_generation_config.initialize_config()
-	_number_of_nodes_to_generate = _calculate_total_number_of_nodes(
-		_current_world_generation_config
-	)
-	if self._debug_enabled:
-		print("DEBUG: total number of nodes to generate ", _number_of_nodes_to_generate)
-	_village_node = _place_village()
-	_generate_village_children(_village_node)
-	table_helper.block_adjancent_table_positions(_village_node.table_position)
-	PlayerController.current_world_node = _village_node
-	_generate_world_nodes(
-		PlayerController.current_world_node,
-		_number_of_nodes_to_generate
-	)
-	_village_node.reveal_connected_nodes()
-	self._save_world_state()
-
 func generate_new_world(
 	_new_world_generator_config: WorldGeneratorConfig,
 	_enable_debug: bool = false
-):
-	print("Generating new world...")
+) -> void:
+	print("Generating new world (Slay the Spire style)...")
 	if _enable_debug:
-		self._debug_enabled = _enable_debug
-		print("DEBUG: Debug enabled.")
-	## Clean current world
+		self._debug_enabled = true
 	_clean_world()
-	## Go through the _new_world_generator_config to create everything new
 	_new_world_generator_config.initialize_config()
 	self._max_depth_world_generation = _new_world_generator_config.max_distance_to_village
 	_generate_world(_new_world_generator_config)
@@ -137,8 +127,219 @@ func generate_new_world(
 	File.progress.world_state.clear_and_update_world_state(_world_nodes)
 	self.world_generated.emit()
 	if _enable_debug:
-		print("DEBUG: Debug disabled.")
 		self._debug_enabled = false
+
+func get_random_world_boss_scene() -> PackedScene:
+	if _current_world_generation_config:
+		return _current_world_generation_config.generate_random_boss_monster_scene()
+	return world_generator_config.generate_random_boss_monster_scene()
+
+# ──────────────────────────────────────────────
+#  World generation entry-point
+# ──────────────────────────────────────────────
+
+func _generate_world(_world_gen_config: WorldGeneratorConfig) -> void:
+	_current_world_generation_config = _world_gen_config.duplicate()
+	_current_world_generation_config.initialize_config()
+	_generate_layered_world()
+	_village_node.reveal_connected_nodes()
+	self._save_world_state()
+
+# ──────────────────────────────────────────────
+#  Slay the Spire – layered tree generation
+# ──────────────────────────────────────────────
+
+## Builds the full world as a converging trinary tree.
+## Layout (Y increases downward in Godot):
+##   Village  – bottom of the screen   (layer 0)
+##   …middle layers…
+##   Boss     – top of the screen      (layer N-1)
+func _generate_layered_world() -> void:
+	var center_pos: Vector2 = table_center_point.global_position
+
+	# ── 1. Determine how many layers this run will have ──
+	var num_middle: int = randi_range(min_middle_layers, max_middle_layers)
+	var total_layers: int = num_middle + 2          # village + middle… + boss
+
+	var layer_counts: Array[int] = _build_layer_counts(num_middle)
+
+	# ── 2. Compute Y positions: village at bottom, boss at top ──
+	var total_height: float = (total_layers - 1) * layer_vertical_spacing
+	var bottom_y: float    = center_pos.y + total_height / 2.0   # village Y
+
+	# ── 3. Create nodes layer by layer ──
+	_layers.clear()
+	for layer_idx in range(total_layers):
+		var count: int     = layer_counts[layer_idx]
+		var layer_y: float = bottom_y - layer_idx * layer_vertical_spacing
+		var layer_nodes: Array  = []   # Array[GenericWorldNode]
+
+		for node_idx in range(count):
+			# Centre-align nodes within the layer
+			var x_offset: float = (node_idx - (count - 1) / 2.0) * node_horizontal_spacing
+			var screen_pos: Vector2 = Vector2(center_pos.x + x_offset, layer_y)
+
+			var node: GenericWorldNode
+			if layer_idx == 0:
+				node = _create_village_node(screen_pos)
+			elif layer_idx == total_layers - 1:
+				node = _create_boss_node(screen_pos, layer_idx)
+			else:
+				node = _create_regular_node(screen_pos, layer_idx)
+
+			if node == null:
+				push_warning("WorldNodesTableComponent: failed to create node at layer %d, slot %d" % [layer_idx, node_idx])
+				continue
+
+			# table_position encodes (column_index, layer_index) for save/load
+			node.table_position = Vector2(node_idx, layer_idx)
+			layer_nodes.append(node)
+
+		_layers.append(layer_nodes)
+
+	# ── 4. Wire up connections between consecutive layers ──
+	for layer_idx in range(total_layers - 1):
+		_connect_adjacent_layers(_layers[layer_idx], _layers[layer_idx + 1])
+
+	# ── 5. Draw the path lines on top of everything ──
+	_redraw_all_connection_lines()
+
+	if _debug_enabled:
+		print("DEBUG: generated %d layers, %d total nodes" % [total_layers, _total_number_of_nodes_generated])
+
+# ──────────────────────────────────────────────
+#  Layer-count helper
+# ──────────────────────────────────────────────
+
+## Returns an int array of node counts per layer.
+## Layer 0 = 1 (village), layer 1 = 3 (forced), middle = 1-3, last = 1 (boss).
+func _build_layer_counts(num_middle: int) -> Array[int]:
+	var counts: Array[int] = []
+	counts.append(1)   # village
+	counts.append(3)   # first row always 3 paths
+	for i in range(1, num_middle):
+		counts.append(randi_range(1, 3))
+	counts.append(1)   # boss
+	return counts
+
+# ──────────────────────────────────────────────
+#  Node factories
+# ──────────────────────────────────────────────
+
+func _create_village_node(screen_pos: Vector2) -> GenericWorldNode:
+	_village_node = village_node_scene.instantiate()
+	_village_node.world_node_id = Constants.VILLAGE_NODE_ID
+	_village_node.is_revealed  = true
+	_village_node.is_reachable = true
+	_village_node.global_position = screen_pos
+	_add_node_to_table(_village_node, 0)
+	PlayerController.current_world_node = _village_node
+	return _village_node
+
+func _create_boss_node(screen_pos: Vector2, layer_idx: int) -> GenericWorldNode:
+	var boss_node: MonsterHuntWorldNode = MONSTER_HUNT_NODE_SCENE.instantiate()
+	boss_node._is_boss_node   = true
+	boss_node.world_node_id   = "boss_node"
+	boss_node.global_position  = screen_pos
+	boss_node.is_revealed      = false
+	boss_node.is_reachable     = false
+	_add_node_to_table(boss_node, layer_idx)
+	return boss_node
+
+## Generates a regular world node using the WorldGeneratorConfig.
+## Falls back to a plain MonsterHuntWorldNode if the config is exhausted.
+func _create_regular_node(screen_pos: Vector2, layer_idx: int) -> GenericWorldNode:
+	var node: GenericWorldNode = _current_world_generation_config.generate_node(layer_idx)
+	if not node:
+		# Config ran out of available node types – use a basic monster node
+		node = MONSTER_HUNT_NODE_SCENE.instantiate()
+		if _debug_enabled:
+			print("DEBUG: config exhausted at layer %d, falling back to MonsterHuntWorldNode" % layer_idx)
+	node.global_position = screen_pos
+	node.world_node_id   = str(_total_number_of_nodes_generated)
+	_add_node_to_table(node, layer_idx)
+	return node
+
+# ──────────────────────────────────────────────
+#  Connection algorithm (no crossing paths)
+# ──────────────────────────────────────────────
+
+## Connects parent_layer → child_layer with three passes:
+##   1. Every parent gets at least one child  (left-to-right spread)
+##   2. Every child gets at least one parent  (fill orphans)
+##   3. Optional extra connections  (random, 40 % chance per candidate)
+##
+## The spread formula  j = floor(i * n / m)  guarantees order is preserved so
+## connection lines never cross each other.
+func _connect_adjacent_layers(parent_layer: Array, child_layer: Array) -> void:
+	var m: int = parent_layer.size()
+	var n: int = child_layer.size()
+
+	# Pass 1 – give every parent at least one outgoing edge
+	for i in range(m):
+		var j: int = clamp(int(float(i) * float(n) / float(m)), 0, n - 1)
+		if not parent_layer[i].connections.has(child_layer[j]):
+			parent_layer[i].connections.append(child_layer[j])
+
+	# Pass 2 – ensure no child is an orphan (no incoming edge)
+	for j in range(n):
+		var has_parent: bool = false
+		for p in parent_layer:
+			if p.connections.has(child_layer[j]):
+				has_parent = true
+				break
+		if not has_parent:
+			var i: int = clamp(int(float(j) * float(m) / float(n)), 0, m - 1)
+			if not parent_layer[i].connections.has(child_layer[j]):
+				parent_layer[i].connections.append(child_layer[j])
+
+	# Pass 3 – add random extra connections for a richer graph (no crossing)
+	for i in range(m):
+		var j_base: int = clamp(int(float(i) * float(n) / float(m)), 0, n - 1)
+		# Only reach one slot to the right to avoid crossing
+		var j_extra: int = j_base + 1
+		if j_extra < n and randf() < 0.4:
+			if not parent_layer[i].connections.has(child_layer[j_extra]):
+				parent_layer[i].connections.append(child_layer[j_extra])
+
+# ──────────────────────────────────────────────
+#  Drawing
+# ──────────────────────────────────────────────
+
+## Iterates the full layers array and draws every connection line.
+func _redraw_all_connection_lines() -> void:
+	for layer_idx in range(_layers.size() - 1):
+		for parent_node in _layers[layer_idx]:
+			for child_node in parent_node.connections:
+				_draw_line_between_nodes(parent_node, child_node)
+
+func _draw_line_between_nodes(base_node: GenericWorldNode, other_node: GenericWorldNode) -> void:
+	var line := Line2D.new()
+	var angle: float = base_node.global_position.angle_to_point(other_node.global_position)
+	var offset: Vector2 = Vector2(-1 * RADIUS, 0)
+	line.add_point(base_node.global_position  - offset.rotated(angle))
+	line.add_point(other_node.global_position + offset.rotated(angle))
+	line.default_color = Color.BLACK
+	line.width = 2
+	world_nodes_container.add_child(line)
+
+# ──────────────────────────────────────────────
+#  Node table bookkeeping
+# ──────────────────────────────────────────────
+
+func _add_node_to_table(_node: GenericWorldNode, _distance_to_root: int = 0) -> void:
+	world_nodes_container.add_child(_node)
+	_total_number_of_nodes_generated += 1
+	_world_nodes.append(_node)
+	if _nodes_by_distance_dictionary.has(_distance_to_root):
+		_nodes_by_distance_dictionary[_distance_to_root].append(_node)
+	else:
+		_nodes_by_distance_dictionary[_distance_to_root] = [_node]
+	_further_distance_generated = max(_further_distance_generated, _distance_to_root)
+
+# ──────────────────────────────────────────────
+#  Housekeeping
+# ──────────────────────────────────────────────
 
 func _clean_world() -> void:
 	for _node in world_nodes_container.get_children():
@@ -148,192 +349,31 @@ func _clean_world() -> void:
 		_node.queue_free()
 	_world_nodes.clear()
 	_nodes_by_distance_dictionary.clear()
+	_layers.clear()
 	table_helper.clean()
 	_total_number_of_nodes_generated = 0
 	_further_distance_generated = 0
 
-func get_random_world_boss_scene() -> PackedScene:
-	if _current_world_generation_config:
-		#var _monster: GenericMonster = _current_world_generation_config.generate_random_boss_monster_scene().instantiate()
-		#var _battle_scene: BattleGenericScene = BattleGenericScene.new()
-		#_battle_scene.is_boss_battle = true
-		#_battle_scene.monsters.append(_monster)
-		#var _packed_scene: PackedScene = PackedScene.new()
-		#_packed_scene.pack(_battle_scene)
-		return _current_world_generation_config.generate_random_boss_monster_scene()
-	return world_generator_config.generate_random_boss_monster_scene()
+# ──────────────────────────────────────────────
+#  Save / Load
+# ──────────────────────────────────────────────
 
-## TODO: improve this
-## Village node + minimums 
-func _calculate_total_number_of_nodes(
-	_world_gen_config: WorldGeneratorConfig
-) -> int:
-	var result: int = 1
-	for _node in _world_gen_config.available_world_nodes:
-		##if _node.minimum_distance_to_root <= _max_depth_world_generation:
-		result += _node.min_occurrences
-	return result
-
-func _place_village() -> GenericWorldNode:
-	_village_node = village_node_scene.instantiate()
-	_village_node.world_node_id = Constants.VILLAGE_NODE_ID
-	_village_node.is_revealed = true
-	_village_node.is_reachable = true
-	_village_node.global_position = table_center_point.global_position
-	_village_node.table_position = _table_center_point
-	_add_node_to_table(_village_node)
-	return _village_node
-
-func _generate_village_children(
-	_village_world_node: GenericWorldNode
-):
-	var _village_table_position: Vector2 = _village_world_node.table_position
-	## Add positions
-	var _picked_adjacent_positions: Array[Vector2] = [
-		_village_table_position + Vector2(0, -1),
-		_village_table_position + Vector2(1, 1),
-		_village_table_position + Vector2(-1, 1)
-	]
-	for _child_position: Vector2 in _picked_adjacent_positions:
-		if self._debug_enabled:
-			print("DEBUG: ------------")
-		var _village_child_node: GenericWorldNode = _generate_node_in_table(
-			_child_position,
-			_village_world_node.table_position
-		)
-		if self._debug_enabled:
-			print("DEBUG: ------------")
-		if not _village_child_node:
-			if _debug_enabled:
-				print("DEBUG:  Village child node was not generated correctly!")
-			push_warning("WARNING: Village child node was not generated correctly!")
-		
-
-## Generate a number of children for a specific node
-## -1 for random
-func _generate_node_children(
-	_center_node: GenericWorldNode,
-	_number_of_children: int = -1
-):
-	var _picked_adjacent_positions: Array[Vector2] = []
-
-func _generate_world_nodes(
-	_center_node: GenericWorldNode,
-	_nbr_of_nodes_to_generate: int = _number_of_nodes_to_generate
-):
-	var _center_position: Vector2 = _center_node.table_position
-	var _minimum_distance: int = 2
-	## To avoid an infinite loop
-	var _number_of_loops: int = 0
-	var _max_loops: int = 50
-	while _total_number_of_nodes_generated < _nbr_of_nodes_to_generate and _number_of_loops < _max_loops:
-		var random_table_position: Vector2 = table_helper.get_random_position(
-			_minimum_distance,
-			_max_depth_world_generation
-		)
-		var _min_node_distance_left_to_add: int = _current_world_generation_config.get_min_node_distance()
-		if _min_node_distance_left_to_add >= self._max_depth_world_generation:
-			push_warning("WARNIG: World Generation Error. Missing node [distance: %s] is over _max_depth" % _min_node_distance_left_to_add)
-			return
-		_minimum_distance = max(_current_world_generation_config.get_min_node_distance(), _minimum_distance)
-		_number_of_loops += 1
-		if random_table_position < Vector2(0, 0):
-			GeneralUtils.debug_log(
-				str("Error with: random_table_position! Minimum Distance: ", _minimum_distance), self._debug_enabled
-			)
-			push_warning("Error generating random_table_position with minimum distance: ", _minimum_distance)
-			continue
-		GeneralUtils.debug_log("------------", _debug_enabled)
-		_generate_node_in_table(random_table_position, _center_position)
-		GeneralUtils.debug_log("------------", _debug_enabled)
-	if self._debug_enabled:
-		print("DEBUG: Finished generation World generated in: ", _number_of_loops, " loops!")
-
-func _generate_node_in_table(
-	_node_position: Vector2,
-	_center_position: Vector2,
-) -> GenericWorldNode:
-	var _distance_to_center: int = table_helper.distance_between_two_points(_center_position, _node_position)
-	if self._debug_enabled:
-		_current_world_generation_config._debug_mode = true
-		print("DEBUG: Adding node: ", _node_position, " with distance: ", _distance_to_center)
-		print("DEBUG: Available _inserted_min_distances: ", _current_world_generation_config._inserted_min_distances)
-	var _previous_min_node_distance: int = _current_world_generation_config.get_min_node_distance()
-	if self._debug_enabled:
-		print("DEBUG: _previous_min_node_distance = ", _previous_min_node_distance)
-	var generated_node: GenericWorldNode = _current_world_generation_config.generate_node(_distance_to_center)
-	var _new_min_node_distance: int = _current_world_generation_config.get_min_node_distance()
-	if self._debug_enabled:
-		print("DEBUG: _new_min_node_distance = ", _new_min_node_distance)
-	if not generated_node:
-		GeneralUtils.debug_log(
-			str("_node_position: ", _node_position, " failed to be generated!"),
-			self._debug_enabled
-		)
-		push_warning(_generate_node_in_table, "WARNING: _node_position: ", _node_position, " failed to be generated!")
-		return null
-	var base_node: GenericWorldNode = table_helper.get_origin_node(_node_position, _distance_to_center)
-	generated_node.table_position = _node_position
-	#generated_node.global_position = _calculate_node_position(generated_node.table_position)
-	generated_node.global_position = table_helper.calculate_positions_in_radius_hex(
-		base_node,
-		generated_node.table_position
-	)
-	generated_node.world_node_id = str(_total_number_of_nodes_generated)
-	base_node.connections.append(generated_node)
-	#generated_node.connections.append(base_node)
-	_add_node_to_table(generated_node, _distance_to_center)
-	_draw_line_between_nodes(base_node, generated_node)
-	if _new_min_node_distance > 0 and _previous_min_node_distance != _new_min_node_distance:
-		for i: int in range(_previous_min_node_distance, _new_min_node_distance):
-			table_helper.block_table_depth(i)
-	if _debug_enabled: 
-		print("DEBUG: Node ", generated_node.table_position, " added succesfully")
-		table_helper._show_available_pos()
-	return generated_node
-
-func _add_node_to_table(_node: GenericWorldNode, _distance_to_root: int = 0):
-	world_nodes_container.add_child(_node)
-	table_helper.store_adjacent_table_positions(_node, _distance_to_root)
-	_total_number_of_nodes_generated += 1
-	_world_nodes.append(_node)
-	if _nodes_by_distance_dictionary.has(_distance_to_root):
-		_nodes_by_distance_dictionary[_distance_to_root].append(_node)
-	else:
-		_nodes_by_distance_dictionary[_distance_to_root] = [_node]
-	_further_distance_generated = max(_further_distance_generated, _distance_to_root)
-
-func _draw_line_between_nodes(base_node: GenericWorldNode, other_node: GenericWorldNode):
-	var line = Line2D.new()
-	var angle: float = base_node.global_position.angle_to_point(other_node.global_position)
-	var offset: Vector2 = Vector2(-1 * RADIUS, 0)
-	
-	line.add_point(base_node.global_position - offset.rotated(angle))
-	line.add_point(other_node.global_position + offset.rotated(angle))
-	line.default_color = Color.BLACK
-	line.width = 2
-	
-	world_nodes_container.add_child(line)
-	
 func _is_world_saved() -> bool:
 	return _village_node != null
-	
-func _save_world_state():
-	print(_save_world_state)
+
+func _save_world_state() -> void:
 	File.progress.village_node = _village_node
 	File.progress.world_state.update_nodes_in_world_state(_world_nodes)
 
-func _load_world():
-	_load_village()
-
-func _load_village():
+func _load_world() -> void:
 	_village_node = File.progress.village_node
 	_initiate_world()
-	
-func _initiate_world():
-	var _nodes_to_load: Array= File.progress.world_state.get_world_nodes()
+
+func _initiate_world() -> void:
+	var _nodes_to_load: Array = File.progress.world_state.get_world_nodes()
 	for _node: GenericWorldNode in _nodes_to_load:
-		var _distance: int = table_helper.distance_between_two_points(_node.table_position, _village_node.table_position)
-		_add_node_to_table(_node, _distance)
+		# table_position.y encodes the layer index in the new system
+		var _layer_idx: int = int(_node.table_position.y)
+		_add_node_to_table(_node, _layer_idx)
 		for _con in _node.connections:
 			_draw_line_between_nodes(_node, _con)

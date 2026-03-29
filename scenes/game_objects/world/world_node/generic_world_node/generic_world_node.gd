@@ -15,6 +15,8 @@ const NODE_SCENE_PATH_DICTIONARY_FIELD: String = "node_scene"
 const POSITION_DICTIONARY_FIELD: String = "position"
 const TABLE_POSITION_DICTIONARY_FIELD: String = "table_position"
 const CONNECTIONS_DICTIONARY_FIELD: String = "connections"
+# NEW: key for boss-node flag in save dictionary
+const IS_BOSS_NODE_DICTIONARY_FIELD: String = "is_boss_node"
 
 @onready var world_node_sprite: Sprite2D = $worldNodeSprite
 @onready var player_texture_rect: TextureRect = $HBoxContainer/PlayerTextureRect
@@ -51,6 +53,9 @@ var _is_already_clicked: bool = false:
 		_is_already_clicked = value
 		if _is_already_clicked:
 			_stop_pulsating()
+
+## NEW: marks this node as the final boss encounter node
+var _is_boss_node: bool = false
 
 ## This needs to be overwritten by every children
 var my_node_scene: PackedScene = null
@@ -205,6 +210,8 @@ func copy_properties_into_node(node: GenericWorldNode):
 	node.position = self.position
 	node.is_revealed = self.is_revealed
 	node.is_reachable = self.is_reachable
+	# Propagate boss flag when copying
+	node._is_boss_node = self._is_boss_node
 
 func convert_node_to_dictionary() -> Dictionary:
 	var result: Dictionary = {}
@@ -216,6 +223,8 @@ func convert_node_to_dictionary() -> Dictionary:
 	result[POSITION_DICTIONARY_FIELD] = self.position
 	result[TABLE_POSITION_DICTIONARY_FIELD] = self.table_position
 	result[NODE_SCENE_PATH_DICTIONARY_FIELD] = self.my_node_scene_path
+	# NEW: persist boss flag so load restores correct behaviour
+	result[IS_BOSS_NODE_DICTIONARY_FIELD] = self._is_boss_node
 	result[CONNECTIONS_DICTIONARY_FIELD] = {}
 	for _con in connections:
 		result[CONNECTIONS_DICTIONARY_FIELD][_con.world_node_id] = true
@@ -229,6 +238,9 @@ func load_node_from_dictionary(node_state: Dictionary):
 		self._is_already_clicked = node_state[IS_ALREADY_CLICKED_DICTIONARY_FIELD]
 	if node_state.has(IS_ONLY_CLICKABLE_ONCE_DICTIONARY_FIELD):
 		self._is_only_clickable_once = node_state[IS_ONLY_CLICKABLE_ONCE_DICTIONARY_FIELD]
+	# NEW: restore boss flag (default false for old saves that lack the key)
+	if node_state.has(IS_BOSS_NODE_DICTIONARY_FIELD):
+		self._is_boss_node = node_state[IS_BOSS_NODE_DICTIONARY_FIELD]
 	self.my_node_scene_path = node_state[NODE_SCENE_PATH_DICTIONARY_FIELD]
 	self.my_node_scene = load(my_node_scene_path)
 	self.position = node_state[POSITION_DICTIONARY_FIELD]
