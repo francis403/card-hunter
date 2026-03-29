@@ -41,7 +41,10 @@ const MONSTER_HUNT_NODE_SCENE = preload(
 @export var node_horizontal_spacing: int = 160
 ## Minimum number of "middle" layers (excludes the start and boss layers)
 @export var min_middle_layers: int = 3
-## Maximum number of "middle" layers (excludes the start and boss layers)
+## Maximum number of "middle" layers (excludes the start and boss layers).
+## The layered generator produces between (min_middle_layers + 2) and
+## (max_middle_layers + 2) total layers. Keep this value in sync with
+## RandomWorldGeneratorConfigManager._max_world_generation_depth.
 @export var max_middle_layers: int = 5
 
 @onready var table_center_point: Marker2D = %TableCenterPoint
@@ -66,10 +69,10 @@ var _current_world_generation_config: WorldGeneratorConfig
 var _debug_enabled: bool = false
 
 ## Each element is an Array[GenericWorldNode] representing one row/layer.
-## _layers[0]  = [village]
-## _layers[1]  = [node, node, node]   (always 3)
-## _layers[2..N-2] = 1-3 random nodes
-## _layers[N-1] = [boss_node]
+## _layers[0]      = [village]
+## _layers[1]      = [node, node, node]   (always 3 paths from village)
+## _layers[2..N-2] = 1–3 random middle nodes
+## _layers[N-1]    = [boss_node]
 var _layers: Array = []
 
 # ──────────────────────────────────────────────
@@ -188,7 +191,10 @@ func _generate_layered_world() -> void:
 				node = _create_regular_node(screen_pos, layer_idx)
 
 			if node == null:
-				push_warning("WorldNodesTableComponent: failed to create node at layer %d, slot %d" % [layer_idx, node_idx])
+				push_warning(
+					"WorldNodesTableComponent: failed to create node at layer %d, slot %d"
+					% [layer_idx, node_idx]
+				)
 				continue
 
 			# table_position encodes (column_index, layer_index) for save/load
@@ -201,18 +207,21 @@ func _generate_layered_world() -> void:
 	for layer_idx in range(total_layers - 1):
 		_connect_adjacent_layers(_layers[layer_idx], _layers[layer_idx + 1])
 
-	# ── 5. Draw the path lines on top of everything ──
+	# ── 5. Draw the path lines ──
 	_redraw_all_connection_lines()
 
 	if _debug_enabled:
-		print("DEBUG: generated %d layers, %d total nodes" % [total_layers, _total_number_of_nodes_generated])
+		print(
+			"DEBUG: generated %d layers, %d total nodes"
+			% [total_layers, _total_number_of_nodes_generated]
+		)
 
 # ──────────────────────────────────────────────
 #  Layer-count helper
 # ──────────────────────────────────────────────
 
 ## Returns an int array of node counts per layer.
-## Layer 0 = 1 (village), layer 1 = 3 (forced), middle = 1-3, last = 1 (boss).
+## Layer 0 = 1 (village), layer 1 = 3 (forced), middle = 1–3, last = 1 (boss).
 func _build_layer_counts(num_middle: int) -> Array[int]:
 	var counts: Array[int] = []
 	counts.append(1)   # village
@@ -254,7 +263,10 @@ func _create_regular_node(screen_pos: Vector2, layer_idx: int) -> GenericWorldNo
 		# Config ran out of available node types – use a basic monster node
 		node = MONSTER_HUNT_NODE_SCENE.instantiate()
 		if _debug_enabled:
-			print("DEBUG: config exhausted at layer %d, falling back to MonsterHuntWorldNode" % layer_idx)
+			print(
+				"DEBUG: config exhausted at layer %d, falling back to MonsterHuntWorldNode"
+				% layer_idx
+			)
 	node.global_position = screen_pos
 	node.world_node_id   = str(_total_number_of_nodes_generated)
 	_add_node_to_table(node, layer_idx)
@@ -269,8 +281,8 @@ func _create_regular_node(screen_pos: Vector2, layer_idx: int) -> GenericWorldNo
 ##   2. Every child gets at least one parent  (fill orphans)
 ##   3. Optional extra connections  (random, 40 % chance per candidate)
 ##
-## The spread formula  j = floor(i * n / m)  guarantees order is preserved so
-## connection lines never cross each other.
+## The spread formula  j = floor(i * n / m)  guarantees order is preserved
+## so connection lines never cross each other.
 func _connect_adjacent_layers(parent_layer: Array, child_layer: Array) -> void:
 	var m: int = parent_layer.size()
 	var n: int = child_layer.size()
@@ -342,10 +354,11 @@ func _add_node_to_table(_node: GenericWorldNode, _distance_to_root: int = 0) -> 
 # ──────────────────────────────────────────────
 
 func _clean_world() -> void:
+	# Remove every child from the main container, then free it (Issue 6 fix)
 	for _node in world_nodes_container.get_children():
 		world_nodes_container.remove_child(_node)
 		_node.queue_free()
-	# Fix: remove_child before queue_free so the container has no dangling references (Issue 6)
+	# Same two-step cleanup for the test container (Issue 6 fix)
 	for _node in world_nodes_container_test.get_children():
 		world_nodes_container_test.remove_child(_node)
 		_node.queue_free()
@@ -355,13 +368,15 @@ func _clean_world() -> void:
 	table_helper.clean()
 	_total_number_of_nodes_generated = 0
 	_further_distance_generated = 0
-	# Null the village reference so _is_world_saved() correctly reports false (Issue 4)
+	# Null the reference so _is_world_saved() correctly returns false (Issue 4 fix)
 	_village_node = null
 
 # ──────────────────────────────────────────────
 #  Save / Load
 # ──────────────────────────────────────────────
 
+## A world is considered saved when we have a non-null village reference.
+## Because _clean_world() now nulls _village_node, this check is always reliable.
 func _is_world_saved() -> bool:
 	return _village_node != null
 
@@ -376,18 +391,19 @@ func _load_world() -> void:
 func _initiate_world() -> void:
 	var _nodes_to_load: Array = File.progress.world_state.get_world_nodes()
 	for _node: GenericWorldNode in _nodes_to_load:
-		# table_position.y encodes the layer index in the new system
+		# table_position.y encodes the layer index in the layered system
 		var _layer_idx: int = int(_node.table_position.y)
 		_add_node_to_table(_node, _layer_idx)
 		for _con in _node.connections:
 			_draw_line_between_nodes(_node, _con)
 
-	# Reconstruct _layers from loaded nodes so any post-load code that
-	# depends on _layers operates on a valid array (Issue 3)
+	# Rebuild _layers from the loaded nodes so any post-load code that
+	# depends on _layers operates on a valid, ordered array (Issue 3 fix)
 	_rebuild_layers_from_nodes(_world_nodes)
 
 ## Reconstructs the _layers array from a flat list of loaded nodes.
-## Uses table_position.y as the layer index and table_position.x for column order.
+## Uses table_position.y as the layer index and table_position.x for
+## left-to-right column order within each layer.
 func _rebuild_layers_from_nodes(nodes: Array[GenericWorldNode]) -> void:
 	_layers.clear()
 	if nodes.is_empty():
@@ -398,18 +414,19 @@ func _rebuild_layers_from_nodes(nodes: Array[GenericWorldNode]) -> void:
 	for node in nodes:
 		max_layer = max(max_layer, int(node.table_position.y))
 
-	# Pre-allocate empty arrays for every layer
+	# Pre-allocate empty sub-arrays for every layer
 	_layers.resize(max_layer + 1)
 	for i in range(_layers.size()):
 		_layers[i] = []
 
-	# Bucket nodes into their respective layer
+	# Bucket each node into its layer
 	for node in nodes:
 		var layer_idx: int = int(node.table_position.y)
 		_layers[layer_idx].append(node)
 
-	# Sort each layer by column index (table_position.x) to preserve left-right order
+	# Sort each layer by column index to preserve left-right order
 	for layer in _layers:
-		layer.sort_custom(func(a: GenericWorldNode, b: GenericWorldNode) -> bool:
-			return a.table_position.x < b.table_position.x
+		layer.sort_custom(
+			func(a: GenericWorldNode, b: GenericWorldNode) -> bool:
+				return a.table_position.x < b.table_position.x
 		)

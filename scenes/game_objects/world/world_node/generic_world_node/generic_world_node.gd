@@ -1,27 +1,27 @@
 extends Node2D
 
-## Represents a location in the world
+## Represents a location on the world map.
 class_name GenericWorldNode
 
 signal world_node_complete(_node: GenericWorldNode)
 
-const ID_DICTIONARY_FIELD: String = "id"
-const IS_REVEALED_DICTIONARY_FIELD: String = "is_revealed"
-const IS_REACHABLE_DICTIONARY_FIELD: String = "is_reachable"
-const IS_ALREADY_CLICKED_DICTIONARY_FIELD: String = "is_already_clicked"
+const ID_DICTIONARY_FIELD: String                  = "id"
+const IS_REVEALED_DICTIONARY_FIELD: String         = "is_revealed"
+const IS_REACHABLE_DICTIONARY_FIELD: String        = "is_reachable"
+const IS_ALREADY_CLICKED_DICTIONARY_FIELD: String  = "is_already_clicked"
 const IS_ONLY_CLICKABLE_ONCE_DICTIONARY_FIELD: String = "is_only_clickable_once"
-const WORLD_NODE_TYPE_DICTIONARY_FIELD: String = "world_node_type"
-const NODE_SCENE_PATH_DICTIONARY_FIELD: String = "node_scene"
-const POSITION_DICTIONARY_FIELD: String = "position"
-const TABLE_POSITION_DICTIONARY_FIELD: String = "table_position"
-const CONNECTIONS_DICTIONARY_FIELD: String = "connections"
-# Key for boss-node flag in save dictionary
-const IS_BOSS_NODE_DICTIONARY_FIELD: String = "is_boss_node"
+const WORLD_NODE_TYPE_DICTIONARY_FIELD: String     = "world_node_type"
+const NODE_SCENE_PATH_DICTIONARY_FIELD: String     = "node_scene"
+const POSITION_DICTIONARY_FIELD: String            = "position"
+const TABLE_POSITION_DICTIONARY_FIELD: String      = "table_position"
+const CONNECTIONS_DICTIONARY_FIELD: String         = "connections"
+## Key for boss-node flag in the save dictionary
+const IS_BOSS_NODE_DICTIONARY_FIELD: String        = "is_boss_node"
 
-@onready var world_node_sprite: Sprite2D = $worldNodeSprite
+@onready var world_node_sprite: Sprite2D     = $worldNodeSprite
 @onready var player_texture_rect: TextureRect = $HBoxContainer/PlayerTextureRect
 @onready var monster_texture_rect: TextureRect = $HBoxContainer/MonsterTextureRect
-@onready var area_2d: Area2D = $Area2D
+@onready var area_2d: Area2D                 = $Area2D
 @onready var audio_stream_player: AudioStreamPlayer = $AudioStreamPlayer
 
 var connections: Array[GenericWorldNode] = []
@@ -33,14 +33,13 @@ var pulsating_tween: Tween
 @export var on_click_scene: PackedScene
 
 @export_group("Extra world node configs")
-## Generates random monsters.
-## Will add to the monsters_in_node array by default
+## When true, random monsters are generated for this node on world creation.
 @export var generate_random_monsters: bool = true
 @export var maximum_number_of_monster_to_generate: int = 1
 @export var _is_only_clickable_once: bool = true
 @export var _is_pulsable: bool = true
 
-## When using table generation might be useful to have the info here
+## Grid column / layer coordinates set by the table generator (saved/loaded).
 var table_position: Vector2 = Vector2(-1, -1)
 
 var _available_tween_scale: Vector2 = Vector2(1.1, 1.1)
@@ -54,10 +53,10 @@ var _is_already_clicked: bool = false:
 		if _is_already_clicked:
 			_stop_pulsating()
 
-## Marks this node as the final boss encounter node
+## Marks this node as the final converging boss encounter.
 var _is_boss_node: bool = false
 
-## This needs to be overwritten by every children
+## Must be overridden by every subclass.
 var my_node_scene: PackedScene = null
 var my_node_scene_path: String = ""
 
@@ -76,6 +75,7 @@ func _prepare_world_node():
 		if not self._is_already_clicked:
 			_start_pulsating_animation()
 
+## Shows the player avatar if the saved current position matches this node.
 func _prepare_world_node_sprite():
 	if File.progress.current_world_node_id == world_node_id:
 		show_player()
@@ -85,12 +85,12 @@ func reveal_connected_nodes():
 		node.reveal_node()
 	BattlemapSignals.world_updated.emit()
 
-## Function to be overwritten by the different types of nodes
+## Override in subclasses to apply the revealed appearance.
 func reveal_node_effect():
 	if revealed_texture:
 		world_node_sprite.texture = revealed_texture
 
-## Function to be overwritten that defines what happens when a node is clicked
+## Override in subclasses to define what happens when the node is activated.
 func on_node_click_event():
 	if not _is_click_event_processable():
 		return
@@ -109,23 +109,20 @@ func _on_world_node_screen_completed_signal(_advance_day: bool):
 	self.world_node_complete.emit(self)
 	self.reveal_connected_nodes()
 
-## Function that has to be overwritten
+## Must be overridden to set my_node_scene_path to the subclass scene path.
 func set_world_scene():
 	my_node_scene_path = "res://scenes/game_objects/world/world_node/generic_world_node/generic_world_node.tscn"
 
-## Function that has to be overwritten
-## occurs at the end of the Ready Function
+## Called at the end of _ready(); override for post-init logic.
 func after_node_is_ready():
 	pass
 
-## Function that can be overwritten
-## Checks if the node can be clicked
+## Returns true when the node can process a click event.
 func _is_click_event_processable() -> bool:
 	return on_click_scene != null and on_click_scene.can_instantiate()\
 			and not (self._is_already_clicked and self._is_only_clickable_once)
 
-## Function that can be overwritten
-## Occurs after the world node is completed
+## Called after the node interaction completes successfully.
 func after_world_node_completed_successfully():
 	BattlemapSignals.node_completed.emit(self.world_node_id)
 	self.world_node_complete.emit(self)
@@ -136,32 +133,31 @@ func override_world_node_reward(
 ):
 	pass
 
-
 func _on_area_2d_input_event(_viewport: Node, _event: InputEvent, _shape_idx: int) -> void:
 	if _event.is_pressed():
 		_process_on_world_node_click()
 
-## Handles a click on this world node.
-## show_player() is only called after the node-id is confirmed so the player
-## icon never appears on a node whose position hasn't been committed yet (Issue 5).
+## Handles the player navigating to this world node.
+##
+## The player avatar (show_player) and node interaction (on_node_click_event)
+## are always paired: both fire only when the player deliberately clicks a
+## reachable node, so the avatar never appears on a node the player hasn't
+## actually moved to (Issue 5 fix).
 func _process_on_world_node_click():
 	if not self.is_reachable:
 		return
 
-	# Persist the navigation move unconditionally for any reachable node
+	# Commit this node as the player's new world position
 	File.update_player_position(self)
 	BattlemapSignals.player_world_state_updated.emit(self)
 
-	# Only display the player icon and trigger the node action once the
-	# engine's tracked position agrees with this node's id
-	if self.world_node_id == GameController.current_player_node_id:
-		show_player()
-		on_node_click_event()
+	# Show the player avatar at the destination and open the node's screen
+	show_player()
+	on_node_click_event()
 
 	if audio_stream_player:
 		audio_stream_player.play()
 		await audio_stream_player.finished
-
 
 func hide_player():
 	if player_texture_rect:
@@ -181,10 +177,7 @@ func reveal_node():
 	tween = create_tween()
 	reveal_node_effect()
 	tween.tween_property(self, "modulate:a", 1.0, 1.0).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_QUAD)
-
-	## Update the world state for the revealed nodes
 	BattlemapSignals.player_world_state_updated.emit(self)
-
 	BattlemapSignals.node_finished_revealing.emit(self.world_node_id)
 	_start_pulsating_animation()
 
@@ -213,21 +206,22 @@ func copy_properties_into_node(node: GenericWorldNode):
 	node.position       = self.position
 	node.is_revealed    = self.is_revealed
 	node.is_reachable   = self.is_reachable
-	# Propagate boss flag when copying
+	# Propagate the boss flag when copying
 	node._is_boss_node  = self._is_boss_node
 
 func convert_node_to_dictionary() -> Dictionary:
 	var result: Dictionary = {}
-	result[ID_DICTIONARY_FIELD]                    = self.world_node_id
-	result[IS_REVEALED_DICTIONARY_FIELD]           = self.is_revealed
-	result[IS_REACHABLE_DICTIONARY_FIELD]          = self.is_reachable
-	result[IS_ALREADY_CLICKED_DICTIONARY_FIELD]    = self._is_already_clicked
+	result[ID_DICTIONARY_FIELD]                     = self.world_node_id
+	result[IS_REVEALED_DICTIONARY_FIELD]            = self.is_revealed
+	result[IS_REACHABLE_DICTIONARY_FIELD]           = self.is_reachable
+	result[IS_ALREADY_CLICKED_DICTIONARY_FIELD]     = self._is_already_clicked
 	result[IS_ONLY_CLICKABLE_ONCE_DICTIONARY_FIELD] = self._is_only_clickable_once
-	result[POSITION_DICTIONARY_FIELD]              = self.position
-	result[TABLE_POSITION_DICTIONARY_FIELD]        = self.table_position
-	result[NODE_SCENE_PATH_DICTIONARY_FIELD]       = self.my_node_scene_path
-	# Persist boss flag so load restores correct behaviour
-	result[IS_BOSS_NODE_DICTIONARY_FIELD]          = self._is_boss_node
+	result[POSITION_DICTIONARY_FIELD]               = self.position
+	result[TABLE_POSITION_DICTIONARY_FIELD]         = self.table_position
+	result[NODE_SCENE_PATH_DICTIONARY_FIELD]        = self.my_node_scene_path
+	# Persist boss flag; loading falls back to false for old saves that lack
+	# this key, ensuring backwards compatibility
+	result[IS_BOSS_NODE_DICTIONARY_FIELD]           = self._is_boss_node
 	result[CONNECTIONS_DICTIONARY_FIELD] = {}
 	for _con in connections:
 		result[CONNECTIONS_DICTIONARY_FIELD][_con.world_node_id] = true
@@ -241,7 +235,7 @@ func load_node_from_dictionary(node_state: Dictionary):
 		self._is_already_clicked = node_state[IS_ALREADY_CLICKED_DICTIONARY_FIELD]
 	if node_state.has(IS_ONLY_CLICKABLE_ONCE_DICTIONARY_FIELD):
 		self._is_only_clickable_once = node_state[IS_ONLY_CLICKABLE_ONCE_DICTIONARY_FIELD]
-	# Restore boss flag (default false for old saves that lack the key)
+	# Default to false for saves that pre-date this field (backwards compat)
 	if node_state.has(IS_BOSS_NODE_DICTIONARY_FIELD):
 		self._is_boss_node = node_state[IS_BOSS_NODE_DICTIONARY_FIELD]
 	self.my_node_scene_path = node_state[NODE_SCENE_PATH_DICTIONARY_FIELD]

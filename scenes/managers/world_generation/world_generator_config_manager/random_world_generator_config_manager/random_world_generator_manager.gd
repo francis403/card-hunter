@@ -1,7 +1,10 @@
 extends WorldGeneratorConfigManager
 class_name RandomWorldGeneratorConfigManager
 
-# ── Static scene paths – avoids instantiating node classes just to read the path (Issue 7) ──
+# ── Static scene paths ─────────────────────────────────────────────────────
+# Using constant strings avoids instantiating node classes just to read their
+# scene paths, removing unnecessary overhead and potential _init side-effects
+# (Issue 7 fix).
 const _MONSTER_HUNT_NODE_SCENE_PATH: String = \
 	"res://scenes/game_objects/world/world_node/monster_hunt_world_node/monster_hunt_world_node.tscn"
 const _TREASURE_NODE_SCENE_PATH: String = \
@@ -15,16 +18,21 @@ const _DEFORGE_NODE_SCENE_PATH: String = \
 @export_range(1, 10) var _min_number_of_monster_types: int = 2
 @export_range(1, 10) var _max_number_of_monster_types: int = 3
 
-## Must cover the full layer range of the layered generator.
-## The generator produces (min_middle_layers + 2) to (max_middle_layers + 2) layers.
-## With max_middle_layers = 5 the max is 7, so this default must be >= 7.
-## Keep this in sync with WorldNodesTableComponent.max_middle_layers. (Issue 2)
+## Maximum depth fed into WorldGeneratorConfig.max_distance_to_village.
+##
+## The layered generator (WorldNodesTableComponent) produces between
+## (min_middle_layers + 2) and (max_middle_layers + 2) total layers.
+## With the default max_middle_layers = 5 that ceiling is 7, so this value
+## MUST be >= 7.  Keep in sync with WorldNodesTableComponent.max_middle_layers
+## to prevent upper-layer nodes from silently receiving distance-3 configs
+## (Issue 2 fix).
 @export var _max_world_generation_depth: int = 7
 
-## Possible boss monsters to be generated. Leave empty for full random
+## Pool of possible boss monsters.  Assign at least one scene in the Inspector.
 @export var _possible_boss_monsters: Array[PackedScene] = []
 @export var _allow_duplicate_boss_monsters: bool = false
 
+## Working copy rebuilt each generate_config() call
 var _possible_boss_monsters_to_generates: Array[PackedScene] = []
 
 var _random_weight_options: Array[int] = [5, 10, 10, 20, 30, 30, 40]
@@ -44,9 +52,9 @@ func generate_config() -> WorldGeneratorConfig:
 		_min_numbers_of_nodes_to_generate,
 		_max_numbers_of_nodes_to_generate
 	)
-	## Calculate number of other nodes
+	# Calculate number of other nodes (treasure + deforge)
 	var _number_of_special_nodes: int = _calculate_number_of_special_nodes()
-	## Calculate number of monsters hunt node
+	# Remainder are monster-hunt nodes
 	var _number_of_hunt_nodes: int = _total_number_of_nodes_to_generate - _number_of_special_nodes
 
 	_result.available_generic_monsters = _get_monsters_entity_generator_config(_number_of_hunt_nodes)
@@ -61,28 +69,28 @@ func _clear_context() -> void:
 	_total_number_of_nodes_to_generate = 0
 
 func _calculate_number_of_special_nodes() -> int:
-	## 1 treasure node + 2 deforge nodes
+	# 1 treasure node + 2 deforge nodes
 	return 3
 
 func _get_nodes_entity_generator_config() -> Array[WorldEntityGeneratorConfig]:
 	var _result: Array[WorldEntityGeneratorConfig] = []
 
-	# Use constant paths instead of instantiating nodes to read their scene path (Issue 7)
+	# Load scenes by constant path — avoids instantiating node classes (Issue 7 fix)
 	var _monster_hunter_packed_scene: PackedScene = load(_MONSTER_HUNT_NODE_SCENE_PATH)
 	var _treasure_node_packed_scene: PackedScene   = load(_TREASURE_NODE_SCENE_PATH)
 	var _deforge_node_packed_scene: PackedScene    = load(_DEFORGE_NODE_SCENE_PATH)
 
-	## Monster hunt nodes
+	# Monster-hunt nodes
 	_result.append(
 		_generate_packed_entity_generator_config(
 			_monster_hunter_packed_scene, _total_number_of_monsters_added
 		)
 	)
-	## Treasure node
+	# Treasure node (1–3 occurrences)
 	_result.append(
 		_generate_packed_entity_generator_config(_treasure_node_packed_scene, 1, 3)
 	)
-	## Deforge node
+	# Deforge node (exactly 2)
 	_result.append(
 		_generate_packed_entity_generator_config(_deforge_node_packed_scene, 2, 2)
 	)
@@ -111,17 +119,24 @@ func _get_monsters_entity_generator_config(
 		_result.append(_world_entity_config)
 	return _result
 
-## Builds the boss-monster config array.
-## Guards against an empty pool so a null scene never reaches the config (Issue 1).
+## Returns a single-element array containing the chosen boss config, or an
+## empty array if no boss scenes are configured.
+##
+## Returning empty (rather than propagating null into the config) prevents a
+## guaranteed downstream crash when the boss node tries to load a null scene
+## (Issue 1 fix).
 func _get_boss_monsters_entity_generator_config() -> Array[WorldEntityGeneratorConfig]:
 	var _result: Array[WorldEntityGeneratorConfig] = []
 
 	if _possible_boss_monsters_to_generates.is_empty():
-		# No boss scenes configured – skip boss config entirely to avoid a null crash.
-		# TODO(FA): implement MonsterResourcesController.get_random_boss_monster() fallback.
-		push_error("RandomWorldGeneratorConfigManager: _possible_boss_monsters is empty. "
-			+ "Assign at least one boss scene in the Inspector.")
-		return _result  # Caller (WorldGeneratorConfig) must handle missing boss config gracefully.
+		# No boss scenes assigned — log the error and bail out safely.
+		# TODO: implement a MonsterResourcesController.get_random_boss_monster()
+		#       fallback so the boss pool is never empty.
+		push_error(
+			"RandomWorldGeneratorConfigManager: _possible_boss_monsters is empty. "
+			+ "Assign at least one boss PackedScene in the Inspector."
+		)
+		return _result   # Caller must handle missing boss config gracefully.
 
 	var _picked_boss_monster: PackedScene
 	if _allow_duplicate_boss_monsters:
@@ -131,9 +146,7 @@ func _get_boss_monsters_entity_generator_config() -> Array[WorldEntityGeneratorC
 			randi_range(0, _possible_boss_monsters_to_generates.size() - 1)
 		)
 
-	var _world_entity_config: WorldEntityGeneratorConfig = \
-		_generate_packed_entity_generator_config(_picked_boss_monster, 1)
-	_result.append(_world_entity_config)
+	_result.append(_generate_packed_entity_generator_config(_picked_boss_monster, 1))
 	return _result
 
 func _generate_entity_generator_config(
@@ -142,7 +155,6 @@ func _generate_entity_generator_config(
 	_min_distance: int = 1,
 	_max_distance: int = 6
 ) -> WorldEntityGeneratorConfig:
-	var _result: WorldEntityGeneratorConfig = WorldEntityGeneratorConfig.new()
 	var _packed_scene: PackedScene = PackedScene.new()
 	_packed_scene.pack(_scene_node)
 	return _generate_packed_entity_generator_config(
@@ -156,10 +168,10 @@ func _generate_packed_entity_generator_config(
 	_max_distance: int = 6
 ) -> WorldEntityGeneratorConfig:
 	var _result: WorldEntityGeneratorConfig = WorldEntityGeneratorConfig.new()
-	_result.node_scene                    = _packed_scene
-	_result.weight                        = _random_weight_options.pick_random()
-	_result.min_occurrences               = _number_of_occurrences
-	_result.max_ocurrences                = _number_of_occurrences
-	_result.minimum_distance_to_root      = _min_distance
-	_result.maximimum_distance_to_root    = _max_distance
+	_result.node_scene                 = _packed_scene
+	_result.weight                     = _random_weight_options.pick_random()
+	_result.min_occurrences            = _number_of_occurrences
+	_result.max_ocurrences             = _number_of_occurrences
+	_result.minimum_distance_to_root   = _min_distance
+	_result.maximimum_distance_to_root = _max_distance
 	return _result
