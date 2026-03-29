@@ -1,12 +1,11 @@
-[gd_scene load_steps=9 format=3 uid="uid://csbkict33rdjb"]
+[gd_scene load_steps=8 format=3 uid="uid://csbkict33rdjb"]
 
+[ext_resource type="Script" uid="uid://c8rcwjbjh7om" path="res://ui/screens/title_menu_screen/title_scene.gd" id="1_53urg"]
 [ext_resource type="Script" uid="uid://c8rcwjbjh7om" path="res://scripts/ui/menu/menu.gd" id="1_6syln"]
-[ext_resource type="Script" uid="uid://cthyg30011ws7" path="res://ui/screens/title_menu_screen/title_scene.gd" id="1_53urg"]
 [ext_resource type="Texture2D" uid="uid://cmoh263d11oxa" path="res://assets/images/background/ai-generated-background.webp" id="1_n70oj"]
 [ext_resource type="Theme" uid="uid://dmot8ul1c5l3n" path="res://assets/themes/theme_1.tres" id="2_a7ane"]
 [ext_resource type="AudioStream" uid="uid://dwcjod037iqrj" path="res://assets/sound/background_music/One Man Symphony - Collateral Damage (Free) - 15 CyberRace Theme 02.mp3" id="2_uom3r"]
 [ext_resource type="PackedScene" uid="uid://calade5jh8fy3" path="res://ui/screens/settings_menu_screen/settings_screen.tscn" id="5_rcdra"]
-[ext_resource type="PackedScene" uid="uid://bqt8h2x6vwp3k" path="res://ui/screen_components/_general_componets/tooltip/tooltip.tscn" id="7_gqk57"]
 [ext_resource type="PackedScene" uid="uid://hked8dt7umpy" path="res://ui/screen_components/_general_componets/buttons/sound_button/sound_button.tscn" id="7_uacp8"]
 
 [node name="TitleScreenScene" type="Control"]
@@ -81,21 +80,6 @@ text = "MENU_CONTINUE"
 auto_translate_mode = 1
 layout_mode = 2
 text = "MENU_CARDPEDIUM"
-
-[node name="Tooltip" parent="MenuContainer/CardPedia" instance=ExtResource("7_gqk57")]
-layout_mode = 0
-anchors_preset = 0
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-offset_left = 0.0
-offset_right = 1.0
-grow_horizontal = 1
-grow_vertical = 1
-display_text = "In development"
-show_delay = 0.2
-position_offset = Vector2(25, 15)
 
 [node name="Settings" parent="MenuContainer" instance=ExtResource("7_uacp8")]
 unique_name_in_owner = true

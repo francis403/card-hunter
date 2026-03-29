@@ -9,9 +9,7 @@ class_name TitleScreenScene
 
 func _ready() -> void:
 	super._ready()
-	card_pedia_button.disabled = true
-	#if not File.has_run_in_progress():
-		#continue_button.disabled = true
+	# CardPedia is now live – no longer disabled
 	File.load_save_file()
 	if not File.has_save_file():
 		delete_save_button.visible = false
@@ -19,12 +17,12 @@ func _ready() -> void:
 		continue_button.disabled = true
 
 func _on_new_game_pressed() -> void:
-	#File.delete_save()
 	File.delete_current_run_progress()
 	get_tree().change_scene_to_packed(Constants.pick_class_screen_scene)
 
 func _on_unlockable_content_pressed() -> void:
-	pass
+	# Navigate to the Cardpedia hub screen
+	get_tree().change_scene_to_packed(Constants.cardpedia_screen_scene)
 
 func _on_settings_pressed() -> void:
 	ScreenUtils.open_settings_screen(get_parent())
@@ -33,7 +31,6 @@ func _on_exit_pressed() -> void:
 	get_tree().quit()
 
 func _on_continue_pressed() -> void:
-	#File.load_save_file()
 	get_tree().change_scene_to_packed(Constants.main_world_scroll_scene)
 
 func _on_credits_pressed() -> void:

@@ -1,0 +1,97 @@
+[gd_scene load_steps=4 format=3 uid="uid://dqcardpedia01"]
+
+[ext_resource type="Script" path="res://ui/screens/cardpedia_screen/cardpedia_screen.gd" id="1_cpscript"]
+[ext_resource type="Texture2D" uid="uid://cmoh263d11oxa" path="res://assets/images/background/ai-generated-background.webp" id="2_cpbg"]
+[ext_resource type="PackedScene" uid="uid://hked8dt7umpy" path="res://ui/screen_components/_general_componets/buttons/sound_button/sound_button.tscn" id="3_cpbtn"]
+
+[node name="CardpediaScreen" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_cpscript")
+
+[node name="BackgroundImage" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_cpbg")
+expand_mode = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="TopBar" type="MarginContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="BackButton" parent="MarginContainer/VBoxContainer/TopBar" instance=ExtResource("3_cpbtn")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+auto_translate_mode = 1
+text = "BTN_BACK"
+
+[node name="ScreenTitle" type="Label" parent="MarginContainer/VBoxContainer/TopBar"]
+auto_translate_mode = 1
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 1
+theme_override_font_sizes/font_size = 40
+text = "CARDPEDIA_TITLE"
+horizontal_alignment = 1
+
+[node name="CenterContainer" type="CenterContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="ButtonsContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/CenterContainer"]
+layout_mode = 2
+alignment = 1
+theme_override_constants/separation = 40
+
+[node name="MyCardsButton" parent="MarginContainer/VBoxContainer/CenterContainer/ButtonsContainer" instance=ExtResource("3_cpbtn")]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(220, 160)
+auto_translate_mode = 1
+text = "CARDPEDIA_MY_CARDS"
+
+[node name="BestiaryButton" parent="MarginContainer/VBoxContainer/CenterContainer/ButtonsContainer" instance=ExtResource("3_cpbtn")]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(220, 160)
+auto_translate_mode = 1
+text = "CARDPEDIA_BESTIARY"
+
+[node name="ForgedCardsButton" parent="MarginContainer/VBoxContainer/CenterContainer/ButtonsContainer" instance=ExtResource("3_cpbtn")]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(220, 160)
+auto_translate_mode = 1
+text = "CARDPEDIA_FORGED"
+
+[connection signal="pressed_and_sound_played" from="MarginContainer/VBoxContainer/TopBar/BackButton" to="." method="_on_back_pressed"]
+[connection signal="pressed_and_sound_played" from="MarginContainer/VBoxContainer/CenterContainer/ButtonsContainer/MyCardsButton" to="." method="_on_my_cards_pressed"]
+[connection signal="pressed_and_sound_played" from="MarginContainer/VBoxContainer/CenterContainer/ButtonsContainer/BestiaryButton" to="." method="_on_bestiary_pressed"]
+[connection signal="pressed_and_sound_played" from="MarginContainer/VBoxContainer/CenterContainer/ButtonsContainer/ForgedCardsButton" to="." method="_on_forged_cards_pressed"]
