@@ -11,20 +11,27 @@ var piece_in_tile: Piece = null:
 	set(_value):
 		piece_in_tile = _value
 		_toggle_tile_occuppied_view()
+		_toggle_monster_highlight()
 
 var _show_if_tile_is_occupied: bool = false
 
+const MONSTER_HIGHLIGHT_COLOR := Color(0.6, 0.6, 0.6, 0.4)
+const MONSTER_HIGHLIGHT_HOVER_COLOR := Color(1.0, 0.4, 0.4, 0.5)
+
 @export var show_status: bool = false
+@export var highlight_monster_on_player_input_only: bool = true
 
 @onready var background_button: Button = $BackgroundButton
 @onready var status_label: Label = $StatusLabel
 @onready var attack_rect: ColorRect = $AttackRect
+@onready var monster_rect: ColorRect = $MonsterRect
 @onready var tile_effects_container: Control = %TileEffectsContainer
 
 
 func _ready() -> void:
 	BattlemapSignals.player_input_received.connect(_on_player_input_signal)
 	BattlemapSignals.canceled_player_input.connect(_on_player_input_signal)
+	BattlemapSignals.awaiting_player_input.connect(_on_awaiting_player_input_signal)
 	BattlemapSignals.clear_attack_highlight_tiles.connect(_on_clear_attacked_tiles_signal)
 	SpecialSignals.tile_map_status_label_toggled_signal.connect(toggle_tile_status_label_visibility)
 	SpecialSignals.highlight_occupied_tiles.connect(toggle_highlight_occupied_tiles)
@@ -84,11 +91,32 @@ func hide_attack_background():
 	attack_rect.visible = false
 	is_tile_attacked = false
 
+func show_monster_highlight():
+	monster_rect.color = MONSTER_HIGHLIGHT_COLOR
+	monster_rect.visible = true
+
+func hide_monster_highlight():
+	monster_rect.visible = false
+
+func _toggle_monster_highlight():
+	if not is_node_ready():
+		return
+	if piece_in_tile is MonsterPiece and not highlight_monster_on_player_input_only:
+		show_monster_highlight()
+	else:
+		hide_monster_highlight()
+
+func _on_awaiting_player_input_signal():
+	if highlight_monster_on_player_input_only and piece_in_tile is MonsterPiece:
+		show_monster_highlight()
+
 func to_vector() -> Vector2:
 	return Vector2(_x_position, _y_position)
 
 func _on_player_input_signal():
 	self.hide_background()
+	if highlight_monster_on_player_input_only:
+		hide_monster_highlight()
 
 func add_tile_effect_v2(tile_effect: BaseTileEffectController):
 	tile_effects_container.add_child(tile_effect)
@@ -191,11 +219,14 @@ func _on_mouse_entered() -> void:
 	if not piece_in_tile:
 		return
 	piece_in_tile.on_mouse_hover_enter()
+	if piece_in_tile is MonsterPiece and background_button.visible:
+		monster_rect.color = MONSTER_HIGHLIGHT_HOVER_COLOR
 
 func _on_mouse_exited() -> void:
 	if not piece_in_tile:
 		return
 	piece_in_tile.on_mouse_hover_exit()
+	monster_rect.color = MONSTER_HIGHLIGHT_COLOR
 	
 func clone() -> Tile:
 	var _result: Tile = Tile.new()
