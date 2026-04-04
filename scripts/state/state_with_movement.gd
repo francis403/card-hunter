@@ -163,15 +163,16 @@ func _check_and_apply_state_change_action() -> bool:
 func _get_same_direction_monster_movement() -> Tile:
 	if not monster or not monster.next_move:
 		return null
-	if not monster.previous_tile or not monster._tile :
+	if not monster.previous_tile or not monster._tile:
 		return null
-	var _current_tile_vector: Vector2 = monster._tile.to_vector()
-	var _previous_tile_vector: Vector2 = monster.previous_tile.to_vector()
-	var _planned_move_tile_vector: Vector2 = monster.next_move.to_vector()
-	var _distance: int = MovementUtils.distance_between_tiles(monster.previous_tile, monster.next_move)
-	var _previous_move_direction: Vector2 = (_planned_move_tile_vector - _previous_tile_vector).normalized()
-	var _result: Vector2 = _current_tile_vector + (_previous_move_direction * _distance)
-	return  BattleController.get_tile(_result.x, _result.y)
+	# Compute the integer tile offset (planned destination - position before pull).
+	# Adding this offset to the new position gives the correctly adjusted destination.
+	# Using integer subtraction avoids the float-truncation bug that arises from
+	# normalizing the direction vector (e.g. diagonal (1,1).normalized() = (0.707,0.707)
+	# which truncates to (0,0) and returns the current tile instead of the offset tile).
+	var _offset: Vector2 = monster.next_move.to_vector() - monster.previous_tile.to_vector()
+	var _result: Vector2 = monster._tile.to_vector() + _offset
+	return BattleController.get_tile(int(_result.x), int(_result.y))
 	
 	
 func _add_tile_effect():
